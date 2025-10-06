@@ -9,17 +9,17 @@ number:
 date:
 consensus: true
 v: 3
-area: OPS
-workgroup: GREEN Working Group
+area: "Operations and Management"
+workgroup: "Getting Ready for Energy-Efficient Networking"
 keyword:
  - green working group design work
 venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: USER/REPO
-  latest: https://example.com/LATEST
+  group: "Getting Ready for Energy-Efficient Networking"
+  type: "Working Group"
+  mail: "green@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/green/"
+  github: "ietf-wg-green/green-design-work"
+  latest: "https://ietf-wg-green.github.io/green-design-work/draft-gdt-green-design-work.html"
 
 author:
  -
