@@ -1,0 +1,7 @@
+28,33d27
+<   import ietf-notification-sequencing {
+<     prefix inotifseq;
+<     reference
+<       "draft-tgraf-netconf-notif-sequencing-05: YANG Notifications
+<       Sequencing";
+<   }

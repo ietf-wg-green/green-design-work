@@ -1,0 +1,16 @@
+{
+  "ietf-yp-lite:subscription-started": {
+    "id": 1011,
+    "target": {
+      "datastore": "ietf-datastores:operational",
+      "paths": [
+        "ietf-interfaces:interfaces/interface/"
+      ]
+    },
+    "update-trigger": {
+      "on-change": {
+        "sync-on-start": true
+      }
+    }
+  }
+}

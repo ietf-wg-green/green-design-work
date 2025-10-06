@@ -1,0 +1,32 @@
+{
+  "ietf-yp-lite:update": {
+    "id": 1011,
+    "snapshot-type": "periodic",
+    "observation-time": "2024-10-10T08:00:05.11Z",
+    "updates": [
+      {
+        "target-path": "ietf-interfaces:interfaces/interface",
+        "data": {
+          "ietf-interfaces:interfaces": {
+            "ietf-interfaces:interface": [
+              {
+                "name": "eth0",
+                "type": "iana-if-type:ethernetCsmacd",
+                "enabled": true,
+                "ietf-interfaces:oper-status": "up",
+                "ietf-interfaces:admin-status": "up"
+              },
+              {
+                "name": "eth1",
+                "type": "iana-if-type:ethernetCsmacd",
+                "enabled": true,
+                "ietf-interfaces:oper-status": "up",
+                "ietf-interfaces:admin-status": "up"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

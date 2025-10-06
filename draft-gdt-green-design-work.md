@@ -60,9 +60,32 @@ TODO Security
 This document has no IANA actions.
 
 
---- back
-
 # Acknowledgments
 {:numbered="false"}
 
 TODO acknowledge.
+
+
+--- back
+
+
+# Examples
+
+## Example including YANG tree
+~~~~ yangtree
+{::include generated-tree-output/ietf-gdt-model-tree.txt}
+~~~~
+{: align="left" title="ietf-gdt-model.yang tree diagram"}
+
+## Example including a YANG file
+~~~~ yang
+{::include yang/ietf-gdt-model.yang}
+~~~~
+{: align="left" sourcecode-markers="true"
+sourcecode-name="ietf-gdt-model.yang#0.1.0" title="YANG module ietf-gdt-model"}
+
+## Example including a JSON example
+~~~~ json
+{::include examples/full-notification.json.txt}
+~~~~
+{: align="left" title="Example of update notification including notification envelope"}

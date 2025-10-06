@@ -1,0 +1,15 @@
+{
+  "ietf-yp-lite:subscription-started": {
+    "id": 1011,
+    "target": {
+      "datastore": "ietf-datastores:operational",
+      "filter-ref": "interface-stats-filter"
+    },
+    "update-trigger": {
+      "periodic": {
+        "period": 3000,
+        "anchor-time": "2025-01-01T00:00:00.00Z"
+      }
+    }
+  }
+}
