@@ -1,0 +1,268 @@
+module ietf-green-collector {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:ietf-green-collector";
+  prefix ietf-green-collector;
+
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-yang-types {
+    prefix yang;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  
+  organization
+    "IETF GREEN (Getting Ready for Energy-Efficient Networking) Working Group";
+  contact
+    "WG Web:  <https:/datatracker.ietf.org/wg/green/>
+     WG List: <mailto:green@ietf.org>
+
+     TODO - Replace this :-)
+     Author:  Jan Lindblad
+              <mailto:jan.lindblad@for.eco>";
+  description
+    "This YANG module describes the green data collection framework.
+
+     This YANG module defines a configuration model for collecting
+     green data from various sources. It allows for 
+     enabling/disabling data collection, setting collection 
+     intervals, specifying data sources, and defining the format
+     of the collected data.
+
+     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+     NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+     'MAY', and 'OPTIONAL' in this document are to be interpreted as
+     described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+     they appear in all capitals, as shown here.
+
+     Copyright (c) 2025 IETF Trust and the persons identified as
+     authors of the code.  All rights reserved.
+
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject to
+     the license terms contained in, the Revised BSD License set
+     forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (https://trustee.ietf.org/license-info).
+
+     This version of this YANG module is part of RFC XXXX
+     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+     for full legal notices.";
+
+  revision 2025-10-16 {
+    description
+      "Initial revision.";
+    reference
+      "XXXX: IETF GREEN Design Work";
+  }
+
+  /*
+   * FEATURES
+   */
+
+  /*
+   * IDENTITIES
+   */
+
+  /*
+   * TYPEDEFs
+   */
+
+  typedef source-id {
+    // FIXME: rework to potentially refer to existing asset models
+    type string;
+    description
+      "A unique identifier for a data source, such as a serial number or asset tag.";
+  }
+
+  /*
+   * GROUPINGS
+   */
+
+  /*
+   * RPCs
+   */
+
+  /*
+   * NOTIFICATIONS
+   */
+
+  /*
+   * DATA NODES
+   */
+
+  container collection {
+    description
+      "Container for green data collection parameters.";
+    
+    leaf enabled {
+      type boolean;
+      default "false";
+      description
+        "Indicates whether green data collection is enabled.";
+    }
+
+    container sources {
+      description
+        "Container for defining data sources for this job.";
+      
+      list source {
+        key id;
+        description
+          "List of sources for this green data collection job.";
+        // Source connection and auth info elsewhere!
+
+        leaf id {
+          type source-id;
+          description
+            "ID of the data source.";
+        }
+        leaf-list mechanisms {
+          type leafref {
+            path "../../../mechanisms/mechanism/name";
+          }
+          description
+            "Reference to the collection mechanism to be used.";
+        }
+      }
+    }
+
+    container mechanisms {
+      list mechanism {
+        key name;
+        description
+          "List of data collection mechanisms available.";
+
+        leaf name {
+          type string;
+          description
+            "Name of the data collection mechanism.";
+        }
+        leaf interval {
+          type uint32 {
+            range "1..max";
+          }
+          units "seconds";
+          default "600";
+          description
+            "Interval in seconds between data collections for this mechanism.
+             Does not apply to static one-time collections.";
+        }
+        choice collection-mechanism {
+          description
+            "Choice of data collection mechanism.";
+          mandatory true;
+          // Augmentations for additional mechanism parameters
+          // such as additional headers, etc. can be added in each case
+
+          container static-file {
+            leaf file-path {
+              type string;
+              description
+                "Path to the local file to be read once for data collection.";
+            }
+            leaf file-url {
+              type string;
+              description
+                "URL of the static file to be fetched once for data collection.";
+            }
+          }
+          container yang-push {
+            leaf-list paths {
+              description
+                "List of YANG data paths to be collected via YANG-PUSH.";
+              type string;
+            }
+            leaf direction {
+              type enumeration {
+                enum dial-in {
+                  description "YANG-PUSH dial-in mode (polling)";
+                }
+                enum dial-out {
+                  description "YANG-PUSH dial-out mode (configured subscription)";
+                }
+              }
+              default "dial-out";
+              description
+                "Direction of YANG-PUSH data collection.";
+            }
+          }
+          container snmp {
+            leaf-list oids {
+              description
+                "List of OIDs to be collected via SNMP.";
+              type string;
+            }
+          }
+          container gnmi {
+            leaf encoding {
+              type enumeration {
+                enum json-ietf {
+                  description "JSON-IETF encoding";
+                }
+                enum json {
+                  description "JSON encoding";
+                }
+                enum proto {
+                  description "Protobuf encoding";
+                }
+              }
+              default "json-ietf";
+              description
+                "Encoding format for gNMI data.";
+            }
+            leaf protocol {
+              type enumeration {
+                enum grpc {
+                  description "gRPC protocol";
+                }
+                enum grpc-tls {
+                  description "gRPC with TLS protocol";
+                }
+              }
+              default "grpc-tls";
+              description
+                "Protocol for gNMI communication.";
+            }   
+          }
+          container netconf {
+            leaf-list paths {
+              description
+                "List of YANG data paths to be collected via NETCONF.";
+              type string;
+            }
+          }
+
+          container rest {
+            leaf-list paths {
+              description
+                "List of YANG data paths to be collected via generic REST.";
+              type string;
+            }
+          }
+          case redfish {
+            leaf-list paths {
+              description
+                "List of YANG data paths to be collected via REDFISH.";
+              type string;
+            }            
+          }
+          // Augmentations for additional mechanisms
+        }
+      }
+    }
+  }
+
+  /*
+   * FIXME NOTES
+   * poe
+   * meta data collection: anomaly detection
+   * units
+   * accuracy/trustworthiness
+   * attestation/watermarks
+   * storage/data access/addressing
+   */ 
+}

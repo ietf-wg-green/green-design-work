@@ -49,7 +49,7 @@ object `package` extends IETF {
 
   // Generated tree and tree snippets
   def yangTrees = Seq(
-    (Seq("ietf-gdt-model.yang"), "ietf-gdt-model-tree.txt", None),
+    (Seq("ietf-green-collector.yang"), "ietf-green-collector-tree.txt", None),
     // (Seq("ietf-yp-lite.yang"), "filters.txt", Some("datastore-telemetry/filters")),
     // (Seq("ietf-yp-lite-config.yang"), "ietf-yp-lite-config-tree.txt", None),
     // (Seq("ietf-yp-lite-capabilities.yang"), "ietf-yp-lite-capabilities-tree.txt", None),

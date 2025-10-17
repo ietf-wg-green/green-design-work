@@ -73,19 +73,15 @@ TODO acknowledge.
 
 ## Example including YANG tree
 ~~~~ yangtree
-{::include generated-tree-output/ietf-gdt-model-tree.txt}
+{::include generated-tree-output/ietf-green-collector-tree.txt}
 ~~~~
-{: align="left" title="ietf-gdt-model.yang tree diagram"}
+{: align="left" title="ietf-green-collector.yang tree diagram"}
 
 ## Example including a YANG file
 ~~~~ yang
-{::include yang/ietf-gdt-model.yang}
+{::include yang/ietf-green-collector.yang}
 ~~~~
 {: align="left" sourcecode-markers="true"
-sourcecode-name="ietf-gdt-model.yang#0.1.0" title="YANG module ietf-gdt-model"}
+sourcecode-name="ietf-green-collector.yang#0.1.0" title="YANG module ietf-green-collector"}
 
 ## Example including a JSON example
-~~~~ json
-{::include examples/full-notification.json.txt}
-~~~~
-{: align="left" title="Example of update notification including notification envelope"}
