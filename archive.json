@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-19T00:49:48.579328+00:00",
+  "timestamp": "2025-10-21T00:44:35.770897+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -49,7 +49,56 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOP9HHVc7SjK70",
+      "title": "Need to figure out how to identify devices",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/2",
+      "state": "OPEN",
+      "author": "rgwilton",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Need to be able to identify sources:\n- Model currently defines as source-id, and defines it as a string, but perhaps a union or more complex type is needed.\n- Benoit: perhaps this is not the right place to solve this.\n\n\nAlso, considering  when data is configured separate and pushed up from the devices.  But still need a generic way of identifying the data.\n",
+      "createdAt": "2025-10-20T13:22:15Z",
+      "updatedAt": "2025-10-20T13:22:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOP9HHVc7SjLfE",
+      "title": "For sources, is this a read/write property or a read-only property",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/3",
+      "state": "OPEN",
+      "author": "rgwilton",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I.e., do you have to configure all the sources within this model, or can they come from somewhere else.",
+      "createdAt": "2025-10-20T13:22:58Z",
+      "updatedAt": "2025-10-20T13:22:58Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOP9HHVc7SjYCc",
+      "title": "Traceability",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/4",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "How to add the traceability to source id? For example, the validation coming from draft-ietf-opsawg-yang-provenance, in the controller\n\nThis might be another attribute, next to the source-id... \n   +--rw sources\n     |  +--rw source* [id]\n     |     +--rw id            source-id\n     |     +--rw mechanisms*   -> ../../../mechanisms/mechanism/name\n     |     +--ro tracebility-verified *\n\n\n",
+      "createdAt": "2025-10-20T13:38:32Z",
+      "updatedAt": "2025-10-20T13:38:32Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
