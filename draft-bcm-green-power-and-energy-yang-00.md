@@ -62,7 +62,7 @@ The data model includes both the monitoring and control of Energy
 Objects for networked devices.
 
 This YANG data model is based on the the "GREEN framework"
-{{?I-D.belmq-green-framework-06}}, following "GREEN terminology"
+{{?I-D.belmq-green-framework-06}}, following the "GREEN terminology"
 {{!I-D.ietf-green-terminology-00}}.
 
 Power and Energy Monitoring and Control can be applied to devices in
@@ -84,21 +84,21 @@ Processing Unit (MPU).
 ## Terminology
 
 This document makes use of the terms defined in
-{{!I-D.ietf-green-terminology-00}}
+{{!I-D.ietf-green-terminology-00}}: 
 
-    Power
-    Energy
-    Energy Management
-    Energy Monitoring
-    Energy Efficiency/Energy Efficiency Ratio
-    Device Level Energy Efficiency (DLEE)
-    Component Level Energy Efficiency (CLEE)
-    Service Level Energy Efficiency (SLEE)
+    - Power
+    - Energy
+    - Energy Management
+    - Energy Monitoring
+    - Energy Efficiency/Energy Efficiency Ratio
+    - Device Level Energy Efficiency (DLEE)
+    - Component Level Energy Efficiency (CLEE)
+    - Service Level Energy Efficiency (SLEE)
 
 This document makes use of the terms defined in
 {{?I-D.belmq-green-framework-06}}
 
-    Energy Object
+    - Energy Object
 
 The terms reused from {{!I-D.ietf-green-terminology-00}} and
 {{?I-D.belmq-green-framework-06}} are capitalized in this
