@@ -51,6 +51,12 @@ monitoring of devices within or connected to communication networks.
 
 --- middle
 
+# Open Issues
+- The following two YANG leaves are converted from RFC7460, as a place holder. 
+           +--rw eo-power-admin-state?            identityref
+           +--ro eo-power-oper-state?             identityref
+  How we control Energy Objects require a bigger discussion.
+
 # Introduction
 
 This document defines a YANG data model for Power and Energy
