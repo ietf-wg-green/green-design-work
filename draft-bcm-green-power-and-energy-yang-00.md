@@ -53,12 +53,22 @@ monitoring of devices within or connected to communication networks.
 
 # Introduction
 
-This document defines a YANG data model for Power and Energy
+This document specifies a YANG data model for Power and Energy
 Monitoring and control of devices within or connected to communication
 networks, for the use cases document in
 {{?I-D.ietf-green-use-cases-00}}.
 
-The data model includes both the monitoring and control of Energy
+This document uses the terms Power and Energy in accordance with
+{{!I-D.ietf-green-terminology-00}}. Power refers to the instantaneous
+rate at which a device consumes or produces electrical energy
+(typically expressed in Watts). Energy, by contrast, represents the
+cumulative amount of work performed over time (typically expressed in
+Joules or Watt-hours). Both concepts are required within this YANG
+module: Power enables real-time monitoring, control, and optimization
+of device operation, while Energy provides a time-integrated view
+necessary for accounting, reporting, and even for sustainability
+analysis. This specification includes both Power and Energy
+data model, for both the monitoring and control of Energy
 Objects for networked devices.
 
 This YANG data model is based on the the "GREEN framework"
@@ -103,18 +113,6 @@ This document makes use of the terms defined in
 The terms reused from {{!I-D.ietf-green-terminology-00}} and
 {{?I-D.belmq-green-framework-06}} are capitalized in this
 specification.
-
-This document uses the terms Power and Energy in accordance with
-{{!I-D.ietf-green-terminology-00}}. Power refers to the instantaneous
-rate at which a device consumes or produces electrical energy
-(typically expressed in Watts). Energy, by contrast, represents the
-cumulative amount of work performed over time (typically expressed in
-Joules or Watt-hours). Both concepts are required within this YANG
-module: Power enables real-time monitoring, control, and optimization
-of device operation, while Energy provides a time-integrated view
-necessary for accounting, reporting, and even for sustainability
-analysis. This specification includes both Power and Energy
-attributes.
 
 The terminology for describing YANG modules is defined in [RFC7950].
 The meanings of the symbols in the YANG tree diagrams are defined in
