@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-10-21T00:44:35.770897+00:00",
+  "timestamp": "2025-12-14T00:54:10.866756+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -97,6 +97,46 @@
       "updatedAt": "2025-10-20T13:38:32Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOP9HHVc7d4MLh",
+      "title": "accuracy-measured-platinium instead of accuracy-measured-red",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/7",
+      "state": "OPEN",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Should we replace \"accuracy-measured-red\" by \"accuracy-measured-platinium\" to mantain the logic of the next level in tiered systems (e.g., loyalty programs, credit cards, medals)?\n        \u2514\u2500\u2500 accuracy-measured\n             \u251c\u2500\u2500 accuracy-measured-bronze\n             \u251c\u2500\u2500 accuracy-measured-silver\n             \u251c\u2500\u2500 accuracy-measured-gold\n             \u251c\u2500\u2500 accuracy-measured-red <<<<<<<<< to be replaced by accuracy-measured-platinium?",
+      "createdAt": "2025-12-12T08:23:15Z",
+      "updatedAt": "2025-12-12T08:23:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 8,
+      "id": "I_kwDOP9HHVc7d4UJn",
+      "title": "Accuracy and Precision: Dec 11 sync up call with the design team",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/8",
+      "state": "OPEN",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "**Action**: Marisol to review documentation from vendors, on product specification on accuracy/precision, power factor implementation.\n\nThe idea is to include as a question for the working group on next Monday call:\n\nVendors SHOULD document the sensor type, calibration\nmethod, and the expected measurement precision, as these factors are\ndistinct from accuracy but influence interpretation of the reported data?\n\n**Action**: based on this, we need to consider to include clarification/terminology in the draft(s)\n\nsome relevant text to consider:\n\n- Accuracy\n\nDescribes how close a measured or estimated power value is to the true physical value.\n\nExamples:\n\n\u201c\u00b110% of the actual power consumption\u201d\n\n\u201cDerived from model, low fidelity\u201d\n\n\u201cDirect sensor measurement, high accuracy\u201d\n\n- Precision\n\nDescribes the granularity or repeatability of the measurement \u2014 e.g., number of digits, stability of repeated reads.\n\nExamples:\n\nA sensor that reads 100.1 W, 100.2 W, 100.1 W is precise.\n\nBut if the real consumption is 120 W, the readings are precise but inaccurate.\n\n\nSome more reasoning:\n\n- A dataset may have high precision, low accuracy (stable but wrong).\n- Or high accuracy, low precision (on average right, but noisy).\n- Operators need accuracy for carbon reporting and power budgets.\n- Engineers need precision to troubleshoot variations or detect anomalies.\n\nCould it be something also to consider under Terminology or specific section (suggested text, to be discussed!!)\n*  Accuracy versus Precision\n\n   In the context of Power and Energy Monitoring, this document uses the\n   term \"accuracy\" to describe how close a reported measurement is to the\n   true physical value. Accuracy may be based on direct sensor readings,\n   learned models, historic data, or manufacturer specifications.\n   The \"data-source-accuracy\" identity hierarchy captures the expected\n   error bounds or fidelity category of the reported value.\n\n   While accuracy describes closeness to the true value, it is distinct\n   from \"precision\", which refers to the repeatability, granularity, or\n   number of valid digits in a measurement. A measurement may be highly\n   precise yet inaccurate (e.g., stable readings that are offset from the\n   real value), or accurate on average but with low precision (e.g.,\n   noisy measurements).\n\n   The accuracy identities defined in this module characterize the source\n   and expected error bounds of the reported measurement but do not, by\n   themselves, define the precision of the underlying sensor or data\n   representation. Systems implementing this module MAY expose additional\n   metadata such as sampling resolution, number of significant digits, or\n   sensor calibration information to describe precision where relevant.\n\nBased on first action, consider to add a question to the WG:\nThe \"accuracy-measured\" category indicates that the value originates from\na physical sensor. Vendors SHOULD document the sensor type, calibration\nmethod, and the expected measurement precision, as these factors are\ndistinct from accuracy but influence interpretation of the reported data.",
+      "createdAt": "2025-12-12T08:34:00Z",
+      "updatedAt": "2025-12-12T16:48:21Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "here  some references to argument the discussion with the WG:\nI list here the conclusions and reference:\n* Most Telecom Standards Don\u2019t Publish Accuracy\n* Telecom standards (ITU, ATIS) focus on methodology and comparability across test labs.\n* They assume proper calibration and good measurement practice \u2014 but do not define a fixed instrument accuracy requirement.\n* Only ETSI explicitly codifies this in the measurement procedure text.\n* The standards (except ETSI) do not themselves publish numeric accuracy requirements for vendor figures.\n\n\n\n1. ETSI ES 203 136 \u2014 Lab Measurement Accuracy ONLY (NOT operational sensors)\nhttps://www.etsi.org/deliver/etsi_es/203100_203199/203136/01.02.01_60/es_203136v010201p.pdf\n\n Does NOT apply to operational embedded sensors.\n\n Does NOT specify accuracy for device-internal energy telemetry.\n\n________________________________\n\n2. IETF BMWG Power Benchmarking \u2014 Benchmarking ONLY, no sensor accuracy\nhttps://datatracker.ietf.org/doc/draft-ietf-bmwg-powerbench/\n\n Does NOT define accuracy or uncertainty of operational measurements.\n\n________________________________\n\n3. ITU-T L.1310 \u2014 Metrics and methodology, no instrument accuracy\nhttps://www.itu.int/rec/T-REC-L.1310\n\nDefines energy efficiency metrics & methods.\n\n No explicit numerical accuracy requirements.\n\n________________________________\n\n4. ATIS-0600015.03 \u2014 Measurement/reporting methods, no accuracy\nhttps://shop.standards.ie/en-ie/standards/atis-0600015-03-2023-165739_saig_atis_atis_3330614/\n\nDefines TEER metric and reporting.\n\n No instrument accuracy requirements.\n\n________________________________\n\n5. General Metrology Reference (Useful): ISO/IEC 17025\nDefines calibration, uncertainty, traceability.\n Not specific to telecom equipment.\n\n________________________________\n\n6. Vendor Product Documentation \u2014 NONE publish measurement accuracy for embedded sensors\n\nCisco ISR 1000\nhttps://www.cisco.com/c/en/us/products/collateral/routers/1000-series-integrated-services-routers-isr/datasheet-c78-739512.html\n Typical/max power only. NO accuracy.\n\nJuniper MX301\nhttps://www.juniper.net/content/dam/www/assets/datasheets/us/en/routers/mx301-universal-routing-platform-datasheet.pdf\n No accuracy.\n\nJuniper PTX Power Planning\nhttps://www.juniper.net/documentation/us/en/hardware/ptx10004/topics/topic-map/ptx10004-power-planning.html\n Calculations only. No sensor accuracy.\n\nArista 7050\nhttps://www.arista.com/assets/data/pdf/Datasheets/7050S_Datasheet.pdf\n \u201cTypical power per port\u201d. No uncertainty.\n\nNokia 7750 SR\nhttps://www.nokia.com/asset/i/207452/\n Power values are simulated (HPE Power Advisor). No accuracy.\n\nHuawei AR Series\nhttps://e.huawei.com/en/documents/others/4b9905a27fbe49e09d1fa68cbb5d3780\n Typical/max power. No accuracy.\n\nOnly power metering products publish accuracy:\nHuawei Smart Power Sensor (has accuracy class)\nhttps://solar.huawei.com/admin/asset/v1/pro/view/10b44cb3ac91489981d76e0f752b579c.pdf\n\nCisco Meraki MT40 Smart Power Controller (accuracy provided)\nhttps://documentation.meraki.com/IoT/MT_-_Sensors/Product_Information/MT_Overviews_and_Datasheets/MT40_Datasheet_-_Smart_Power_Controller\n\n These are external sensors, NOT embedded NIC/ASIC/PSU measuring systems.\n\n________________________________\n\nFINAL CONCLUSION\n\n\u2192 No existing telecom standard defines accuracy/uncertainty for operational embedded power sensors.\n\n\u2192 No major vendor publishes accuracy/uncertainty for device-internal power telemetry.\n\n\u2192 ETSI ES 203 136 is the only standard specifying numeric accuracy\u2014but ONLY for external lab instruments.\n\n\u2192 ITU-T, ATIS, IETF do NOT specify accuracy for operational measurements.\n\n________________________________\n",
+          "createdAt": "2025-12-12T16:48:21Z",
+          "updatedAt": "2025-12-12T16:48:21Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -125,6 +165,58 @@
       "mergeCommit": {
         "oid": "550948bf93f98e236e9d5c14628797e26bc274de"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOP9HHVc64VYvD",
+      "title": "Update draft-bcm-green-power-and-energy-yang-00.md",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/5",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-12-11T11:20:30Z",
+      "updatedAt": "2025-12-11T11:20:30Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "48abe91204ee94d1f8f856c60c0aa79c58a6785e",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "power-and-energy-explanation-(text-from-Marisol)",
+      "headRefOid": "3795b76ed819f6572006ee5c38819ab2e23d3a91",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOP9HHVc64Vdk2",
+      "title": "Open Issue section",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/6",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-12-11T11:27:20Z",
+      "updatedAt": "2025-12-11T11:27:20Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "48abe91204ee94d1f8f856c60c0aa79c58a6785e",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "Open-issues-section",
+      "headRefOid": "103e8ada2326ad849239460860160bac86a4dc40",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
