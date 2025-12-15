@@ -9,6 +9,3 @@ module: ietf-power-and-energy
         +--ro eo-power-data-source-accuracy?   identityref
         +--ro eo-power-power-factor?           power-factor
         +--ro eo-power-measurement-local?      boolean
-        +--rw eo-power-admin-state?            identityref
-        +--ro eo-power-oper-state?             identityref
-        +--rw eo-power-state-enter-reason?     string
