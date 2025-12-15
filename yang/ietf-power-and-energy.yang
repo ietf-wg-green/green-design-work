@@ -326,6 +326,19 @@ module ietf-power-and-energy {
         reference
           "Replaces RFC 7460: eoPowerCurrentType object";
       }      
+
+      leaf eo-power-measurement-local {
+        type boolean;
+        config false;
+        description
+          "Indicates whether the power measurement is local (true) or
+           remote (false). A local measurement is taken directly at 
+           the device, while a remote measurement is collected from
+           an external source. This information can be useful for 
+           troubleshooting and understanding the data source.";
+        reference
+          "RFC 7460: eoPowerMeasurementLocal object";
+      }
     }
   }
 }
