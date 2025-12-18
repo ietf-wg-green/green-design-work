@@ -2,13 +2,11 @@ module: ietf-power-and-energy
   +--rw energy-objects
      +--rw power-entry* [object-id]
         +--rw object-id                        string
-        +--ro source-component-id?             -> /hw:hardware/component/name
+        +--ro source-component-id?             -> /hw:hardware/
+                                                  component/name
         +--ro eo-power?                        int32
         +--ro eo-power-nameplate?              uint32
         +--ro eo-power-unit-multiplier?        identityref
         +--ro eo-power-data-source-accuracy?   identityref
         +--ro eo-power-power-factor?           power-factor
         +--ro eo-power-measurement-local?      boolean
-        +--rw eo-power-admin-state?            identityref
-        +--ro eo-power-oper-state?             identityref
-        +--rw eo-power-state-enter-reason?     string

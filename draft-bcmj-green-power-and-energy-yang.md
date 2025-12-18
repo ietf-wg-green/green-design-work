@@ -1,7 +1,7 @@
 ---
 title: Power and Energy YANG Module
 abbrev: GREEN-PEM-YANG
-docname: draft-bcm-green-power-and-energy-yang-00
+docname: draft-bcmj-green-power-and-energy-yang-latest
 category: std
 submissionType: IETF
 
@@ -18,7 +18,7 @@ date:
 
 # Document controls
 
-stand_alone: yes 
+stand_alone: yes
 pi: [toc, sortrefs, symrefs, docmapping]
 
 # Authors
@@ -88,7 +88,7 @@ Processing Unit (MPU).
 ## Terminology
 
 This document makes use of the terms defined in
-{{!I-D.ietf-green-terminology-00}}: 
+{{!I-D.ietf-green-terminology-00}}:
 
     - Power
     - Energy
@@ -142,7 +142,7 @@ consumption of each Energy Object as well as the units, sign,
 measurement accuracy, etc. A containment tree view of the Power and
 Energy Monitoring is presented.
 
-~~~~ txt
+~~~~ yangtree
 {::include yang/ietf-power-and-energy.txt}
 ~~~~
 {: markers="true" name="ietf-power-and-energy@2025-12.txt”}
@@ -194,7 +194,7 @@ carriers on Energy Efficiency. Compared to the MIB modules, some
 definitions and types are optimized, some new Energy Objects are added
 and some legacy Energy Objects are removed accordingly.
 
-# Power and Energy YANG Modules
+# Power and Energy YANG Module
 
 This YANG Module is used to monitor and control Power and Energy usage
 of network devices and the components on these devices.
