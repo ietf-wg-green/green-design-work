@@ -240,5 +240,7 @@ number.
 # Acknowledgments
 
 This work has benefited from the regular discussions on the GREEN
-Design Meetings. The authors wish to thank the following individuals,
+Design Meetings. The authors wish to thank the WG chairs, Rob Wilton
+and Diego Lopez, for organizing the recurring calls and progressing
+the work. The authors also wish to thank the following individuals,
 who provided helpful comments and reviews to this document.
