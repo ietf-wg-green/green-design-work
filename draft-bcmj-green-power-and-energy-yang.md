@@ -130,7 +130,7 @@ The meanings of the symbols in the YANG tree diagrams are defined in
 The "GREEN framework" described in {{?I-D.belmq-green-framework-06}}
 covers monitoring and controlling devices and components where
 monitoring includes measuring Power, Energy, demand and attributes of
-Power.
+Power and Energy.
 
 For the whole picture of the monitoring interfaces and the relevant
 requirements, please refer to "GREEN reference model" in section 4 in
@@ -207,7 +207,20 @@ of network devices and the components on these devices.
 
 # Operational Considerations
 
-TO BE COMPLETED
+Heterogeneous sensor capabilities of different components within or
+across devices may demand per-component polling policies and add
+difficulties to power and energy consumption aggregation. Management
+tools must discover each component's data-source-accuracy at runtime to
+avoid alert fatigue or missed faults. Meanwhile, Power and Energy
+consumption sum should prevent double-counting. For example, never
+aggregate both outbound provided power and inbound consumed power.
+
+YANG Push support eliminates device-side bucket storage by streaming
+power telemetry directly to controller-side via subscriptions.
+Operators must verify the 'yang-push' bundle is enabled and validate
+push-max-operational limits accommodate all component subscriptions,
+preventing notification flooding while avoiding memory overhead on the
+device.
 
 # Security Considerations
 
