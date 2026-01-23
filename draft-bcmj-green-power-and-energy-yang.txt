@@ -164,17 +164,23 @@ Table of Contents
    Energy Monitoring is presented.
 
    module: ietf-power-and-energy
-     +--rw energy-objects
-        +--rw power-entry* [object-id]
-           +--rw object-id                        string
-           +--ro source-component-id?             -> /hw:hardware/
-                                                     component/name
-           +--ro eo-power?                        int32
-           +--ro eo-power-nameplate?              uint32
-           +--ro eo-power-unit-multiplier?        identityref
-           +--ro eo-power-data-source-accuracy?   identityref
-           +--ro eo-power-power-factor?           power-factor
-           +--ro eo-power-measurement-local?      boolean
+     +--ro energy-objects
+        +--ro energy-entry* [object-id]
+           +--ro object-id              string
+           +--ro source-component-id?   -> /hw:hardware/component/name
+           +--ro power
+           |  +--ro current-power?          int32
+           |  +--ro nameplate-power?        uint32
+           |  +--ro unit-multiplier?        identityref
+           |  +--ro data-source-accuracy?   identityref
+           |  +--ro power-factor?           power-factor
+           |  +--ro measurement-local?      boolean
+           +--ro energy
+              +--ro total-energy-consumed?   uint64
+              +--ro total-energy-produced?   uint64
+              +--ro unit-multiplier?         identityref
+              +--ro data-source-accuracy?    identityref
+              +--ro measurement-local?       boolean
 
 4.  Relationship to the Hardware YANG Data Model
 
