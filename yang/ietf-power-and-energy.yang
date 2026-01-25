@@ -113,14 +113,14 @@ module ietf-power-and-energy {
        accuracy-measured-gold-10. This indicates that the actual
        power value is between 16.2375 and 16.2625 Watts, since
        5% of 16.250 Watts is 0.8125 Watts, which is greater than
-       the absolute threshold of 10 milli Watts (0.010 W).
+       the absolute threshold of 10 milliwatts (0.010 W).
 
        At another time, the same sensor might report a value
        of 150, with unit multiplier of milli (10^-3), under
        accuracy-measured-gold-10. This indicates that the actual
        power value is between 0.140 and 0.160 Watts, since 5% of 
        0.150 Watts is only 0.0075 Watts, which is less than the
-       absolute threshold of 10 milli Watts (0.010 W).";
+       absolute threshold of 10 milliwatts (0.010 W).";
   }
   identity accuracy-unknown {
     base data-source-accuracy;
@@ -136,7 +136,7 @@ module ietf-power-and-energy {
   identity accuracy-like-parent {
     base data-source-accuracy;
     description
-      "The accuracy of the power data is the same as this energy
+      "The accuracy of the power/energy data is the same as this energy
        object's parent object. This identity is useful for hierarchical
        energy objects where child objects inherit the accuracy
        characteristics.";
@@ -460,7 +460,7 @@ module ietf-power-and-energy {
 
   container energy-objects {
     description
-      "Energy objects container for power attributes.";
+      "Energy objects container for power and energy attributes.";
     reference
       "RFC 7460: eoPowerTable";
     config false;
@@ -468,8 +468,8 @@ module ietf-power-and-energy {
     list energy-entry {
       key "object-id";
       description
-        "Power entry for an energy object, indexed by object id.
-         Each entry contains the complete set of power attributes
+        "Power and energy entry for an energy object, indexed by object id.
+         Each entry contains the complete set of power and energy attributes
          for a specific physical component.";
       reference
         "RFC 7460: EoPowerEntry";
@@ -478,7 +478,7 @@ module ietf-power-and-energy {
         type string;
         description
           "An identifier that uniquely identifies the energy object 
-          in a device.";
+          in an energy object.";
       }        
       
       leaf source-component-id {
@@ -488,7 +488,7 @@ module ietf-power-and-energy {
         description
           "Reference to the component name in the ietf-hardware 
           model. This leaf creates a direct semantic link between the
-          power attributes and the physical component they describe.
+          power/energy attributes and the physical component they describe.
           ";
       }
 
@@ -497,16 +497,16 @@ module ietf-power-and-energy {
           "Container for power measurement attributes.";
         reference
           "RFC 7460: eoPowerEntry attributes";
-        leaf current-power {
+        leaf instantaneous-power {
           type int32;
           units "Watts";
           mandatory true;
           description
-            "The current power usage measurement for the energy object.
+            "The power usage measurement for the energy object right now.
             This value represents the instantaneous power consumption
             of the component. This value is specified in SI units of watts 
             with the magnitude of watts (milliwatts, kilowatts, etc.) indicated 
-            separately in unit-multiplier in this container. Positive values 
+            separately as unit-multiplier in this container. Positive values 
             indicate power consumption, while negative values can indicate power 
             generation (e.g., for devices with battery backup or 
             renewable energy sources).";
@@ -519,7 +519,7 @@ module ietf-power-and-energy {
           units "Watts";
           description
             "The nameplate power rating of an energy object. This is 
-            the maximum power that the device is designed to consume or
+            the maximum power that the energy object is designed to consume or
             produce, as specified by the manufacturer. Essential for
             power budget calculations and capacity planning.";
           reference
@@ -533,7 +533,7 @@ module ietf-power-and-energy {
           mandatory true;
           description
             "The unit multiplier used to measure the power. 
-            This multiplier applies to both current-power and nameplate-power
+            This multiplier applies to both instantaneous-power and nameplate-power
             values, allowing representation of power values from milliwatts
             to gigawatts using integer arithmetic.";
           reference
@@ -564,7 +564,7 @@ module ietf-power-and-energy {
           description
             "The percent value of the power factor measurement for the 
             energy object. This information is important for 
-            understanding the electrical characteristics of the device
+            understanding the electrical characteristics of the energy object
             and for correctly interpreting the power data.";
           reference
             "Replaces RFC 7460: eoPowerCurrentType object";
@@ -574,7 +574,7 @@ module ietf-power-and-energy {
           description
             "Indicates whether the power measurement is local (true) or
              remote (false). A local measurement is taken directly at
-             the device, while a remote measurement is collected from
+             the energy object, while a remote measurement is collected from
              an external source. This information can be useful for
              troubleshooting and understanding the data source.";
            reference
@@ -592,9 +592,9 @@ module ietf-power-and-energy {
           units "Watt-hours";
           description
             "The total cumulative energy consumed by the energy object
-            since the last reset. This value is specified in SI units of
-            watts-hours with the magnitude of watts-hours (milliwatts-hours, 
-            kilowatts-hours, etc.) indicated separately in unit-multiplier 
+            since the last reset. This value is specified as 
+            watt-hours with the magnitude of watt-hours (milliwatt-hours, 
+            kilowatt-hours, etc.) indicated separately as unit-multiplier 
             in this container. This value is useful for tracking
             overall energy usage over time for billing, reporting,
             or optimization purposes.";
@@ -607,12 +607,13 @@ module ietf-power-and-energy {
           units "Watt-hours";
           description
             "The total cumulative energy produced by the energy object
-            since the last reset. This value is specified in SI units of
-            watts-hours with the magnitude of watts-hours (milliwatts-hours, 
-            kilowatts-hours, etc.) indicated separately in unit-multiplier 
-            in this container. This value is relevant for devices
+            since the last reset. This value is specified as
+            watt-hours with the magnitude of watt-hours (milliwatt-hours, 
+            kilowatt-hours, etc.) indicated separately as unit-multiplier 
+            in this container. This value is relevant for energy objects
             capable of generating power, such as those with renewable
-            energy sources or battery backup systems.";
+            energy sources or battery backup systems, or capable of providing
+            energy to other energy objects (e.g., PoE switches).";
           reference
             "RFC 7460: eoEnergyProduced object";
         }
@@ -621,12 +622,11 @@ module ietf-power-and-energy {
             base unit-multiplier;
           }
           description
-            "The total cumulative energy produced by the energy object since 
-             the last reset. This multiplier applies to both total-energy-consumed
-             and total-energy-produced values, This value is relevant for energy 
-             objects capable of generating power (such as those with renewable energy 
-             sources or battery backup systems), or capable of providing power to other 
-             energy objects (e.g., PoE port in a switch).";
+            "This multiplier applies to both total-energy-consumed
+             and total-energy-produced values. It determines the scale
+             of the energy measurements, allowing representation of
+             energy values from milliwatt-hours to gigawatt-hours
+             using integer arithmetic.";
           reference
             "RFC 7460: eoPowerUnitMultiplier object";
         }
@@ -637,7 +637,7 @@ module ietf-power-and-energy {
           }
           default accuracy-like-parent;
           description
-            "The accuracy of the power data source. Indicates whether 
+            "The accuracy of the energy data source. Indicates whether 
             the data source is a direct measurement, an estimate, or 
             unavailable and also the accuracy level of the data source. 
             By default, the accuracy is inherited from the parent energy
@@ -645,16 +645,16 @@ module ietf-power-and-energy {
             without the need to specify accuracy at every level.
             This metadata is crucial for network management 
             applications to assess the reliability and accuracy of the 
-            power data.";
+            energy data.";
           reference
             "RFC 7460: eoPowerMeasurementCaliber object";
         }
         leaf measurement-local {
           type boolean;
           description
-            "Indicates whether the power measurement is local (true) or
+            "Indicates whether the energy measurement is local (true) or
              remote (false). A local measurement is taken directly at
-             the device, while a remote measurement is collected from
+             the energy object, while a remote measurement is collected from
              an external source. This information can be useful for
              troubleshooting and understanding the data source.";
            reference
@@ -663,5 +663,4 @@ module ietf-power-and-energy {
       }
     }
   }
-
 }
