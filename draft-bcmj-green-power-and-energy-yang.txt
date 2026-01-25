@@ -5,12 +5,12 @@
 GREEN                                                          C. Benoit
 Internet-Draft                                            Everything OPS
 Intended status: Standards Track                                  C. Gen
-Expires: 27 July 2026                                             Huawei
+Expires: 29 July 2026                                             Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                         23 January 2026
+                                                         25 January 2026
 
 
                       Power and Energy YANG Module
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 July 2026.
+   This Internet-Draft will expire on 29 July 2026.
 
 Copyright Notice
 
@@ -245,13 +245,6 @@ Table of Contents
        reference
          "RFC 8348: A YANG Data Model for Hardware Management";
      }
-
-     import ietf-inet-types {
-       prefix inet;
-       reference
-         "RFC 6991: Common YANG Data Types";
-     }
-
 
      organization
        "IETF GREEN Working Group";
@@ -591,7 +584,25 @@ Table of Contents
          "Base identity for unit multipliers as defined in IEC 61850-7-3
           Annex A. These represent exponents of 10 for scaling units
           associated with the integer units used to measure the power or
-          energy.";
+          energy.
+              yocto(-24),   -- 10^-24
+              zepto(-21),   -- 10^-21
+              atto(-18),    -- 10^-18
+              femto(-15),   -- 10^-15
+              pico(-12),    -- 10^-12
+              nano(-9),     -- 10^-9
+              micro(-6),    -- 10^-6
+              milli(-3),    -- 10^-3
+              units(0),     -- 10^0
+              kilo(3),      -- 10^3
+              mega(6),      -- 10^6
+              giga(9),      -- 10^9
+              tera(12),     -- 10^12
+              peta(15),     -- 10^15
+              exa(18),      -- 10^18
+              zetta(21),    -- 10^21
+              yotta(24)     -- 10^24
+           ";
        reference
          "RFC 7460: UnitMultiplier";
      }
@@ -599,64 +610,46 @@ Table of Contents
        description
          "Represents a multiplier of 10^-24 associated with the
           integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-zepto {
        description
          "Represents a multiplier of 10^-21 associated with the
           integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-atto {
        description
          "Represents a multiplier of 10^-18 associated with the
           integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-femto {
        description
          "Represents a multiplier of 10^-15 associated with the
           integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-pico {
        description
          "Represents a multiplier of 10^-12 associated with the
           integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-nano {
        description
          "Represents a multiplier of 10^-9 associated with the
           integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-micro {
        description
          "Represents a multiplier of 10^-6 (0.000001) associated with the
           integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-milli {
        description
          "Represents a multiplier of 10^-3 (0.001) associated with the
           integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-units {
        description
          "Represents a multiplier of 10^0 (1) associated with
           the integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-kilo {
        description
@@ -669,50 +662,36 @@ Table of Contents
        description
          "Represents a multiplier of 10^6 (1,000,000) associated with
           the integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-giga {
        description
          "Represents a multiplier of 10^9 (1,000,000,000) associated
           with the integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-tera {
        description
          "Represents a multiplier of 10^12 associated
           with the integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-peta {
        description
          "Represents a multiplier of 10^15 associated
           with the integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-exa {
        description
          "Represents a multiplier of 10^18 associated
           with the integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-zetta {
        description
          "Represents a multiplier of 10^21 associated
           with the integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-yotta {
        description
          "Represents a multiplier of 10^24 associated
           with the integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
 
      container energy-objects {
@@ -760,8 +739,10 @@ Table of Contents
              description
                "The current power usage measurement for the energy object.
                This value represents the instantaneous power consumption
-               of the component. Positive values indicate power
-               consumption, while negative values can indicate power
+               of the component. This value is specified in SI units of watts
+               with the magnitude of watts (milliwatts, kilowatts, etc.) indicated
+               separately in unit-multiplier in this container. Positive values
+               indicate power consumption, while negative values can indicate power
                generation (e.g., for devices with battery backup or
                renewable energy sources).";
              reference
@@ -785,7 +766,7 @@ Table of Contents
                base unit-multiplier;
              }
              description
-               "The unit multiplier used to measure the power or energy.
+               "The unit multiplier used to measure the power.
                This multiplier applies to both current-power and nameplate-power
                values, allowing representation of power values from milliwatts
                to gigawatts using integer arithmetic.";
@@ -845,7 +826,10 @@ Table of Contents
              units "Watt-hours";
              description
                "The total cumulative energy consumed by the energy object
-               since the last reset. This value is useful for tracking
+               since the last reset. This value is specified in SI units of
+               watts-hours with the magnitude of watts-hours (milliwatts-hours,
+               kilowatts-hours, etc.) indicated separately in unit-multiplier
+               in this container. This value is useful for tracking
                overall energy usage over time for billing, reporting,
                or optimization purposes.";
              reference
@@ -857,7 +841,10 @@ Table of Contents
              units "Watt-hours";
              description
                "The total cumulative energy produced by the energy object
-               since the last reset. This value is relevant for devices
+               since the last reset. This value is specified in SI units of
+               watts-hours with the magnitude of watts-hours (milliwatts-hours,
+               kilowatts-hours, etc.) indicated separately in unit-multiplier
+               in this container. This value is relevant for devices
                capable of generating power, such as those with renewable
                energy sources or battery backup systems.";
              reference
@@ -868,11 +855,12 @@ Table of Contents
                base unit-multiplier;
              }
              description
-               "The unit multiplier used to measure the power or energy.
-               This multiplier applies to both total-energy-consumed
-               and total-energy-produced values, allowing representation
-               of power values from milliwatts to gigawatts using integer
-               arithmetic.";
+               "The total cumulative energy produced by the energy object since
+                the last reset. This multiplier applies to both total-energy-consumed
+                and total-energy-produced values, This value is relevant for energy
+                objects capable of generating power (such as those with renewable energy
+                sources or battery backup systems), or capable of providing power to other
+                energy objects (e.g., PoE port in a switch).";
              reference
                "RFC 7460: eoPowerUnitMultiplier object";
            }
@@ -909,6 +897,7 @@ Table of Contents
          }
        }
      }
+
    }
    <CODE ENDS>
 
