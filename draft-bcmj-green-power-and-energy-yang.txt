@@ -736,6 +736,7 @@ Table of Contents
            leaf current-power {
              type int32;
              units "Watts";
+             mandatory true;
              description
                "The current power usage measurement for the energy object.
                This value represents the instantaneous power consumption
@@ -765,6 +766,7 @@ Table of Contents
              type identityref {
                base unit-multiplier;
              }
+             mandatory true;
              description
                "The unit multiplier used to measure the power.
                This multiplier applies to both current-power and nameplate-power
