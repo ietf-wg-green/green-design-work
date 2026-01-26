@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reference anchor="I-D.belmq-green-framework" target="https://datatracker.ietf.org/doc/html/draft-belmq-green-framework-06">
+   <front>
+      <title>Framework for Energy Efficiency Management</title>
+      <author initials="B." surname="Claise" fullname="Benoît Claise">
+         <organization>Everything OPS</organization>
+      </author>
+      <author initials="L. M." surname="Contreras" fullname="Luis M. Contreras">
+         <organization>Telefonica</organization>
+      </author>
+      <author initials="J." surname="Lindblad" fullname="Jan Lindblad">
+         <organization>All For Eco</organization>
+      </author>
+      <author initials="M. P." surname="Palmero" fullname="Marisol Palmero">
+         <organization>Independent</organization>
+      </author>
+      <author initials="E." surname="Stephan" fullname="Emile Stephan">
+         <organization>Orange</organization>
+      </author>
+      <author initials="Q." surname="Wu" fullname="Qin Wu">
+         <organization>Huawei</organization>
+      </author>
+      <date month="October" day="20" year="2025" />
+      <abstract>
+	 <t>   Recognizing the urgent need for energy efficiency, this document
+   specifies a management framework focused on devices and device
+   components within, or connected to, interconnected systems.  The
+   framework aims to enable energy usage optimization, based on the
+   network condition while achieving the network&#x27;s functional and
+   performance requirements (e.g., improving overall network
+   utilization) and also ensure interoperability across diverse systems.
+   Leveraging data from existing use cases, it delivers actionable
+   metrics to support effective energy management and informed decision-
+   making.  Furthermore, the framework proposes mechanisms for
+   representing and organizing timestamped telemetry data using YANG
+   models and metadata, enabling transparent and reliable monitoring.
+   This structured approach facilitates improved energy efficiency
+   through consistent energy management practices.
+
+	 </t>
+      </abstract>
+   </front>
+   <seriesInfo name="Internet-Draft" value="draft-belmq-green-framework-06" />
+   
+</reference>

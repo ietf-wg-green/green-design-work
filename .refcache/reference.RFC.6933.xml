@@ -1,0 +1,15 @@
+<reference anchor="RFC6933" target="https://www.rfc-editor.org/info/rfc6933">
+  <front>
+    <title>Entity MIB (Version 4)</title>
+    <author fullname="A. Bierman" initials="A." surname="Bierman"/>
+    <author fullname="D. Romascanu" initials="D." surname="Romascanu"/>
+    <author fullname="J. Quittek" initials="J." surname="Quittek"/>
+    <author fullname="M. Chandramouli" initials="M." surname="Chandramouli"/>
+    <date month="May" year="2013"/>
+    <abstract>
+      <t>This memo defines a portion of the Management Information Base (MIB) for use with network management protocols in the Internet community. In particular, it describes managed objects used for managing multiple logical and physical entities managed by a single Simple Network Management Protocol (SNMP) agent. This document specifies version 4 of the Entity MIB. This memo obsoletes version 3 of the Entity MIB module published as RFC 4133.</t>
+    </abstract>
+  </front>
+  <seriesInfo name="RFC" value="6933"/>
+  <seriesInfo name="DOI" value="10.17487/RFC6933"/>
+</reference>

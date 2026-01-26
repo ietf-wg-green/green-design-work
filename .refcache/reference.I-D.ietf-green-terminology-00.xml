@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reference anchor="I-D.ietf-green-terminology" target="https://datatracker.ietf.org/doc/html/draft-ietf-green-terminology-00">
+   <front>
+      <title>Terminology for Energy Efficiency Network Management</title>
+      <author initials="G." surname="Chen" fullname="Gen Chen">
+         <organization>Huawei</organization>
+      </author>
+      <author initials="M." surname="Boucadair" fullname="Mohamed Boucadair">
+         <organization>Orange</organization>
+      </author>
+      <author initials="Q." surname="Wu" fullname="Qin Wu">
+         <organization>Huawei</organization>
+      </author>
+      <author initials="L. M." surname="Contreras" fullname="Luis M. Contreras">
+         <organization>Telefonica</organization>
+      </author>
+      <author initials="M. P." surname="Palmero" fullname="Marisol Palmero">
+         <organization>Individual</organization>
+      </author>
+      <date month="November" day="18" year="2025" />
+      <abstract>
+	 <t>   Energy-efficient network management is primarily meant to enhance
+   conventional network management with energy-related management
+   capabilities that optimize overall network energy consumption.  To
+   that aim, specific features and capabilities are required to control
+   (and thus optimize) the energy use of involved network elements and
+   their components.
+
+   This document defines a set of key terms used within the IETF when
+   discussing energy efficiency in network management.  Such reference
+   document helps framing discussion and agreeing upon a set of main
+   concepts in this area.
+
+	 </t>
+      </abstract>
+   </front>
+   <seriesInfo name="Internet-Draft" value="draft-ietf-green-terminology-00" />
+   
+</reference>

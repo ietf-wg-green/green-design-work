@@ -1,0 +1,15 @@
+<reference anchor="RFC8348" target="https://www.rfc-editor.org/info/rfc8348">
+  <front>
+    <title>A YANG Data Model for Hardware Management</title>
+    <author fullname="A. Bierman" initials="A." surname="Bierman"/>
+    <author fullname="M. Bjorklund" initials="M." surname="Bjorklund"/>
+    <author fullname="J. Dong" initials="J." surname="Dong"/>
+    <author fullname="D. Romascanu" initials="D." surname="Romascanu"/>
+    <date month="March" year="2018"/>
+    <abstract>
+      <t>This document defines a YANG data model for the management of hardware on a single server.</t>
+    </abstract>
+  </front>
+  <seriesInfo name="RFC" value="8348"/>
+  <seriesInfo name="DOI" value="10.17487/RFC8348"/>
+</reference>

@@ -1,0 +1,16 @@
+<reference anchor="RFC7460" target="https://www.rfc-editor.org/info/rfc7460">
+  <front>
+    <title>Monitoring and Control MIB for Power and Energy</title>
+    <author fullname="M. Chandramouli" initials="M." surname="Chandramouli"/>
+    <author fullname="B. Claise" initials="B." surname="Claise"/>
+    <author fullname="B. Schoening" initials="B." surname="Schoening"/>
+    <author fullname="J. Quittek" initials="J." surname="Quittek"/>
+    <author fullname="T. Dietz" initials="T." surname="Dietz"/>
+    <date month="March" year="2015"/>
+    <abstract>
+      <t>This document defines a subset of the Management Information Base (MIB) for power and energy monitoring of devices.</t>
+    </abstract>
+  </front>
+  <seriesInfo name="RFC" value="7460"/>
+  <seriesInfo name="DOI" value="10.17487/RFC7460"/>
+</reference>

@@ -170,6 +170,11 @@ hardware side and the UUIDs on the controller side. Basically, the
 devices (such as routers) generate the UUID and the controller can
 query it.
 
+The ietf-hardware YANG module {{!RFC8348}} allows to discover all the
+device components, including the containment tree, and the parent/child
+relationship, which is important for energy/power aggregation (see the
+contains-child relationship in RFC 8348).
+
 # Relationship to the EMAN Work
 
 The EMAN IETF Working Group
@@ -207,7 +212,28 @@ of network devices and the components on these devices.
 
 # Operational Considerations
 
-TO BE COMPLETED
+Heterogeneous sensor capabilities across components complicate power
+and energy aggregation. Operators must use the data-source-accuracy
+identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
+weight data reliability carefully before aggregating Power
+(current-power) and Energy (total-energy-consumed and/or
+total-energy-produced) values to avoid skewing Device-Level Energy
+Efficiency (DLEE) metrics.
+
+Operators might not always be interested to get the individual component
+accuracy. What counts is the device level or domain level, identity
+accuracy-like-parent is introduced to meet their demands. From an
+implementation point of view, to facilitate data collection and
+aggregation on runtime and avoid post-aggregation data confidence
+interval issues, operators and implementers should use as much as
+possible this accuracy-like-parent identity.
+
+YANG Push support eliminates device-side bucket storage by streaming
+energy telemetry directly to controller-side via subscriptions.
+Operators must verify the 'yang-push' bundle is enabled and validate
+push-max-operational limits accommodate all component subscriptions,
+preventing notification flooding while avoiding memory overhead on the
+device.
 
 # Security Considerations
 

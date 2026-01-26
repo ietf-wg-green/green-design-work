@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reference anchor="I-D.ietf-green-use-cases" target="https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-00">
+   <front>
+      <title>Use Cases for Energy Efficiency Management</title>
+      <author initials="E." surname="Stephan" fullname="Emile Stephan">
+         <organization>Orange</organization>
+      </author>
+      <author initials="M. P." surname="Palmero" fullname="Marisol Palmero">
+         <organization>Individual</organization>
+      </author>
+      <author initials="B." surname="Claise" fullname="Benoît Claise">
+         <organization>Huawei</organization>
+      </author>
+      <author initials="Q." surname="Wu" fullname="Qin Wu">
+         <organization>Huawei</organization>
+      </author>
+      <author initials="L. M." surname="Contreras" fullname="Luis M. Contreras">
+         <organization>Telefonica</organization>
+      </author>
+      <author initials="C. J." surname="Bernardos" fullname="Carlos J. Bernardos">
+         <organization>Universidad Carlos III de Madrid</organization>
+      </author>
+      <date month="November" day="20" year="2025" />
+      <abstract>
+	 <t>   This document groups use cases for Energy efficiency Management of
+   network devices.
+
+   Discussion Venues
+
+   Source of this draft and an issue tracker can be found at
+   https://github.com/emile22/draft-ietf-green-use-cases
+
+	 </t>
+      </abstract>
+   </front>
+   <seriesInfo name="Internet-Draft" value="draft-ietf-green-use-cases-00" />
+   
+</reference>
