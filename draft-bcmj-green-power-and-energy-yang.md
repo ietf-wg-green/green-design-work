@@ -216,7 +216,7 @@ Heterogeneous sensor capabilities across components complicate power
 and energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
 weight data reliability carefully before aggregating Power
-(current-power) and Energy (total-energy-consumed and/or
+(instantaneous-power) and Energy (total-energy-consumed and/or
 total-energy-produced) values to avoid skewing Device-Level Energy
 Efficiency (DLEE) metrics.
 
