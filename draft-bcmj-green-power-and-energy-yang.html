@@ -1060,7 +1060,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Benoit, et al.</td>
-<td class="center">Expires 29 July 2026</td>
+<td class="center">Expires 30 July 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1073,12 +1073,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-bcmj-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-01-25" class="published">25 January 2026</time>
+<time datetime="2026-01-26" class="published">26 January 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-07-29">29 July 2026</time></dd>
+<dd class="expires"><time datetime="2026-07-30">30 July 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1129,7 +1129,7 @@ appear in all capitals, as shown here.<a href="#section-abstract-2" class="pilcr
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 30 July 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1318,9 +1318,9 @@ module: ietf-power-and-energy
         +--ro object-id              string
         +--ro source-component-id?   -&gt; /hw:hardware/component/name
         +--ro power
-        |  +--ro current-power?          int32
+        |  +--ro instantaneous-power     int32
         |  +--ro nameplate-power?        uint32
-        |  +--ro unit-multiplier?        identityref
+        |  +--ro unit-multiplier         identityref
         |  +--ro data-source-accuracy?   identityref
         |  +--ro power-factor?           power-factor
         |  +--ro measurement-local?      boolean
@@ -1356,6 +1356,10 @@ necessary to document the mappings between the UUIDs generated on the
 hardware side and the UUIDs on the controller side. Basically, the
 devices (such as routers) generate the UUID and the controller can
 query it.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-4">The ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> allows to discover all the
+device components, including the containment tree, and the parent/child
+relationship, which is important for energy/power aggregation (see the
+contains-child relationship in RFC 8348).<a href="#section-4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="relationship-to-the-eman-work">
@@ -2069,7 +2073,26 @@ module ietf-power-and-energy {
       <h2 id="name-operational-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-operational-considerations" class="section-name selfRef">Operational Considerations</a>
       </h2>
-<p id="section-7-1">TO BE COMPLETED<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-1">Heterogeneous sensor capabilities across components complicate power
+and energy aggregation. Operators must use the data-source-accuracy
+identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
+weight data reliability carefully before aggregating Power
+(current-power) and Energy (total-energy-consumed and/or
+total-energy-produced) values to avoid skewing Device-Level Energy
+Efficiency (DLEE) metrics.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">Operators might not always be interested to get the individual component
+accuracy. What counts is the device level or domain level, identity
+accuracy-like-parent is introduced to meet their demands. From an
+implementation point of view, to facilitate data collection and
+aggregation on runtime and avoid post-aggregation data confidence
+interval issues, operators and implementers should use as much as
+possible this accuracy-like-parent identity.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">YANG Push support eliminates device-side bucket storage by streaming
+energy telemetry directly to controller-side via subscriptions.
+Operators must verify the 'yang-push' bundle is enabled and validate
+push-max-operational limits accommodate all component subscriptions,
+preventing notification flooding while avoiding memory overhead on the
+device.<a href="#section-7-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
