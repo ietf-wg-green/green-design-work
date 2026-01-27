@@ -177,7 +177,7 @@ Table of Contents
            |  +--ro measurement-local?      boolean
            +--ro energy
               +--ro total-energy-consumed?   uint64
-              +--ro total-energy-produced?   uint64
+              +--ro total-energy-delivered?  uint64
               +--ro unit-multiplier?         identityref
               +--ro data-source-accuracy?    identityref
               +--ro measurement-local?       boolean
