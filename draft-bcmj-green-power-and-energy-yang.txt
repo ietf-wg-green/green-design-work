@@ -843,11 +843,11 @@ Table of Contents
                "RFC 7460: eoEnergyConsumed object";
            }
 
-           leaf total-energy-produced {
+           leaf total-energy-delivered {
              type uint64;
              units "Watt-hours";
              description
-               "The total cumulative energy produced by the energy object
+               "The total cumulative energy delivered by the energy object
                since the last reset. This value is specified as
                watt-hours with the magnitude of watt-hours (milliwatt-hours,
                kilowatt-hours, etc.) indicated separately as unit-multiplier
@@ -864,7 +864,7 @@ Table of Contents
              }
              description
                "This multiplier applies to both total-energy-consumed
-                and total-energy-produced values. It determines the scale
+                and total-energy-delivered values. It determines the scale
                 of the energy measurements, allowing representation of
                 energy values from milliwatt-hours to gigawatt-hours
                 using integer arithmetic.";
