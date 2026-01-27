@@ -5,12 +5,12 @@
 GREEN                                                          C. Benoit
 Internet-Draft                                            Everything OPS
 Intended status: Standards Track                                  C. Gen
-Expires: 30 July 2026                                             Huawei
+Expires: 31 July 2026                                             Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                         26 January 2026
+                                                         27 January 2026
 
 
                       Power and Energy YANG Module
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 30 July 2026.
+   This Internet-Draft will expire on 31 July 2026.
 
 Copyright Notice
 
@@ -914,7 +914,7 @@ Table of Contents
    identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
    weight data reliability carefully before aggregating Power
    (instantaneous-power) and Energy (total-energy-consumed and/or total-
-   energy-produced) values to avoid skewing Device-Level Energy
+   energy-delivered) values to avoid skewing Device-Level Energy
    Efficiency (DLEE) metrics.
 
    Operators might not always be interested to get the individual
