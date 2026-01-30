@@ -5,12 +5,12 @@
 GREEN                                                          C. Benoit
 Internet-Draft                                            Everything OPS
 Intended status: Standards Track                                  C. Gen
-Expires: 31 July 2026                                             Huawei
+Expires: 3 August 2026                                            Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                         27 January 2026
+                                                         30 January 2026
 
 
                       Power and Energy YANG Module
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 July 2026.
+   This Internet-Draft will expire on 3 August 2026.
 
 Copyright Notice
 
@@ -237,6 +237,11 @@ Table of Contents
 
    This YANG Module is used to monitor and control Power and Energy
    usage of network devices and the components on these devices.
+
+   The mapping between energy-object entries in this YANG Module and the
+   hardware-components in ietf-hardware YANG module [RFC8348] is
+   designed to be 1:1, architecturally aligning each energy-entry with
+   exactly one physical hardware component via source-component-id.
 
    <CODE BEGINS>
    module ietf-power-and-energy {
