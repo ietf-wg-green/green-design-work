@@ -197,6 +197,11 @@ Table of Contents
    component name in the ietf-hardware model.  The "source-component-id"
    can in turn reuse the UUID in the ietf-hardware YANG module.
 
+   The mapping between energy-object entries in this YANG Module and the
+   hardware-components in ietf-hardware YANG module [RFC8348] is
+   designed to be 1:1, architecturally aligning each energy-entry with
+   exactly one physical hardware component via source-component-id.
+
    There are also cases where the controllers also generate its own set
    of UUIDs for the hardware (components).  In such a case, it might be
    necessary to document the mappings between the UUIDs generated on the
@@ -237,11 +242,6 @@ Table of Contents
 
    This YANG Module is used to monitor and control Power and Energy
    usage of network devices and the components on these devices.
-
-   The mapping between energy-object entries in this YANG Module and the
-   hardware-components in ietf-hardware YANG module [RFC8348] is
-   designed to be 1:1, architecturally aligning each energy-entry with
-   exactly one physical hardware component via source-component-id.
 
    <CODE BEGINS>
    module ietf-power-and-energy {

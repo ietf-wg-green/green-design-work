@@ -1350,16 +1350,20 @@ Unified IDentifier <span>[<a href="#RFC4122" class="cite xref">RFC4122</a>]</spa
 there is a leaf named "source-component-id" which refers to the
 component name in the ietf-hardware model. The "source-component-id"
 can in turn reuse the UUID in the ietf-hardware YANG module.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">There are also cases where the controllers also generate its own set
+<p id="section-4-3">The mapping between energy-object entries in this YANG Module and the
+hardware-components in ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> is
+designed to be 1:1, architecturally aligning each energy-entry with
+exactly one physical hardware component via source-component-id.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-4">There are also cases where the controllers also generate its own set
 of UUIDs for the hardware (components). In such a case, it might be
 necessary to document the mappings between the UUIDs generated on the
 hardware side and the UUIDs on the controller side. Basically, the
 devices (such as routers) generate the UUID and the controller can
-query it.<a href="#section-4-3" class="pilcrow">¶</a></p>
-<p id="section-4-4">The ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> allows to discover all the
+query it.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-5">The ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> allows to discover all the
 device components, including the containment tree, and the parent/child
 relationship, which is important for energy/power aggregation (see the
-contains-child relationship in RFC 8348).<a href="#section-4-4" class="pilcrow">¶</a></p>
+contains-child relationship in RFC 8348).<a href="#section-4-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="relationship-to-the-eman-work">
@@ -1395,11 +1399,7 @@ and some legacy Energy Objects are removed accordingly.<a href="#section-5-4" cl
       </h2>
 <p id="section-6-1">This YANG Module is used to monitor and control Power and Energy usage
 of network devices and the components on these devices.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">The mapping between energy-object entries in this YANG Module and the
-hardware-components in ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> is
-designed to be 1:1, architecturally aligning each energy-entry with
-exactly one physical hardware component via source-component-id.<a href="#section-6-2" class="pilcrow">¶</a></p>
-<div class="breakable lang-yang sourcecode" id="section-6-3">
+<div class="breakable lang-yang sourcecode" id="section-6-2">
 <pre>&lt;CODE BEGINS&gt;
 module ietf-power-and-energy {
   yang-version 1.1;
@@ -2069,7 +2069,7 @@ module ietf-power-and-energy {
 }
 
 
-&lt;CODE ENDS&gt;</pre><a href="#section-6-3" class="pilcrow">¶</a>
+&lt;CODE ENDS&gt;</pre><a href="#section-6-2" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
