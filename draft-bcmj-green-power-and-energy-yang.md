@@ -205,6 +205,11 @@ and some legacy Energy Objects are removed accordingly.
 This YANG Module is used to monitor and control Power and Energy usage
 of network devices and the components on these devices.
 
+The mapping between energy-object entries in this YANG Module and the
+hardware-components in ietf-hardware YANG module {{!RFC8348}} is
+designed to be 1:1, architecturally aligning each energy-entry with
+exactly one physical hardware component via source-component-id.
+
 ~~~~ yang
 {::include yang/ietf-power-and-energy.yang}
 ~~~~
