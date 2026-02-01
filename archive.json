@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-01-27T00:55:06.876050+00:00",
+  "timestamp": "2026-02-01T01:10:29.784613+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -522,6 +522,70 @@
         "oid": "e6038582e635ba2400635121f06e7ff42db89b2d"
       },
       "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDOP9HHVc7ARwZe",
+      "title": "clarify yang model 1:1 mapping to RFC8348",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/19",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "green-design-team conclusion: Keep it 1:1 for now, easier to do a bis to remove a restrict in future.",
+      "createdAt": "2026-01-30T02:05:04Z",
+      "updatedAt": "2026-01-30T02:06:03Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "fcc66aab4f26174f01800e9cc3e4800657d374b1",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "934cc91e7fbad4f391b6feb4aeb2df7d456b37a8",
+      "closedAt": "2026-01-30T02:06:03Z",
+      "mergedAt": "2026-01-30T02:06:03Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "c9f20f874c393a0d494ecb09d706045021af7322"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDOP9HHVc7AVlBE",
+      "title": "Group the RFC8348 text under the same section",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/20",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "No change of text content, just a location change",
+      "createdAt": "2026-01-30T08:25:59Z",
+      "updatedAt": "2026-01-30T08:57:04Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "c9f20f874c393a0d494ecb09d706045021af7322",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "bclaise-patch-5",
+      "headRefOid": "e3b4c287a558343ea671df5b90c3e79764e7b25d",
+      "closedAt": "2026-01-30T08:57:04Z",
+      "mergedAt": "2026-01-30T08:57:04Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "20f8ae40ccb4fefb9b496ed936dc28a5a7eb9486"
+      },
+      "comments": [
+        {
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Looks good.",
+          "createdAt": "2026-01-30T08:56:52Z",
+          "updatedAt": "2026-01-30T08:56:52Z"
+        }
+      ],
       "reviews": []
     }
   ]
