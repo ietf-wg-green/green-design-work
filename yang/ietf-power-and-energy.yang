@@ -459,11 +459,11 @@ module ietf-power-and-energy {
   }
 
   container energy-objects {
+    config false;
     description
       "Energy objects container for power and energy attributes.";
     reference
       "RFC 7460: eoPowerTable";
-    config false;
     
     list energy-entry {
       key "object-id";
@@ -664,4 +664,5 @@ module ietf-power-and-energy {
     }
   }
 }
+
 
