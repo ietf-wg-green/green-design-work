@@ -5,12 +5,12 @@
 GREEN                                                          C. Benoit
 Internet-Draft                                            Everything OPS
 Intended status: Standards Track                                  C. Gen
-Expires: 3 August 2026                                            Huawei
+Expires: 7 August 2026                                            Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                         30 January 2026
+                                                         3 February 2026
 
 
                       Power and Energy YANG Module
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 August 2026.
+   This Internet-Draft will expire on 7 August 2026.
 
 Copyright Notice
 
@@ -705,11 +705,11 @@ Table of Contents
      }
 
      container energy-objects {
+       config false;
        description
          "Energy objects container for power and energy attributes.";
        reference
          "RFC 7460: eoPowerTable";
-       config false;
 
        list energy-entry {
          key "object-id";
