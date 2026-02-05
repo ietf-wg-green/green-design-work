@@ -44,6 +44,11 @@ author:
 
 normative:
 
+   RFC8348:
+    title: A YANG Data Model for Hardware Management
+    date: 2018-03
+    target: https://www.rfc-editor.org/info/rfc8348
+
 informative:
 
    GreenTerminology: I-D.draft-ietf-green-terminology
@@ -158,7 +163,7 @@ Energy Monitoring is presented.
 
 # Relationship to the Hardware YANG Data Model
 
-The ietf-hardware YANG module {{!RFC8348}} is required by the Power
+The ietf-hardware YANG module {{RFC8348}} is required by the Power
 and Energy YANG module. In the ietf-hardware YANG model, there are
 three identifiers for hardware components, which are "name",
 "physical-index" and "uuid". Among them, "name" is the key to "List of
@@ -172,7 +177,7 @@ component name in the ietf-hardware model. The "source-component-id"
 can in turn reuse the UUID in the ietf-hardware YANG module.
 
 The mapping between energy-object entries in this YANG Module and the
-hardware-components in ietf-hardware YANG module {{!RFC8348}} is
+hardware-components in ietf-hardware YANG module {{RFC8348}} is
 designed to be 1:1, architecturally aligning each energy-entry with
 exactly one physical hardware component via source-component-id.
 
@@ -183,7 +188,7 @@ hardware side and the UUIDs on the controller side. Basically, the
 devices (such as routers) generate the UUID and the controller can
 query it.
 
-The ietf-hardware YANG module {{!RFC8348}} allows to discover all the
+The ietf-hardware YANG module {{RFC8348}} allows to discover all the
 device components, including the containment tree, and the parent/child
 relationship, which is important for energy/power aggregation (see the
 contains-child relationship in RFC 8348).
@@ -288,7 +293,7 @@ Explicit accuracy reporting enables:
 - Double-accounting prevention: Understand when PDU-level measurements (±2%) should override device estimates (±30%) to avoid counting the same energy twice (UC 13)
 - Cross-domain correlation: Map accuracy expectations when integrating with external systems like 3GPP energy KPIs (UC 6)
 
-The accuracy hierarchy uses YANG identities for extensibility, allowing vendors to define manufacturer-specific accuracy classes while maintaining interoperability through standardized base types. Implementation details are provided in the GREEN YANG data model {{PowerAndEnergy}}.
+The accuracy hierarchy uses YANG identities for extensibility, allowing vendors to define manufacturer-specific accuracy classes while maintaining interoperability through standardized base types.
 
 ## Industry-Standard Certifications
 
