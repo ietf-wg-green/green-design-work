@@ -68,6 +68,8 @@ Table of Contents
    5.  Relationship to the EMAN Work
    6.  Power and Energy YANG Module
    7.  Operational Considerations
+     7.1.  Measurement Accuracy and Data Source Classification
+     7.2.  Industry-Standard Certifications
    8.  Security Considerations
    9.  IANA Considerations
    10. Acknowledgments
@@ -81,14 +83,14 @@ Table of Contents
    This document defines a YANG data model for Power and Energy
    Monitoring and control of devices within or connected to
    communication networks, for the use cases document in
-   [I-D.ietf-green-use-cases-00].
+   [GreenUseCases].
 
    The data model includes both the monitoring and control of Energy
    Objects for networked devices.
 
    This YANG data model is based on the the "GREEN framework"
-   [I-D.belmq-green-framework-06], following the "GREEN terminology"
-   [I-D.ietf-green-terminology-00].
+   [GreenFramework], following the "GREEN terminology"
+   [GreenTerminology].
 
    Power and Energy Monitoring and Control can be applied to devices in
    communication networks.  All identifiable devices with measurable or
@@ -108,8 +110,7 @@ Table of Contents
 
 1.1.  Terminology
 
-   This document makes use of the terms defined in
-   [I-D.ietf-green-terminology-00]:
+   This document makes use of the terms defined in [GreenTerminology]:
 
    - Power
    - Energy
@@ -121,25 +122,23 @@ Table of Contents
    - Component Level Energy Efficiency (CLEE)
    - Service Level Energy Efficiency (SLEE)
 
-   This document makes use of the terms defined in
-   [I-D.belmq-green-framework-06]
+   This document makes use of the terms defined in [GreenFramework]
 
    - Energy Object
 
-   The terms reused from [I-D.ietf-green-terminology-00] and
-   [I-D.belmq-green-framework-06] are capitalized in this specification.
+   The terms reused from [GreenTerminology] and [GreenFramework] are
+   capitalized in this specification.
 
    This document uses the terms Power and Energy in accordance with
-   [I-D.ietf-green-terminology-00].  Power refers to the instantaneous
-   rate at which a device consumes or produces electrical energy
-   (typically expressed in Watts).  Energy, by contrast, represents the
-   cumulative amount of work performed over time (typically expressed in
-   Joules or Watt-hours).  Both concepts are required within this YANG
-   module.  Power enables real-time monitoring, control, and
-   optimization of device operation, while Energy provides a time-
-   integrated view necessary for accounting, reporting, and even for
-   sustainability analysis.  This specification includes both Power and
-   Energy attributes.
+   [GreenTerminology].  Power refers to the instantaneous rate at which
+   a device consumes or produces electrical energy (typically expressed
+   in Watts).  Energy, by contrast, represents the cumulative amount of
+   work performed over time (typically expressed in Joules or Watt-
+   hours).  Both concepts are required within this YANG module.  Power
+   enables real-time monitoring, control, and optimization of device
+   operation, while Energy provides a time-integrated view necessary for
+   accounting, reporting, and even for sustainability analysis.  This
+   specification includes both Power and Energy attributes.
 
    The terminology for describing YANG modules is defined in [RFC7950].
    The meanings of the symbols in the YANG tree diagrams are defined in
@@ -147,14 +146,13 @@ Table of Contents
 
 2.  The GREEN Framework
 
-   The "GREEN framework" described in [I-D.belmq-green-framework-06]
-   covers monitoring and controlling devices and components where
-   monitoring includes measuring Power, Energy, demand and attributes of
-   Power.
+   The "GREEN framework" described in [GreenFramework] covers monitoring
+   and controlling devices and components where monitoring includes
+   measuring Power, Energy, demand and attributes of Power.
 
    For the whole picture of the monitoring interfaces and the relevant
    requirements, please refer to "GREEN reference model" in section 4 in
-   [I-D.belmq-green-framework-06].
+   [GreenFramework].
 
 3.  Power and Energy Data Model
 
@@ -229,7 +227,7 @@ Table of Contents
    The Power and Energy data model defined in this specification use the
    Monitoring and Control MIB for Power and Energy [RFC7460] as a
    starting point to discuss the solution to the different use cases in
-   [I-D.ietf-green-use-cases-00].
+   [GreenUseCases].
 
    However, it has not been the goal to simply map the MIB module to a
    YANG module.  The changes compared to the EMAN MIB modules are mainly
@@ -426,12 +424,28 @@ Table of Contents
          "https://www.energystar.gov/";
      }
 
-     identity c80plus{
+     identity c80-PLUS{
        base certification-type;
        description
          "80 PLUS Power Supply Certification";
        reference
          "https://www.clearesult.com/80plus/";
+     }
+
+     identity epeat {
+       base certification-type;
+       description
+         "Electronic Product Environmental Assessment Tool ratings (Bronze/Silver/Gold).";
+       reference
+         "https://www.epeat.net/";
+     }
+
+     identity EU-energy-level{
+       base certification-type;
+       description
+         "EU Energy Label: European efficiency ratings";
+       reference
+         "https://eprel.ec.europa.eu/screen/home";
      }
 
      identity power-state {
@@ -637,6 +651,160 @@ Table of Contents
    preventing notification flooding while avoiding memory overhead on
    the device.
 
+7.1.  Measurement Accuracy and Data Source Classification
+
+   Power and energy metrics may originate from a wide range of sources
+   and estimation methods, each with different levels of reliability.
+   These include direct sensor measurements, manufacturer-provided
+   specifications, historical observations, and predictive models.
+   Without explicit characterization of data quality, comparisons and
+   aggregations may be misleading.  The GREEN YANG data model therefore
+   requires all power and energy values to be associated with an
+   accuracy classification.
+
+   The model defines the following primary accuracy categories using
+   YANG identities:
+
+   *  Unknown Accuracy: Data accuracy cannot be determined, or
+      measurements are unavailable due to sensor failures, powered-off
+      components, or other operational constraints.
+
+   *  Estimated Data: Values derived through indirect methods:
+
+      -  Static estimates: From manufacturer datasheets, nameplate
+         ratings (critical for UC 1: Incremental Deployment with legacy
+         devices)
+
+         o  Identity: accuracy-static
+
+      -  Historic estimates: Based on prior measurements of this
+         specific system under similar conditions
+
+         o  Identity: accuracy-historic
+
+      -  Learned estimates: Generated by machine learning models
+         predicting consumption from workload patterns (UC 15: AI
+         Training)
+
+         o  Identity: accuracy-learned
+
+   *  Measured Data: Direct, real-time sensor measurements with
+      quantified precision:
+
+   *  Bronze: ±30% accuracy for typical values.
+
+   *  Silver: ±10% accuracy for typical values.
+
+   *  Gold: ±5% accuracy for typical values.
+
+   *  Red: ±2% accuracy for typical values.
+
+   *  Ones: All non-zero digits are significant/valid.
+
+   Percentage-based accuracy fails for small values.  For example, ±5%
+   of 0.1W is only 0.005W, which may be smaller than sensor noise.
+   Industry standards (IEC 62053, IEC 61850-7-4) address this by
+   specifying: Accuracy = MAX(percentage_error, absolute_threshold)
+
+   The absolute threshold suffixes (-1, -10, -100, -1000) refer to the
+   unit-multiplier scale.  For unit-multiplier: milli, -10 means ±10
+   milliwatts.
+
+   Example - A sensor with accuracy-measured-gold-10 reports:
+
+   *  16.25W → actual value between 16.2375W and 16.2625W (5% = 0.8125W
+      > 0.010W threshold)
+
+   *  0.15W → actual value between 0.140W and 0.160W (5% = 0.0075W <
+      0.010W threshold, so ±10mW applies)
+
+   Explicit accuracy reporting enables:
+
+   *  Weighted aggregation: High-precision measurements carry
+      appropriate weight when calculating network-wide energy
+      consumption
+
+   *  Upgrade prioritization: Identify devices with low-accuracy
+      reporting for sensor upgrades or replacement
+
+   *  Compliance validation: Automated verification against regulatory
+      thresholds requiring specific measurement precision
+
+   *  Double-accounting prevention: Understand when PDU-level
+      measurements (±2%) should override device estimates (±30%) to
+      avoid counting the same energy twice (UC 13)
+
+   *  Cross-domain correlation: Map accuracy expectations when
+      integrating with external systems like 3GPP energy KPIs (UC 6)
+
+   The accuracy hierarchy uses YANG identities for extensibility,
+   allowing vendors to define manufacturer-specific accuracy classes
+   while maintaining interoperability through standardized base types.
+
+7.2.  Industry-Standard Certifications
+
+   Energy efficiency certifications issued by recognized testing
+   organizations provide standardized benchmarks for the expected
+   performance of equipment and components.  These certifications are
+   typically based on controlled laboratory measurements and formal
+   evaluation procedures.  The GREEN YANG data model supports reporting
+   of such certifications in order to complement operational measurement
+   data.
+
+   Common Certifications:
+
+   *  80 PLUS (Power Supply Units): Bronze/Silver/Gold/Platinum/Titanium
+      tiers based on efficiency at 20%/50%/100% load
+
+   *  Energy Star: Government-backed program certifying energy-efficient
+      products
+
+   *  EPEAT: Electronic Product Environmental Assessment Tool ratings
+      (Bronze/Silver/Gold)
+
+   *  EU Energy Label: European efficiency ratings
+
+   Additional certification schemes may be supported through extensible
+   identities.
+
+   Certification data and measurement accuracy serve complementary
+   functions within the model.
+
+   Certification information describes the verified design-time
+   efficiency characteristics of a device or component, as established
+   through independent testing.  Measurement accuracy describes the
+   precision and reliability of reported operational data obtained from
+   sensors or estimation mechanisms.
+
+   Key differences include:
+
+   *  Certification is typically applied at manufacturing time and
+      remains stable throughout the product lifecycle.
+
+   *  Measurement accuracy may vary over time due to calibration,
+      environmental conditions, or sensor degradation.
+
+   *  Certification is generally associated with discrete components,
+      such as power supply units.
+
+   *  Measurement accuracy applies to individual metrics at component,
+      subsystem, or system level.
+
+   Both types of information may be reported simultaneously for the same
+   energy object.
+
+   Example: A power supply might have:
+
+   *  Certification: c80-PLUS-Platinum (≥92% efficient at 50% load,
+      independently verified)
+
+   *  Measurement Accuracy: accuracy-measured-silver (±10% sensor
+      precision on real-time power readings)
+
+   The certification tells operators the energy object, for example, a
+   PSU, is designed to be efficient; the measurement accuracy tells them
+   how precisely they can monitor its actual performance.
+
 8.  Security Considerations
 
    This section will be completed once the YANG module is complete,
@@ -678,14 +846,6 @@ Table of Contents
 
 11.1.  Normative References
 
-   [I-D.ietf-green-terminology-00]
-              Chen, G., Boucadair, M., Wu, Q., Contreras, L. M., and M.
-              P. Palmero, "Terminology for Energy Efficiency Network
-              Management", Work in Progress, Internet-Draft, draft-ietf-
-              green-terminology-00, 18 November 2025,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-green-
-              terminology-00>.
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -700,14 +860,12 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-   [RFC8348]  Bierman, A., Bjorklund, M., Dong, J., and D. Romascanu, "A
-              YANG Data Model for Hardware Management", RFC 8348,
-              DOI 10.17487/RFC8348, March 2018,
-              <https://www.rfc-editor.org/rfc/rfc8348>.
+   [RFC8348]  "A YANG Data Model for Hardware Management", March 2018,
+              <https://www.rfc-editor.org/info/rfc8348>.
 
 11.2.  Informative References
 
-   [I-D.belmq-green-framework-06]
+   [GreenFramework]
               Claise, B., Contreras, L. M., Lindblad, J., Palmero, M.
               P., Stephan, E., and Q. Wu, "Framework for Energy
               Efficiency Management", Work in Progress, Internet-Draft,
@@ -715,13 +873,21 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-belmq-green-
               framework-06>.
 
-   [I-D.ietf-green-use-cases-00]
-              Stephan, E., Palmero, M. P., Claise, B., Wu, Q.,
-              Contreras, L. M., and C. J. Bernardos, "Use Cases for
-              Energy Efficiency Management", Work in Progress, Internet-
-              Draft, draft-ietf-green-use-cases-00, 20 November 2025,
+   [GreenTerminology]
+              Chen, G., Boucadair, M., Wu, Q., Contreras, L. M., and M.
+              P. Palmero, "Terminology for Energy Efficiency Network
+              Management", Work in Progress, Internet-Draft, draft-ietf-
+              green-terminology-00, 18 November 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-green-
-              use-cases-00>.
+              terminology-00>.
+
+   [GreenUseCases]
+              Stephan, E., Palmero, M. P., Claise, B., Wu, Q.,
+              Contreras, L. M., Bernardos, C. J., and X. Chen, "Use
+              Cases for Energy Efficiency Management", Work in Progress,
+              Internet-Draft, draft-ietf-green-use-cases-01, 22 January
+              2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              green-use-cases-01>.
 
    [RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally
               Unique IDentifier (UUID) URN Namespace", RFC 4122,

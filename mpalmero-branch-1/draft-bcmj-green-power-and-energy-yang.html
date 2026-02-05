@@ -1183,6 +1183,14 @@ appear in all capitals, as shown here.<a href="#section-abstract-2" class="pilcr
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
             <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-operational-considerations" class="internal xref">Operational Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-measurement-accuracy-and-da" class="internal xref">Measurement Accuracy and Data Source Classification</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.2">
+                <p id="section-toc.1-1.7.2.2.1"><a href="#section-7.2" class="auto internal xref">7.2</a>.  <a href="#name-industry-standard-certifica" class="internal xref">Industry-Standard Certifications</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
             <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
@@ -1219,12 +1227,12 @@ appear in all capitals, as shown here.<a href="#section-abstract-2" class="pilcr
 <p id="section-1-1">This document defines a YANG data model for Power and Energy
 Monitoring and control of devices within or connected to communication
 networks, for the use cases document in
-<span>[<a href="#I-D.ietf-green-use-cases-00" class="cite xref">I-D.ietf-green-use-cases-00</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<span>[<a href="#GreenUseCases" class="cite xref">GreenUseCases</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">The data model includes both the monitoring and control of Energy
 Objects for networked devices.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">This YANG data model is based on the the "GREEN framework"
-<span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span>, following the "GREEN terminology"
-<span>[<a href="#I-D.ietf-green-terminology-00" class="cite xref">I-D.ietf-green-terminology-00</a>]</span>.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<span>[<a href="#GreenFramework" class="cite xref">GreenFramework</a>]</span>, following the "GREEN terminology"
+<span>[<a href="#GreenTerminology" class="cite xref">GreenTerminology</a>]</span>.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">Power and Energy Monitoring and Control can be applied to devices in
 communication networks. All identifiable devices with measurable or
 representable Power and Energy characteristics fall within the scope
@@ -1245,7 +1253,7 @@ Processing Unit (MPU).<a href="#section-1-5" class="pilcrow">¶</a></p>
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
         </h3>
 <p id="section-1.1-1">This document makes use of the terms defined in
-<span>[<a href="#I-D.ietf-green-terminology-00" class="cite xref">I-D.ietf-green-terminology-00</a>]</span>:<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<span>[<a href="#GreenTerminology" class="cite xref">GreenTerminology</a>]</span>:<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-1.1-2">
 <pre>
 - Power
@@ -1260,17 +1268,17 @@ Processing Unit (MPU).<a href="#section-1-5" class="pilcrow">¶</a></p>
 </pre><a href="#section-1.1-2" class="pilcrow">¶</a>
 </div>
 <p id="section-1.1-3">This document makes use of the terms defined in
-<span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span><a href="#section-1.1-3" class="pilcrow">¶</a></p>
+<span>[<a href="#GreenFramework" class="cite xref">GreenFramework</a>]</span><a href="#section-1.1-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-1.1-4">
 <pre>
 - Energy Object
 </pre><a href="#section-1.1-4" class="pilcrow">¶</a>
 </div>
-<p id="section-1.1-5">The terms reused from <span>[<a href="#I-D.ietf-green-terminology-00" class="cite xref">I-D.ietf-green-terminology-00</a>]</span> and
-<span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span> are capitalized in this
+<p id="section-1.1-5">The terms reused from <span>[<a href="#GreenTerminology" class="cite xref">GreenTerminology</a>]</span> and
+<span>[<a href="#GreenFramework" class="cite xref">GreenFramework</a>]</span> are capitalized in this
 specification.<a href="#section-1.1-5" class="pilcrow">¶</a></p>
 <p id="section-1.1-6">This document uses the terms Power and Energy in accordance with
-<span>[<a href="#I-D.ietf-green-terminology-00" class="cite xref">I-D.ietf-green-terminology-00</a>]</span>. Power refers to the instantaneous
+<span>[<a href="#GreenTerminology" class="cite xref">GreenTerminology</a>]</span>. Power refers to the instantaneous
 rate at which a device consumes or produces electrical energy
 (typically expressed in Watts). Energy, by contrast, represents the
 cumulative amount of work performed over time (typically expressed in
@@ -1292,13 +1300,13 @@ The meanings of the symbols in the YANG tree diagrams are defined in
       <h2 id="name-the-green-framework">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-the-green-framework" class="section-name selfRef">The GREEN Framework</a>
       </h2>
-<p id="section-2-1">The "GREEN framework" described in <span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span>
+<p id="section-2-1">The "GREEN framework" described in <span>[<a href="#GreenFramework" class="cite xref">GreenFramework</a>]</span>
 covers monitoring and controlling devices and components where
 monitoring includes measuring Power, Energy, demand and attributes of
 Power.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">For the whole picture of the monitoring interfaces and the relevant
 requirements, please refer to "GREEN reference model" in section 4 in
-<span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<span>[<a href="#GreenFramework" class="cite xref">GreenFramework</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="power-and-energy-data-model">
@@ -1383,7 +1391,7 @@ vendors.<a href="#section-5-2" class="pilcrow">¶</a></p>
 <p id="section-5-3">The Power and Energy data model defined in this specification use the
 Monitoring and Control MIB for Power and Energy <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span> as a
 starting point to discuss the solution to the different use cases in
-<span>[<a href="#I-D.ietf-green-use-cases-00" class="cite xref">I-D.ietf-green-use-cases-00</a>]</span>.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<span>[<a href="#GreenUseCases" class="cite xref">GreenUseCases</a>]</span>.<a href="#section-5-3" class="pilcrow">¶</a></p>
 <p id="section-5-4">However, it has not been the goal to simply map the MIB module to a
 YANG module. The changes compared to the EMAN MIB modules are mainly
 due to the alignment with the up-to-date requirements of the network
@@ -1583,12 +1591,28 @@ module ietf-power-and-energy {
       "https://www.energystar.gov/";
   }
 
-  identity c80plus{
+  identity c80-PLUS{
     base certification-type;
     description
       "80 PLUS Power Supply Certification";
     reference
       "https://www.clearesult.com/80plus/";
+  }
+
+  identity epeat {
+    base certification-type;
+    description
+      "Electronic Product Environmental Assessment Tool ratings (Bronze/Silver/Gold).";
+    reference
+      "https://www.epeat.net/";
+  }
+
+  identity EU-energy-level{
+    base certification-type;
+    description
+      "EU Energy Label: European efficiency ratings";
+    reference
+      "https://eprel.ec.europa.eu/screen/home";
   }
 
   identity power-state {
@@ -1797,6 +1821,149 @@ Operators must verify the 'yang-push' bundle is enabled and validate
 push-max-operational limits accommodate all component subscriptions,
 preventing notification flooding while avoiding memory overhead on the
 device.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<div id="measurement-accuracy-and-data-source-classification">
+<section id="section-7.1">
+        <h3 id="name-measurement-accuracy-and-da">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-measurement-accuracy-and-da" class="section-name selfRef">Measurement Accuracy and Data Source Classification</a>
+        </h3>
+<p id="section-7.1-1">Power and energy metrics may originate from a wide range of sources and estimation methods, each with different levels of reliability. These include direct sensor measurements, manufacturer-provided specifications, historical observations, and predictive models. Without explicit characterization of data quality, comparisons and aggregations may be misleading. The GREEN YANG data model therefore requires all power and energy values to be associated with an accuracy classification.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-2">The model defines the following primary accuracy categories using YANG identities:<a href="#section-7.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-3.1">
+            <p id="section-7.1-3.1.1">Unknown Accuracy: Data accuracy cannot be determined, or measurements are unavailable due to sensor failures, powered-off components, or other operational constraints.<a href="#section-7.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-3.2">
+            <p id="section-7.1-3.2.1">Estimated Data: Values derived through indirect methods:<a href="#section-7.1-3.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-3.2.2.1">
+                <p id="section-7.1-3.2.2.1.1">Static estimates: From manufacturer datasheets, nameplate ratings (critical for UC 1: Incremental Deployment with legacy devices)<a href="#section-7.1-3.2.2.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-3.2.2.1.2.1">
+                    <p id="section-7.1-3.2.2.1.2.1.1">Identity: <code>accuracy-static</code><a href="#section-7.1-3.2.2.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-7.1-3.2.2.2">
+                <p id="section-7.1-3.2.2.2.1">Historic estimates: Based on prior measurements of this specific system under similar conditions<a href="#section-7.1-3.2.2.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-3.2.2.2.2.1">
+                    <p id="section-7.1-3.2.2.2.2.1.1">Identity: <code>accuracy-historic</code><a href="#section-7.1-3.2.2.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
+</li>
+              <li class="normal" id="section-7.1-3.2.2.3">
+                <p id="section-7.1-3.2.2.3.1">Learned estimates: Generated by machine learning models predicting consumption from workload patterns (UC 15: AI Training)<a href="#section-7.1-3.2.2.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-3.2.2.3.2.1">
+                    <p id="section-7.1-3.2.2.3.2.1.1">Identity: <code>accuracy-learned</code><a href="#section-7.1-3.2.2.3.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="normal" id="section-7.1-3.3">
+            <p id="section-7.1-3.3.1">Measured Data: Direct, real-time sensor measurements with quantified precision:<a href="#section-7.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-3.4">
+            <p id="section-7.1-3.4.1">Bronze: ±30% accuracy for typical values.<a href="#section-7.1-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-3.5">
+            <p id="section-7.1-3.5.1">Silver: ±10% accuracy for typical values.<a href="#section-7.1-3.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-3.6">
+            <p id="section-7.1-3.6.1">Gold: ±5% accuracy for typical values.<a href="#section-7.1-3.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-3.7">
+            <p id="section-7.1-3.7.1">Red: ±2% accuracy for typical values.<a href="#section-7.1-3.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-3.8">
+            <p id="section-7.1-3.8.1">Ones: All non-zero digits are significant/valid.<a href="#section-7.1-3.8.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.1-4">Percentage-based accuracy fails for small values. For example, ±5% of 0.1W is only 0.005W, which may be smaller than sensor noise. Industry standards (IEC 62053, IEC 61850-7-4) address this by specifying: Accuracy = MAX(percentage_error, absolute_threshold)<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.1-5">The absolute threshold suffixes (<code>-1</code>, <code>-10</code>, <code>-100</code>, <code>-1000</code>) refer to the unit-multiplier scale. For <code>unit-multiplier: milli</code>, <code>-10</code> means ±10 milliwatts.<a href="#section-7.1-5" class="pilcrow">¶</a></p>
+<p id="section-7.1-6">Example - A sensor with <code>accuracy-measured-gold-10</code> reports:<a href="#section-7.1-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-7.1">
+            <p id="section-7.1-7.1.1">16.25W → actual value between 16.2375W and 16.2625W (5% = 0.8125W &gt; 0.010W threshold)<a href="#section-7.1-7.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-7.2">
+            <p id="section-7.1-7.2.1">0.15W → actual value between 0.140W and 0.160W (5% = 0.0075W &lt; 0.010W threshold, so ±10mW applies)<a href="#section-7.1-7.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.1-8">Explicit accuracy reporting enables:<a href="#section-7.1-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.1-9.1">
+            <p id="section-7.1-9.1.1">Weighted aggregation: High-precision measurements carry appropriate weight when calculating network-wide energy consumption<a href="#section-7.1-9.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-9.2">
+            <p id="section-7.1-9.2.1">Upgrade prioritization: Identify devices with low-accuracy reporting for sensor upgrades or replacement<a href="#section-7.1-9.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-9.3">
+            <p id="section-7.1-9.3.1">Compliance validation: Automated verification against regulatory thresholds requiring specific measurement precision<a href="#section-7.1-9.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-9.4">
+            <p id="section-7.1-9.4.1">Double-accounting prevention: Understand when PDU-level measurements (±2%) should override device estimates (±30%) to avoid counting the same energy twice (UC 13)<a href="#section-7.1-9.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.1-9.5">
+            <p id="section-7.1-9.5.1">Cross-domain correlation: Map accuracy expectations when integrating with external systems like 3GPP energy KPIs (UC 6)<a href="#section-7.1-9.5.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.1-10">The accuracy hierarchy uses YANG identities for extensibility, allowing vendors to define manufacturer-specific accuracy classes while maintaining interoperability through standardized base types.<a href="#section-7.1-10" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="industry-standard-certifications">
+<section id="section-7.2">
+        <h3 id="name-industry-standard-certifica">
+<a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-industry-standard-certifica" class="section-name selfRef">Industry-Standard Certifications</a>
+        </h3>
+<p id="section-7.2-1">Energy efficiency certifications issued by recognized testing organizations provide standardized benchmarks for the expected performance of equipment and components. These certifications are typically based on controlled laboratory measurements and formal evaluation procedures. The GREEN YANG data model supports reporting of such certifications in order to complement operational measurement data.<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.2-2">Common Certifications:<a href="#section-7.2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.2-3.1">
+            <p id="section-7.2-3.1.1">80 PLUS (Power Supply Units): Bronze/Silver/Gold/Platinum/Titanium tiers based on efficiency at 20%/50%/100% load<a href="#section-7.2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-3.2">
+            <p id="section-7.2-3.2.1">Energy Star: Government-backed program certifying energy-efficient products<a href="#section-7.2-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-3.3">
+            <p id="section-7.2-3.3.1">EPEAT: Electronic Product Environmental Assessment Tool ratings (Bronze/Silver/Gold)<a href="#section-7.2-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-3.4">
+            <p id="section-7.2-3.4.1">EU Energy Label: European efficiency ratings<a href="#section-7.2-3.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.2-4">Additional certification schemes may be supported through extensible identities.<a href="#section-7.2-4" class="pilcrow">¶</a></p>
+<p id="section-7.2-5">Certification data and measurement accuracy serve complementary functions within the model.<a href="#section-7.2-5" class="pilcrow">¶</a></p>
+<p id="section-7.2-6">Certification information describes the verified design-time efficiency characteristics of a device or component, as established through independent testing. Measurement accuracy describes the precision and reliability of reported operational data obtained from sensors or estimation mechanisms.<a href="#section-7.2-6" class="pilcrow">¶</a></p>
+<p id="section-7.2-7">Key differences include:<a href="#section-7.2-7" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.2-8.1">
+            <p id="section-7.2-8.1.1">Certification is typically applied at manufacturing time and remains stable throughout the product lifecycle.<a href="#section-7.2-8.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-8.2">
+            <p id="section-7.2-8.2.1">Measurement accuracy may vary over time due to calibration, environmental conditions, or sensor degradation.<a href="#section-7.2-8.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-8.3">
+            <p id="section-7.2-8.3.1">Certification is generally associated with discrete components, such as power supply units.<a href="#section-7.2-8.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-8.4">
+            <p id="section-7.2-8.4.1">Measurement accuracy applies to individual metrics at component, subsystem, or system level.<a href="#section-7.2-8.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.2-9">Both types of information may be reported simultaneously for the same energy object.<a href="#section-7.2-9" class="pilcrow">¶</a></p>
+<p id="section-7.2-10">Example: A power supply might have:<a href="#section-7.2-10" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.2-11.1">
+            <p id="section-7.2-11.1.1">Certification: <code>c80-PLUS-Platinum</code> (≥92% efficient at 50% load, independently verified)<a href="#section-7.2-11.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-7.2-11.2">
+            <p id="section-7.2-11.2.1">Measurement Accuracy: <code>accuracy-measured-silver</code> (±10% sensor precision on real-time power readings)<a href="#section-7.2-11.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-7.2-12">The certification tells operators the energy object, for example, a PSU, is designed to be efficient; the measurement accuracy tells them how precisely they can monitor its actual performance.<a href="#section-7.2-12" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="security-considerations">
@@ -1854,10 +2021,6 @@ who provided helpful comments and reviews to this document.<a href="#section-10-
 <a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.ietf-green-terminology-00">[I-D.ietf-green-terminology-00]</dt>
-        <dd>
-<span class="refAuthor">Chen, G.</span>, <span class="refAuthor">Boucadair, M.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">M. P. Palmero</span>, <span class="refTitle">"Terminology for Energy Efficiency Network Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-terminology-00</span>, <time datetime="2025-11-18" class="refDate">18 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-terminology-00">https://datatracker.ietf.org/doc/html/draft-ietf-green-terminology-00</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
@@ -1872,7 +2035,7 @@ who provided helpful comments and reviews to this document.<a href="#section-10-
 <dd class="break"></dd>
 <dt id="RFC8348">[RFC8348]</dt>
       <dd>
-<span class="refAuthor">Bierman, A.</span>, <span class="refAuthor">Bjorklund, M.</span>, <span class="refAuthor">Dong, J.</span>, and <span class="refAuthor">D. Romascanu</span>, <span class="refTitle">"A YANG Data Model for Hardware Management"</span>, <span class="seriesInfo">RFC 8348</span>, <span class="seriesInfo">DOI 10.17487/RFC8348</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8348">https://www.rfc-editor.org/rfc/rfc8348</a>&gt;</span>. </dd>
+<span class="refTitle">"A YANG Data Model for Hardware Management"</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8348">https://www.rfc-editor.org/info/rfc8348</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1883,13 +2046,17 @@ who provided helpful comments and reviews to this document.<a href="#section-10-
 <a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.belmq-green-framework-06">[I-D.belmq-green-framework-06]</dt>
+<dt id="GreenFramework">[GreenFramework]</dt>
         <dd>
 <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Lindblad, J.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Stephan, E.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Framework for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-belmq-green-framework-06</span>, <time datetime="2025-10-20" class="refDate">20 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-belmq-green-framework-06">https://datatracker.ietf.org/doc/html/draft-belmq-green-framework-06</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.ietf-green-use-cases-00">[I-D.ietf-green-use-cases-00]</dt>
+<dt id="GreenTerminology">[GreenTerminology]</dt>
         <dd>
-<span class="refAuthor">Stephan, E.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">C. J. Bernardos</span>, <span class="refTitle">"Use Cases for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-use-cases-00</span>, <time datetime="2025-11-20" class="refDate">20 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-00">https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Chen, G.</span>, <span class="refAuthor">Boucadair, M.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">M. P. Palmero</span>, <span class="refTitle">"Terminology for Energy Efficiency Network Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-terminology-00</span>, <time datetime="2025-11-18" class="refDate">18 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-terminology-00">https://datatracker.ietf.org/doc/html/draft-ietf-green-terminology-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="GreenUseCases">[GreenUseCases]</dt>
+        <dd>
+<span class="refAuthor">Stephan, E.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Bernardos, C. J.</span>, and <span class="refAuthor">X. Chen</span>, <span class="refTitle">"Use Cases for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-use-cases-01</span>, <time datetime="2026-01-22" class="refDate">22 January 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-01">https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC4122">[RFC4122]</dt>
         <dd>
