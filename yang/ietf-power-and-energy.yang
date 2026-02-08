@@ -333,6 +333,48 @@ module ietf-power-and-energy {
       "Replaces RFC 7460: eoPowerCurrentType object";
   }
 
+  identity certification-type {
+    description
+      "Base identity for certification types applicable to energy
+       objects. This identity serves as the root for a hierarchy of
+       certification types, allowing for extensibility.";
+
+    reference
+      "Industry sustainability and energy efficiency certifications";
+  }
+
+  identity energy-star {
+    base certification-type;
+    description
+      "ENERGY STAR certification for energy efficiency.";
+    reference
+      "https://www.energystar.gov/";
+  }
+
+  identity c80-PLUS{
+    base certification-type;
+    description
+      "80 PLUS Power Supply Certification";
+    reference
+      "https://www.clearesult.com/80plus/";
+  }
+
+  identity epeat {
+    base certification-type;
+    description
+      "Electronic Product Environmental Assessment Tool ratings (Bronze/Silver/Gold).";
+    reference
+      "https://www.epeat.net/";
+  }
+
+  identity EU-energy-level{
+    base certification-type;
+    description
+      "EU Energy Label: European efficiency ratings";
+    reference
+      "https://eprel.ec.europa.eu/screen/home";
+  }
+
   identity power-state {
     description
       "Base identity for all possible power states. This identity
@@ -660,6 +702,14 @@ module ietf-power-and-energy {
            reference
              "RFC 7460: eoPowerMeasurementLocal object";
         }
+        leaf-list certifications {
+          type identityref {
+            base certification-type;
+          }
+          description
+            "List of certifications applicable to this energy object. If 
+            this list is empty, the energy object has no certifications.";
+        }    
       }
     }
   }
