@@ -1333,11 +1333,18 @@ module: ietf-power-and-energy
         |  +--ro power-factor?           power-factor
         |  +--ro measurement-local?      boolean
         +--ro energy
-           +--ro total-energy-consumed?   uint64
-           +--ro total-energy-delivered?  uint64
-           +--ro unit-multiplier?         identityref
-           +--ro data-source-accuracy?    identityref
-           +--ro measurement-local?       boolean
+        |  +--ro total-energy-consumed?    uint64
+        |  +--ro total-energy-delivered?   uint64
+        |  +--ro unit-multiplier?          identityref
+        |  +--ro data-source-accuracy?     identityref
+        |  +--ro measurement-local?        boolean
+        |  +--ro certifications*           identityref
+        +--ro energy-relationship* [relationship-id]
+           +--ro relationship-id            string
+           +--ro relationship-type?         identityref
+           +--ro relationship-peer-entry* [peer-object-id]
+              +--ro peer-object-id      -&gt; /hw:hardware/component/name
+              +--ro peer-description?   string
 </pre><a href="#section-3-2" class="pilcrow">¶</a>
 </div>
 </section>
