@@ -241,7 +241,7 @@ preventing notification flooding while avoiding memory overhead on the
 device.
 
 ## Measurement Accuracy and Data Source Classification
-  
+
 Power and energy metrics may originate from a wide range of sources and estimation methods, each with different levels of reliability. These include direct sensor measurements, manufacturer-provided specifications, historical observations, and predictive models. Without explicit characterization of data quality, comparisons and aggregations may be misleading. The GREEN YANG data model therefore requires all power and energy values to be associated with an accuracy classification.
 
 The model defines the following primary accuracy categories using YANG identities:
