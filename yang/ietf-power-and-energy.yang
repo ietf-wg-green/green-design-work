@@ -375,6 +375,14 @@ module ietf-power-and-energy {
       "https://eprel.ec.europa.eu/screen/home";
   }
 
+  identity CQC{
+    base certification-type;
+    description
+      "China Quality Certification for energy efficiency";
+    reference
+      "https://www.cqc.com.cn/";
+  }
+
   identity power-state {
     description
       "Base identity for all possible power states. This identity
