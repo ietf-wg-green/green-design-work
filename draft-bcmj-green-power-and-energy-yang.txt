@@ -755,6 +755,34 @@ Table of Contents
          "Represents a multiplier of 10^24 associated
           with the integer units used to measure the power or energy.";
      }
+     identity energy-relationship-type {
+       description "Base identity for energy object relationships";
+       reference "RFC 7461: IANAEnergyRelationship";
+     }
+     identity powered-by {
+       base energy-relationship-type;
+       description "Energy Object A is powered by Energy Object B";
+     }
+     identity powering {
+       base energy-relationship-type;
+       description "Energy Object A is powering Energy Object B";
+     }
+     identity metered-by {
+       base energy-relationship-type;
+       description "Energy Object A is metered by Energy Object B";
+     }
+     identity metering {
+       base energy-relationship-type;
+       description "Energy Object A is metering Energy Object B";
+     }
+     identity aggregated-by {
+       base energy-relationship-type;
+       description "Energy Object A is aggregated by Energy Object B";
+     }
+     identity aggregating {
+       base energy-relationship-type;
+       description "Energy Object A is aggregating Energy Object B";
+     }
 
      container energy-objects {
        config false;
@@ -867,6 +895,7 @@ Table of Contents
              reference
                "Replaces RFC 7460: eoPowerCurrentType object";
            }
+
            leaf measurement-local {
              type boolean;
              description
@@ -878,6 +907,7 @@ Table of Contents
               reference
                 "RFC 7460: eoPowerMeasurementLocal object";
            }
+
          }
          container energy {
            description
@@ -965,6 +995,62 @@ Table of Contents
              description
                "List of certifications applicable to this energy object. If
                this list is empty, the energy object has no certifications.";
+           }
+         }
+
+         list energy-relationship {
+           key "relationship-id";
+           description "Relationships for this energy entry. Replaces
+           RFC 7461 eoRelationTable.";
+           reference
+             "RFC 7461: eoRelationTable, eoRelationEntry";
+
+           leaf relationship-id {
+             type string;
+             description
+               "Arbitrary unique identifier for this relationship entry
+               within the component.";
+           reference
+             "RFC 7461: eoRelationIndex";
+           }
+
+           leaf relationship-type {
+             type identityref {
+               base energy-relationship-type;
+               // powered-by, powering, metered-by, metering, etc.
+             }
+             description
+               "The type of relationship this energy object has with peer
+               objects.";
+             reference
+               "RFC 7461: eoRelationship, IANAEnergyRelationship";
+           }
+
+           list relationship-peer-entry {
+             key "peer-object-id";
+             description "Multiple peers for this relationship type.";
+             reference
+               "RFC 7461: eoRelationID";
+
+             leaf peer-object-id {
+               type leafref {
+               path "/hw:hardware/hw:component/hw:name";
+               }
+               description "This object specifies the Universally Unique
+               Identifier (UUID) of the peer (other) Energy Object. If the
+               UUID of the Energy Object is unknown or nonexistent, the
+               peer-object-id will be set to a zero-length string instead.
+               ";
+               reference
+                 "RFC 7461: eoRelationID (UUIDorZero)";
+             }
+
+             leaf peer-description {
+               type string;
+               description
+                 "Human-readable description of the peer relationship.
+                  Useful when peer-object-id is zero-length (unknown).";
+             }
            }
          }
        }
