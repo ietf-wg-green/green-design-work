@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-08T01:19:36.655052+00:00",
+  "timestamp": "2026-02-10T01:14:11.329058+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -600,25 +600,220 @@
       "id": "PR_kwDOP9HHVc7BxOBr",
       "title": "adding certification identityref as a  list",
       "url": "https://github.com/ietf-wg-green/green-design-work/pull/21",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-02-05T16:10:40Z",
-      "updatedAt": "2026-02-05T19:39:55Z",
+      "updatedAt": "2026-02-08T22:17:45Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "c4bdf65c30fa981091c1f21f1f604d59e59bdb31",
       "headRepository": "ietf-wg-green/green-design-work",
       "headRefName": "mpalmero-branch-1",
       "headRefOid": "ca30a27d9b8c7f0562b5466e11d18e873aef1af6",
-      "closedAt": null,
+      "closedAt": "2026-02-08T22:17:45Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "please do not consider, as it is based in an old release",
+          "createdAt": "2026-02-08T22:17:45Z",
+          "updatedAt": "2026-02-08T22:17:45Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 22,
+      "id": "PR_kwDOP9HHVc7CV_Tg",
+      "title": "including certification in the YANG model",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/22",
+      "state": "MERGED",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "including certification identity ",
+      "createdAt": "2026-02-08T22:17:12Z",
+      "updatedAt": "2026-02-09T13:37:21Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "c4bdf65c30fa981091c1f21f1f604d59e59bdb31",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "mpalmero-branch-2",
+      "headRefOid": "b061cb40c6d6aa327ce7f8e38b5c5fe2ffe0b0ca",
+      "closedAt": "2026-02-09T13:37:20Z",
+      "mergedAt": "2026-02-09T13:37:20Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "ed4055105a8ffaa218f2b1a30ee568d05ea38c15"
+      },
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "thanks ChenGen, just added CQC",
+          "createdAt": "2026-02-09T10:15:07Z",
+          "updatedAt": "2026-02-09T10:15:07Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@williamchern, I think we should be ok to publish now",
+          "createdAt": "2026-02-09T13:35:54Z",
+          "updatedAt": "2026-02-09T13:35:54Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc7g1ed7",
+          "commit": {
+            "abbreviatedOid": "faaecd4"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T09:16:52Z",
+          "updatedAt": "2026-02-09T09:16:52Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "Please add CQC identity as well. Thanks.\ndescription: China Quality Certification for energy efficiency\nreference: https://www.cqc.com.cn/",
+              "createdAt": "2026-02-09T09:16:52Z",
+              "updatedAt": "2026-02-09T09:16:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc7g1g6K",
+          "commit": {
+            "abbreviatedOid": "faaecd4"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T09:18:59Z",
+          "updatedAt": "2026-02-09T09:19:00Z",
+          "comments": [
+            {
+              "originalPosition": 56,
+              "body": "Please add cqc here as well. Thanks.",
+              "createdAt": "2026-02-09T09:19:00Z",
+              "updatedAt": "2026-02-09T09:19:00Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc7g1oQM",
+          "commit": {
+            "abbreviatedOid": "b061cb4"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T09:23:44Z",
+          "updatedAt": "2026-02-09T13:27:38Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "Please add the following clarification to avoid misunderstandings, thanks:\nIt's not the goal to identify all certification in this YANG module, but the goal is to provide the foundation for future extensions in the YANG module",
+              "createdAt": "2026-02-09T09:23:44Z",
+              "updatedAt": "2026-02-09T13:27:38Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc7g6Hj0",
+          "commit": {
+            "abbreviatedOid": "faaecd4"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T13:35:06Z",
+          "updatedAt": "2026-02-09T13:35:07Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "this is done!",
+              "createdAt": "2026-02-09T13:35:06Z",
+              "updatedAt": "2026-02-09T13:35:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc7g6Hwr",
+          "commit": {
+            "abbreviatedOid": "faaecd4"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-09T13:35:17Z",
+          "updatedAt": "2026-02-09T13:35:17Z",
+          "comments": [
+            {
+              "originalPosition": 56,
+              "body": "it is done!",
+              "createdAt": "2026-02-09T13:35:17Z",
+              "updatedAt": "2026-02-09T13:35:17Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "id": "PR_kwDOP9HHVc7Ca8Jt",
+      "title": "add yang relationships for review",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/23",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "add the following yang relationships\r\n  +--ro energy-objects\r\n     +--ro energy-entry* [object-id]\r\n        +--ro object-id              string\r\n        +--ro source-component-id?   -> /hw:hardware/component/name\r\n        +--ro power\r\n        |  +--ro instantaneous-power     int32\r\n        |  +--ro nameplate-power?        uint32\r\n        |  +--ro unit-multiplier         identityref\r\n        |  +--ro data-source-accuracy?   identityref\r\n        |  +--ro power-factor?           power-factor\r\n        |  +--ro measurement-local?      boolean\r\n        +--ro energy\r\n        |  +--ro total-energy-consumed?    uint64\r\n        |  +--ro total-energy-delivered?   uint64\r\n        |  +--ro unit-multiplier?          identityref\r\n        |  +--ro data-source-accuracy?     identityref\r\n        |  +--ro measurement-local?        boolean\r\n        +--ro energy-relationship* [relationship-id]\r\n        |  +--ro relationship-id            string\r\n        |  +--ro relationship-type?         identityref\r\n        |  +--ro relationship-peer-entry* [peer-object-id]\r\n              +--ro peer-object-id      -> /hw:hardware/component/name\r\n              +--ro peer-description?   string",
+      "createdAt": "2026-02-09T08:52:36Z",
+      "updatedAt": "2026-02-09T13:45:00Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "c4bdf65c30fa981091c1f21f1f604d59e59bdb31",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "3fdf6abb9248a2a8a918a698ea5def95a6ced401",
+      "closedAt": "2026-02-09T13:39:49Z",
+      "mergedAt": "2026-02-09T13:39:49Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "2bff0d963fbb46ce74b5b39256b63c8ae8649eb6"
+      },
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "it will be good if @janlindblad can review! ",
+          "createdAt": "2026-02-09T10:12:00Z",
+          "updatedAt": "2026-02-09T10:12:00Z"
+        },
+        {
+          "author": "janlindblad",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I reviewed now (after merge). There are some details that we can discuss, but this is already good.",
+          "createdAt": "2026-02-09T13:44:59Z",
+          "updatedAt": "2026-02-09T13:44:59Z"
+        }
+      ],
       "reviews": []
     }
   ]
