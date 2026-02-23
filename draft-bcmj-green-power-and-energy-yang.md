@@ -323,7 +323,7 @@ This section will be completed once the YANG module is complete,
 according to https://wiki.ietf.org/group/ops/yang-security-guidelines.
 
 This section is modeled after the template described in Section 3.7.1
-of [RFC-t-be draft-ietf-netmod-rfc8407bis].
+of [RFC-to-be draft-ietf-netmod-rfc8407bis].
 
 The Power and Energy YANG module defines a data model that is designed
 to be accessed via YANG-based management protocols, such as NETCONF
