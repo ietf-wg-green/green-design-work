@@ -347,7 +347,7 @@ This document requests IANA to register the YANG module
 | Name        | ietf-power-and-energy                              |
 | Namespace   | urn:ietf:params:xml:ns:yang:ietf-power-and-energy  |
 | Prefix      | eo                                                 |
-| Reference   | RFC XXXX   
+| Reference   | RFC XXXX
 
 Note to IANA: RFC XXXX must be replaced by the newly assigned RFC
 number.
@@ -372,12 +372,12 @@ verify that:
   standards body, testing laboratory, regulatory authority, or
   equivalent organization.
 - The certification has a stable, publicly accessible reference.
-- The proposed identity name SHOULD be a short, mnemonic derived 
+- The proposed identity name SHOULD be a short, mnemonic derived
   from the official certification name.
 
 When a new certification type is added to the registry, a new
 `identity` statement MUST be added to the `ietf-power-and-energy`
-YANG module. The following substatements to the `identity` statement 
+YANG module. The following substatements to the `identity` statement
 MUST be defined:
 
 - `base`: MUST contain the value `certification-type`.
