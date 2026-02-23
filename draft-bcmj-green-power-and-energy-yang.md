@@ -323,7 +323,7 @@ This section will be completed once the YANG module is complete,
 according to https://wiki.ietf.org/group/ops/yang-security-guidelines.
 
 This section is modeled after the template described in Section 3.7.1
-of [RFC-to-be draft-ietf-netmod-rfc8407bis].
+of [RFC-t-be draft-ietf-netmod-rfc8407bis].
 
 The Power and Energy YANG module defines a data model that is designed
 to be accessed via YANG-based management protocols, such as NETCONF
@@ -340,10 +340,71 @@ RESTCONF protocol operations and content.
 # IANA Considerations
 
 This document requests IANA to register the YANG module
-"ietf-power-energy-monitoring".
+"ietf-power-energy-monitoring":
+
+| Field       | Value                                              |
+|-------------|----------------------------------------------------|
+| Name        | ietf-power-and-energy                              |
+| Namespace   | urn:ietf:params:xml:ns:yang:ietf-power-and-energy  |
+| Prefix      | eo                                                 |
+| Reference   | RFC XXXX   
 
 Note to IANA: RFC XXXX must be replaced by the newly assigned RFC
 number.
+
+---
+
+## GREEN Certification Type Registry
+
+This document defines the initial version of the IANA-maintained
+`certification-type` identity in the `ietf-power-and-energy` YANG
+module.
+
+This document requests IANA to create and maintain a new registry
+titled "GREEN Energy Object Certification Types" in the IANA
+"ietf-power-and-energy" registry group.
+
+New entries to the "GREEN Energy Object Certification Types" registry
+require Expert Review {{!RFC8126}}. The Designated Expert(s) should
+verify that:
+
+- The certification is issued by a recognized and independent
+  standards body, testing laboratory, regulatory authority, or
+  equivalent organization.
+- The certification has a stable, publicly accessible reference.
+- The proposed identity name SHOULD be a short, mnemonic derived 
+  from the official certification name.
+
+When a new certification type is added to the registry, a new
+`identity` statement MUST be added to the `ietf-power-and-energy`
+YANG module. The following substatements to the `identity` statement 
+MUST be defined:
+
+- `base`: MUST contain the value `certification-type`.
+- `status`: Include only if a registration has been deprecated (use
+  the value `deprecated`) or obsoleted (use the value `obsolete`).
+- `description`: MUST include the full name of the certification
+  program and a brief description of its energy efficiency scope.
+  Lines MUST NOT exceed 72 characters.
+- `reference`: MUST include a stable URI to the certification
+  program's official documentation or registry.
+
+Unassigned or reserved values MUST NOT be present in the module.
+
+When the "GREEN Energy Object Certification Types" registry is
+updated with a new entry, a corresponding new `identity` statement
+MUST be added to the `ietf-power-and-energy` YANG module, and a new
+`revision statement MUST be added in front of the existing revision
+statements.
+
+IANA is requested to add the following note to the "GREEN Energy
+Object Certification Types" registry:
+
+Certification types MUST NOT be directly added to the
+ietf-power-and-energy YANG module. They MUST instead be added to the
+"GREEN Energy Object Certification Types" registry. When this registry
+is updated, the ietf-power-and-energy YANG module MUST be updated as
+defined in RFC XXXX.
 
 # Acknowledgments
 
