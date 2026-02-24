@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-10T01:14:11.329058+00:00",
+  "timestamp": "2026-02-24T01:02:01.453748+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -814,6 +814,32 @@
           "updatedAt": "2026-02-09T13:44:59Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 24,
+      "id": "PR_kwDOP9HHVc7FnPCp",
+      "title": "including IANA considerations",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/24",
+      "state": "OPEN",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "@all Could you review please? this was one of the action items from previous WG call and also follow up on the last meeting Feb 19th:\r\n\r\n- Rob: Suggesting adding an IANA registry of certification types and then having an IANA derived registry from that. \r\n- Jan: This makes sense to do, also you may still have some private certifications (e.g., Cisco might have their own).\r\n",
+      "createdAt": "2026-02-23T10:45:14Z",
+      "updatedAt": "2026-02-23T10:52:37Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "d3dc02ec32a39d78e94b80058480d1254ca4a077",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "mpalmero-bran-3-iana",
+      "headRefOid": "714e50a998ff33ac740889d34c036930b59f8cda",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
