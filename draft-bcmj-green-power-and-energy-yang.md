@@ -339,7 +339,7 @@ RESTCONF protocol operations and content.
 
 # IANA Considerations
 
-This document requests IANA to create and maintain a new Identity Naming Registry "GREEN Energy Object Certification Types" in the IANA "Getting Ready for Energy Efficient Networking(GREEN)" registry group. 
+This document requests IANA to create and maintain a new Identity Naming Registry "GREEN Energy Object Certification Types" in the IANA "Getting Ready for Energy Efficient Networking(GREEN)" registry group.
 
 | Field       | Value                                              |
 |-------------|----------------------------------------------------|
