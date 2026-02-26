@@ -383,16 +383,6 @@ module ietf-power-and-energy {
       "https://www.cqc.com.cn/";
   }
 
-  identity power-state {
-    description
-      "Base identity for all possible power states. This identity
-       serves as the root for a hierarchy of power states, allowing
-       for extensibility while maintaining alignment with the IANA
-       Power State Set Registry.";
-    reference
-      "IANA: Power State Set Registry";
-  }
-
   identity unit-multiplier {
     description 
       "Base identity for unit multipliers as defined in IEC 61850-7-3
@@ -536,8 +526,120 @@ module ietf-power-and-energy {
     description "Energy Object A is aggregating Energy Object B";
   }
 
+  identity power-state-set {
+    description
+      "Base identity for Power State Sets as defined in RFC 7460.
+       Each set represents a distinct power management standard.";
+    reference "RFC 7460: IANAPowerStateSet-MIB";
+  }
+
+  identity power-state {
+    description
+      "Base identity for all possible power states. This identity
+       serves as the root for a hierarchy of power states, allowing
+       for extensibility while maintaining alignment with the IANA
+       Power State Set Registry.";
+    reference
+      "IANA: Power State Set Registry";
+  }
+
+  identity eman {
+    base power-state-set;
+    description 
+      "EMAN Power State Set - designed for network equipment energy 
+       management.";
+    reference "RFC 7460";
+  }
+
+  identity eman-mech-off {
+    base eman;
+    base power-state;
+    description 
+      "Mechanical Off - Near zero power, manual intervention required.";
+  }
+
+  identity eman-soft-off {
+    base eman;
+    base power-state;
+    description 
+      "Soft Off - Powered down, remote wake capable.";
+  }
+
+  identity eman-hibernate {
+    base eman;
+    base power-state;
+    description 
+      "Hibernate - State saved to disk, memory powered down.";
+  }
+
+  identity eman-sleep {
+    base eman;
+    base power-state;
+    description 
+      "Sleep - Low power with fast wake.";
+  }
+
+  identity eman-standby {
+    base eman;
+    base power-state;
+    description 
+      "Standby - Minimal power to maintain context.";
+  }
+
+  identity eman-ready {
+    base eman;
+    base power-state;
+    description 
+      "Ready - Initialized, not actively processing.";
+  }
+
+  identity eman-low-minus {
+    base eman;
+    base power-state;
+    description "Low Minus performance.";
+  }
+
+  identity eman-low {
+    base eman;
+    base power-state;
+    description "Low performance.";
+  }
+
+  identity eman-medium-minus {
+    base eman;
+    base power-state;
+    description "Medium Minus performance.";
+  }
+
+  identity eman-medium {
+    base eman;
+    base power-state;
+    description "Medium performance.";
+  }
+
+  identity eman-high-minus {
+    base eman;
+    base power-state;
+    description "High Minus performance.";
+  }
+
+  identity eman-high {
+    base eman;
+    base power-state;
+    description "High performance.";
+  }
+
+  identity other {
+    base power-state-set;
+    description "Non-standard Power State Set.";
+  }
+
+  identity unknown {
+    base power-state;
+    description "Unknown Power State. RFC 7460 value 255.";
+  }
+
   container energy-objects {
-    config false;
     description
       "Energy objects container for power and energy attributes.";
     reference
@@ -571,6 +673,7 @@ module ietf-power-and-energy {
       }
 
       container power {
+        config false;
         description
           "Container for power measurement attributes.";
         reference
@@ -660,7 +763,9 @@ module ietf-power-and-energy {
              "RFC 7460: eoPowerMeasurementLocal object";
         }
       }
+
       container energy {
+        config false;
         description
           "Container for energy measurement attributes.";
         reference
@@ -748,6 +853,38 @@ module ietf-power-and-energy {
             this list is empty, the energy object has no certifications.";
         }    
       }
+
+      container power-state-control {
+        description
+          "Power state administration and operational status.";
+        reference "RFC 7460: eoPowerEntry power state objects";
+
+        leaf power-admin-state {
+          type identityref {
+            base power-state;
+          }
+          config true;
+          description
+            "Desired Power State. 
+             Write to this leaf to request a power state transition.
+             The actual transition is asynchronous; oper-state reflects 
+             current status.";
+          reference "RFC 7460: eoPowerAdminState";
+        }
+
+        leaf power-oper-state {
+          type identityref {
+            base power-state;
+          }
+          config false;
+          description
+            "Current operational Power State.
+             May differ from admin-state during transitions or if
+             the requested state is not achievable.";
+          reference "RFC 7460: eoPowerOperState";
+        }
+      }
+
       list relationship {
         key "type";
         description "Relationships for this energy entry. Replaces 
@@ -767,7 +904,7 @@ module ietf-power-and-energy {
             "RFC 7461: eoRelationship, IANAEnergyRelationship";
         }
         
-        leaf-list peers {
+        list peers {
           key "id";
           description "Multiple peers for this relationship type.";
           reference
