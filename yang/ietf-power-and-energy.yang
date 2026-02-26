@@ -767,7 +767,7 @@ module ietf-power-and-energy {
             "RFC 7461: eoRelationship, IANAEnergyRelationship";
         }
         
-        leaf-list peers {
+        list peer {
           key "id";
           description "Multiple peers for this relationship type.";
           reference
@@ -775,15 +775,21 @@ module ietf-power-and-energy {
           
           leaf id {
             type string;
-            description "This string specifies the name of the remote
-              powering/powered/metering/metered/... system. It can be
-              a serial number, asset tag, or any other identifier that
-              uniquely identifies the peer system. The specific format
-              and semantics of this identifier are outside the scope of
-              this YANG module and are determined by the implementation
-              and use case.";
+            description "This id specifies the Universally Unique
+              Identifier (UUID) of the peer (other) Energy Object that
+              this energy object is powering/powered-by/metering/
+              metered-by, etc. If the network level UUID is not known,
+              some other locally unique identifier MAY be used, in
+              conjunction with a human readable details.";
             reference
               "RFC 7461: eoRelationID (UUIDorZero)";
+          }
+          leaf details {
+            type string;
+            description 
+              "Human-readable details of the peer relationship.
+               Useful when network level UUID of the peer is not
+               known.";
           }
         }
       }
