@@ -371,7 +371,7 @@ verify that:
   standards body, testing laboratory, regulatory authority, or
   equivalent organization.
 - The certification has a stable, publicly accessible reference.
-- The proposed identity name SHOULD be a short, mnemonic derived
+- The proposed identity name SHOULD be a short mnemonic derived
   from the official certification name.
 
 When a new certification type is added to the registry, a new
