@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-24T01:02:01.453748+00:00",
+  "timestamp": "2026-02-26T01:01:00.112220+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -828,7 +828,7 @@
       "labels": [],
       "body": "@all Could you review please? this was one of the action items from previous WG call and also follow up on the last meeting Feb 19th:\r\n\r\n- Rob: Suggesting adding an IANA registry of certification types and then having an IANA derived registry from that. \r\n- Jan: This makes sense to do, also you may still have some private certifications (e.g., Cisco might have their own).\r\n",
       "createdAt": "2026-02-23T10:45:14Z",
-      "updatedAt": "2026-02-23T10:52:37Z",
+      "updatedAt": "2026-02-24T03:46:14Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "d3dc02ec32a39d78e94b80058480d1254ca4a077",
@@ -840,7 +840,28 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc7lLA5U",
+          "commit": {
+            "abbreviatedOid": "714e50a"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-24T03:46:13Z",
+          "updatedAt": "2026-02-24T03:46:14Z",
+          "comments": [
+            {
+              "originalPosition": 3,
+              "body": "Please clarify whether the IANA registry is a Identity Naming Registry or a Numeric Code Point Registry. It seems to be Identity Naming Registry IMO. Thanks.",
+              "createdAt": "2026-02-24T03:46:14Z",
+              "updatedAt": "2026-02-24T03:46:14Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
