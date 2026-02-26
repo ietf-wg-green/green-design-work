@@ -5,12 +5,12 @@
 GREEN                                                          C. Benoit
 Internet-Draft                                            Everything OPS
 Intended status: Standards Track                                  C. Gen
-Expires: 29 August 2026                                           Huawei
+Expires: 30 August 2026                                           Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                        25 February 2026
+                                                        26 February 2026
 
 
                       Power and Energy YANG Module
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 August 2026.
+   This Internet-Draft will expire on 30 August 2026.
 
 Copyright Notice
 
@@ -1022,7 +1022,7 @@ Table of Contents
                "RFC 7461: eoRelationship, IANAEnergyRelationship";
            }
 
-           leaf-list peers {
+           list peer {
              key "id";
              description "Multiple peers for this relationship type.";
              reference
@@ -1030,15 +1030,21 @@ Table of Contents
 
              leaf id {
                type string;
-               description "This string specifies the name of the remote
-                 powering/powered/metering/metered/... system. It can be
-                 a serial number, asset tag, or any other identifier that
-                 uniquely identifies the peer system. The specific format
-                 and semantics of this identifier are outside the scope of
-                 this YANG module and are determined by the implementation
-                 and use case.";
+               description "This id specifies the Universally Unique
+                 Identifier (UUID) of the peer (other) Energy Object that
+                 this energy object is powering/powered-by/metering/
+                 metered-by, etc. If the network level UUID is not known,
+                 some other locally unique identifier MAY be used, in
+                 conjunction with a human readable details.";
                reference
                  "RFC 7461: eoRelationID (UUIDorZero)";
+             }
+             leaf details {
+               type string;
+               description
+                 "Human-readable details of the peer relationship.
+                  Useful when network level UUID of the peer is not
+                  known.";
              }
            }
          }
