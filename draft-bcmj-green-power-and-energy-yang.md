@@ -339,27 +339,31 @@ RESTCONF protocol operations and content.
 
 # IANA Considerations
 
-This document requests IANA to create and maintain a new Identity Naming Registry "GREEN Energy Object Certification Types" in the IANA "Getting Ready for Energy Efficient Networking(GREEN)" registry group.
+This document requests IANA to create and maintain a new registry group called "Power and Energy", with the following module registration:
 
-| Field       | Value                                              |
-|-------------|----------------------------------------------------|
-| Name        | ietf-power-and-energy                              |
-| Namespace   | urn:ietf:params:xml:ns:yang:ietf-power-and-energy  |
-| Prefix      | eo                                                 |
-| Reference   | RFC XXXX
+| Field       | Value                                                   |
+|-------------|---------------------------------------------------------|
+| Name        | ietf-iana-power-and-energy                              |
+| Namespace   | urn:ietf:params:xml:ns:yang:ietf-iana-power-and-energy  |
+| Prefix      | ianaeo                                                  |
+| Reference   | RFC XXXX                                                |
 
 Note to IANA: RFC XXXX must be replaced by the newly assigned RFC
 number.
+
+All sub-registries defined in this document are part of the "Power and Energy" registry group.
 
 ---
 
 ## GREEN Certification Type Registry
 
-This document defines the initial version of the IANA-maintained
-`certification-type` identity in the `ietf-power-and-energy` YANG
-module. The registry assigns string identity names for energy efficiency certification types, for use as identityref values in "ietf-power-energy-monitoring" YANG module. The registered value is the unqualified identity name (e.g., energy-star, c80-plus, etc). No numeric code points are assigned by this registry.
+This document requests IANA to create a new sub-registry called "Power and Energy Certification Types" within the "Power and Energy" registry group.
 
-New entries to the "GREEN Energy Object Certification Types" registry
+This document defines the initial version of the IANA-maintained
+`certification-type` identity in the `ietf-iana-power-and-energy` YANG
+module. The registry assigns string identity names for power and energy efficiency certification types, for use as identityref values in "ietf-power-and-energy" YANG module. The registered value is the unqualified identity name (e.g., energy-star, c80-plus, etc). No numeric code points are assigned by this registry.
+
+New entries to "Power and Energy Certification Types" registry
 require Expert Review {{!RFC8126}}. The Designated Expert(s) should
 verify that:
 
@@ -371,7 +375,7 @@ verify that:
   from the official certification name.
 
 When a new certification type is added to the registry, a new
-`identity` statement MUST be added to the `ietf-power-and-energy`
+`identity` statement MUST be added to the `ietf-iana-power-and-energy`
 YANG module. The following substatements to the `identity` statement
 MUST be defined:
 
@@ -386,19 +390,17 @@ MUST be defined:
 
 Unassigned or reserved values MUST NOT be present in the module.
 
-When the "GREEN Energy Object Certification Types" registry is
+When the "Power and Energy Certification Types" registry is
 updated with a new entry, a corresponding new `identity` statement
-MUST be added to the `ietf-power-and-energy` YANG module, and a new
-`revision statement MUST be added in front of the existing revision
+MUST be added to the `ietf-iana-power-and-energy` YANG module, and a new revision statement MUST be added in front of the existing revision
 statements.
 
-IANA is requested to add the following note to the "GREEN Energy
-Object Certification Types" registry:
+IANA is requested to add the following note to the "Power and Energy Certification Types" registry:
 
 Certification types MUST NOT be directly added to the
-ietf-power-and-energy YANG module. They MUST instead be added to the
-"GREEN Energy Object Certification Types" registry. When this registry
-is updated, the ietf-power-and-energy YANG module MUST be updated as
+ietf-iana-power-and-energy YANG module. They MUST instead be added to the
+"Power and Energy Certification Types" registry. When this registry
+is updated, the ietf-iana-power-and-energy YANG module MUST be updated as
 defined in RFC XXXX.
 
 # Acknowledgments
