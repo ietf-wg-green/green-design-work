@@ -339,8 +339,7 @@ RESTCONF protocol operations and content.
 
 # IANA Considerations
 
-This document requests IANA to register the YANG module
-"ietf-power-energy-monitoring":
+This document requests IANA to create and maintain a new Identity Naming Registry "GREEN Energy Object Certification Types" in the IANA "Getting Ready for Energy Efficient Networking(GREEN)" registry group. 
 
 | Field       | Value                                              |
 |-------------|----------------------------------------------------|
@@ -358,11 +357,7 @@ number.
 
 This document defines the initial version of the IANA-maintained
 `certification-type` identity in the `ietf-power-and-energy` YANG
-module.
-
-This document requests IANA to create and maintain a new registry
-titled "GREEN Energy Object Certification Types" in the IANA
-"ietf-power-and-energy" registry group.
+module. The registry assigns string identity names for energy efficiency certification types, for use as identityref values in "ietf-power-energy-monitoring" YANG module. The registered value is the unqualified identity name (e.g., energy-star, c80-plus, etc). No numeric code points are assigned by this registry.
 
 New entries to the "GREEN Energy Object Certification Types" registry
 require Expert Review {{!RFC8126}}. The Designated Expert(s) should
