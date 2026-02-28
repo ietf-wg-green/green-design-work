@@ -83,7 +83,7 @@ normative:
     title: Network Configuration Access Control Model
     date: 2018-03
     target: https://datatracker.ietf.org/doc/html/rfc8341
-    
+
 
 informative:
 
