@@ -54,7 +54,42 @@ normative:
     date: 2018-03
     target: https://datatracker.ietf.org/doc/html/rfc8340
 
+   RFC6241:
+    title: Network Configuration Protocol (NETCONF)
+    date: 2011-06
+    target: https://datatracker.ietf.org/doc/html/rfc6241
+
+   RFC8040:
+    title: RESTCONF Protocol
+    date: 2017-06
+    target: https://datatracker.ietf.org/doc/html/rfc8040
+
+   RFC4252:
+    title: The Secure Shell (SSH) Authentication Protocol
+    date: 2006-01
+    target: https://datatracker.ietf.org/doc/html/rfc4252
+
+   RFC8446:
+    title: The Transport Layer Security (TLS) Protocol Version 1.3
+    date: 2018-08
+    target: https://datatracker.ietf.org/doc/html/rfc8446
+
+   RFC9000:
+    title: QUIC - A UDP-Based Multiplexed and Secure Transport
+    date: 2021-05
+    target: https://datatracker.ietf.org/doc/html/rfc9000
+
+   RFC8341:
+    title: Network Configuration Access Control Model
+    date: 2018-03
+    target: https://datatracker.ietf.org/doc/html/rfc8341
+    
+
 informative:
+
+   rfc8407bis: I-D.draft-ietf-netmod-rfc8407bis/
+
+
 
 --- abstract
 
@@ -333,7 +368,7 @@ This section will be completed once the YANG module is complete,
 according to https://wiki.ietf.org/group/ops/yang-security-guidelines.
 
 This section is modeled after the template described in Section 3.7.1
-of [RFC-to-be draft-ietf-netmod-rfc8407bis].
+of {{rfc8407bis}}.
 
 The Power and Energy YANG module defines a data model that is designed
 to be accessed via YANG-based management protocols, such as NETCONF
