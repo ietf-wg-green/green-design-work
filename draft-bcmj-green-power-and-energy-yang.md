@@ -95,9 +95,9 @@ informative:
 This document defines the YANG data model for Power and Energy
 monitoring of devices within or connected to communication networks.
 
-{::boilerplate bcp14-tagged}
-
 --- middle
+
+{::boilerplate bcp14-tagged}
 
 # Introduction
 
@@ -397,7 +397,6 @@ number.
 
 All sub-registries defined in this document are part of the "Power and Energy" registry group.
 
----
 
 ## GREEN Certification Type Registry
 
