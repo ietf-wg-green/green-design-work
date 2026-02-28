@@ -84,10 +84,9 @@ normative:
     date: 2018-03
     target: https://datatracker.ietf.org/doc/html/rfc8341
 
-
 informative:
 
-   rfc8407bis: I-D.draft-ietf-netmod-rfc8407bis/
+   rfc8407bis: I-D.draft-ietf-netmod-rfc8407bis
 
 
 
