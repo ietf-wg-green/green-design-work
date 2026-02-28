@@ -44,6 +44,16 @@ author:
 
 normative:
 
+   RFC7950:
+    title: The YANG 1.1 Data Modeling Language
+    date: 2016-08
+    target: https://datatracker.ietf.org/doc/html/rfc7950
+
+   RFC8340:
+    title: YANG Tree Diagrams
+    date: 2018-03
+    target: https://datatracker.ietf.org/doc/html/rfc8340
+
 informative:
 
 --- abstract
