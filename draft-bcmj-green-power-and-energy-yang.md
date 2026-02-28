@@ -97,9 +97,9 @@ monitoring of devices within or connected to communication networks.
 
 --- middle
 
-{::boilerplate bcp14-tagged}
-
 # Introduction
+
+{::boilerplate bcp14-tagged}
 
 This document defines a YANG data model for Power and Energy
 Monitoring and control of devices within or connected to communication
