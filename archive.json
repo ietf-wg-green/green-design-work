@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-02-26T01:01:00.112220+00:00",
+  "timestamp": "2026-03-01T01:09:24.385241+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -828,18 +828,26 @@
       "labels": [],
       "body": "@all Could you review please? this was one of the action items from previous WG call and also follow up on the last meeting Feb 19th:\r\n\r\n- Rob: Suggesting adding an IANA registry of certification types and then having an IANA derived registry from that. \r\n- Jan: This makes sense to do, also you may still have some private certifications (e.g., Cisco might have their own).\r\n",
       "createdAt": "2026-02-23T10:45:14Z",
-      "updatedAt": "2026-02-24T03:46:14Z",
+      "updatedAt": "2026-02-28T21:12:06Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
-      "baseRefOid": "d3dc02ec32a39d78e94b80058480d1254ca4a077",
+      "baseRefOid": "a9a258537f7d0dba57d6dcc5afb7f860a5a5fb85",
       "headRepository": "ietf-wg-green/green-design-work",
       "headRefName": "mpalmero-bran-3-iana",
-      "headRefOid": "714e50a998ff33ac740889d34c036930b59f8cda",
+      "headRefOid": "381e06a7cf7ef6e27d78d0c457ec43a8313b0456",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Here is a good example of what we should be doing\r\nSee https://www.iana.org/assignments/yang-parameters/yang-parameters.xhtml => iana-hardware is \"Maintained by IANA?\" Yes\r\nThis YANG module only contains identities. See https://www.iana.org/assignments/iana-hardware/iana-hardware.xhtml\r\n\r\nFrom https://datatracker.ietf.org/doc/rfc8348/, you can see:\r\n  The \"iana-hardware\" module defines YANG identities for the hardware\r\n   types in the IANA-maintained \"IANA-ENTITY-MIB\" registry.\r\n\r\nAnd obviously, the ietf-hardware  YANG module import iana-hardware.\r\n\r\nWe should follow the same example in our draft.",
+          "createdAt": "2026-02-26T08:49:05Z",
+          "updatedAt": "2026-02-26T08:56:22Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOP9HHVc7lLA5U",
@@ -860,8 +868,102 @@
               "updatedAt": "2026-02-24T03:46:14Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc7mB4Ut",
+          "commit": {
+            "abbreviatedOid": "714e50a"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-26T08:22:25Z",
+          "updatedAt": "2026-02-26T08:22:26Z",
+          "comments": [
+            {
+              "originalPosition": 3,
+              "body": "thanks GenChen, you are right >>  Identity Naming Registry",
+              "createdAt": "2026-02-26T08:22:25Z",
+              "updatedAt": "2026-02-26T08:22:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc7mCbF6",
+          "commit": {
+            "abbreviatedOid": "015553c"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2026-02-26T08:46:53Z",
+          "updatedAt": "2026-02-26T08:47:39Z",
+          "comments": [
+            {
+              "originalPosition": 34,
+              "body": "```suggestion\n- The proposed identity name SHOULD be a short mnemonic derived\n```",
+              "createdAt": "2026-02-26T08:46:53Z",
+              "updatedAt": "2026-02-26T08:47:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc7mJyFy",
+          "commit": {
+            "abbreviatedOid": "714e50a"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-02-26T14:24:03Z",
+          "updatedAt": "2026-02-26T14:24:03Z",
+          "comments": [
+            {
+              "originalPosition": 3,
+              "body": "fix it!",
+              "createdAt": "2026-02-26T14:24:03Z",
+              "updatedAt": "2026-02-26T14:24:03Z"
+            }
+          ]
         }
       ]
+    },
+    {
+      "number": 25,
+      "id": "PR_kwDOP9HHVc7GduEb",
+      "title": "add power-state part",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/25",
+      "state": "OPEN",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "add power-state identity and power-state-control container",
+      "createdAt": "2026-02-26T08:22:21Z",
+      "updatedAt": "2026-02-26T12:19:38Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "7145eebd0b9ce96e72941c1d12d72f4a9458f7be",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "bc27d0857a1f0e0aac4ae67f6cfc9cef9e492bd4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Need more discussion about power state, will suspend waiting for the result.",
+          "createdAt": "2026-02-26T12:19:38Z",
+          "updatedAt": "2026-02-26T12:19:38Z"
+        }
+      ],
+      "reviews": []
     }
   ]
 }
