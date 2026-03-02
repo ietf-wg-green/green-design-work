@@ -1341,12 +1341,11 @@ module: ietf-power-and-energy
         |  +--ro data-source-accuracy?     identityref
         |  +--ro measurement-local?        boolean
         |  +--ro certifications*           identityref
-        +--ro energy-relationship* [relationship-id]
-           +--ro relationship-id            string
-           +--ro relationship-type?         identityref
-           +--ro relationship-peer-entry* [peer-object-id]
-              +--ro peer-object-id      -&gt; /hw:hardware/component/name
-              +--ro peer-description?   string
+        +--ro relationship* [type]
+           +--ro type    identityref
+           +--ro peer* [id]
+              +--ro id         string
+              +--ro details?   string
 </pre><a href="#section-3-2" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1430,7 +1429,7 @@ module ietf-power-and-energy {
       "RFC 8348: A YANG Data Model for Hardware Management";
   }
 
-  import iana-power-and-energy {
+  import ietf-iana-power-and-energy {
     prefix ianaeo;
     reference
       "IANA-defined identities for power and energy class";
@@ -2117,7 +2116,7 @@ module ietf-power-and-energy {
         }
         leaf-list certifications {
           type identityref {
-            base certification-type;
+            base ianaeo:certification-type;
           }
           description
             "List of certifications applicable to this energy object. If
