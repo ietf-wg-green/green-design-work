@@ -90,6 +90,14 @@ module ietf-iana-power-and-energy {
       "https://eprel.ec.europa.eu/screen/home";
   }
 
+  identity cn-energy-level{
+    base certification-type;
+    description
+      "CN Energy Label: China efficiency ratings";
+    reference
+      "https://www.energylabel.com.cn";
+  }
+
   identity cqc{
     base certification-type;
     description
