@@ -10,7 +10,7 @@ module ietf-power-and-energy {
       "RFC 8348: A YANG Data Model for Hardware Management";
   }
   
-  import iana-power-and-energy {
+  import ietf-iana-power-and-energy {
     prefix ianaeo;
     reference
       "IANA-defined identities for power and energy class";
@@ -697,7 +697,7 @@ module ietf-power-and-energy {
         }
         leaf-list certifications {
           type identityref {
-            base certification-type;
+            base ianaeo:certification-type;
           }
           description
             "List of certifications applicable to this energy object. If 
