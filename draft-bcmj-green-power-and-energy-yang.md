@@ -257,8 +257,15 @@ of network devices and the components on these devices.
 ~~~~ yang
 {::include yang/ietf-power-and-energy.yang}
 ~~~~
-{: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy@2025-12.yang”}
+{: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy.yang”}
 
+The IANA requested identities for power and energy class are separately
+described below.
+
+~~~~ yang
+{::include yang/ietf-iana-power-and-energy.yang}
+~~~~
+{: sourcecode-markers="true" sourcecode-name="ietf-iana-power-and-energy.yang”}
 # Operational Considerations
 
 Heterogeneous sensor capabilities across components complicate power
