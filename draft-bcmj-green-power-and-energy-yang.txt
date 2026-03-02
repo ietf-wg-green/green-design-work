@@ -61,16 +61,15 @@ Table of Contents
    4.  Relationship to the Hardware YANG Data Model
    5.  Relationship to the EMAN Work
    6.  Power and Energy YANG Module
-   7.  Operational Considerations
-     7.1.  Measurement Accuracy and Data Source Classification
-     7.2.  Industry-Standard Certifications
-   8.  Security Considerations
-   9.  IANA Considerations
-     9.1.  GREEN Certification Type Registry
-   10. Acknowledgments
-   11. References
-     11.1.  Normative References
-     11.2.  Informative References
+     6.1.  Measurement Accuracy and Data Source Classification
+     6.2.  Industry-Standard Certifications
+   7.  Security Considerations
+   8.  IANA Considerations
+     8.1.  GREEN Certification Type Registry
+   9.  Acknowledgments
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Authors' Addresses
 
 1.  Introduction
@@ -1009,7 +1008,122 @@ Table of Contents
    }
    <CODE ENDS>
 
-7.  Operational Considerations
+   The IANA requested identities for power and energy class are
+   separately described below.
+
+   <CODE BEGINS>
+   module ietf-iana-power-and-energy {
+     yang-version 1.1;
+     namespace "urn:ietf:params:xml:ns:yang:ietf-iana-power-and-energy";
+     prefix ianaeo;
+
+     organization "IANA";
+     contact
+       "        Internet Assigned Numbers Authority
+
+        Postal: ICANN
+                12025 Waterfront Drive, Suite 300
+                Los Angeles, CA  90094-2536
+                United States of America
+
+        Tel:    +1 310 301 5800
+        E-Mail: iana@iana.org>";
+
+     description
+       "IANA-defined identities for power and energy class.
+
+        The latest revision of this YANG module can be obtained from
+        the IANA website.
+
+        Requests for new values should be made to IANA via
+        email (iana@iana.org).
+
+        Copyright (c) 2026 IETF Trust and the persons identified as
+        authors of the code.  All rights reserved.
+
+        Redistribution and use in source and binary forms, with or
+        without modification, is permitted pursuant to, and subject
+        to the license terms contained in, the Simplified BSD License
+        set forth in Section 4.c of the IETF Trust's Legal Provisions
+        Relating to IETF Documents
+        (https://trustee.ietf.org/license-info).
+
+        The initial version of this YANG module is part of RFC XXX;
+        see the RFC itself for full legal notices.";
+     reference
+       "https://www.iana.org/assignments/yang-parameters";
+
+     revision 2026-02-26 {
+       description
+         "Initial revision.";
+       reference
+         "RFC XXX: A YANG Data Model for Power and Energy monitoring and
+        control of devices within or connected to communication
+        networks";
+     }
+
+     identity certification-type {
+       description
+         "Base identity for certification types applicable to energy
+          objects. This identity serves as the root for a hierarchy of
+          certification types, allowing for extensibility.";
+
+       reference
+         "Industry sustainability and energy efficiency certifications";
+     }
+
+     identity energy-star {
+       base certification-type;
+       description
+         "ENERGY STAR certification for energy efficiency.";
+       reference
+         "https://www.energystar.gov/";
+     }
+
+     identity c80-plus{
+       base certification-type;
+       description
+         "80 PLUS Power Supply Certification";
+       reference
+         "https://www.clearesult.com/80plus/";
+     }
+
+     identity epeat {
+       base certification-type;
+       description
+         "Electronic Product Environmental Assessment Tool ratings (Bronze/Silver/Gold).";
+       reference
+         "https://www.epeat.net/";
+     }
+
+     identity eu-energy-level{
+       base certification-type;
+       description
+         "EU Energy Label: European efficiency ratings";
+       reference
+         "https://eprel.ec.europa.eu/screen/home";
+     }
+
+     identity cn-energy-level{
+       base certification-type;
+       description
+         "CN Energy Label: China efficiency ratings";
+       reference
+         "https://www.energylabel.com.cn";
+     }
+
+     identity cqc{
+       base certification-type;
+       description
+         "China Quality Certification for energy efficiency";
+       reference
+         "https://www.cqc.com.cn/";
+     }
+
+   }
+   <CODE ENDS>
+
+   # Operational Considerations
 
    Heterogeneous sensor capabilities across components complicate power
    and energy aggregation.  Operators must use the data-source-accuracy
@@ -1034,7 +1148,7 @@ Table of Contents
    preventing notification flooding while avoiding memory overhead on
    the device.
 
-7.1.  Measurement Accuracy and Data Source Classification
+6.1.  Measurement Accuracy and Data Source Classification
 
    Power and energy metrics may originate from a wide range of sources
    and estimation methods, each with different levels of reliability.
@@ -1124,7 +1238,7 @@ Table of Contents
    allowing vendors to define manufacturer-specific accuracy classes
    while maintaining interoperability through standardized base types.
 
-7.2.  Industry-Standard Certifications
+6.2.  Industry-Standard Certifications
 
    Energy efficiency certifications issued by recognized testing
    organizations provide standardized benchmarks for the expected
@@ -1192,7 +1306,7 @@ Table of Contents
    PSU, is designed to be efficient; the measurement accuracy tells them
    how precisely they can monitor its actual performance.
 
-8.  Security Considerations
+7.  Security Considerations
 
    This section will be completed once the YANG module is complete,
    according to https://wiki.ietf.org/group/ops/yang-security-
@@ -1213,7 +1327,7 @@ Table of Contents
    RESTCONF users to a preconfigured subset of all available NETCONF or
    RESTCONF protocol operations and content.
 
-9.  IANA Considerations
+8.  IANA Considerations
 
    This document requests IANA to create and maintain a new registry
    group called "Power and Energy", with the following module
@@ -1239,7 +1353,7 @@ Table of Contents
    All sub-registries defined in this document are part of the "Power
    and Energy" registry group.
 
-9.1.  GREEN Certification Type Registry
+8.1.  GREEN Certification Type Registry
 
    This document requests IANA to create a new sub-registry called
    "Power and Energy Certification Types" within the "Power and Energy"
@@ -1300,7 +1414,7 @@ Table of Contents
    is updated, the ietf-iana-power-and-energy YANG module MUST be
    updated as defined in RFC XXXX.
 
-10.  Acknowledgments
+9.  Acknowledgments
 
    This work has benefited from the regular discussions on the GREEN
    Design Meetings.  The authors wish to thank the WG chairs, Rob Wilton
@@ -1308,9 +1422,9 @@ Table of Contents
    the work.  The authors also wish to thank the following individuals,
    who provided helpful comments and reviews to this document.
 
-11.  References
+10.  References
 
-11.1.  Normative References
+10.1.  Normative References
 
    [I-D.ietf-green-terminology-00]
               Chen, G., Boucadair, M., Wu, Q., Contreras, L. M., and M.
@@ -1369,7 +1483,7 @@ Table of Contents
    [RFC9000]  "QUIC - A UDP-Based Multiplexed and Secure Transport", May
               2021, <https://datatracker.ietf.org/doc/html/rfc9000>.
 
-11.2.  Informative References
+10.2.  Informative References
 
    [I-D.belmq-green-framework-06]
               Claise, B., Contreras, L. M., Lindblad, J., Palmero, M.
