@@ -9,6 +9,12 @@ module ietf-power-and-energy {
     reference
       "RFC 8348: A YANG Data Model for Hardware Management";
   }
+  
+  import iana-power-and-energy {
+    prefix ianaeo;
+    reference
+      "IANA-defined identities for power and energy class";
+  }
 
   organization
     "IETF GREEN Working Group";
@@ -331,56 +337,6 @@ module ietf-power-and-energy {
        Leaf often omitted, implying 100%.";
     reference
       "Replaces RFC 7460: eoPowerCurrentType object";
-  }
-
-  identity certification-type {
-    description
-      "Base identity for certification types applicable to energy
-       objects. This identity serves as the root for a hierarchy of
-       certification types, allowing for extensibility.";
-
-    reference
-      "Industry sustainability and energy efficiency certifications";
-  }
-
-  identity energy-star {
-    base certification-type;
-    description
-      "ENERGY STAR certification for energy efficiency.";
-    reference
-      "https://www.energystar.gov/";
-  }
-
-  identity c80-plus {
-    base certification-type;
-    description
-      "80 PLUS Power Supply Certification";
-    reference
-      "https://www.clearesult.com/80plus/";
-  }
-
-  identity epeat {
-    base certification-type;
-    description
-      "Electronic Product Environmental Assessment Tool ratings (Bronze/Silver/Gold).";
-    reference
-      "https://www.epeat.net/";
-  }
-
-  identity eu-energy-level{
-    base certification-type;
-    description
-      "EU Energy Label: European efficiency ratings";
-    reference
-      "https://eprel.ec.europa.eu/screen/home";
-  }
-
-  identity cqc {
-    base certification-type;
-    description
-      "China Quality Certification for energy efficiency";
-    reference
-      "https://www.cqc.com.cn/";
   }
 
   identity power-state {

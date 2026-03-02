@@ -44,18 +44,62 @@ author:
 
 normative:
 
+   RFC7950:
+    title: The YANG 1.1 Data Modeling Language
+    date: 2016-08
+    target: https://datatracker.ietf.org/doc/html/rfc7950
+
+   RFC8340:
+    title: YANG Tree Diagrams
+    date: 2018-03
+    target: https://datatracker.ietf.org/doc/html/rfc8340
+
+   RFC6241:
+    title: Network Configuration Protocol (NETCONF)
+    date: 2011-06
+    target: https://datatracker.ietf.org/doc/html/rfc6241
+
+   RFC8040:
+    title: RESTCONF Protocol
+    date: 2017-06
+    target: https://datatracker.ietf.org/doc/html/rfc8040
+
+   RFC4252:
+    title: The Secure Shell (SSH) Authentication Protocol
+    date: 2006-01
+    target: https://datatracker.ietf.org/doc/html/rfc4252
+
+   RFC8446:
+    title: The Transport Layer Security (TLS) Protocol Version 1.3
+    date: 2018-08
+    target: https://datatracker.ietf.org/doc/html/rfc8446
+
+   RFC9000:
+    title: QUIC - A UDP-Based Multiplexed and Secure Transport
+    date: 2021-05
+    target: https://datatracker.ietf.org/doc/html/rfc9000
+
+   RFC8341:
+    title: Network Configuration Access Control Model
+    date: 2018-03
+    target: https://datatracker.ietf.org/doc/html/rfc8341
+
 informative:
+
+   rfc8407bis: I-D.draft-ietf-netmod-rfc8407bis
+
+
 
 --- abstract
 
 This document defines the YANG data model for Power and Energy
 monitoring of devices within or connected to communication networks.
 
-{::boilerplate bcp14-tagged}
-
 --- middle
 
 # Introduction
+
+{::boilerplate bcp14-tagged}
 
 This document defines a YANG data model for Power and Energy
 Monitoring and control of devices within or connected to communication
@@ -323,7 +367,7 @@ This section will be completed once the YANG module is complete,
 according to https://wiki.ietf.org/group/ops/yang-security-guidelines.
 
 This section is modeled after the template described in Section 3.7.1
-of [RFC-to-be draft-ietf-netmod-rfc8407bis].
+of {{rfc8407bis}}.
 
 The Power and Energy YANG module defines a data model that is designed
 to be accessed via YANG-based management protocols, such as NETCONF
@@ -339,11 +383,68 @@ RESTCONF protocol operations and content.
 
 # IANA Considerations
 
-This document requests IANA to register the YANG module
-"ietf-power-energy-monitoring".
+This document requests IANA to create and maintain a new registry group called "Power and Energy", with the following module registration:
+
+| Field       | Value                                                   |
+|-------------|---------------------------------------------------------|
+| Name        | ietf-iana-power-and-energy                              |
+| Namespace   | urn:ietf:params:xml:ns:yang:ietf-iana-power-and-energy  |
+| Prefix      | ianaeo                                                  |
+| Reference   | RFC XXXX                                                |
 
 Note to IANA: RFC XXXX must be replaced by the newly assigned RFC
 number.
+
+All sub-registries defined in this document are part of the "Power and Energy" registry group.
+
+
+## GREEN Certification Type Registry
+
+This document requests IANA to create a new sub-registry called "Power and Energy Certification Types" within the "Power and Energy" registry group.
+
+This document defines the initial version of the IANA-maintained
+`certification-type` identity in the `ietf-iana-power-and-energy` YANG
+module. The registry assigns string identity names for power and energy efficiency certification types, for use as identityref values in "ietf-power-and-energy" YANG module. The registered value is the unqualified identity name (e.g., energy-star, c80-plus, etc). No numeric code points are assigned by this registry.
+
+New entries to "Power and Energy Certification Types" registry
+require Expert Review {{!RFC8126}}. The Designated Expert(s) should
+verify that:
+
+- The certification is issued by a recognized and independent
+  standards body, testing laboratory, regulatory authority, or
+  equivalent organization.
+- The certification has a stable, publicly accessible reference.
+- The proposed identity name SHOULD be a short mnemonic derived
+  from the official certification name.
+
+When a new certification type is added to the registry, a new
+`identity` statement MUST be added to the `ietf-iana-power-and-energy`
+YANG module. The following substatements to the `identity` statement
+MUST be defined:
+
+- `base`: MUST contain the value `certification-type`.
+- `status`: Include only if a registration has been deprecated (use
+  the value `deprecated`) or obsoleted (use the value `obsolete`).
+- `description`: MUST include the full name of the certification
+  program and a brief description of its energy efficiency scope.
+  Lines MUST NOT exceed 72 characters.
+- `reference`: MUST include a stable URI to the certification
+  program's official documentation or registry.
+
+Unassigned or reserved values MUST NOT be present in the module.
+
+When the "Power and Energy Certification Types" registry is
+updated with a new entry, a corresponding new `identity` statement
+MUST be added to the `ietf-iana-power-and-energy` YANG module, and a new revision statement MUST be added in front of the existing revision
+statements.
+
+IANA is requested to add the following note to the "Power and Energy Certification Types" registry:
+
+Certification types MUST NOT be directly added to the
+ietf-iana-power-and-energy YANG module. They MUST instead be added to the
+"Power and Energy Certification Types" registry. When this registry
+is updated, the ietf-iana-power-and-energy YANG module MUST be updated as
+defined in RFC XXXX.
 
 # Acknowledgments
 
