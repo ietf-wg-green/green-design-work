@@ -336,6 +336,7 @@ Common Certifications:
 - Energy Star: Government-backed program certifying energy-efficient products
 - EPEAT: Electronic Product Environmental Assessment Tool ratings (Bronze/Silver/Gold)
 - EU Energy Label: European efficiency ratings
+- CN Energy Label: China efficiency ratings
 - CQC: China Quality Certification for energy efficiency
 
 Additional certification schemes may be supported through extensible identities.
