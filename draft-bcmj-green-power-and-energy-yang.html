@@ -9,14 +9,10 @@
 <meta content="Gen Chen" name="author">
 <meta content="Marisol Palmero" name="author">
 <meta content="Jan Lindblad" name="author">
-<meta content='
+<meta content="
        This document defines the YANG data model for Power and Energy
 monitoring of devices within or connected to communication networks. 
-       The key words " MUST ", " MUST NOT ", " REQUIRED ", " SHALL ", " SHALL NOT ", " SHOULD ", " SHOULD NOT ", " RECOMMENDED ", " NOT RECOMMENDED ",
-" MAY ", and " OPTIONAL " in this document are to be interpreted as
-described in BCP 14     when, and only when, they
-appear in all capitals, as shown here. 
-    ' name="description">
+    " name="description">
 <meta content="xml2rfc 3.31.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="GREEN" name="keyword">
@@ -1057,11 +1053,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">GREEN-PEM-YANG</td>
-<td class="right">February 2026</td>
+<td class="right">March 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Benoit, et al.</td>
-<td class="center">Expires 30 August 2026</td>
+<td class="center">Expires 3 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1074,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-bcmj-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-02-26" class="published">26 February 2026</time>
+<time datetime="2026-03-02" class="published">2 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-08-30">30 August 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-03">3 September 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1106,10 +1102,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">This document defines the YANG data model for Power and Energy
 monitoring of devices within or connected to communication networks.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
-<p id="section-abstract-2">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
-"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
-described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
-appear in all capitals, as shown here.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1130,7 +1122,7 @@ appear in all capitals, as shown here.<a href="#section-abstract-2" class="pilcr
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 30 August 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1198,6 +1190,11 @@ appear in all capitals, as shown here.<a href="#section-abstract-2" class="pilcr
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
             <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-green-certification-type-re" class="internal xref">GREEN Certification Type Registry</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
             <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
@@ -1225,29 +1222,33 @@ appear in all capitals, as shown here.<a href="#section-abstract-2" class="pilcr
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">This document defines a YANG data model for Power and Energy
+<p id="section-1-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">This document defines a YANG data model for Power and Energy
 Monitoring and control of devices within or connected to communication
 networks, for the use cases document in
-<span>[<a href="#I-D.ietf-green-use-cases-00" class="cite xref">I-D.ietf-green-use-cases-00</a>]</span>.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">The data model includes both the monitoring and control of Energy
-Objects for networked devices.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">This YANG data model is based on the the "GREEN framework"
+<span>[<a href="#I-D.ietf-green-use-cases-00" class="cite xref">I-D.ietf-green-use-cases-00</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">The data model includes both the monitoring and control of Energy
+Objects for networked devices.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">This YANG data model is based on the the "GREEN framework"
 <span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span>, following the "GREEN terminology"
-<span>[<a href="#I-D.ietf-green-terminology-00" class="cite xref">I-D.ietf-green-terminology-00</a>]</span>.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">Power and Energy Monitoring and Control can be applied to devices in
+<span>[<a href="#I-D.ietf-green-terminology-00" class="cite xref">I-D.ietf-green-terminology-00</a>]</span>.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">Power and Energy Monitoring and Control can be applied to devices in
 communication networks. All identifiable devices with measurable or
 representable Power and Energy characteristics fall within the scope
 of this specification. Target devices include (but are not limited to)
 routers, switches, Power over Ethernet (PoE) endpoints, smart PDU,
-storage and compute servers, etc.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">Where applicable, device monitoring extends to the components of the
+storage and compute servers, etc.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">Where applicable, device monitoring extends to the components of the
 device as well as software and service running on the device. As a
 result, the metrics to be monitored include Device Level Energy
 Efficiency (DLEE), Component Level Energy Efficiency (CLEE) and
 potential Service Level Energy Efficiency (SLEE) at the
 orchestrator-level, etc. For example, a router can contain components
 such as Line Processing Unit (LPU), Switch Fabric Unit (SFU), Main
-Processing Unit (MPU).<a href="#section-1-5" class="pilcrow">¶</a></p>
+Processing Unit (MPU).<a href="#section-1-6" class="pilcrow">¶</a></p>
 <div id="terminology">
 <section id="section-1.1">
         <h3 id="name-terminology">
@@ -1289,9 +1290,9 @@ of device operation, while Energy provides a time-integrated view
 necessary for accounting, reporting, and even for sustainability
 analysis. This specification includes both Power and Energy
 attributes.<a href="#section-1.1-6" class="pilcrow">¶</a></p>
-<p id="section-1.1-7">The terminology for describing YANG modules is defined in [RFC7950].
+<p id="section-1.1-7">The terminology for describing YANG modules is defined in <span>[<a href="#RFC7950" class="cite xref">RFC7950</a>]</span>.
 The meanings of the symbols in the YANG tree diagrams are defined in
-[RFC8340].<a href="#section-1.1-7" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC8340" class="cite xref">RFC8340</a>]</span>.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1427,6 +1428,12 @@ module ietf-power-and-energy {
     prefix hw;
     reference
       "RFC 8348: A YANG Data Model for Hardware Management";
+  }
+
+  import iana-power-and-energy {
+    prefix ianaeo;
+    reference
+      "IANA-defined identities for power and energy class";
   }
 
   organization
@@ -1750,56 +1757,6 @@ module ietf-power-and-energy {
        Leaf often omitted, implying 100%.";
     reference
       "Replaces RFC 7460: eoPowerCurrentType object";
-  }
-
-  identity certification-type {
-    description
-      "Base identity for certification types applicable to energy
-       objects. This identity serves as the root for a hierarchy of
-       certification types, allowing for extensibility.";
-
-    reference
-      "Industry sustainability and energy efficiency certifications";
-  }
-
-  identity energy-star {
-    base certification-type;
-    description
-      "ENERGY STAR certification for energy efficiency.";
-    reference
-      "https://www.energystar.gov/";
-  }
-
-  identity c80-plus {
-    base certification-type;
-    description
-      "80 PLUS Power Supply Certification";
-    reference
-      "https://www.clearesult.com/80plus/";
-  }
-
-  identity epeat {
-    base certification-type;
-    description
-      "Electronic Product Environmental Assessment Tool ratings (Bronze/Silver/Gold).";
-    reference
-      "https://www.epeat.net/";
-  }
-
-  identity eu-energy-level{
-    base certification-type;
-    description
-      "EU Energy Label: European efficiency ratings";
-    reference
-      "https://eprel.ec.europa.eu/screen/home";
-  }
-
-  identity cqc {
-    base certification-type;
-    description
-      "China Quality Certification for energy efficiency";
-    reference
-      "https://www.cqc.com.cn/";
   }
 
   identity power-state {
@@ -2403,14 +2360,14 @@ device.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-8-1">This section will be completed once the YANG module is complete,
 according to https://wiki.ietf.org/group/ops/yang-security-guidelines.<a href="#section-8-1" class="pilcrow">¶</a></p>
 <p id="section-8-2">This section is modeled after the template described in Section 3.7.1
-of [RFC-to-be draft-ietf-netmod-rfc8407bis].<a href="#section-8-2" class="pilcrow">¶</a></p>
+of <span>[<a href="#rfc8407bis" class="cite xref">rfc8407bis</a>]</span>.<a href="#section-8-2" class="pilcrow">¶</a></p>
 <p id="section-8-3">The Power and Energy YANG module defines a data model that is designed
 to be accessed via YANG-based management protocols, such as NETCONF
-[RFC6241] and RESTCONF [RFC8040]. These YANG-based management
+<span>[<a href="#RFC6241" class="cite xref">RFC6241</a>]</span> and RESTCONF <span>[<a href="#RFC8040" class="cite xref">RFC8040</a>]</span>. These YANG-based management
 protocols (1) have to use a secure transport layer (e.g., SSH
-[RFC4252], TLS [RFC8446], and QUIC [RFC9000]) and (2) have to use
+<span>[<a href="#RFC4252" class="cite xref">RFC4252</a>]</span>, TLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span>, and QUIC <span>[<a href="#RFC9000" class="cite xref">RFC9000</a>]</span>) and (2) have to use
 mutual authentication.<a href="#section-8-3" class="pilcrow">¶</a></p>
-<p id="section-8-4">The Network Configuration Access Control Model (NACM) [RFC8341]
+<p id="section-8-4">The Network Configuration Access Control Model (NACM) <span>[<a href="#RFC8341" class="cite xref">RFC8341</a>]</span>
 provides the means to restrict access for particular NETCONF or
 RESTCONF users to a preconfigured subset of all available NETCONF or
 RESTCONF protocol operations and content.<a href="#section-8-4" class="pilcrow">¶</a></p>
@@ -2421,10 +2378,98 @@ RESTCONF protocol operations and content.<a href="#section-8-4" class="pilcrow">
       <h2 id="name-iana-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-9-1">This document requests IANA to register the YANG module
-"ietf-power-energy-monitoring".<a href="#section-9-1" class="pilcrow">¶</a></p>
-<p id="section-9-2">Note to IANA: RFC XXXX must be replaced by the newly assigned RFC
-number.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<p id="section-9-1">This document requests IANA to create and maintain a new registry group called "Power and Energy", with the following module registration:<a href="#section-9-1" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+        <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">Field</th>
+            <th class="text-left" rowspan="1" colspan="1">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Name</td>
+            <td class="text-left" rowspan="1" colspan="1">ietf-iana-power-and-energy</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Namespace</td>
+            <td class="text-left" rowspan="1" colspan="1">urn:ietf:params:xml:ns:yang:ietf-iana-power-and-energy</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Prefix</td>
+            <td class="text-left" rowspan="1" colspan="1">ianaeo</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">Reference</td>
+            <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
+          </tr>
+        </tbody>
+      </table>
+<p id="section-9-3">Note to IANA: RFC XXXX must be replaced by the newly assigned RFC
+number.<a href="#section-9-3" class="pilcrow">¶</a></p>
+<p id="section-9-4">All sub-registries defined in this document are part of the "Power and Energy" registry group.<a href="#section-9-4" class="pilcrow">¶</a></p>
+<div id="green-certification-type-registry">
+<section id="section-9.1">
+        <h3 id="name-green-certification-type-re">
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-green-certification-type-re" class="section-name selfRef">GREEN Certification Type Registry</a>
+        </h3>
+<p id="section-9.1-1">This document requests IANA to create a new sub-registry called "Power and Energy Certification Types" within the "Power and Energy" registry group.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-2">This document defines the initial version of the IANA-maintained
+<code>certification-type</code> identity in the <code>ietf-iana-power-and-energy</code> YANG
+module. The registry assigns string identity names for power and energy efficiency certification types, for use as identityref values in "ietf-power-and-energy" YANG module. The registered value is the unqualified identity name (e.g., energy-star, c80-plus, etc). No numeric code points are assigned by this registry.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
+<p id="section-9.1-3">New entries to "Power and Energy Certification Types" registry
+require Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. The Designated Expert(s) should
+verify that:<a href="#section-9.1-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-9.1-4.1">
+            <p id="section-9.1-4.1.1">The certification is issued by a recognized and independent
+standards body, testing laboratory, regulatory authority, or
+equivalent organization.<a href="#section-9.1-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.1-4.2">
+            <p id="section-9.1-4.2.1">The certification has a stable, publicly accessible reference.<a href="#section-9.1-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.1-4.3">
+            <p id="section-9.1-4.3.1">The proposed identity name <span class="bcp14">SHOULD</span> be a short mnemonic derived
+from the official certification name.<a href="#section-9.1-4.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-9.1-5">When a new certification type is added to the registry, a new
+<code>identity</code> statement <span class="bcp14">MUST</span> be added to the <code>ietf-iana-power-and-energy</code>
+YANG module. The following substatements to the <code>identity</code> statement
+<span class="bcp14">MUST</span> be defined:<a href="#section-9.1-5" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-9.1-6.1">
+            <p id="section-9.1-6.1.1"><code>base</code>: <span class="bcp14">MUST</span> contain the value <code>certification-type</code>.<a href="#section-9.1-6.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.1-6.2">
+            <p id="section-9.1-6.2.1"><code>status</code>: Include only if a registration has been deprecated (use
+the value <code>deprecated</code>) or obsoleted (use the value <code>obsolete</code>).<a href="#section-9.1-6.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.1-6.3">
+            <p id="section-9.1-6.3.1"><code>description</code>: <span class="bcp14">MUST</span> include the full name of the certification
+program and a brief description of its energy efficiency scope.
+Lines <span class="bcp14">MUST NOT</span> exceed 72 characters.<a href="#section-9.1-6.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.1-6.4">
+            <p id="section-9.1-6.4.1"><code>reference</code>: <span class="bcp14">MUST</span> include a stable URI to the certification
+program's official documentation or registry.<a href="#section-9.1-6.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-9.1-7">Unassigned or reserved values <span class="bcp14">MUST NOT</span> be present in the module.<a href="#section-9.1-7" class="pilcrow">¶</a></p>
+<p id="section-9.1-8">When the "Power and Energy Certification Types" registry is
+updated with a new entry, a corresponding new <code>identity</code> statement
+<span class="bcp14">MUST</span> be added to the <code>ietf-iana-power-and-energy</code> YANG module, and a new revision statement <span class="bcp14">MUST</span> be added in front of the existing revision
+statements.<a href="#section-9.1-8" class="pilcrow">¶</a></p>
+<p id="section-9.1-9">IANA is requested to add the following note to the "Power and Energy Certification Types" registry:<a href="#section-9.1-9" class="pilcrow">¶</a></p>
+<p id="section-9.1-10">Certification types <span class="bcp14">MUST NOT</span> be directly added to the
+ietf-iana-power-and-energy YANG module. They <span class="bcp14">MUST</span> instead be added to the
+"Power and Energy Certification Types" registry. When this registry
+is updated, the ietf-iana-power-and-energy YANG module <span class="bcp14">MUST</span> be updated as
+defined in RFC XXXX.<a href="#section-9.1-10" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="acknowledgments">
@@ -2458,17 +2503,53 @@ who provided helpful comments and reviews to this document.<a href="#section-10-
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC4252">[RFC4252]</dt>
+        <dd>
+<span class="refTitle">"The Secure Shell (SSH) Authentication Protocol"</span>, <time datetime="2006-01" class="refDate">January 2006</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc4252">https://datatracker.ietf.org/doc/html/rfc4252</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6241">[RFC6241]</dt>
+        <dd>
+<span class="refTitle">"Network Configuration Protocol (NETCONF)"</span>, <time datetime="2011-06" class="refDate">June 2011</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc6241">https://datatracker.ietf.org/doc/html/rfc6241</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7460">[RFC7460]</dt>
         <dd>
 <span class="refAuthor">Chandramouli, M.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Schoening, B.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">T. Dietz</span>, <span class="refTitle">"Monitoring and Control MIB for Power and Energy"</span>, <span class="seriesInfo">RFC 7460</span>, <span class="seriesInfo">DOI 10.17487/RFC7460</span>, <time datetime="2015-03" class="refDate">March 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7460">https://www.rfc-editor.org/rfc/rfc7460</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7950">[RFC7950]</dt>
+        <dd>
+<span class="refTitle">"The YANG 1.1 Data Modeling Language"</span>, <time datetime="2016-08" class="refDate">August 2016</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7950">https://datatracker.ietf.org/doc/html/rfc7950</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8040">[RFC8040]</dt>
+        <dd>
+<span class="refTitle">"RESTCONF Protocol"</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8040">https://datatracker.ietf.org/doc/html/rfc8040</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8126">[RFC8126]</dt>
+        <dd>
+<span class="refAuthor">Cotton, M.</span>, <span class="refAuthor">Leiba, B.</span>, and <span class="refAuthor">T. Narten</span>, <span class="refTitle">"Guidelines for Writing an IANA Considerations Section in RFCs"</span>, <span class="seriesInfo">BCP 26</span>, <span class="seriesInfo">RFC 8126</span>, <span class="seriesInfo">DOI 10.17487/RFC8126</span>, <time datetime="2017-06" class="refDate">June 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8126">https://www.rfc-editor.org/rfc/rfc8126</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
 <span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC8340">[RFC8340]</dt>
+        <dd>
+<span class="refTitle">"YANG Tree Diagrams"</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8340">https://datatracker.ietf.org/doc/html/rfc8340</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8341">[RFC8341]</dt>
+        <dd>
+<span class="refTitle">"Network Configuration Access Control Model"</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8341">https://datatracker.ietf.org/doc/html/rfc8341</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8348">[RFC8348]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Bierman, A.</span>, <span class="refAuthor">Bjorklund, M.</span>, <span class="refAuthor">Dong, J.</span>, and <span class="refAuthor">D. Romascanu</span>, <span class="refTitle">"A YANG Data Model for Hardware Management"</span>, <span class="seriesInfo">RFC 8348</span>, <span class="seriesInfo">DOI 10.17487/RFC8348</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8348">https://www.rfc-editor.org/rfc/rfc8348</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8446">[RFC8446]</dt>
+        <dd>
+<span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8446">https://datatracker.ietf.org/doc/html/rfc8446</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9000">[RFC9000]</dt>
+      <dd>
+<span class="refTitle">"QUIC - A UDP-Based Multiplexed and Secure Transport"</span>, <time datetime="2021-05" class="refDate">May 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc9000">https://datatracker.ietf.org/doc/html/rfc9000</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -2492,8 +2573,12 @@ who provided helpful comments and reviews to this document.<a href="#section-10-
 <span class="refAuthor">Leach, P.</span>, <span class="refAuthor">Mealling, M.</span>, and <span class="refAuthor">R. Salz</span>, <span class="refTitle">"A Universally Unique IDentifier (UUID) URN Namespace"</span>, <span class="seriesInfo">RFC 4122</span>, <span class="seriesInfo">DOI 10.17487/RFC4122</span>, <time datetime="2005-07" class="refDate">July 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4122">https://www.rfc-editor.org/rfc/rfc4122</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6933">[RFC6933]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Bierman, A.</span>, <span class="refAuthor">Romascanu, D.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">M. Chandramouli</span>, <span class="refTitle">"Entity MIB (Version 4)"</span>, <span class="seriesInfo">RFC 6933</span>, <span class="seriesInfo">DOI 10.17487/RFC6933</span>, <time datetime="2013-05" class="refDate">May 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6933">https://www.rfc-editor.org/rfc/rfc6933</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="rfc8407bis">[rfc8407bis]</dt>
+      <dd>
+<span class="refAuthor">Bierman, A.</span>, <span class="refAuthor">Boucadair, M.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Guidelines for Authors and Reviewers of Documents Containing YANG Data Models"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-netmod-rfc8407bis-28</span>, <time datetime="2025-06-05" class="refDate">5 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-netmod-rfc8407bis-28">https://datatracker.ietf.org/doc/html/draft-ietf-netmod-rfc8407bis-28</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
