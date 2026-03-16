@@ -263,9 +263,9 @@ The IANA requested identities for power and energy class are separately
 described below.
 
 ~~~~ yang
-{::include yang/ietf-iana-power-and-energy.yang}
+{::include yang/iana-ietf-power-and-energy.yang}
 ~~~~
-{: sourcecode-markers="true" sourcecode-name="ietf-iana-power-and-energy.yang”}
+{: sourcecode-markers="true" sourcecode-name="iana-ietf-power-and-energy.yang”}
 # Operational Considerations
 
 Heterogeneous sensor capabilities across components complicate power
@@ -395,23 +395,23 @@ This document requests IANA to create and maintain a new registry group called "
 
 | Field       | Value                                                   |
 |-------------|---------------------------------------------------------|
-| Name        | ietf-iana-power-and-energy                              |
-| Namespace   | urn:ietf:params:xml:ns:yang:ietf-iana-power-and-energy  |
+| Name        | iana-ietf-power-and-energy                              |
+| Namespace   | urn:ietf:params:xml:ns:yang:iana-ietf-power-and-energy  |
 | Prefix      | ianaeo                                                  |
 | Reference   | RFC XXXX                                                |
 
 Note to IANA: RFC XXXX must be replaced by the newly assigned RFC
 number.
 
-All sub-registries defined in this document are part of the "Power and Energy" registry group.
+All registries defined in this document are part of the "Power and Energy" registry group.
 
 
 ## GREEN Certification Type Registry
 
-This document requests IANA to create a new sub-registry called "Power and Energy Certification Types" within the "Power and Energy" registry group.
+This document requests IANA to create a new registry called "Power and Energy Certification Types" within the "Power and Energy" registry group.
 
 This document defines the initial version of the IANA-maintained
-`certification-type` identity in the `ietf-iana-power-and-energy` YANG
+`certification-type` identity in the `iana-ietf-power-and-energy` YANG
 module. The registry assigns string identity names for power and energy efficiency certification types, for use as identityref values in "ietf-power-and-energy" YANG module. The registered value is the unqualified identity name (e.g., energy-star, c80-plus, etc). No numeric code points are assigned by this registry.
 
 New entries to "Power and Energy Certification Types" registry
@@ -426,7 +426,7 @@ verify that:
   from the official certification name.
 
 When a new certification type is added to the registry, a new
-`identity` statement MUST be added to the `ietf-iana-power-and-energy`
+`identity` statement MUST be added to the `iana-ietf-power-and-energy`
 YANG module. The following substatements to the `identity` statement
 MUST be defined:
 
@@ -443,15 +443,15 @@ Unassigned or reserved values MUST NOT be present in the module.
 
 When the "Power and Energy Certification Types" registry is
 updated with a new entry, a corresponding new `identity` statement
-MUST be added to the `ietf-iana-power-and-energy` YANG module, and a new revision statement MUST be added in front of the existing revision
+MUST be added to the `iana-ietf-power-and-energy` YANG module, and a new revision statement MUST be added in front of the existing revision
 statements.
 
 IANA is requested to add the following note to the "Power and Energy Certification Types" registry:
 
 Certification types MUST NOT be directly added to the
-ietf-iana-power-and-energy YANG module. They MUST instead be added to the
+iana-ietf-power-and-energy YANG module. They MUST instead be added to the
 "Power and Energy Certification Types" registry. When this registry
-is updated, the ietf-iana-power-and-energy YANG module MUST be updated as
+is updated, the iana-ietf-power-and-energy YANG module MUST be updated as
 defined in RFC XXXX.
 
 # Acknowledgments
