@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-03-17T01:03:00.626896+00:00",
+  "timestamp": "2026-03-19T01:06:59.551544+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -986,7 +986,7 @@
       "labels": [],
       "body": "applied changes as per email thread",
       "createdAt": "2026-03-16T08:33:22Z",
-      "updatedAt": "2026-03-16T08:33:22Z",
+      "updatedAt": "2026-03-18T07:31:56Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "abfe0835d2e49629bd08201148172661d9a82bbb",
@@ -998,7 +998,28 @@
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc7sX0Ks",
+          "commit": {
+            "abbreviatedOid": "5712708"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-03-18T07:31:56Z",
+          "updatedAt": "2026-03-18T07:31:56Z",
+          "comments": [
+            {
+              "originalPosition": 2,
+              "body": "Thank you for the pull request, all good from my side.",
+              "createdAt": "2026-03-18T07:31:56Z",
+              "updatedAt": "2026-03-18T07:31:56Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
