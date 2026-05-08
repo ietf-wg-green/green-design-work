@@ -377,6 +377,18 @@ module ietf-power-and-energy {
     reference
       "RFC 7460: eoPowerStateEnterReason";
   }
+  identity power-state-on {
+    base power-state;
+    description "full power on.";
+    reference
+      "RFC 7460: PowerStateSet";
+  }
+  identity power-state-off {
+    base power-state;
+    description "power off.";
+    reference
+      "RFC 7460: PowerStateSet";
+  }
   identity unit-multiplier {
     description 
       "Base identity for unit multipliers as defined in IEC 61850-7-3
@@ -521,10 +533,11 @@ module ietf-power-and-energy {
   }
 
   container energy-objects {
+    config false;
     description
       "Energy objects container for power and energy attributes.";
     reference
-      "RFC 7460: eoPowerTable";
+      "RFC 7460: eoPowerTable, eoEnergyTable";
     
     list energy-entry {
       key "object-id";
@@ -533,7 +546,7 @@ module ietf-power-and-energy {
          Each entry contains the complete set of power and energy attributes
          for a specific physical component.";
       reference
-        "RFC 7460: EoPowerEntry";
+        "RFC 7460: eoPowerEntry, eoEnergyTable";
         
       leaf object-id {
         type string;
@@ -554,7 +567,6 @@ module ietf-power-and-energy {
       }
 
       container power {
-        config false;
         description
           "Container for power measurement attributes.";
         reference
@@ -645,46 +657,7 @@ module ietf-power-and-energy {
         }
       }
 
-      container power-state {
-        description
-          "Container for Power state management and monitoring.";
-        leaf power-state-admin {
-          type identityref {
-            base power-state-admin;
-          }
-          description
-            "The administratively requested power state for the 
-             Energy Object. This is the state that the management 
-             system desires the energy object to be in.";
-          reference
-            "RFC 7460: eoPowerAdminState";
-        }
-        leaf power-state-oper {
-          type identityref {
-            base power-state-oper;
-          }
-          config false;
-          description
-            "The actual operational power state of the Energy Object.
-             This reflects the current state, which may differ from the
-             admin-state during transitions.";
-          reference
-            "RFC 7460: eoPowerOperState";
-        }
-        leaf state-enter-reason {
-          type identityref {
-            base power-state-enter-reason;
-          }
-          description
-            "The reason why the Energy Object entered its current 
-             operational power state. This is set whenever the 
-             power-state-oper changes.";
-          reference
-            "RFC 7460: eoPowerStateEnterReason";
-        }
-      }
       container energy {
-        config false;
         description
           "Container for energy measurement attributes.";
         reference
@@ -772,6 +745,22 @@ module ietf-power-and-energy {
             this list is empty, the energy object has no certifications.";
         }    
       }
+      container power-state {
+        description
+          "Container for Power state monitoring.";
+        leaf power-state-oper {
+          type identityref {
+            base power-state-oper;
+          }
+          description
+            "The actual operational power state of the Energy Object.
+             This reflects the current state, which may differ from the
+             admin-state during transitions.";
+          reference
+            "RFC 7460: eoPowerOperState";
+        }
+      }
+
       list relationship {
         config false;
         key "type";
@@ -816,6 +805,64 @@ module ietf-power-and-energy {
                Useful when network level UUID of the peer is not
                known.";
           }
+        }
+      }
+    }
+  }
+  
+  container energy-control {
+    description
+      "Energy control configuration, mirroring monitored objects.";
+    reference
+      "RFC 7460: eoPowerTable";
+    list energy-entry {
+      key "object-id";
+      description
+        "Control entry for a specific energy object.";
+      reference
+        "RFC 7460: eoPowerEntry";
+      leaf object-id {
+        type leafref {
+          path "/energy-objects/energy-entry/object-id";
+        }
+        description "Reference to the monitored energy object.";
+      }
+      container power-state {
+        description
+          "Container for Power state management and monitoring.";
+        leaf power-state-admin {
+          type identityref {
+            base power-state-admin;
+          }
+          description
+            "The administratively requested power state for the 
+             Energy Object. This is the state that the management 
+             system desires the energy object to be in.";
+          reference
+            "RFC 7460: eoPowerAdminState";
+        }
+        leaf power-state-oper {
+          type identityref {
+            base power-state-oper;
+          }
+          config false;
+          description
+            "The actual operational power state of the Energy Object.
+             This reflects the current state, which may differ from the
+             admin-state during transitions.";
+          reference
+            "RFC 7460: eoPowerOperState";
+        }
+        leaf state-enter-reason {
+          type identityref {
+            base power-state-enter-reason;
+          }
+          description
+            "The reason why the Energy Object entered its current 
+             operational power state. This is set whenever the 
+             power-state-oper changes.";
+          reference
+            "RFC 7460: eoPowerStateEnterReason";
         }
       }
     }
