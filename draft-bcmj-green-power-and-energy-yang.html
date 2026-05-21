@@ -13,7 +13,7 @@
        This document defines the YANG data model for Power and Energy
 monitoring of devices within or connected to communication networks. 
     " name="description">
-<meta content="xml2rfc 3.31.0" name="generator">
+<meta content="xml2rfc 3.33.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="GREEN" name="keyword">
 <meta content="YANG" name="keyword">
@@ -21,18 +21,18 @@ monitoring of devices within or connected to communication networks.
 <meta content="Energy" name="keyword">
 <meta content="draft-bcmj-green-power-and-energy-yang-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.31.0
-    Python 3.12.12
+  xml2rfc 3.33.0
+    Python 3.12.13
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.0.2
-    platformdirs 4.5.1
+    platformdirs 4.9.6
     pycountry 24.6.1
     PyYAML 6.0.3
-    requests 2.32.5
-    wcwidth 0.3.0
+    requests 2.33.1
+    wcwidth 0.7.0
 -->
 <link href="draft-bcmj-green-power-and-energy-yang.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1053,11 +1053,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">GREEN-PEM-YANG</td>
-<td class="right">March 2026</td>
+<td class="right">May 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Benoit, et al.</td>
-<td class="center">Expires 3 September 2026</td>
+<td class="center">Expires 22 November 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,12 +1070,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-bcmj-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-02" class="published">2 March 2026</time>
+<time datetime="2026-05-21" class="published">21 May 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-09-03">3 September 2026</time></dd>
+<dd class="expires"><time datetime="2026-11-22">22 November 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1122,7 +1122,7 @@ monitoring of devices within or connected to communication networks.<a href="#se
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 November 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1321,28 +1321,36 @@ Energy Monitoring is presented.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <pre>
 module: ietf-power-and-energy
   +--ro energy-objects
-     +--ro energy-entry* [object-id]
-        +--ro object-id              string
-        +--ro source-component-id?   -&gt; /hw:hardware/component/name
-        +--ro power
-        |  +--ro instantaneous-power     int32
-        |  +--ro nameplate-power?        uint32
-        |  +--ro unit-multiplier         identityref
-        |  +--ro data-source-accuracy?   identityref
-        |  +--ro power-factor?           power-factor
-        |  +--ro measurement-local?      boolean
-        +--ro energy
-        |  +--ro total-energy-consumed?    uint64
-        |  +--ro total-energy-delivered?   uint64
-        |  +--ro unit-multiplier?          identityref
-        |  +--ro data-source-accuracy?     identityref
-        |  +--ro measurement-local?        boolean
-        |  +--ro certifications*           identityref
-        +--ro relationship* [type]
-           +--ro type    identityref
-           +--ro peer* [id]
-              +--ro id         string
-              +--ro details?   string
+  |  +--ro energy-entry* [object-id]
+  |     +--ro object-id              string
+  |     +--ro source-component-id?   -&gt; /hw:hardware/component/name
+  |     +--ro power
+  |     |  +--ro instantaneous-power     int32
+  |     |  +--ro nameplate-power?        uint32
+  |     |  +--ro unit-multiplier         identityref
+  |     |  +--ro data-source-accuracy?   identityref
+  |     |  +--ro power-factor?           power-factor
+  |     |  +--ro measurement-local?      boolean
+  |     +--ro energy
+  |     |  +--ro total-energy-consumed?    uint64
+  |     |  +--ro total-energy-delivered?   uint64
+  |     |  +--ro unit-multiplier?          identityref
+  |     |  +--ro data-source-accuracy?     identityref
+  |     |  +--ro measurement-local?        boolean
+  |     |  +--ro certifications*           identityref
+  |     +--ro power-state
+  |     |  +--ro power-state-oper?   identityref
+  |     +--ro relationship* [type]
+  |        +--ro type    identityref
+  |        +--ro peer* [id]
+  |           +--ro id         string
+  |           +--ro details?   string
+  +--rw energy-control
+     +--rw energy-entry* [object-id]
+        +--rw object-id      string
+        +--rw power-state
+           +--rw power-state-admin?    identityref
+           +--rw state-enter-reason?   identityref
 </pre><a href="#section-3-2" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1764,7 +1772,53 @@ module ietf-power-and-energy {
     reference
       "IANA: Power State Set Registry";
   }
-
+  identity power-state-admin {
+    base power-state;
+    description
+      "Base identity for administratively requested power states. The
+       administrative power state indicates the desired power state
+       requested for the Energy Object by a management system.";
+    reference
+      "RFC 7460: Section 5.3 (Power State)";
+  }
+  identity power-state-oper {
+    base power-state;
+    description
+      "Base identity for operational power states. The operational
+       power state indicates the actual current power state of the
+       Energy Object. A difference between the administrative state
+       and the operational state indicates that the Energy Object is
+       transitioning between power states.";
+    reference
+      "RFC 7460: Section 5.3 (Power State)";
+  }
+  identity power-state-enter-reason {
+    description
+      "Base identity for reasons why an Energy Object entered its
+       current operational power state. This is analogous to the
+       enumeration values defined for eoPowerStateEnterReason
+       in RFC 7460.";
+    reference
+      "RFC 7460: eoPowerStateEnterReason";
+  }
+  identity power-state-on {
+    base power-state;
+    description "full power on.";
+    reference
+      "RFC 7460: PowerStateSet";
+  }
+  identity power-state-off {
+    base power-state;
+    description "power off.";
+    reference
+      "RFC 7460: PowerStateSet";
+  }
+  identity power-state-low-power {
+    base power-state;
+    description "low-power state.";
+    reference
+      "RFC 7460: PowerStateSet";
+  }
   identity unit-multiplier {
     description
       "Base identity for unit multipliers as defined in IEC 61850-7-3
@@ -1913,7 +1967,7 @@ module ietf-power-and-energy {
     description
       "Energy objects container for power and energy attributes.";
     reference
-      "RFC 7460: eoPowerTable";
+      "RFC 7460: eoPowerTable, eoEnergyTable";
 
     list energy-entry {
       key "object-id";
@@ -1922,7 +1976,7 @@ module ietf-power-and-energy {
          Each entry contains the complete set of power and energy attributes
          for a specific physical component.";
       reference
-        "RFC 7460: EoPowerEntry";
+        "RFC 7460: eoPowerEntry, eoEnergyTable";
 
       leaf object-id {
         type string;
@@ -2032,6 +2086,7 @@ module ietf-power-and-energy {
              "RFC 7460: eoPowerMeasurementLocal object";
         }
       }
+
       container energy {
         description
           "Container for energy measurement attributes.";
@@ -2120,7 +2175,28 @@ module ietf-power-and-energy {
             this list is empty, the energy object has no certifications.";
         }
       }
+      container power-state {
+        description
+          "Container for Power state monitoring.";
+        leaf power-state-oper {
+          type identityref {
+            base power-state-oper;
+          }
+          description
+            "The actual operational power state of the Energy Object.
+             This reflects the current state, which may differ from the
+             admin-state during transitions. This leaf is the
+             operational counterpart of the administratively set
+             'power-state-admin' in /energy-control/energy-entry. The
+             two leaves together form the complete power state
+             management interface.";
+          reference
+            "RFC 7460: eoPowerOperState";
+        }
+      }
+
       list relationship {
+        config false;
         key "type";
         description "Relationships for this energy entry. Replaces
         RFC 7461 eoRelationTable.";
@@ -2163,6 +2239,58 @@ module ietf-power-and-energy {
                Useful when network level UUID of the peer is not
                known.";
           }
+        }
+      }
+    }
+  }
+
+  container energy-control {
+    description
+      "Energy control configuration, mirroring monitored objects.";
+    reference
+      "RFC 7460: eoPowerTable";
+    list energy-entry {
+      key "object-id";
+      description
+        "Control entry for a specific energy object.";
+      reference
+        "RFC 7460: eoPowerEntry";
+      leaf object-id {
+        type string;
+        description "Must match an existing energy-object object-id.";
+        must "/energy-objects/energy-entry[object-id=current()]" {
+          error-message "The referenced object-id does not exist in
+                         energy-objects.";
+        }
+      }
+      container power-state {
+        description
+          "Container for Power state management and monitoring.";
+        leaf power-state-admin {
+          type identityref {
+            base power-state-admin;
+          }
+          description
+            "The administratively requested power state for the
+             Energy Object. This is the state that the management
+             system desires the energy object to be in. This leaf is
+             the administrative counterpart of the operational set
+             'power-state-oper' in /energy-objects/energy-entry. The
+             two leaves together form the complete power state
+             management interface.";
+          reference
+            "RFC 7460: eoPowerAdminState";
+        }
+        leaf state-enter-reason {
+          type identityref {
+            base power-state-enter-reason;
+          }
+          description
+            "The reason why the Energy Object entered its current
+             operational power state. This is set whenever the
+             power-state-oper changes.";
+          reference
+            "RFC 7460: eoPowerStateEnterReason";
         }
       }
     }
