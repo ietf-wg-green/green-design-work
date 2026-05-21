@@ -1,24 +1,32 @@
 module: ietf-power-and-energy
   +--ro energy-objects
-     +--ro energy-entry* [object-id]
-        +--ro object-id              string
-        +--ro source-component-id?   -> /hw:hardware/component/name
-        +--ro power
-        |  +--ro instantaneous-power     int32
-        |  +--ro nameplate-power?        uint32
-        |  +--ro unit-multiplier         identityref
-        |  +--ro data-source-accuracy?   identityref
-        |  +--ro power-factor?           power-factor
-        |  +--ro measurement-local?      boolean
-        +--ro energy
-        |  +--ro total-energy-consumed?    uint64
-        |  +--ro total-energy-delivered?   uint64
-        |  +--ro unit-multiplier?          identityref
-        |  +--ro data-source-accuracy?     identityref
-        |  +--ro measurement-local?        boolean
-        |  +--ro certifications*           identityref
-        +--ro relationship* [type]
-           +--ro type    identityref
-           +--ro peer* [id]
-              +--ro id         string
-              +--ro details?   string
+  |  +--ro energy-entry* [object-id]
+  |     +--ro object-id              string
+  |     +--ro source-component-id?   -> /hw:hardware/component/name
+  |     +--ro power
+  |     |  +--ro instantaneous-power     int32
+  |     |  +--ro nameplate-power?        uint32
+  |     |  +--ro unit-multiplier         identityref
+  |     |  +--ro data-source-accuracy?   identityref
+  |     |  +--ro power-factor?           power-factor
+  |     |  +--ro measurement-local?      boolean
+  |     +--ro energy
+  |     |  +--ro total-energy-consumed?    uint64
+  |     |  +--ro total-energy-delivered?   uint64
+  |     |  +--ro unit-multiplier?          identityref
+  |     |  +--ro data-source-accuracy?     identityref
+  |     |  +--ro measurement-local?        boolean
+  |     |  +--ro certifications*           identityref
+  |     +--ro power-state
+  |     |  +--ro power-state-oper?   identityref
+  |     +--ro relationship* [type]
+  |        +--ro type    identityref
+  |        +--ro peer* [id]
+  |           +--ro id         string
+  |           +--ro details?   string
+  +--rw energy-control
+     +--rw energy-entry* [object-id]
+        +--rw object-id      string
+        +--rw power-state
+           +--rw power-state-admin?    identityref
+           +--rw state-enter-reason?   identityref
