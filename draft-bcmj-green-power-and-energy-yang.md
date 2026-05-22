@@ -184,8 +184,13 @@ requirements, please refer to "GREEN reference model" in section 4 in
 
 The Power and Energy Data Model reports the Power and Energy
 consumption of each Energy Object as well as the units, sign,
-measurement accuracy, etc. A containment tree view of the Power and
-Energy Monitoring is presented.
+measurement accuracy, etc.
+
+A containment tree view of the Power and Energy Monitoring is presented.
+The model differentiates power-state-admin and power-state-oper,
+representing the intended and operational power states respectively;
+however, an NMDA design with a single "state" leaf is also a
+possibility.
 
 ~~~~ yangtree
 {::include yang/ietf-power-and-energy.txt}
