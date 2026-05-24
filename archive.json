@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-14T01:55:50.504912+00:00",
+  "timestamp": "2026-05-24T01:57:48.788889+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -1067,20 +1067,62 @@
       "id": "PR_kwDOP9HHVc7a8aUu",
       "title": "Powerstate optimization",
       "url": "https://github.com/ietf-wg-green/green-design-work/pull/28",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "williamchern",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "1. seperate power state monitoring and power state control;\r\n2. clarify that power-state-oper leaf in the monitoring part should be looked at as a whole with oper-state-admin leaf in the control part;\r\n3. add three power states including on, off and low-power as initial input, further states  will be discussed in more details in the future.",
       "createdAt": "2026-05-13T03:37:43Z",
-      "updatedAt": "2026-05-13T03:38:13Z",
+      "updatedAt": "2026-05-21T11:55:39Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "abfe0835d2e49629bd08201148172661d9a82bbb",
       "headRepository": "williamchern/green-design-work",
       "headRefName": "powerstate",
       "headRefOid": "374b5c07518be0d9e59a61b5da73b98a89e319f7",
+      "closedAt": "2026-05-21T11:55:39Z",
+      "mergedAt": "2026-05-21T11:55:38Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "cddb40c7b230c4ba36d68cc17454a51f4c6c8f86"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABAmxPkA",
+          "commit": {
+            "abbreviatedOid": "374b5c0"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Approved, as a first step towards integrating the next series of changes discussed today",
+          "createdAt": "2026-05-21T09:19:59Z",
+          "updatedAt": "2026-05-21T09:19:59Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "id": "PR_kwDOP9HHVc7eLzvs",
+      "title": "Power state and Reference further optimizations.",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/29",
+      "state": "OPEN",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "According to authors' discussion yesterday, the following optimizations are made following Benoit's meeting minutes:\r\n1. Remove references to EMAN (Marisol will put the clarification in Framework draft in the same time)\r\n2. Change the reference to power-state to IANA\r\n3. describe in the YANG model that the oper tree will be way bigger in terms of instances than the config tree (which represent the intent)\r\n4. have a required-instance false leafref from config tree instance to oper tree instance\r\n5. comment in the draft: NMDA design with a single \"state\" leaf is also a possibiliy.",
+      "createdAt": "2026-05-22T02:59:57Z",
+      "updatedAt": "2026-05-22T03:00:23Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "cddb40c7b230c4ba36d68cc17454a51f4c6c8f86",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "powerstate",
+      "headRefOid": "42d95a0b5f6350daa283430403d7672f251ebff0",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
