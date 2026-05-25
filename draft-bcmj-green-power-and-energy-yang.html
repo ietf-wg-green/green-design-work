@@ -1317,12 +1317,19 @@ requirements, please refer to "GREEN reference model" in section 4 in
 consumption of each Energy Object as well as the units, sign,
 measurement accuracy, etc.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">A containment tree view of the Power and Energy Monitoring is presented.
-The model differentiates power-state-admin and power-state-oper,
-representing the intended and operational power states respectively.
-Although an NMDA (Network Management Datastore Architecture) design
-with a single "state" leaf (per [RFC8342]) was considered, it is not
-adopted in this document.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<div class="lang-yangtree sourcecode" id="section-3-3">
+The model differentiates the power-state-admin and power-state-oper YANG leaves,
+representing the intended and operational power states respectively. The
+two leaves together form the complete power state management interface.
+The operational tree ('container energy-objects') will typically contain
+a significantly larger number of instances than the configuration tree
+('container energy-control'). The configuration tree, which is limited to
+explicitly provisioned entries, provides a compact self-contained view
+of the intent. For this reason, although an NMDA (Network Management
+Datastore Architecture) design with a single "state" leaf (per [RFC8342])
+was considered, it is not adopted in this document.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">Finally, note that the instance is in the configuration tree, have a
+required-instance false leafref to operational tree instance.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<div class="lang-yangtree sourcecode" id="section-3-4">
 <pre>
 module: ietf-power-and-energy
   +--ro energy-objects
@@ -1356,7 +1363,7 @@ module: ietf-power-and-energy
         +--rw power-state
            +--rw power-state-admin?    identityref
            +--rw state-enter-reason?   identityref
-</pre><a href="#section-3-3" class="pilcrow">¶</a>
+</pre><a href="#section-3-4" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
