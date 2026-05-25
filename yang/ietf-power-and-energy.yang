@@ -335,8 +335,6 @@ module ietf-power-and-energy {
     description
       "The percent value of the power factor measurement.
        Leaf often omitted, implying 100%.";
-    reference
-      "Replaces RFC 7460: eoPowerCurrentType object";
   }
 
   identity power-state {
@@ -346,7 +344,8 @@ module ietf-power-and-energy {
        for extensibility while maintaining alignment with the IANA
        Power State Set Registry.";
     reference
-      "IANA: Power State Set Registry";
+      "IANA: Power State Set Registry:
+       https://www.iana.org/assignments/power-state-sets/";
   }
   identity power-state-admin {
     base power-state;
@@ -354,8 +353,6 @@ module ietf-power-and-energy {
       "Base identity for administratively requested power states. The 
        administrative power state indicates the desired power state 
        requested for the Energy Object by a management system.";
-    reference
-      "RFC 7460: Section 5.3 (Power State)";
   }
   identity power-state-oper {
     base power-state;
@@ -365,8 +362,6 @@ module ietf-power-and-energy {
        Energy Object. A difference between the administrative state 
        and the operational state indicates that the Energy Object is 
        transitioning between power states.";
-    reference
-      "RFC 7460: Section 5.3 (Power State)";
   }
   identity power-state-enter-reason {
     description
@@ -374,26 +369,27 @@ module ietf-power-and-energy {
        current operational power state. This is analogous to the 
        enumeration values defined for eoPowerStateEnterReason 
        in RFC 7460.";
-    reference
-      "RFC 7460: eoPowerStateEnterReason";
   }
   identity power-state-on {
     base power-state;
     description "full power on.";
     reference
-      "RFC 7460: PowerStateSet";
+      "IANA: Power State Set Registry (ieee1621-power-state-set):
+       https://www.iana.org/assignments/power-state-sets/";
   }
   identity power-state-off {
     base power-state;
     description "power off.";
     reference
-      "RFC 7460: PowerStateSet";
+      "IANA: Power State Set Registry (ieee1621-power-state-set):
+       https://www.iana.org/assignments/power-state-sets/";
   }
-  identity power-state-low-power {
+  identity power-state-sleep {
     base power-state;
     description "low-power state.";
     reference
-      "RFC 7460: PowerStateSet";
+      "IANA: Power State Set Registry (ieee1621-power-state-set):
+       https://www.iana.org/assignments/power-state-sets/";
   }
   identity unit-multiplier {
     description 
@@ -419,8 +415,6 @@ module ietf-power-and-energy {
            zetta(21),    -- 10^21
            yotta(24)     -- 10^24
         ";
-    reference
-      "RFC 7460: UnitMultiplier";
   }
   identity multiplier-yocto {
     description 
@@ -471,8 +465,6 @@ module ietf-power-and-energy {
     description 
       "Represents a multiplier of 10^3 (1,000) associated with the 
        integer units used to measure the power or energy.";
-    reference
-      "RFC 7460: UnitMultiplier";
   }
   identity multiplier-mega {
     description
@@ -511,7 +503,6 @@ module ietf-power-and-energy {
   }
   identity energy-relationship-type {
     description "Base identity for energy object relationships";
-    reference "RFC 7461: IANAEnergyRelationship";
   }
   identity powered-by {
     base energy-relationship-type;
@@ -542,8 +533,6 @@ module ietf-power-and-energy {
     config false;
     description
       "Energy objects container for power and energy attributes.";
-    reference
-      "RFC 7460: eoPowerTable, eoEnergyTable";
     
     list energy-entry {
       key "object-id";
@@ -551,14 +540,11 @@ module ietf-power-and-energy {
         "Power and energy entry for an energy object, indexed by object id.
          Each entry contains the complete set of power and energy attributes
          for a specific physical component.";
-      reference
-        "RFC 7460: eoPowerEntry, eoEnergyTable";
         
       leaf object-id {
         type string;
         description
-          "An identifier that uniquely identifies the energy object 
-          in an energy object.";
+          "An identifier that uniquely identifies the energy object";
       }
       
       leaf source-component-id {
@@ -575,8 +561,7 @@ module ietf-power-and-energy {
       container power {
         description
           "Container for power measurement attributes.";
-        reference
-          "RFC 7460: eoPowerEntry attributes";
+        
         leaf instantaneous-power {
           type int32;
           units "Watts";
@@ -590,8 +575,6 @@ module ietf-power-and-energy {
             indicate power consumption, while negative values can indicate power 
             generation (e.g., for devices with battery backup or 
             renewable energy sources).";
-          reference
-            "RFC 7460: eoPower object";
         }
         
         leaf nameplate-power {
@@ -602,8 +585,6 @@ module ietf-power-and-energy {
             the maximum power that the energy object is designed to consume or
             produce, as specified by the manufacturer. Essential for
             power budget calculations and capacity planning.";
-          reference
-            "RFC 7460: eoPowerNameplate object";
         }
         
         leaf unit-multiplier {
@@ -616,8 +597,6 @@ module ietf-power-and-energy {
             This multiplier applies to both instantaneous-power and nameplate-power
             values, allowing representation of power values from milliwatts
             to gigawatts using integer arithmetic.";
-          reference
-            "RFC 7460: eoPowerUnitMultiplier object";
         }
         
         leaf data-source-accuracy {
@@ -635,8 +614,6 @@ module ietf-power-and-energy {
             This metadata is crucial for network management 
             applications to assess the reliability and accuracy of the 
             power data.";
-          reference
-            "RFC 7460: eoPowerMeasurementCaliber object";
         }
         
         leaf power-factor {
@@ -646,8 +623,6 @@ module ietf-power-and-energy {
             energy object. This information is important for 
             understanding the electrical characteristics of the energy object
             and for correctly interpreting the power data.";
-          reference
-            "Replaces RFC 7460: eoPowerCurrentType object";
         }
 
         leaf measurement-local {
@@ -658,16 +633,12 @@ module ietf-power-and-energy {
              the energy object, while a remote measurement is collected from
              an external source. This information can be useful for
              troubleshooting and understanding the data source.";
-           reference
-             "RFC 7460: eoPowerMeasurementLocal object";
         }
       }
 
       container energy {
         description
           "Container for energy measurement attributes.";
-        reference
-          "RFC 7460: eoEnergyEntry attributes";
         
         leaf total-energy-consumed {
           type uint64;
@@ -680,8 +651,6 @@ module ietf-power-and-energy {
             in this container. This value is useful for tracking
             overall energy usage over time for billing, reporting,
             or optimization purposes.";
-          reference
-            "RFC 7460: eoEnergyConsumed object";
         }
         
         leaf total-energy-delivered {
@@ -696,8 +665,6 @@ module ietf-power-and-energy {
             capable of generating power, such as those with renewable
             energy sources or battery backup systems, or capable of providing
             energy to other energy objects (e.g., PoE switches).";
-          reference
-            "RFC 7460: eoEnergyProduced object";
         }
         leaf unit-multiplier {
           type identityref {
@@ -709,8 +676,6 @@ module ietf-power-and-energy {
              of the energy measurements, allowing representation of
              energy values from milliwatt-hours to gigawatt-hours
              using integer arithmetic.";
-          reference
-            "RFC 7460: eoPowerUnitMultiplier object";
         }
         
         leaf data-source-accuracy {
@@ -728,8 +693,6 @@ module ietf-power-and-energy {
             This metadata is crucial for network management 
             applications to assess the reliability and accuracy of the 
             energy data.";
-          reference
-            "RFC 7460: eoPowerMeasurementCaliber object";
         }
         leaf measurement-local {
           type boolean;
@@ -739,8 +702,6 @@ module ietf-power-and-energy {
              the energy object, while a remote measurement is collected from
              an external source. This information can be useful for
              troubleshooting and understanding the data source.";
-           reference
-             "RFC 7460: eoPowerMeasurementLocal object";
         }
         leaf-list certifications {
           type identityref {
@@ -766,8 +727,6 @@ module ietf-power-and-energy {
              'power-state-admin' in /energy-control/energy-entry. The 
              two leaves together form the complete power state 
              management interface.";
-          reference
-            "RFC 7460: eoPowerOperState";
         }
       }
 
@@ -776,8 +735,6 @@ module ietf-power-and-energy {
         key "type";
         description "Relationships for this energy entry. Replaces 
         RFC 7461 eoRelationTable.";
-        reference
-          "RFC 7461: eoRelationTable, eoRelationEntry";
                 
         leaf type {
           type identityref {
@@ -787,15 +744,11 @@ module ietf-power-and-energy {
           description
             "The type of relationship this energy object has with peer 
             objects.";
-          reference
-            "RFC 7461: eoRelationship, IANAEnergyRelationship";
         }
         
         list peer {
           key "id";
           description "Multiple peers for this relationship type.";
-          reference
-            "RFC 7461: eoRelationID";
           
           leaf id {
             type string;
@@ -805,8 +758,6 @@ module ietf-power-and-energy {
               metered-by, etc. If the network level UUID is not known,
               some other locally unique identifier MAY be used, in
               conjunction with a human readable details.";
-            reference
-              "RFC 7461: eoRelationID (UUIDorZero)";
           }
           leaf details {
             type string;
@@ -822,26 +773,26 @@ module ietf-power-and-energy {
   
   container energy-control {
     description
-      "Energy control configuration, mirroring monitored objects.";
-    reference
-      "RFC 7460: eoPowerTable";
+      "Energy control configuration, mirroring monitored objects. The 
+       operational tree ('container energy-objects') will typically 
+       contain a significantly larger number of instances than the 
+       configuration tree here. The configuration tree represents the 
+       administrator's intent and is limited to explicitly provisioned 
+       entries.";
+    
     list energy-entry {
       key "object-id";
       description
         "Control entry for a specific energy object.";
-      reference
-        "RFC 7460: eoPowerEntry";
+      
       leaf object-id {
         type string;
-        description "Must match an existing energy-object object-id.";
-        must "/energy-objects/energy-entry[object-id=current()]" {
-          error-message "The referenced object-id does not exist in 
-                         energy-objects.";
-        }
+        description 
+          "An identifier that uniquely identifies the energy object.";
       }
       container power-state {
         description
-          "Container for Power state management and monitoring.";
+          "Container for Power state management.";
         leaf power-state-admin {
           type identityref {
             base power-state-admin;
@@ -854,9 +805,8 @@ module ietf-power-and-energy {
              'power-state-oper' in /energy-objects/energy-entry. The 
              two leaves together form the complete power state 
              management interface.";
-          reference
-            "RFC 7460: eoPowerAdminState";
         }
+        
         leaf state-enter-reason {
           type identityref {
             base power-state-enter-reason;
@@ -865,8 +815,6 @@ module ietf-power-and-energy {
             "The reason why the Energy Object entered its current 
              operational power state. This is set whenever the 
              power-state-oper changes.";
-          reference
-            "RFC 7460: eoPowerStateEnterReason";
         }
       }
     }
