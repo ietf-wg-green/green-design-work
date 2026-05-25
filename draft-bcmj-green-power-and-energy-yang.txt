@@ -177,8 +177,8 @@ Table of Contents
    Datastore Architecture) design with a single "state" leaf (per
    [RFC8342]) was considered, it is not adopted in this document.
 
-   Finally, note that the instance is in the configuration tree, have a
-   required-instance false leafref to operational tree instance.
+   Finally, note that the instance is in the configuration tree, having
+   a required-instance false leafref to operational tree instance.
 
    module: ietf-power-and-energy
      +--ro energy-objects
@@ -210,6 +210,7 @@ Table of Contents
         +--rw energy-entry* [object-id]
            +--rw object-id      string
            +--rw power-state
+              +--rw power-state-oper?     -> /energy-objects/energy-entry/power-state/power-state-oper
               +--rw power-state-admin?    identityref
               +--rw state-enter-reason?   identityref
 
@@ -1008,8 +1009,8 @@ Table of Contents
          }
 
          list relationship {
-           config false;
            key "type";
+           config false;
            description "Relationships for this energy entry. Replaces
            RFC 7461 eoRelationTable.";
 
@@ -1070,6 +1071,17 @@ Table of Contents
          container power-state {
            description
              "Container for Power state management.";
+
+           leaf power-state-oper {
+             type leafref {
+               path "/energy-objects/energy-entry/power-state/power-state-oper";
+               require-instance false;
+             }
+             description
+               "References the corresponding operational energy object
+                instance in the monitoring tree.";
+           }
+
            leaf power-state-admin {
              type identityref {
                base power-state-admin;
