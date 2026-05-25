@@ -380,6 +380,7 @@ module ietf-power-and-energy {
   identity power-state-off {
     base power-state;
     description "power off.";
+    reference
       "IANA: Power State Set Registry (ieee1621-power-state-set):
        https://www.iana.org/assignments/power-state-sets/";
   }
@@ -792,18 +793,6 @@ module ietf-power-and-energy {
       container power-state {
         description
           "Container for Power state management.";
-        
-        leaf power-state-oper {
-          type leafref {
-            path "/energy-objects/energy-entry/power-state/
-                  power-state-oper";
-          }
-          required-instance false;
-          description
-            "References the corresponding operational energy object 
-             instance in the monitoring tree.";
-        }
-
         leaf power-state-admin {
           type identityref {
             base power-state-admin;
