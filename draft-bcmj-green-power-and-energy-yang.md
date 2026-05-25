@@ -189,7 +189,8 @@ measurement accuracy, etc.
 A containment tree view of the Power and Energy Monitoring is presented.
 The model differentiates power-state-admin and power-state-oper,
 representing the intended and operational power states respectively;
-however, an NMDA design with a single "state" leaf is also a
+however, an using NMDA (Network Management Datastore Architecture) 
+defined in [RFC8342] to design with a single "state" leaf is also a
 possibility.
 
 ~~~~ yangtree
