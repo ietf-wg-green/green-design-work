@@ -194,11 +194,11 @@ The operational tree ('container energy-objects') will typically contain
 a significantly larger number of instances than the configuration tree
 ('container energy-control'). The configuration tree, which is limited to
 explicitly provisioned entries, provides a compact self-contained view
-of the intent. For this reason, although an NMDA (Network Management 
-Datastore Architecture) design with a single "state" leaf (per [RFC8342]) 
+of the intent. For this reason, although an NMDA (Network Management
+Datastore Architecture) design with a single "state" leaf (per [RFC8342])
 was considered, it is not adopted in this document.
 
-Finally, note that the instance is in the configuration tree, have a 
+Finally, note that the instance is in the configuration tree, have a
 required-instance false leafref to operational tree instance.
 
 
