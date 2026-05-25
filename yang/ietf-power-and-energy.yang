@@ -731,8 +731,8 @@ module ietf-power-and-energy {
       }
 
       list relationship {
-        config false;
         key "type";
+        config false;
         description "Relationships for this energy entry. Replaces 
         RFC 7461 eoRelationTable.";
                 
@@ -793,6 +793,17 @@ module ietf-power-and-energy {
       container power-state {
         description
           "Container for Power state management.";
+        
+        leaf power-state-oper {
+          type leafref {
+            path "/energy-objects/energy-entry/power-state/power-state-oper";
+            require-instance false;
+          }
+          description
+            "References the corresponding operational energy object 
+             instance in the monitoring tree.";
+        }
+
         leaf power-state-admin {
           type identityref {
             base power-state-admin;

@@ -28,5 +28,6 @@ module: ietf-power-and-energy
      +--rw energy-entry* [object-id]
         +--rw object-id      string
         +--rw power-state
+           +--rw power-state-oper?     -> /energy-objects/energy-entry/power-state/power-state-oper
            +--rw power-state-admin?    identityref
            +--rw state-enter-reason?   identityref
