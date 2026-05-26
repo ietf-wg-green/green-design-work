@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-24T01:57:48.788889+00:00",
+  "timestamp": "2026-05-26T01:55:31.369018+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -144,6 +144,22 @@
           "updatedAt": "2026-02-06T16:52:50Z"
         }
       ]
+    },
+    {
+      "number": 33,
+      "id": "I_kwDOP9HHVc8AAAABDS8ADQ",
+      "title": "Some text around the IEEE power state set",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/33",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Right now, there is just one reference to IEEE in the YANG module",
+      "createdAt": "2026-05-25T10:21:12Z",
+      "updatedAt": "2026-05-25T10:21:12Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -1109,20 +1125,246 @@
       "id": "PR_kwDOP9HHVc7eLzvs",
       "title": "Power state and Reference further optimizations.",
       "url": "https://github.com/ietf-wg-green/green-design-work/pull/29",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "williamchern",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "According to authors' discussion yesterday, the following optimizations are made following Benoit's meeting minutes:\r\n1. Remove references to EMAN (Marisol will put the clarification in Framework draft in the same time)\r\n2. Change the reference to power-state to IANA\r\n3. describe in the YANG model that the oper tree will be way bigger in terms of instances than the config tree (which represent the intent)\r\n4. have a required-instance false leafref from config tree instance to oper tree instance\r\n5. comment in the draft: NMDA design with a single \"state\" leaf is also a possibiliy.",
+      "body": "According to authors' discussion yesterday, the following optimizations are made following Benoit's meeting minutes:\r\n1. Remove references to EMAN (Marisol will put the clarification in Framework draft in the same time)\r\n2. Change the reference to power-state to IANA\r\n3. describe in the YANG model that the oper tree will be way bigger in terms of instances than the config tree (which represent the intention)\r\n4. have a required-instance false leafref from config tree instance to oper tree instance\r\n5. comment in the draft: NMDA design with a single \"state\" leaf is also a possibiliy.",
       "createdAt": "2026-05-22T02:59:57Z",
-      "updatedAt": "2026-05-22T03:00:23Z",
+      "updatedAt": "2026-05-25T02:42:50Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "cddb40c7b230c4ba36d68cc17454a51f4c6c8f86",
       "headRepository": "williamchern/green-design-work",
       "headRefName": "powerstate",
-      "headRefOid": "42d95a0b5f6350daa283430403d7672f251ebff0",
+      "headRefOid": "cdb37eba87df32f5834f5f98fe020408c0e33be1",
+      "closedAt": "2026-05-25T02:42:50Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Please introduce a reference to NMDA >>>(Network Management Datastore Architecture,  RFC 8342)",
+          "createdAt": "2026-05-24T09:05:54Z",
+          "updatedAt": "2026-05-24T09:05:54Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABA4N1og",
+          "commit": {
+            "abbreviatedOid": "42d95a0"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-25T02:31:21Z",
+          "updatedAt": "2026-05-25T02:31:21Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "According to Marisol's review, add reference to NMDA.",
+              "createdAt": "2026-05-25T02:31:21Z",
+              "updatedAt": "2026-05-25T02:31:21Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "id": "PR_kwDOP9HHVc7e49Zr",
+      "title": "Powerstate further optimizations",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/30",
+      "state": "CLOSED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "According to authors' discussion, the following optimizations are made following Benoit's meeting minutes:\r\n1.\tRemove references to EMAN (Marisol will put the clarification in Framework draft in the same time)\r\n2.\tChange the reference to power-state to IANA\r\n3.\tdescribe in the YANG model that the oper tree will be way bigger in terms of instances than the config tree (which represent the intention)\r\n4.\thave a required-instance false leafref from config tree instance to oper tree instance\r\n5.\tcomment in the draft: NMDA design with a single \"state\" leaf is considered but not adopted and adding full term description and rfc reference.\r\n",
+      "createdAt": "2026-05-25T03:12:14Z",
+      "updatedAt": "2026-05-25T03:27:37Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "cddb40c7b230c4ba36d68cc17454a51f4c6c8f86",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "powerstate",
+      "headRefOid": "019ea34bbb753f6d03bc1bf478e14b5c258064f7",
+      "closedAt": "2026-05-25T03:26:41Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "body": "need to fix pyang format alarms before merge.",
+          "createdAt": "2026-05-25T03:27:37Z",
+          "updatedAt": "2026-05-25T03:27:37Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 31,
+      "id": "PR_kwDOP9HHVc7e74eT",
+      "title": "Remove power-state-oper in config tree with leafref to power-state-oper in oper tree",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/31",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "According to authors' discussion yesterday, the following optimizations are made following Benoit's meeting minutes:\r\n1.      Remove references to EMAN (Marisol will put the clarification in Framework draft in the same time)\r\n2.      Change the reference to power-state to IANA\r\n3.      describe in the YANG model that the oper tree will be way bigger in terms of instances than the config tree (which represent the intent)\r\n4.      have a required-instance false leafref from config tree instance to oper tree instance (removed because of pyang lint error)\r\n5.      comment in the draft: NMDA design with a single \"state\" leaf is also a possibility.\r\n",
+      "createdAt": "2026-05-25T06:46:22Z",
+      "updatedAt": "2026-05-25T06:48:28Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "cddb40c7b230c4ba36d68cc17454a51f4c6c8f86",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "powerstate",
+      "headRefOid": "7e5c34c998098bdc2830c220011483256b0a2b5d",
+      "closedAt": "2026-05-25T06:48:27Z",
+      "mergedAt": "2026-05-25T06:48:27Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "e949d521b5826d1a3c49ad51eb862c3cb7d8f151"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 32,
+      "id": "PR_kwDOP9HHVc7e_Kx8",
+      "title": "YANG module design choice",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/32",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Clarified the differentiation between power-state-admin and power-state-oper YANG leaves, and explained the structure of the operational and configuration trees.",
+      "createdAt": "2026-05-25T09:36:57Z",
+      "updatedAt": "2026-05-25T10:41:14Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "e949d521b5826d1a3c49ad51eb862c3cb7d8f151",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "bclaise-patch-6",
+      "headRefOid": "b553b62b30be31fa2954a302ac80b34fc5f173e0",
+      "closedAt": "2026-05-25T10:41:13Z",
+      "mergedAt": "2026-05-25T10:41:13Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "ce82b42c159b3d9c22ac520ef32ee2eb91daa55a"
+      },
+      "comments": [
+        {
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Looks good, I will merge this and fix the leafref issue and publish a new version based on these changes. Thanks.",
+          "createdAt": "2026-05-25T10:41:05Z",
+          "updatedAt": "2026-05-25T10:41:05Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABA57kGw",
+          "commit": {
+            "abbreviatedOid": "de77c0d"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-05-25T09:40:23Z",
+          "updatedAt": "2026-05-25T09:42:27Z",
+          "comments": [
+            {
+              "originalPosition": 11,
+              "body": "```suggestion\ntwo leaves together form the complete power state management interface.\n```",
+              "createdAt": "2026-05-25T09:40:23Z",
+              "updatedAt": "2026-05-25T09:42:28Z"
+            },
+            {
+              "originalPosition": 12,
+              "body": "```suggestion\nThe operational tree ('container energy-objects') will typically contain\n```",
+              "createdAt": "2026-05-25T09:41:22Z",
+              "updatedAt": "2026-05-25T09:42:28Z"
+            },
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\na significantly larger number of instances than the configuration tree\n```",
+              "createdAt": "2026-05-25T09:41:40Z",
+              "updatedAt": "2026-05-25T09:42:28Z"
+            },
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\n('container energy-control'). The configuration tree, which is limited to\n```",
+              "createdAt": "2026-05-25T09:41:49Z",
+              "updatedAt": "2026-05-25T09:42:28Z"
+            },
+            {
+              "originalPosition": 23,
+              "body": "```suggestion\nexplicitly provisioned entries, provides a compact self-contained view\nof the intent. For this reason, although an NMDA (Network Management\nDatastore Architecture) design with a single \"state\" leaf (per [RFC8342])\nwas considered, it is not adopted in this document.\n\nFinally, note that the instance is in the configuration tree, have a\nrequired-instance false leafref to operational tree instance.\n\n\n```",
+              "createdAt": "2026-05-25T09:42:20Z",
+              "updatedAt": "2026-05-25T09:42:28Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOP9HHVc7fAoDv",
+      "title": "add the leafref back after fixing the pyang errors",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/34",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add require-instance false leafref from config tree instance to oper tree instance.",
+      "createdAt": "2026-05-25T10:51:34Z",
+      "updatedAt": "2026-05-25T10:52:12Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "ce82b42c159b3d9c22ac520ef32ee2eb91daa55a",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "powerstate",
+      "headRefOid": "7d9a69aa79c32a7230232651260ae4a223c573ac",
+      "closedAt": "2026-05-25T10:52:12Z",
+      "mergedAt": "2026-05-25T10:52:12Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "40f4df8bbe760821391aec090083fc5ecc837dac"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 35,
+      "id": "PR_kwDOP9HHVc7fD_Mi",
+      "title": "change power-enter-reason type from identity to string",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/35",
+      "state": "OPEN",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "As decided on the design team meeting today, the type of power-enter-reason should be changed from identity to reason unless there is clear usecase for the demand of identity.",
+      "createdAt": "2026-05-25T13:50:37Z",
+      "updatedAt": "2026-05-25T13:50:55Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "40f4df8bbe760821391aec090083fc5ecc837dac",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "powerstate",
+      "headRefOid": "5384fdb880b6fa50791454a7a10ba9a6e4e3ca98",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
