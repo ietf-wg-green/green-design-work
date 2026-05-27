@@ -5,12 +5,12 @@
 GREEN                                                          C. Benoit
 Internet-Draft                                            Everything OPS
 Intended status: Standards Track                                  C. Gen
-Expires: 26 November 2026                                         Huawei
+Expires: 28 November 2026                                         Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                             25 May 2026
+                                                             27 May 2026
 
 
                       Power and Energy YANG Module
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 November 2026.
+   This Internet-Draft will expire on 28 November 2026.
 
 Copyright Notice
 
@@ -210,9 +210,8 @@ Table of Contents
         +--rw energy-entry* [object-id]
            +--rw object-id      string
            +--rw power-state
-              +--rw power-state-oper?     -> /energy-objects/energy-entry/power-state/power-state-oper
-              +--rw power-state-admin?    identityref
-              +--rw state-enter-reason?   identityref
+              +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper
+              +--rw power-state-admin?   identityref
 
 4.  Relationship to the Hardware YANG Data Model
 
@@ -288,7 +287,7 @@ Table of Contents
          "RFC 8348: A YANG Data Model for Hardware Management";
      }
 
-     import ietf-iana-power-and-energy {
+     import iana-ietf-power-and-energy {
        prefix ianaeo;
        reference
          "IANA-defined identities for power and energy class";
@@ -640,13 +639,6 @@ Table of Contents
           Energy Object. A difference between the administrative state
           and the operational state indicates that the Energy Object is
           transitioning between power states.";
-     }
-     identity power-state-enter-reason {
-       description
-         "Base identity for reasons why an Energy Object entered its
-          current operational power state. This is analogous to the
-          enumeration values defined for eoPowerStateEnterReason
-          in RFC 7460.";
      }
      identity power-state-on {
        base power-state;
@@ -1095,16 +1087,6 @@ Table of Contents
                 two leaves together form the complete power state
                 management interface.";
            }
-
-           leaf state-enter-reason {
-             type identityref {
-               base power-state-enter-reason;
-             }
-             description
-               "The reason why the Energy Object entered its current
-                operational power state. This is set whenever the
-                power-state-oper changes.";
-           }
          }
        }
      }
@@ -1115,9 +1097,9 @@ Table of Contents
    separately described below.
 
    <CODE BEGINS>
-   module ietf-iana-power-and-energy {
+   module iana-ietf-power-and-energy {
      yang-version 1.1;
-     namespace "urn:ietf:params:xml:ns:yang:ietf-iana-power-and-energy";
+     namespace "urn:ietf:params:xml:ns:yang:iana-ietf-power-and-energy";
      prefix ianaeo;
 
      organization "IANA";
@@ -1439,9 +1421,9 @@ Table of Contents
    +=========+========================================================+
    |Field    | Value                                                  |
    +=========+========================================================+
-   |Name     | ietf-iana-power-and-energy                             |
+   |Name     | iana-ietf-power-and-energy                             |
    +---------+--------------------------------------------------------+
-   |Namespace| urn:ietf:params:xml:ns:yang:ietf-iana-power-and-energy |
+   |Namespace| urn:ietf:params:xml:ns:yang:iana-ietf-power-and-energy |
    +---------+--------------------------------------------------------+
    |Prefix   | ianaeo                                                 |
    +---------+--------------------------------------------------------+
@@ -1453,17 +1435,17 @@ Table of Contents
    Note to IANA: RFC XXXX must be replaced by the newly assigned RFC
    number.
 
-   All sub-registries defined in this document are part of the "Power
-   and Energy" registry group.
+   All registries defined in this document are part of the "Power and
+   Energy" registry group.
 
 8.1.  GREEN Certification Type Registry
 
-   This document requests IANA to create a new sub-registry called
-   "Power and Energy Certification Types" within the "Power and Energy"
+   This document requests IANA to create a new registry called "Power
+   and Energy Certification Types" within the "Power and Energy"
    registry group.
 
    This document defines the initial version of the IANA-maintained
-   certification-type identity in the ietf-iana-power-and-energy YANG
+   certification-type identity in the iana-ietf-power-and-energy YANG
    module.  The registry assigns string identity names for power and
    energy efficiency certification types, for use as identityref values
    in "ietf-power-and-energy" YANG module.  The registered value is the
@@ -1484,7 +1466,7 @@ Table of Contents
       the official certification name.
 
    When a new certification type is added to the registry, a new
-   identity statement MUST be added to the ietf-iana-power-and-energy
+   identity statement MUST be added to the iana-ietf-power-and-energy
    YANG module.  The following substatements to the identity statement
    MUST be defined:
 
@@ -1504,17 +1486,17 @@ Table of Contents
 
    When the "Power and Energy Certification Types" registry is updated
    with a new entry, a corresponding new identity statement MUST be
-   added to the ietf-iana-power-and-energy YANG module, and a new
+   added to the iana-ietf-power-and-energy YANG module, and a new
    revision statement MUST be added in front of the existing revision
    statements.
 
    IANA is requested to add the following note to the "Power and Energy
    Certification Types" registry:
 
-   Certification types MUST NOT be directly added to the ietf-iana-
+   Certification types MUST NOT be directly added to the iana-ietf-
    power-and-energy YANG module.  They MUST instead be added to the
    "Power and Energy Certification Types" registry.  When this registry
-   is updated, the ietf-iana-power-and-energy YANG module MUST be
+   is updated, the iana-ietf-power-and-energy YANG module MUST be
    updated as defined in RFC XXXX.
 
 9.  Acknowledgments
