@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-05-28T01:48:12.472274+00:00",
+  "timestamp": "2026-06-07T02:10:22.690582+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -208,6 +208,30 @@
       "updatedAt": "2026-05-26T12:55:09Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 40,
+      "id": "I_kwDOP9HHVc8AAAABEWIl-w",
+      "title": "YANG module in the draft not picked up by the yangcatalog.org",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/40",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Reason: the CODE BEGINS does not have the right convention\n\nhttps://datatracker.ietf.org/doc/rfc9907/\n\n1.1.  Changes Since RFC 8407\n\n  ...\n\n   *  Updated the guidance so that the \"file name\" after the \"<CODE\n      BEGINS>\" tag is mandatory.\n\n\n\n   The \"<CODE BEGINS>\" tag MUST be followed by a string identifying the\n   file name specified in Section 5.2 of [RFC7950].  The name string\n   form that includes the revision date SHOULD be used.  The revision\n   date MUST match the date used in the most recent revision of the\n   module.\n\n   The following example is for the \"2016-03-20\" revision of the \"ietf-\n   foo\" module:\n\n   <CODE BEGINS>\n   file \"ietf-foo@2016-03-20.yang\"\n\n       module ietf-foo {\n         namespace \"urn:ietf:params:xml:ns:yang:ietf-foo\";\n         prefix \"foo\";\n         organization \"...\";\n         contact \"...\";\n         description \"...\";\n         revision 2016-03-20 {\n           description \"Latest revision\";\n           reference \"RFC FFFF: Foo Protocol\";\n         }\n         // ... more statements\n       }\n   <CODE ENDS>",
+      "createdAt": "2026-06-04T07:06:19Z",
+      "updatedAt": "2026-06-04T07:32:15Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Actually, it seems the YANG is picked by the yangcatalog.\nSee https://www.yangcatalog.org/yang-search/module_details/ietf-power-and-energy@2026-01-22\nWhat is missing is the link from the datatracker to the the yangcatalog.org",
+          "createdAt": "2026-06-04T07:32:15Z",
+          "updatedAt": "2026-06-04T07:32:15Z"
+        }
+      ]
     }
   ],
   "pulls": [
