@@ -39,13 +39,21 @@ module iana-ietf-power-and-energy {
   reference
     "https://www.iana.org/assignments/yang-parameters";
 
+  revision 2026-05-27 {
+    description
+      "Marisol's update following IANA feedback;";
+    reference
+      "RFC XXX: A YANG Data Model for Power and Energy monitoring and 
+       control of devices within or connected to communication 
+       networks";
+  }  
   revision 2026-02-26 {
     description
       "Initial revision.";
     reference
       "RFC XXX: A YANG Data Model for Power and Energy monitoring and 
-     control of devices within or connected to communication 
-     networks";
+       control of devices within or connected to communication 
+       networks";
   }
 
   identity certification-type {

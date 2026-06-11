@@ -43,7 +43,16 @@ module ietf-power-and-energy {
      This version of this YANG module is part of RFC XXXX
      (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
      for full legal notices.";
-  
+
+  revision 2026-05-27 {
+    description
+      "state-enter-reason identity removed; adding leafref from config tree 
+       instance to oper tree instance; remove references to EMAN and 
+       clarify it in the framework draft; comment in the draft on NMDA 
+       design.";
+    reference
+      "RFC XXXX: Energy Object YANG Data Model";
+  }  
   revision 2026-01-22 {
     description
       "Initial revision";

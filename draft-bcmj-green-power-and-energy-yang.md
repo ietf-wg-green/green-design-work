@@ -205,7 +205,7 @@ required-instance false leafref to operational tree instance.
 ~~~~ yangtree
 {::include yang/ietf-power-and-energy.txt}
 ~~~~
-{: markers="true" name="ietf-power-and-energy@2025-12.txt”}
+{: markers="true" name="ietf-power-and-energy@2026-05-27.txt"}
 
 # Relationship to the Hardware YANG Data Model
 
@@ -272,7 +272,7 @@ of network devices and the components on these devices.
 ~~~~ yang
 {::include yang/ietf-power-and-energy.yang}
 ~~~~
-{: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy.yang”}
+{: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy@2026-05-27.yang"}
 
 The IANA requested identities for power and energy class are separately
 described below.
@@ -280,7 +280,7 @@ described below.
 ~~~~ yang
 {::include yang/iana-ietf-power-and-energy.yang}
 ~~~~
-{: sourcecode-markers="true" sourcecode-name="iana-ietf-power-and-energy.yang”}
+{: sourcecode-markers="true" sourcecode-name="iana-ietf-power-and-energy@2026-05-27.yang"}
 # Operational Considerations
 
 Heterogeneous sensor capabilities across components complicate power
