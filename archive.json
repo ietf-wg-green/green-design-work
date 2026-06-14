@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-07T02:10:22.690582+00:00",
+  "timestamp": "2026-06-14T02:14:07.838799+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -1485,6 +1485,32 @@
       "mergeCommit": {
         "oid": "4c0df4b3bec6347402711e5e39d5cfa82a8de54f"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 41,
+      "id": "PR_kwDOP9HHVc7lTNKT",
+      "title": "fix the issue of file name missing behind the \"code begins\".",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/41",
+      "state": "OPEN",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "fix the issue of file name missing behind the \"code begins\".",
+      "createdAt": "2026-06-11T12:10:45Z",
+      "updatedAt": "2026-06-11T12:10:45Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "4c0df4b3bec6347402711e5e39d5cfa82a8de54f",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "446c9c4a6801800300866c2e33016d630cc50794",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
