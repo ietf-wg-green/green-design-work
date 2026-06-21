@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-18T02:15:19.259089+00:00",
+  "timestamp": "2026-06-21T02:27:17.320994+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -78,9 +78,17 @@
       "labels": [],
       "body": "I.e., do you have to configure all the sources within this model, or can they come from somewhere else.",
       "createdAt": "2025-10-20T13:22:58Z",
-      "updatedAt": "2025-10-20T13:22:58Z",
+      "updatedAt": "2026-06-18T08:12:11Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In the GREEN framework, we should better explain read/write in section 3.1.2\n\n3.1.2.  Controller vs. Device Initiated\n\n   The framework supports both initiation models:\n\n   *  Controller-Initiated:\n\n      -  Controller subscribes to Energy Objects streaming.\n\n      -  Provides centralized control over monitoring scope and\n         frequency\n\n      -  Enables dynamic adjustment of monitoring based on operational\n         needs\n\n   *  Device-Initiated:\n\n      -  Devices can autonomously report critical energy events\n\n      -  Useful for threshold violations or hardware failures\n\n      -  Complements controller-initiated subscriptions",
+          "createdAt": "2026-06-18T08:12:11Z",
+          "updatedAt": "2026-06-18T08:12:11Z"
+        }
+      ]
     },
     {
       "number": 4,
@@ -236,7 +244,7 @@
       "labels": [],
       "body": "Reason: the CODE BEGINS does not have the right convention\n\nhttps://datatracker.ietf.org/doc/rfc9907/\n\n1.1.  Changes Since RFC 8407\n\n  ...\n\n   *  Updated the guidance so that the \"file name\" after the \"<CODE\n      BEGINS>\" tag is mandatory.\n\n\n\n   The \"<CODE BEGINS>\" tag MUST be followed by a string identifying the\n   file name specified in Section 5.2 of [RFC7950].  The name string\n   form that includes the revision date SHOULD be used.  The revision\n   date MUST match the date used in the most recent revision of the\n   module.\n\n   The following example is for the \"2016-03-20\" revision of the \"ietf-\n   foo\" module:\n\n   <CODE BEGINS>\n   file \"ietf-foo@2016-03-20.yang\"\n\n       module ietf-foo {\n         namespace \"urn:ietf:params:xml:ns:yang:ietf-foo\";\n         prefix \"foo\";\n         organization \"...\";\n         contact \"...\";\n         description \"...\";\n         revision 2016-03-20 {\n           description \"Latest revision\";\n           reference \"RFC FFFF: Foo Protocol\";\n         }\n         // ... more statements\n       }\n   <CODE ENDS>",
       "createdAt": "2026-06-04T07:06:19Z",
-      "updatedAt": "2026-06-04T07:32:15Z",
+      "updatedAt": "2026-06-18T07:46:12Z",
       "closedAt": null,
       "comments": [
         {
@@ -245,8 +253,47 @@
           "body": "Actually, it seems the YANG is picked by the yangcatalog.\nSee https://www.yangcatalog.org/yang-search/module_details/ietf-power-and-energy@2026-01-22\nWhat is missing is the link from the datatracker to the the yangcatalog.org",
           "createdAt": "2026-06-04T07:32:15Z",
           "updatedAt": "2026-06-04T07:32:15Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I opened this ticket with the datatracker: https://github.com/ietf-tools/datatracker/issues/11012",
+          "createdAt": "2026-06-18T07:46:12Z",
+          "updatedAt": "2026-06-18T07:46:12Z"
         }
       ]
+    },
+    {
+      "number": 42,
+      "id": "I_kwDOP9HHVc8AAAABF5DS1g",
+      "title": "Per's feedback during the Call for Adoption",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/42",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hi,\n\nI suggest that the reference RFC 4122 is updated to 9562 and\nthat the type yang:uuid is used instead of string for\n/energy-objects/energy-entry/relationship/peer/id\n\nThe following errors are reported by pyang:\n\n# ietf-power-and-energy.yang\n\nietf-power-and-energy.yang:45: warning: RFC 8407: 3.1: The IETF Trust\nCopyright statement seems to be missing or is not correct (see pyang\n--ietf-help for details).\nietf-power-and-energy.yang:768: warning: the module seems to use RFC\n2119 keywords, but the required text from RFC 8174 is not found or is\nnot correct (see pyang --ietf-help for details).\n\nFurthermore I suggest to add authors to the YANG module contact\nstatement.\n\n\n# iana-ietf-power-and-energy.yang\n\niana-ietf-power-and-energy.yang:38: warning: RFC 8407: 3.1: The IETF\nTrust Copyright statement seems to be missing or is not correct (see\npyang --ietf-help for details).\n\nThe name contains both iana and ietf, I suggest to drop \"ietf-\" from\nthe name.\n\nThe placeholder is \"XXX\" and not \"XXXX\", and there is no instruction\nto the RFC Editor what to do with the placeholder.\n\n\nNit: The section number is not rendered properly for the\nOperational Considerations section.\n\n\n--",
+      "createdAt": "2026-06-18T07:50:16Z",
+      "updatedAt": "2026-06-18T07:50:16Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 43,
+      "id": "I_kwDOP9HHVc8AAAABF83VTg",
+      "title": "Tony's feedback during call for adoption",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/43",
+      "state": "OPEN",
+      "author": "tony1athome",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "1. The notion of accuracy bands and tolerance classes seems unnecessary. We have the capability of transmitting numbers.  If I know that my measurement is +/- 23.7%, why not just say so?\n2. Re: Power state.  You\u2019ve provided a URL to the IANA page for power states.  All well and good, except that there are three different sets of power states on that page.  I think we\u2019re using IEEE1621, so the URL should point to that. https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621\n3. I don\u2019t see how instantaneous power can be mandatory. Most devices today do not have power meters built-in and will not, due to cost reasons. It would make much more sense to make nameplate-power mandatory instead.\n",
+      "createdAt": "2026-06-18T16:43:01Z",
+      "updatedAt": "2026-06-18T16:43:01Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
