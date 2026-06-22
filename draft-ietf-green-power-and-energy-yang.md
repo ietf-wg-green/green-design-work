@@ -1,7 +1,7 @@
 ---
 title: Power and Energy YANG Module
 abbrev: GREEN-PEM-YANG
-docname: draft-bcmj-green-power-and-energy-yang-latest
+docname: draft-ietf-green-power-and-energy-yang-latest
 category: std
 submissionType: IETF
 
@@ -205,7 +205,7 @@ required-instance false leafref to operational tree instance.
 ~~~~ yangtree
 {::include yang/ietf-power-and-energy.txt}
 ~~~~
-{: markers="true" name="ietf-power-and-energy@2025-12.txt”}
+{: markers="true" name="ietf-power-and-energy@2026-05-27.txt"}
 
 # Relationship to the Hardware YANG Data Model
 
@@ -215,7 +215,7 @@ three identifiers for hardware components, which are "name",
 "physical-index" and "uuid". Among them, "name" is the key to "List of
 components", "physical-index" matches entPhysicalIndex in the legacy
 Entity MIB {{?RFC6933}} if it exists, and UUID is the Universally
-Unified IDentifier {{?RFC4122}} of the component.
+Unified IDentifier {{?RFC9562}} of the component.
 
 In the Power and Energy YANG Module defined in this specification,
 there is a leaf named "source-component-id" which refers to the
@@ -272,7 +272,7 @@ of network devices and the components on these devices.
 ~~~~ yang
 {::include yang/ietf-power-and-energy.yang}
 ~~~~
-{: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy.yang”}
+{: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy@2026-05-27.yang"}
 
 The IANA requested identities for power and energy class are separately
 described below.
@@ -280,7 +280,7 @@ described below.
 ~~~~ yang
 {::include yang/iana-ietf-power-and-energy.yang}
 ~~~~
-{: sourcecode-markers="true" sourcecode-name="iana-ietf-power-and-energy.yang”}
+{: sourcecode-markers="true" sourcecode-name="iana-ietf-power-and-energy@2026-05-27.yang"}
 # Operational Considerations
 
 Heterogeneous sensor capabilities across components complicate power
