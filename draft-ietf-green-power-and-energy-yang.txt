@@ -5,16 +5,16 @@
 GREEN                                                          C. Benoit
 Internet-Draft                                            Everything OPS
 Intended status: Standards Track                                  C. Gen
-Expires: 3 September 2026                                         Huawei
+Expires: 24 December 2026                                         Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                            2 March 2026
+                                                            22 June 2026
 
 
                       Power and Energy YANG Module
-             draft-bcmj-green-power-and-energy-yang-latest
+             draft-ietf-green-power-and-energy-yang-latest
 
 Abstract
 
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2026.
+   This Internet-Draft will expire on 24 December 2026.
 
 Copyright Notice
 
@@ -61,16 +61,15 @@ Table of Contents
    4.  Relationship to the Hardware YANG Data Model
    5.  Relationship to the EMAN Work
    6.  Power and Energy YANG Module
-   7.  Operational Considerations
-     7.1.  Measurement Accuracy and Data Source Classification
-     7.2.  Industry-Standard Certifications
-   8.  Security Considerations
-   9.  IANA Considerations
-     9.1.  GREEN Certification Type Registry
-   10. Acknowledgments
-   11. References
-     11.1.  Normative References
-     11.2.  Informative References
+     6.1.  Measurement Accuracy and Data Source Classification
+     6.2.  Industry-Standard Certifications
+   7.  Security Considerations
+   8.  IANA Considerations
+     8.1.  GREEN Certification Type Registry
+   9.  Acknowledgments
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Authors' Addresses
 
 1.  Introduction
@@ -163,33 +162,56 @@ Table of Contents
 
    The Power and Energy Data Model reports the Power and Energy
    consumption of each Energy Object as well as the units, sign,
-   measurement accuracy, etc.  A containment tree view of the Power and
-   Energy Monitoring is presented.
+   measurement accuracy, etc.
+
+   A containment tree view of the Power and Energy Monitoring is
+   presented.  The model differentiates the power-state-admin and power-
+   state-oper YANG leaves, representing the intended and operational
+   power states respectively.  The two leaves together form the complete
+   power state management interface.  The operational tree ('container
+   energy-objects') will typically contain a significantly larger number
+   of instances than the configuration tree ('container energy-
+   control').  The configuration tree, which is limited to explicitly
+   provisioned entries, provides a compact self-contained view of the
+   intent.  For this reason, although an NMDA (Network Management
+   Datastore Architecture) design with a single "state" leaf (per
+   [RFC8342]) was considered, it is not adopted in this document.
+
+   Finally, note that the instance is in the configuration tree, having
+   a required-instance false leafref to operational tree instance.
 
    module: ietf-power-and-energy
      +--ro energy-objects
-        +--ro energy-entry* [object-id]
-           +--ro object-id              string
-           +--ro source-component-id?   -> /hw:hardware/component/name
-           +--ro power
-           |  +--ro instantaneous-power     int32
-           |  +--ro nameplate-power?        uint32
-           |  +--ro unit-multiplier         identityref
-           |  +--ro data-source-accuracy?   identityref
-           |  +--ro power-factor?           power-factor
-           |  +--ro measurement-local?      boolean
-           +--ro energy
-           |  +--ro total-energy-consumed?    uint64
-           |  +--ro total-energy-delivered?   uint64
-           |  +--ro unit-multiplier?          identityref
-           |  +--ro data-source-accuracy?     identityref
-           |  +--ro measurement-local?        boolean
-           |  +--ro certifications*           identityref
-           +--ro relationship* [type]
-              +--ro type    identityref
-              +--ro peer* [id]
-                 +--ro id         string
-                 +--ro details?   string
+     |  +--ro energy-entry* [object-id]
+     |     +--ro object-id              string
+     |     +--ro source-component-id?   -> /hw:hardware/component/name
+     |     +--ro power
+     |     |  +--ro instantaneous-power     int32
+     |     |  +--ro nameplate-power?        uint32
+     |     |  +--ro unit-multiplier         identityref
+     |     |  +--ro data-source-accuracy?   identityref
+     |     |  +--ro power-factor?           power-factor
+     |     |  +--ro measurement-local?      boolean
+     |     +--ro energy
+     |     |  +--ro total-energy-consumed?    uint64
+     |     |  +--ro total-energy-delivered?   uint64
+     |     |  +--ro unit-multiplier?          identityref
+     |     |  +--ro data-source-accuracy?     identityref
+     |     |  +--ro measurement-local?        boolean
+     |     |  +--ro certifications*           identityref
+     |     +--ro power-state
+     |     |  +--ro power-state-oper?   identityref
+     |     +--ro relationship* [type]
+     |        +--ro type    identityref
+     |        +--ro peer* [id]
+     |           +--ro id         yang:uuid
+     |           +--ro details?   string
+     +--rw energy-control
+        +--rw energy-entry* [object-id]
+           +--rw object-id      string
+           +--rw power-state
+              +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper
+              +--rw power-state-admin?   identityref
 
 4.  Relationship to the Hardware YANG Data Model
 
@@ -199,7 +221,7 @@ Table of Contents
    index" and "uuid".  Among them, "name" is the key to "List of
    components", "physical-index" matches entPhysicalIndex in the legacy
    Entity MIB [RFC6933] if it exists, and UUID is the Universally
-   Unified IDentifier [RFC4122] of the component.
+   Unified IDentifier [RFC9562] of the component.
 
    In the Power and Energy YANG Module defined in this specification,
    there is a leaf named "source-component-id" which refers to the
@@ -252,7 +274,7 @@ Table of Contents
    This YANG Module is used to monitor and control Power and Energy
    usage of network devices and the components on these devices.
 
-   <CODE BEGINS>
+   <CODE BEGINS> file "ietf-power-and-energy@2026-05-27.yang"
    module ietf-power-and-energy {
      yang-version 1.1;
 
@@ -265,7 +287,13 @@ Table of Contents
          "RFC 8348: A YANG Data Model for Hardware Management";
      }
 
-     import ietf-iana-power-and-energy {
+     import ietf-yang-types {
+       prefix yang;
+       reference
+         "RFC 9911: Common YANG Data Types";
+     }
+
+     import iana-ietf-power-and-energy {
        prefix ianaeo;
        reference
          "IANA-defined identities for power and energy class";
@@ -282,15 +310,20 @@ Table of Contents
 
      description
        "This YANG module specifies for Power and Energy monitoring and
-        control of devices within or connected to communication
-        networks.
+        control of devices within or connected to communication networks.
 
-        Copyright (c) 2025 IETF Trust and the persons identified as
-        authors of the code. All rights reserved.
+        The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+        NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+        'MAY', and 'OPTIONAL' in this document are to be interpreted as
+        described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+        they appear in all capitals, as shown here.
+
+        Copyright (c) 2026 IETF Trust and the persons identified as
+        authors of the code.  All rights reserved.
 
         Redistribution and use in source and binary forms, with or
         without modification, is permitted pursuant to, and subject to
-        the license terms contained in, the Simplified BSD License set
+        the license terms contained in, the Revised BSD License set
         forth in Section 4.c of the IETF Trust's Legal Provisions
         Relating to IETF Documents
         (https://trustee.ietf.org/license-info).
@@ -299,6 +332,15 @@ Table of Contents
         (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
         for full legal notices.";
 
+     revision 2026-05-27 {
+       description
+         "state-enter-reason identity removed; adding leafref from config tree
+          instance to oper tree instance; remove references to EMAN and
+          clarify it in the framework draft; comment in the draft on NMDA
+          design.";
+       reference
+         "RFC XXXX: Energy Object YANG Data Model";
+     }
      revision 2026-01-22 {
        description
          "Initial revision";
@@ -590,8 +632,6 @@ Table of Contents
        description
          "The percent value of the power factor measurement.
           Leaf often omitted, implying 100%.";
-       reference
-         "Replaces RFC 7460: eoPowerCurrentType object";
      }
 
      identity power-state {
@@ -601,9 +641,46 @@ Table of Contents
           for extensibility while maintaining alignment with the IANA
           Power State Set Registry.";
        reference
-         "IANA: Power State Set Registry";
+         "IANA: Power State Set Registry:
+          https://www.iana.org/assignments/power-state-sets/";
      }
-
+     identity power-state-admin {
+       base power-state;
+       description
+         "Base identity for administratively requested power states. The
+          administrative power state indicates the desired power state
+          requested for the Energy Object by a management system.";
+     }
+     identity power-state-oper {
+       base power-state;
+       description
+         "Base identity for operational power states. The operational
+          power state indicates the actual current power state of the
+          Energy Object. A difference between the administrative state
+          and the operational state indicates that the Energy Object is
+          transitioning between power states.";
+     }
+     identity power-state-on {
+       base power-state;
+       description "full power on.";
+       reference
+         "IANA: Power State Set Registry (ieee1621-power-state-set):
+          https://www.iana.org/assignments/power-state-sets/";
+     }
+     identity power-state-off {
+       base power-state;
+       description "power off.";
+       reference
+         "IANA: Power State Set Registry (ieee1621-power-state-set):
+          https://www.iana.org/assignments/power-state-sets/";
+     }
+     identity power-state-sleep {
+       base power-state;
+       description "low-power state.";
+       reference
+         "IANA: Power State Set Registry (ieee1621-power-state-set):
+          https://www.iana.org/assignments/power-state-sets/";
+     }
      identity unit-multiplier {
        description
          "Base identity for unit multipliers as defined in IEC 61850-7-3
@@ -628,8 +705,6 @@ Table of Contents
               zetta(21),    -- 10^21
               yotta(24)     -- 10^24
            ";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-yocto {
        description
@@ -680,8 +755,6 @@ Table of Contents
        description
          "Represents a multiplier of 10^3 (1,000) associated with the
           integer units used to measure the power or energy.";
-       reference
-         "RFC 7460: UnitMultiplier";
      }
      identity multiplier-mega {
        description
@@ -720,7 +793,6 @@ Table of Contents
      }
      identity energy-relationship-type {
        description "Base identity for energy object relationships";
-       reference "RFC 7461: IANAEnergyRelationship";
      }
      identity powered-by {
        base energy-relationship-type;
@@ -751,8 +823,6 @@ Table of Contents
        config false;
        description
          "Energy objects container for power and energy attributes.";
-       reference
-         "RFC 7460: eoPowerTable";
 
        list energy-entry {
          key "object-id";
@@ -760,14 +830,11 @@ Table of Contents
            "Power and energy entry for an energy object, indexed by object id.
             Each entry contains the complete set of power and energy attributes
             for a specific physical component.";
-         reference
-           "RFC 7460: EoPowerEntry";
 
          leaf object-id {
            type string;
            description
-             "An identifier that uniquely identifies the energy object
-             in an energy object.";
+             "An identifier that uniquely identifies the energy object";
          }
 
          leaf source-component-id {
@@ -784,8 +851,7 @@ Table of Contents
          container power {
            description
              "Container for power measurement attributes.";
-           reference
-             "RFC 7460: eoPowerEntry attributes";
+
            leaf instantaneous-power {
              type int32;
              units "Watts";
@@ -799,8 +865,6 @@ Table of Contents
                indicate power consumption, while negative values can indicate power
                generation (e.g., for devices with battery backup or
                renewable energy sources).";
-             reference
-               "RFC 7460: eoPower object";
            }
 
            leaf nameplate-power {
@@ -811,8 +875,6 @@ Table of Contents
                the maximum power that the energy object is designed to consume or
                produce, as specified by the manufacturer. Essential for
                power budget calculations and capacity planning.";
-             reference
-               "RFC 7460: eoPowerNameplate object";
            }
 
            leaf unit-multiplier {
@@ -825,8 +887,6 @@ Table of Contents
                This multiplier applies to both instantaneous-power and nameplate-power
                values, allowing representation of power values from milliwatts
                to gigawatts using integer arithmetic.";
-             reference
-               "RFC 7460: eoPowerUnitMultiplier object";
            }
 
            leaf data-source-accuracy {
@@ -844,8 +904,6 @@ Table of Contents
                This metadata is crucial for network management
                applications to assess the reliability and accuracy of the
                power data.";
-             reference
-               "RFC 7460: eoPowerMeasurementCaliber object";
            }
 
            leaf power-factor {
@@ -855,8 +913,6 @@ Table of Contents
                energy object. This information is important for
                understanding the electrical characteristics of the energy object
                and for correctly interpreting the power data.";
-             reference
-               "Replaces RFC 7460: eoPowerCurrentType object";
            }
 
            leaf measurement-local {
@@ -867,15 +923,12 @@ Table of Contents
                 the energy object, while a remote measurement is collected from
                 an external source. This information can be useful for
                 troubleshooting and understanding the data source.";
-              reference
-                "RFC 7460: eoPowerMeasurementLocal object";
            }
          }
+
          container energy {
            description
              "Container for energy measurement attributes.";
-           reference
-             "RFC 7460: eoEnergyEntry attributes";
 
            leaf total-energy-consumed {
              type uint64;
@@ -888,8 +941,6 @@ Table of Contents
                in this container. This value is useful for tracking
                overall energy usage over time for billing, reporting,
                or optimization purposes.";
-             reference
-               "RFC 7460: eoEnergyConsumed object";
            }
 
            leaf total-energy-delivered {
@@ -904,8 +955,6 @@ Table of Contents
                capable of generating power, such as those with renewable
                energy sources or battery backup systems, or capable of providing
                energy to other energy objects (e.g., PoE switches).";
-             reference
-               "RFC 7460: eoEnergyProduced object";
            }
            leaf unit-multiplier {
              type identityref {
@@ -917,8 +966,6 @@ Table of Contents
                 of the energy measurements, allowing representation of
                 energy values from milliwatt-hours to gigawatt-hours
                 using integer arithmetic.";
-             reference
-               "RFC 7460: eoPowerUnitMultiplier object";
            }
 
            leaf data-source-accuracy {
@@ -936,8 +983,6 @@ Table of Contents
                This metadata is crucial for network management
                applications to assess the reliability and accuracy of the
                energy data.";
-             reference
-               "RFC 7460: eoPowerMeasurementCaliber object";
            }
            leaf measurement-local {
              type boolean;
@@ -947,8 +992,6 @@ Table of Contents
                 the energy object, while a remote measurement is collected from
                 an external source. This information can be useful for
                 troubleshooting and understanding the data source.";
-              reference
-                "RFC 7460: eoPowerMeasurementLocal object";
            }
            leaf-list certifications {
              type identityref {
@@ -959,12 +1002,29 @@ Table of Contents
                this list is empty, the energy object has no certifications.";
            }
          }
+         container power-state {
+           description
+             "Container for Power state monitoring.";
+           leaf power-state-oper {
+             type identityref {
+               base power-state-oper;
+             }
+             description
+               "The actual operational power state of the Energy Object.
+                This reflects the current state, which may differ from the
+                admin-state during transitions. This leaf is the
+                operational counterpart of the administratively set
+                'power-state-admin' in /energy-control/energy-entry. The
+                two leaves together form the complete power state
+                management interface.";
+           }
+         }
+
          list relationship {
            key "type";
+           config false;
            description "Relationships for this energy entry. Replaces
            RFC 7461 eoRelationTable.";
-           reference
-             "RFC 7461: eoRelationTable, eoRelationEntry";
 
            leaf type {
              type identityref {
@@ -974,34 +1034,72 @@ Table of Contents
              description
                "The type of relationship this energy object has with peer
                objects.";
-             reference
-               "RFC 7461: eoRelationship, IANAEnergyRelationship";
            }
 
            list peer {
              key "id";
              description "Multiple peers for this relationship type.";
-             reference
-               "RFC 7461: eoRelationID";
 
              leaf id {
-               type string;
-               description "This id specifies the Universally Unique
-                 Identifier (UUID) of the peer (other) Energy Object that
-                 this energy object is powering/powered-by/metering/
-                 metered-by, etc. If the network level UUID is not known,
-                 some other locally unique identifier MAY be used, in
-                 conjunction with a human readable details.";
-               reference
-                 "RFC 7461: eoRelationID (UUIDorZero)";
+               type yang:uuid;
+               description "The UUID of the peer energy entry, as defined
+                            in RFC 9562.";
              }
              leaf details {
                type string;
                description
-                 "Human-readable details of the peer relationship.
-                  Useful when network level UUID of the peer is not
-                  known.";
+                 "Additional details about the relationship.";
              }
+           }
+         }
+       }
+     }
+
+     container energy-control {
+       description
+         "Energy control configuration, mirroring monitored objects. The
+          operational tree ('container energy-objects') will typically
+          contain a significantly larger number of instances than the
+          configuration tree here. The configuration tree represents the
+          administrator's intent and is limited to explicitly provisioned
+          entries.";
+
+       list energy-entry {
+         key "object-id";
+         description
+           "Control entry for a specific energy object.";
+
+         leaf object-id {
+           type string;
+           description
+             "An identifier that uniquely identifies the energy object.";
+         }
+         container power-state {
+           description
+             "Container for Power state management.";
+
+           leaf power-state-oper {
+             type leafref {
+               path "/energy-objects/energy-entry/power-state/power-state-oper";
+               require-instance false;
+             }
+             description
+               "References the corresponding operational energy object
+                instance in the monitoring tree.";
+           }
+
+           leaf power-state-admin {
+             type identityref {
+               base power-state-admin;
+             }
+             description
+               "The administratively requested power state for the
+                Energy Object. This is the state that the management
+                system desires the energy object to be in. This leaf is
+                the administrative counterpart of the operational set
+                'power-state-oper' in /energy-objects/energy-entry. The
+                two leaves together form the complete power state
+                management interface.";
            }
          }
        }
@@ -1009,7 +1107,134 @@ Table of Contents
    }
    <CODE ENDS>
 
-7.  Operational Considerations
+   The IANA requested identities for power and energy class are
+   separately described below.
+
+   <CODE BEGINS> file "iana-ietf-power-and-energy@2026-05-27.yang"
+   module iana-ietf-power-and-energy {
+     yang-version 1.1;
+     namespace "urn:ietf:params:xml:ns:yang:iana-ietf-power-and-energy";
+     prefix ianaeo;
+
+     organization "IANA";
+     contact
+       "        Internet Assigned Numbers Authority
+
+        Postal: ICANN
+                12025 Waterfront Drive, Suite 300
+                Los Angeles, CA  90094-2536
+                United States of America
+
+        Tel:    +1 310 301 5800
+        E-Mail: iana@iana.org>";
+
+     description
+       "IANA-defined identities for power and energy class.
+
+        The latest revision of this YANG module can be obtained from
+        the IANA website.
+
+        Requests for new values should be made to IANA via
+        email (iana@iana.org).
+
+        The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+        NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+        'MAY', and 'OPTIONAL' in this document are to be interpreted as
+        described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+        they appear in all capitals, as shown here.
+
+        Copyright (c) 2026 IETF Trust and the persons identified as
+        authors of the code.  All rights reserved.
+
+        Redistribution and use in source and binary forms, with or
+        without modification, is permitted pursuant to, and subject to
+        the license terms contained in, the Revised BSD License set
+        forth in Section 4.c of the IETF Trust's Legal Provisions
+        Relating to IETF Documents
+        (https://trustee.ietf.org/license-info).";
+
+     reference
+       "https://www.iana.org/assignments/yang-parameters";
+
+     revision 2026-05-27 {
+       description
+         "Marisol's update following IANA feedback;";
+       reference
+         "RFC XXX: A YANG Data Model for Power and Energy monitoring and
+          control of devices within or connected to communication
+          networks";
+     }
+     revision 2026-02-26 {
+       description
+         "Initial revision.";
+       reference
+         "RFC XXX: A YANG Data Model for Power and Energy monitoring and
+          control of devices within or connected to communication
+          networks";
+     }
+
+     identity certification-type {
+       description
+         "Base identity for certification types applicable to energy
+          objects. This identity serves as the root for a hierarchy of
+          certification types, allowing for extensibility.";
+
+       reference
+         "Industry sustainability and energy efficiency certifications";
+     }
+
+     identity energy-star {
+       base certification-type;
+       description
+         "ENERGY STAR certification for energy efficiency.";
+       reference
+         "https://www.energystar.gov/";
+     }
+
+     identity c80-plus{
+       base certification-type;
+       description
+         "80 PLUS Power Supply Certification";
+       reference
+         "https://www.clearesult.com/80plus/";
+     }
+
+     identity epeat {
+       base certification-type;
+       description
+         "Electronic Product Environmental Assessment Tool ratings (Bronze/Silver/Gold).";
+       reference
+         "https://www.epeat.net/";
+     }
+
+     identity eu-energy-level{
+       base certification-type;
+       description
+         "EU Energy Label: European efficiency ratings";
+       reference
+         "https://eprel.ec.europa.eu/screen/home";
+     }
+
+     identity cn-energy-level{
+       base certification-type;
+       description
+         "CN Energy Label: China efficiency ratings";
+       reference
+         "https://www.energylabel.com.cn";
+     }
+
+     identity cqc{
+       base certification-type;
+       description
+         "China Quality Certification for energy efficiency";
+       reference
+         "https://www.cqc.com.cn/";
+     }
+
+   }
+   <CODE ENDS>
+
+   # Operational Considerations
 
    Heterogeneous sensor capabilities across components complicate power
    and energy aggregation.  Operators must use the data-source-accuracy
@@ -1034,7 +1259,7 @@ Table of Contents
    preventing notification flooding while avoiding memory overhead on
    the device.
 
-7.1.  Measurement Accuracy and Data Source Classification
+6.1.  Measurement Accuracy and Data Source Classification
 
    Power and energy metrics may originate from a wide range of sources
    and estimation methods, each with different levels of reliability.
@@ -1124,7 +1349,7 @@ Table of Contents
    allowing vendors to define manufacturer-specific accuracy classes
    while maintaining interoperability through standardized base types.
 
-7.2.  Industry-Standard Certifications
+6.2.  Industry-Standard Certifications
 
    Energy efficiency certifications issued by recognized testing
    organizations provide standardized benchmarks for the expected
@@ -1192,7 +1417,7 @@ Table of Contents
    PSU, is designed to be efficient; the measurement accuracy tells them
    how precisely they can monitor its actual performance.
 
-8.  Security Considerations
+7.  Security Considerations
 
    This section will be completed once the YANG module is complete,
    according to https://wiki.ietf.org/group/ops/yang-security-
@@ -1213,7 +1438,7 @@ Table of Contents
    RESTCONF users to a preconfigured subset of all available NETCONF or
    RESTCONF protocol operations and content.
 
-9.  IANA Considerations
+8.  IANA Considerations
 
    This document requests IANA to create and maintain a new registry
    group called "Power and Energy", with the following module
@@ -1222,9 +1447,9 @@ Table of Contents
    +=========+========================================================+
    |Field    | Value                                                  |
    +=========+========================================================+
-   |Name     | ietf-iana-power-and-energy                             |
+   |Name     | iana-ietf-power-and-energy                             |
    +---------+--------------------------------------------------------+
-   |Namespace| urn:ietf:params:xml:ns:yang:ietf-iana-power-and-energy |
+   |Namespace| urn:ietf:params:xml:ns:yang:iana-ietf-power-and-energy |
    +---------+--------------------------------------------------------+
    |Prefix   | ianaeo                                                 |
    +---------+--------------------------------------------------------+
@@ -1236,17 +1461,17 @@ Table of Contents
    Note to IANA: RFC XXXX must be replaced by the newly assigned RFC
    number.
 
-   All sub-registries defined in this document are part of the "Power
-   and Energy" registry group.
+   All registries defined in this document are part of the "Power and
+   Energy" registry group.
 
-9.1.  GREEN Certification Type Registry
+8.1.  GREEN Certification Type Registry
 
-   This document requests IANA to create a new sub-registry called
-   "Power and Energy Certification Types" within the "Power and Energy"
+   This document requests IANA to create a new registry called "Power
+   and Energy Certification Types" within the "Power and Energy"
    registry group.
 
    This document defines the initial version of the IANA-maintained
-   certification-type identity in the ietf-iana-power-and-energy YANG
+   certification-type identity in the iana-ietf-power-and-energy YANG
    module.  The registry assigns string identity names for power and
    energy efficiency certification types, for use as identityref values
    in "ietf-power-and-energy" YANG module.  The registered value is the
@@ -1267,7 +1492,7 @@ Table of Contents
       the official certification name.
 
    When a new certification type is added to the registry, a new
-   identity statement MUST be added to the ietf-iana-power-and-energy
+   identity statement MUST be added to the iana-ietf-power-and-energy
    YANG module.  The following substatements to the identity statement
    MUST be defined:
 
@@ -1287,20 +1512,20 @@ Table of Contents
 
    When the "Power and Energy Certification Types" registry is updated
    with a new entry, a corresponding new identity statement MUST be
-   added to the ietf-iana-power-and-energy YANG module, and a new
+   added to the iana-ietf-power-and-energy YANG module, and a new
    revision statement MUST be added in front of the existing revision
    statements.
 
    IANA is requested to add the following note to the "Power and Energy
    Certification Types" registry:
 
-   Certification types MUST NOT be directly added to the ietf-iana-
+   Certification types MUST NOT be directly added to the iana-ietf-
    power-and-energy YANG module.  They MUST instead be added to the
    "Power and Energy Certification Types" registry.  When this registry
-   is updated, the ietf-iana-power-and-energy YANG module MUST be
+   is updated, the iana-ietf-power-and-energy YANG module MUST be
    updated as defined in RFC XXXX.
 
-10.  Acknowledgments
+9.  Acknowledgments
 
    This work has benefited from the regular discussions on the GREEN
    Design Meetings.  The authors wish to thank the WG chairs, Rob Wilton
@@ -1308,9 +1533,9 @@ Table of Contents
    the work.  The authors also wish to thank the following individuals,
    who provided helpful comments and reviews to this document.
 
-11.  References
+10.  References
 
-11.1.  Normative References
+10.1.  Normative References
 
    [I-D.ietf-green-terminology-00]
               Chen, G., Boucadair, M., Wu, Q., Contreras, L. M., and M.
@@ -1369,7 +1594,7 @@ Table of Contents
    [RFC9000]  "QUIC - A UDP-Based Multiplexed and Secure Transport", May
               2021, <https://datatracker.ietf.org/doc/html/rfc9000>.
 
-11.2.  Informative References
+10.2.  Informative References
 
    [I-D.belmq-green-framework-06]
               Claise, B., Contreras, L. M., Lindblad, J., Palmero, M.
@@ -1387,11 +1612,6 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-ietf-green-
               use-cases-00>.
 
-   [RFC4122]  Leach, P., Mealling, M., and R. Salz, "A Universally
-              Unique IDentifier (UUID) URN Namespace", RFC 4122,
-              DOI 10.17487/RFC4122, July 2005,
-              <https://www.rfc-editor.org/rfc/rfc4122>.
-
    [RFC6933]  Bierman, A., Romascanu, D., Quittek, J., and M.
               Chandramouli, "Entity MIB (Version 4)", RFC 6933,
               DOI 10.17487/RFC6933, May 2013,
@@ -1404,6 +1624,10 @@ Table of Contents
               netmod-rfc8407bis-28, 5 June 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-netmod-
               rfc8407bis-28>.
+
+   [RFC9562]  Davis, K., Peabody, B., and P. Leach, "Universally Unique
+              IDentifiers (UUIDs)", RFC 9562, DOI 10.17487/RFC9562, May
+              2024, <https://www.rfc-editor.org/rfc/rfc9562>.
 
 Authors' Addresses
 
