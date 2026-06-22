@@ -22,7 +22,7 @@ module: ietf-power-and-energy
   |     +--ro relationship* [type]
   |        +--ro type    identityref
   |        +--ro peer* [id]
-  |           +--ro id         string
+  |           +--ro id         yang:uuid
   |           +--ro details?   string
   +--rw energy-control
      +--rw energy-entry* [object-id]

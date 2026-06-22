@@ -1,7 +1,7 @@
 ---
 title: Power and Energy YANG Module
 abbrev: GREEN-PEM-YANG
-docname: draft-bcmj-green-power-and-energy-yang-latest
+docname: draft-ietf-green-power-and-energy-yang-latest
 category: std
 submissionType: IETF
 
@@ -215,7 +215,7 @@ three identifiers for hardware components, which are "name",
 "physical-index" and "uuid". Among them, "name" is the key to "List of
 components", "physical-index" matches entPhysicalIndex in the legacy
 Entity MIB {{?RFC6933}} if it exists, and UUID is the Universally
-Unified IDentifier {{?RFC4122}} of the component.
+Unified IDentifier {{?RFC9562}} of the component.
 
 In the Power and Energy YANG Module defined in this specification,
 there is a leaf named "source-component-id" which refers to the
