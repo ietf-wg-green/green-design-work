@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-23T01:58:01.346182+00:00",
+  "timestamp": "2026-06-30T02:02:07.361440+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -1560,9 +1560,9 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "1. fix the issue of file name missing behind the \"code begins\" according to Benoit's feedback.\r\n2. fix pyang warning info (modify YANG module descriptions complyinig with the required text from RFC 8174 , etc.) \r\n3. change relationship peer id type from string to uuid according to Per's CoW feedback;\r\n4. update reference to rfc4122 to rfc9562 according to Per's CoW feedback;\r\n5. change title to comply with working group draft requirements;",
+      "body": "1. fix the issue of file name missing behind the \"code begins\" according to Benoit's feedback.\r\n2. fix pyang warning info (modify YANG module descriptions complyinig with the required text from RFC 8174 , etc.) \r\n3. change relationship peer id type from string to uuid according to Per's CoW feedback;\r\n4. update reference from rfc4122 to rfc9562 according to Per's CoW feedback;\r\n5. change title to comply with working group draft requirements;",
       "createdAt": "2026-06-11T12:10:45Z",
-      "updatedAt": "2026-06-22T09:35:01Z",
+      "updatedAt": "2026-06-29T08:04:44Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "4c0df4b3bec6347402711e5e39d5cfa82a8de54f",
