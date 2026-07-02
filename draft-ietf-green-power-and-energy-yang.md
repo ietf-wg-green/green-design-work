@@ -387,9 +387,6 @@ The certification tells operators the energy object, for example, a PSU, is desi
 
 # Security Considerations
 
-This section will be completed once the YANG module is complete,
-according to https://wiki.ietf.org/group/ops/yang-security-guidelines.
-
 This section is modeled after the template described in Section 3.7.1
 of {{rfc8407bis}}.
 
@@ -404,6 +401,49 @@ The Network Configuration Access Control Model (NACM) [RFC8341]
 provides the means to restrict access for particular NETCONF or
 RESTCONF users to a preconfigured subset of all available NETCONF or
 RESTCONF protocol operations and content.
+
+There is one writable data node defined in this YANG module that may
+be considered sensitive or vulnerable in some network environments.
+Write operations (e.g., edit-config) to this data node without proper
+protection can have a negative effect on network operations:
+
+- /energy-control/energy-entry/power-state/power-state-admin:
+  Unauthorized write access to this leaf allows an attacker to change
+  the administratively requested power state of an Energy Object.
+  Depending on the target device or component, this could be used to
+  power down critical network infrastructure (resulting in denial of
+  service), force a component into a state that damages hardware, or
+  mask an ongoing attack by cycling power states to disrupt
+  monitoring. Access to this data node SHOULD be limited to
+  authorized administrators via NACM.
+
+Some of the readable data nodes in this YANG module may be considered
+sensitive or vulnerable in some network environments. It is thus
+important to control read access (e.g., via get, get-config, or
+notification) to these data nodes. Specifically, the following
+subtrees and data nodes have particular sensitivities:
+
+- /energy-objects/energy-entry/power and
+  /energy-objects/energy-entry/energy: These subtrees expose
+  real-time and cumulative power and energy consumption for
+  individual hardware components. Fine-grained, time-correlated
+  power/energy telemetry can reveal operational patterns, such as
+  workload levels, traffic volume, or usage schedules, of a device
+  or of the network behind it. In some environments, this
+  information could be leveraged as a side channel to infer
+  sensitive operational or business information (e.g., data center
+  utilization, capacity, or customer activity patterns).
+
+- /energy-objects/energy-entry/relationship: This list exposes
+  relationships (e.g., powered-by, powering, metered-by) and UUIDs
+  between Energy Objects, which can reveal the physical and logical
+  power topology of a site. Disclosure of this information could
+  assist an attacker in identifying high-value targets (e.g., shared
+  power infrastructure whose disruption has a broad impact) or in
+  correlating Energy Objects across administrative domains.
+
+This document does not define any RPC operations or YANG
+notifications.
 
 # IANA Considerations
 
