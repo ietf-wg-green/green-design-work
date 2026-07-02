@@ -9,14 +9,8 @@ module ietf-power-and-energy {
     reference
       "RFC 8348: A YANG Data Model for Hardware Management";
   }
-  
-  import ietf-yang-types {
-    prefix yang;
-    reference
-      "RFC 9911: Common YANG Data Types";
-  }
 
-  import iana-ietf-power-and-energy {
+  import iana-power-and-energy {
     prefix ianaeo;
     reference
       "IANA-defined identities for power and energy class";
@@ -51,24 +45,15 @@ module ietf-power-and-energy {
      Relating to IETF Documents
      (https://trustee.ietf.org/license-info).
 
-     This version of this YANG module is part of RFC XXXX
-     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+     This version of this YANG module is part of RFC XXX
+     (https://www.rfc-editor.org/info/rfcXXX); see the RFC itself
      for full legal notices.";
 
-  revision 2026-05-27 {
-    description
-      "state-enter-reason identity removed; adding leafref from config tree 
-       instance to oper tree instance; remove references to EMAN and 
-       clarify it in the framework draft; comment in the draft on NMDA 
-       design.";
-    reference
-      "RFC XXXX: Energy Object YANG Data Model";
-  }  
   revision 2026-01-22 {
     description
       "Initial revision";
     reference
-      "RFC XXXX: Energy Object YANG Data Model";
+      "RFC XXX: Energy Object YANG Data Model";
   }
   
   identity data-source-accuracy {
@@ -388,21 +373,21 @@ module ietf-power-and-energy {
     description "full power on.";
     reference
       "IANA: Power State Set Registry (ieee1621-power-state-set):
-       https://www.iana.org/assignments/power-state-sets/";
+       https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
   }
   identity power-state-off {
     base power-state;
     description "power off.";
     reference
       "IANA: Power State Set Registry (ieee1621-power-state-set):
-       https://www.iana.org/assignments/power-state-sets/";
+       https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
   }
   identity power-state-sleep {
     base power-state;
     description "low-power state.";
     reference
       "IANA: Power State Set Registry (ieee1621-power-state-set):
-       https://www.iana.org/assignments/power-state-sets/";
+       https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
   }
   identity unit-multiplier {
     description 
@@ -781,9 +766,13 @@ module ietf-power-and-energy {
           description "Multiple peers for this relationship type.";
           
           leaf id {
-            type yang:uuid;
-            description "The UUID of the peer energy entry, as defined 
-                         in RFC 9562.";
+            type string;
+            description "This id specifies the Universally Unique
+              Identifier (UUID) of the peer (other) Energy Object that
+              this energy object is powering/powered-by/metering/
+              metered-by, etc. If the network level UUID is not known,
+              some other locally unique identifier MAY be used, in
+              conjunction with human readable details.";
           }
           leaf details {
             type string;
