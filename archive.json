@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-06-30T02:02:07.361440+00:00",
+  "timestamp": "2026-07-02T02:00:28.829358+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -1575,6 +1575,32 @@
       "mergeCommit": {
         "oid": "d41c3a635b391b5f08719ff6f022d0807386580c"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 44,
+      "id": "PR_kwDOP9HHVc7snW4Y",
+      "title": "Use unit-multiplier as base identity for other drived identities",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/44",
+      "state": "OPEN",
+      "author": "billwuqin",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-07-01T09:56:50Z",
+      "updatedAt": "2026-07-01T09:56:50Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "d41c3a635b391b5f08719ff6f022d0807386580c",
+      "headRepository": "billwuqin/green-design-work",
+      "headRefName": "patch-1",
+      "headRefOid": "368ac97d1743dfe7f862f91861f3222c259335a5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
