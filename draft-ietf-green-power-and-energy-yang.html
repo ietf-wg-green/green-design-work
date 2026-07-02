@@ -1228,12 +1228,12 @@ appear in all capitals, as shown here.<a href="#section-1-1" class="pilcrow">¶<
 <p id="section-1-2">This document defines a YANG data model for Power and Energy
 Monitoring and control of devices within or connected to communication
 networks, for the use cases document in
-<span>[<a href="#I-D.ietf-green-use-cases-00" class="cite xref">I-D.ietf-green-use-cases-00</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<span>[<a href="#I-D.ietf-green-use-cases-01" class="cite xref">I-D.ietf-green-use-cases-01</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">The data model includes both the monitoring and control of Energy
 Objects for networked devices.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This YANG data model is based on the the "GREEN framework"
-<span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span>, following the "GREEN terminology"
-<span>[<a href="#I-D.ietf-green-terminology-00" class="cite xref">I-D.ietf-green-terminology-00</a>]</span>.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-4">This YANG data model is based on the "GREEN framework"
+<span>[<a href="#I-D.ietf-green-framework-01" class="cite xref">I-D.ietf-green-framework-01</a>]</span>, following the "GREEN terminology"
+<span>[<a href="#I-D.ietf-green-terminology-02" class="cite xref">I-D.ietf-green-terminology-02</a>]</span>.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">Power and Energy Monitoring and Control can be applied to devices in
 communication networks. All identifiable devices with measurable or
 representable Power and Energy characteristics fall within the scope
@@ -1254,7 +1254,7 @@ Processing Unit (MPU).<a href="#section-1-6" class="pilcrow">¶</a></p>
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
         </h3>
 <p id="section-1.1-1">This document makes use of the terms defined in
-<span>[<a href="#I-D.ietf-green-terminology-00" class="cite xref">I-D.ietf-green-terminology-00</a>]</span>:<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+<span>[<a href="#I-D.ietf-green-terminology-02" class="cite xref">I-D.ietf-green-terminology-02</a>]</span>:<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-1.1-2">
 <pre>
 - Power
@@ -1269,17 +1269,17 @@ Processing Unit (MPU).<a href="#section-1-6" class="pilcrow">¶</a></p>
 </pre><a href="#section-1.1-2" class="pilcrow">¶</a>
 </div>
 <p id="section-1.1-3">This document makes use of the terms defined in
-<span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span><a href="#section-1.1-3" class="pilcrow">¶</a></p>
+<span>[<a href="#I-D.ietf-green-framework-01" class="cite xref">I-D.ietf-green-framework-01</a>]</span><a href="#section-1.1-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-1.1-4">
 <pre>
 - Energy Object
 </pre><a href="#section-1.1-4" class="pilcrow">¶</a>
 </div>
-<p id="section-1.1-5">The terms reused from <span>[<a href="#I-D.ietf-green-terminology-00" class="cite xref">I-D.ietf-green-terminology-00</a>]</span> and
-<span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span> are capitalized in this
+<p id="section-1.1-5">The terms reused from <span>[<a href="#I-D.ietf-green-terminology-02" class="cite xref">I-D.ietf-green-terminology-02</a>]</span> and
+<span>[<a href="#I-D.ietf-green-framework-01" class="cite xref">I-D.ietf-green-framework-01</a>]</span> are capitalized in this
 specification.<a href="#section-1.1-5" class="pilcrow">¶</a></p>
 <p id="section-1.1-6">This document uses the terms Power and Energy in accordance with
-<span>[<a href="#I-D.ietf-green-terminology-00" class="cite xref">I-D.ietf-green-terminology-00</a>]</span>. Power refers to the instantaneous
+<span>[<a href="#I-D.ietf-green-terminology-02" class="cite xref">I-D.ietf-green-terminology-02</a>]</span>. Power refers to the instantaneous
 rate at which a device consumes or produces electrical energy
 (typically expressed in Watts). Energy, by contrast, represents the
 cumulative amount of work performed over time (typically expressed in
@@ -1301,13 +1301,13 @@ The meanings of the symbols in the YANG tree diagrams are defined in
       <h2 id="name-the-green-framework">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-the-green-framework" class="section-name selfRef">The GREEN Framework</a>
       </h2>
-<p id="section-2-1">The "GREEN framework" described in <span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span>
+<p id="section-2-1">The "GREEN framework" described in <span>[<a href="#I-D.ietf-green-framework-01" class="cite xref">I-D.ietf-green-framework-01</a>]</span>
 covers monitoring and controlling devices and components where
 monitoring includes measuring Power, Energy, demand and attributes of
 Power.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">For the whole picture of the monitoring interfaces and the relevant
 requirements, please refer to "GREEN reference model" in section 4 in
-<span>[<a href="#I-D.belmq-green-framework-06" class="cite xref">I-D.belmq-green-framework-06</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<span>[<a href="#I-D.ietf-green-framework-01" class="cite xref">I-D.ietf-green-framework-01</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="power-and-energy-data-model">
@@ -1328,7 +1328,7 @@ the configuration tree ('container energy-control'). The configuration
 tree, which is limited to explicitly provisioned entries, provides a
 compact self-contained view of the intent. For this reason, although an
 NMDA (Network Management Datastore Architecture) design with a single
-"state" leaf (per [RFC8342]) was considered, it is not adopted in this
+"state" leaf (per <span>[<a href="#RFC8342" class="cite xref">RFC8342</a>]</span>) was considered, it is not adopted in this
 document.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">Finally, note that the instance is in the configuration tree, having a
 required-instance false leafref to operational tree instance.<a href="#section-3-3" class="pilcrow">¶</a></p>
@@ -1390,13 +1390,13 @@ can in turn reuse the UUID in the ietf-hardware YANG module.<a href="#section-4-
 hardware-components in ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> is
 designed to be 1:1, architecturally aligning each energy-entry with
 exactly one physical hardware component via source-component-id.<a href="#section-4-3" class="pilcrow">¶</a></p>
-<p id="section-4-4">There are also cases where the controllers also generate its own set
+<p id="section-4-4">There are also cases where the controllers also generate their own set
 of UUIDs for the hardware (components). In such a case, it might be
 necessary to document the mappings between the UUIDs generated on the
 hardware side and the UUIDs on the controller side. Basically, the
 devices (such as routers) generate the UUID and the controller can
 query it.<a href="#section-4-4" class="pilcrow">¶</a></p>
-<p id="section-4-5">The ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> allows to discover all the
+<p id="section-4-5">The ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> allows discovering all the
 device components, including the containment tree, and the parent/child
 relationship, which is important for energy/power aggregation (see the
 contains-child relationship in RFC 8348).<a href="#section-4-5" class="pilcrow">¶</a></p>
@@ -1409,17 +1409,17 @@ contains-child relationship in RFC 8348).<a href="#section-4-5" class="pilcrow">
       </h2>
 <p id="section-5-1">The EMAN IETF Working Group
 (https://datatracker.ietf.org/wg/eman/about/) is a concluded Working
-Group that produces a couple of RFCs in the domain of Power and
+Group that produced a couple of RFCs in the domain of Power and
 Energy. The Working Group produced MIB modules for monitoring and
 control for power and energy, for the context information, for battery
-monitoring, and an extension to the ENITY-MIB to add the UUID
+monitoring, and an extension to the ENTITY-MIB to add the UUID
 definition <span>[<a href="#RFC6933" class="cite xref">RFC6933</a>]</span>.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">For various reasons, those MIB modules were not implemented by
 vendors.<a href="#section-5-2" class="pilcrow">¶</a></p>
-<p id="section-5-3">The Power and Energy data model defined in this specification use the
+<p id="section-5-3">The Power and Energy data model defined in this specification uses the
 Monitoring and Control MIB for Power and Energy <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span> as a
 starting point to discuss the solution to the different use cases in
-<span>[<a href="#I-D.ietf-green-use-cases-00" class="cite xref">I-D.ietf-green-use-cases-00</a>]</span>.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<span>[<a href="#I-D.ietf-green-use-cases-01" class="cite xref">I-D.ietf-green-use-cases-01</a>]</span>.<a href="#section-5-3" class="pilcrow">¶</a></p>
 <p id="section-5-4">However, it has not been the goal to simply map the MIB module to a
 YANG module. The changes compared to the EMAN MIB modules are mainly
 due to the alignment with the up-to-date requirements of the network
@@ -2279,7 +2279,7 @@ module ietf-power-and-energy {
 
 &lt;CODE ENDS&gt;</pre><a href="#section-6-2" class="pilcrow">¶</a>
 </div>
-<p id="section-6-3">The IANA requested identities for power and energy class are separately
+<p id="section-6-3">The IANA-requested identities for power and energy class are separately
 described below.<a href="#section-6-3" class="pilcrow">¶</a></p>
 <div class="breakable lang-yang sourcecode" id="section-6-4">
 <pre>&lt;CODE BEGINS&gt; file "iana-power-and-energy@2026-02-26.yang"
@@ -2412,9 +2412,9 @@ and energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
 weight data reliability carefully before aggregating Power
 (instantaneous-power) and Energy (total-energy-consumed and/or
-total-energy-delivered) values to avoid skewing Device-Level Energy
+total-energy-delivered) values to avoid skewing Device Level Energy
 Efficiency (DLEE) metrics.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">Operators might not always be interested to get the individual component
+<p id="section-7-2">Operators might not always be interested in getting the individual component
 accuracy. What counts is the device level or domain level, identity
 accuracy-like-parent is introduced to meet their demands. From an
 implementation point of view, to facilitate data collection and
@@ -2471,30 +2471,30 @@ device.<a href="#section-7-3" class="pilcrow">¶</a></p>
             <p id="section-7.1-3.3.1">Measured Data: Direct, real-time sensor measurements with quantified precision:<a href="#section-7.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.4">
-            <p id="section-7.1-3.4.1">Bronze: ±30% accuracy for typical values.<a href="#section-7.1-3.4.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-3.4.1">Bronze: +/-30% accuracy for typical values.<a href="#section-7.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.5">
-            <p id="section-7.1-3.5.1">Silver: ±10% accuracy for typical values.<a href="#section-7.1-3.5.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-3.5.1">Silver: +/-10% accuracy for typical values.<a href="#section-7.1-3.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.6">
-            <p id="section-7.1-3.6.1">Gold: ±5% accuracy for typical values.<a href="#section-7.1-3.6.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-3.6.1">Gold: +/-5% accuracy for typical values.<a href="#section-7.1-3.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.7">
-            <p id="section-7.1-3.7.1">Red: ±2% accuracy for typical values.<a href="#section-7.1-3.7.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-3.7.1">Red: +/-2% accuracy for typical values.<a href="#section-7.1-3.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-3.8">
             <p id="section-7.1-3.8.1">Ones: All non-zero digits are significant/valid.<a href="#section-7.1-3.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.1-4">Percentage-based accuracy fails for small values. For example, ±5% of 0.1W is only 0.005W, which may be smaller than sensor noise. Industry standards (IEC 62053, IEC 61850-7-4) address this by specifying: Accuracy = MAX(percentage_error, absolute_threshold)<a href="#section-7.1-4" class="pilcrow">¶</a></p>
-<p id="section-7.1-5">The absolute threshold suffixes (<code>-1</code>, <code>-10</code>, <code>-100</code>, <code>-1000</code>) refer to the unit-multiplier scale. For <code>unit-multiplier: milli</code>, <code>-10</code> means ±10 milliwatts.<a href="#section-7.1-5" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">Percentage-based accuracy fails for small values. For example, +/-5% of 0.1W is only 0.005W, which may be smaller than sensor noise. Industry standards (IEC 62053, IEC 61850-7-4) address this by specifying: Accuracy = MAX(percentage_error, absolute_threshold)<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.1-5">The absolute threshold suffixes (<code>-1</code>, <code>-10</code>, <code>-100</code>, <code>-1000</code>) refer to the unit-multiplier scale. For <code>unit-multiplier: milli</code>, <code>-10</code> means +/-10 milliwatts.<a href="#section-7.1-5" class="pilcrow">¶</a></p>
 <p id="section-7.1-6">Example - A sensor with <code>accuracy-measured-gold-10</code> reports:<a href="#section-7.1-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.1-7.1">
-            <p id="section-7.1-7.1.1">16.25W → actual value between 16.2375W and 16.2625W (5% = 0.8125W &gt; 0.010W threshold)<a href="#section-7.1-7.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-7.1.1">16.25W -&gt; actual value between 16.2375W and 16.2625W (5% = 0.8125W &gt; 0.010W threshold)<a href="#section-7.1-7.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-7.2">
-            <p id="section-7.1-7.2.1">0.15W → actual value between 0.140W and 0.160W (5% = 0.0075W &lt; 0.010W threshold, so ±10mW applies)<a href="#section-7.1-7.2.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-7.2.1">0.15W -&gt; actual value between 0.140W and 0.160W (5% = 0.0075W &lt; 0.010W threshold, so +/-10mW applies)<a href="#section-7.1-7.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.1-8">Explicit accuracy reporting enables:<a href="#section-7.1-8" class="pilcrow">¶</a></p>
@@ -2509,7 +2509,7 @@ device.<a href="#section-7-3" class="pilcrow">¶</a></p>
             <p id="section-7.1-9.3.1">Compliance validation: Automated verification against regulatory thresholds requiring specific measurement precision<a href="#section-7.1-9.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-9.4">
-            <p id="section-7.1-9.4.1">Double-accounting prevention: Understand when PDU-level measurements (±2%) should override device estimates (±30%) to avoid counting the same energy twice (UC 13)<a href="#section-7.1-9.4.1" class="pilcrow">¶</a></p>
+            <p id="section-7.1-9.4.1">Double-accounting prevention: Understand when PDU-level measurements (+/-2%) should override device estimates (+/-30%) to avoid counting the same energy twice (UC 13)<a href="#section-7.1-9.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-9.5">
             <p id="section-7.1-9.5.1">Cross-domain correlation: Map accuracy expectations when integrating with external systems like 3GPP energy KPIs (UC 6)<a href="#section-7.1-9.5.1" class="pilcrow">¶</a></p>
@@ -2567,10 +2567,10 @@ device.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7.2-10">Example: A power supply might have:<a href="#section-7.2-10" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.2-11.1">
-            <p id="section-7.2-11.1.1">Certification: <code>c80-PLUS-Platinum</code> (≥92% efficient at 50% load, independently verified)<a href="#section-7.2-11.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-11.1.1">Certification: <code>c80-PLUS-Platinum</code> (&gt;=92% efficient at 50% load, independently verified)<a href="#section-7.2-11.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-11.2">
-            <p id="section-7.2-11.2.1">Measurement Accuracy: <code>accuracy-measured-silver</code> (±10% sensor precision on real-time power readings)<a href="#section-7.2-11.2.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-11.2.1">Measurement Accuracy: <code>accuracy-measured-silver</code> (+/-10% sensor precision on real-time power readings)<a href="#section-7.2-11.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.2-12">The certification tells operators the energy object, for example, a PSU, is designed to be efficient; the measurement accuracy tells them how precisely they can monitor its actual performance.<a href="#section-7.2-12" class="pilcrow">¶</a></p>
@@ -2721,9 +2721,9 @@ who provided helpful comments and reviews to this document.<a href="#section-10-
 <a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.ietf-green-terminology-00">[I-D.ietf-green-terminology-00]</dt>
+<dt id="I-D.ietf-green-terminology-02">[I-D.ietf-green-terminology-02]</dt>
         <dd>
-<span class="refAuthor">Chen, G.</span>, <span class="refAuthor">Boucadair, M.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">M. P. Palmero</span>, <span class="refTitle">"Terminology for Energy Efficiency Network Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-terminology-00</span>, <time datetime="2025-11-18" class="refDate">18 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-terminology-00">https://datatracker.ietf.org/doc/html/draft-ietf-green-terminology-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Chen, G.</span>, <span class="refAuthor">Boucadair, M.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">M. P. Palmero</span>, <span class="refTitle">"Terminology for Energy Efficiency Network Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-terminology-02</span>, <time datetime="2026-06-30" class="refDate">30 June 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-terminology-02">https://datatracker.ietf.org/doc/html/draft-ietf-green-terminology-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
@@ -2786,17 +2786,21 @@ who provided helpful comments and reviews to this document.<a href="#section-10-
 <a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.belmq-green-framework-06">[I-D.belmq-green-framework-06]</dt>
+<dt id="I-D.ietf-green-framework-01">[I-D.ietf-green-framework-01]</dt>
         <dd>
-<span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Lindblad, J.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Stephan, E.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Framework for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-belmq-green-framework-06</span>, <time datetime="2025-10-20" class="refDate">20 October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-belmq-green-framework-06">https://datatracker.ietf.org/doc/html/draft-belmq-green-framework-06</a>&gt;</span>. </dd>
+<span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Lindblad, J.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Stephan, E.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Framework for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-framework-01</span>, <time datetime="2026-03-17" class="refDate">17 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-framework-01">https://datatracker.ietf.org/doc/html/draft-ietf-green-framework-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.ietf-green-use-cases-00">[I-D.ietf-green-use-cases-00]</dt>
+<dt id="I-D.ietf-green-use-cases-01">[I-D.ietf-green-use-cases-01]</dt>
         <dd>
-<span class="refAuthor">Stephan, E.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, and <span class="refAuthor">C. J. Bernardos</span>, <span class="refTitle">"Use Cases for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-use-cases-00</span>, <time datetime="2025-11-20" class="refDate">20 November 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-00">https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-00</a>&gt;</span>. </dd>
+<span class="refAuthor">Stephan, E.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Bernardos, C. J.</span>, and <span class="refAuthor">X. Chen</span>, <span class="refTitle">"Use Cases for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-use-cases-01</span>, <time datetime="2026-01-22" class="refDate">22 January 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-01">https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6933">[RFC6933]</dt>
         <dd>
 <span class="refAuthor">Bierman, A.</span>, <span class="refAuthor">Romascanu, D.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">M. Chandramouli</span>, <span class="refTitle">"Entity MIB (Version 4)"</span>, <span class="seriesInfo">RFC 6933</span>, <span class="seriesInfo">DOI 10.17487/RFC6933</span>, <time datetime="2013-05" class="refDate">May 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6933">https://www.rfc-editor.org/rfc/rfc6933</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8342">[RFC8342]</dt>
+        <dd>
+<span class="refAuthor">Bjorklund, M.</span>, <span class="refAuthor">Schoenwaelder, J.</span>, <span class="refAuthor">Shafer, P.</span>, <span class="refAuthor">Watsen, K.</span>, and <span class="refAuthor">R. Wilton</span>, <span class="refTitle">"Network Management Datastore Architecture (NMDA)"</span>, <span class="seriesInfo">RFC 8342</span>, <span class="seriesInfo">DOI 10.17487/RFC8342</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8342">https://www.rfc-editor.org/rfc/rfc8342</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="rfc8407bis">[rfc8407bis]</dt>
         <dd>
