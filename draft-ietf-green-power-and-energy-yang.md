@@ -202,6 +202,26 @@ document.
 Finally, note that the instance is in the configuration tree, having a
 required-instance false leafref to operational tree instance.
 
+Regarding relationships among Energy Objects, this document does not
+provide a mechanism to configure relationships on the device (i.e.,
+there is no relationship list under /energy-control); the
+relationship list under /energy-objects/energy-entry is read-only
+operational data (config false).
+
+For relationships between components within the same device (e.g.,
+between a Line Processing Unit (LPU) and a Switch Fabric Unit (SFU)),
+the device can typically determine and populate this data directly,
+without requiring external configuration.
+
+Relationships between Energy Objects located on different devices are
+generally established and maintained at the controller or Energy
+Management System (EnMS) level, which has visibility into the
+broader network topology, as discussed in
+{{?I-D.ietf-green-framework-01}}. A device may still report a known
+inter-device relationship (e.g., using the peer's network-level UUID)
+when it has been made aware of it, but this module does not provide a
+mechanism to configure such relationships on the device itself.
+
 ~~~~ yangtree
 {::include yang/ietf-power-and-energy.txt}
 ~~~~
