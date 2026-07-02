@@ -104,14 +104,14 @@ monitoring of devices within or connected to communication networks.
 This document defines a YANG data model for Power and Energy
 Monitoring and control of devices within or connected to communication
 networks, for the use cases document in
-{{?I-D.ietf-green-use-cases-00}}.
+{{?I-D.ietf-green-use-cases-01}}.
 
 The data model includes both the monitoring and control of Energy
 Objects for networked devices.
 
-This YANG data model is based on the the "GREEN framework"
-{{?I-D.belmq-green-framework-06}}, following the "GREEN terminology"
-{{!I-D.ietf-green-terminology-00}}.
+This YANG data model is based on the "GREEN framework"
+{{?I-D.ietf-green-framework-01}}, following the "GREEN terminology"
+{{!I-D.ietf-green-terminology-02}}.
 
 Power and Energy Monitoring and Control can be applied to devices in
 communication networks. All identifiable devices with measurable or
@@ -132,7 +132,7 @@ Processing Unit (MPU).
 ## Terminology
 
 This document makes use of the terms defined in
-{{!I-D.ietf-green-terminology-00}}:
+{{!I-D.ietf-green-terminology-02}}:
 
     - Power
     - Energy
@@ -145,16 +145,16 @@ This document makes use of the terms defined in
     - Service Level Energy Efficiency (SLEE)
 
 This document makes use of the terms defined in
-{{?I-D.belmq-green-framework-06}}
+{{?I-D.ietf-green-framework-01}}
 
     - Energy Object
 
-The terms reused from {{!I-D.ietf-green-terminology-00}} and
-{{?I-D.belmq-green-framework-06}} are capitalized in this
+The terms reused from {{!I-D.ietf-green-terminology-02}} and
+{{?I-D.ietf-green-framework-01}} are capitalized in this
 specification.
 
 This document uses the terms Power and Energy in accordance with
-{{!I-D.ietf-green-terminology-00}}. Power refers to the instantaneous
+{{!I-D.ietf-green-terminology-02}}. Power refers to the instantaneous
 rate at which a device consumes or produces electrical energy
 (typically expressed in Watts). Energy, by contrast, represents the
 cumulative amount of work performed over time (typically expressed in
@@ -171,14 +171,14 @@ The meanings of the symbols in the YANG tree diagrams are defined in
 
 # The GREEN Framework
 
-The "GREEN framework" described in {{?I-D.belmq-green-framework-06}}
+The "GREEN framework" described in {{?I-D.ietf-green-framework-01}}
 covers monitoring and controlling devices and components where
 monitoring includes measuring Power, Energy, demand and attributes of
 Power.
 
 For the whole picture of the monitoring interfaces and the relevant
 requirements, please refer to "GREEN reference model" in section 4 in
-{{?I-D.belmq-green-framework-06}}.
+{{?I-D.ietf-green-framework-01}}.
 
 # Power and Energy Data Model
 
@@ -196,7 +196,7 @@ the configuration tree ('container energy-control'). The configuration
 tree, which is limited to explicitly provisioned entries, provides a
 compact self-contained view of the intent. For this reason, although an
 NMDA (Network Management Datastore Architecture) design with a single
-"state" leaf (per [RFC8342]) was considered, it is not adopted in this
+"state" leaf (per {{?RFC8342}}) was considered, it is not adopted in this
 document.
 
 Finally, note that the instance is in the configuration tree, having a
@@ -227,14 +227,14 @@ hardware-components in ietf-hardware YANG module {{!RFC8348}} is
 designed to be 1:1, architecturally aligning each energy-entry with
 exactly one physical hardware component via source-component-id.
 
-There are also cases where the controllers also generate its own set
+There are also cases where the controllers also generate their own set
 of UUIDs for the hardware (components). In such a case, it might be
 necessary to document the mappings between the UUIDs generated on the
 hardware side and the UUIDs on the controller side. Basically, the
 devices (such as routers) generate the UUID and the controller can
 query it.
 
-The ietf-hardware YANG module {{!RFC8348}} allows to discover all the
+The ietf-hardware YANG module {{!RFC8348}} allows discovering all the
 device components, including the containment tree, and the parent/child
 relationship, which is important for energy/power aggregation (see the
 contains-child relationship in RFC 8348).
@@ -243,19 +243,19 @@ contains-child relationship in RFC 8348).
 
 The EMAN IETF Working Group
 (https://datatracker.ietf.org/wg/eman/about/) is a concluded Working
-Group that produces a couple of RFCs in the domain of Power and
+Group that produced a couple of RFCs in the domain of Power and
 Energy. The Working Group produced MIB modules for monitoring and
 control for power and energy, for the context information, for battery
-monitoring, and an extension to the ENITY-MIB to add the UUID
+monitoring, and an extension to the ENTITY-MIB to add the UUID
 definition {{?RFC6933}}.
 
 For various reasons, those MIB modules were not implemented by
 vendors.
 
-The Power and Energy data model defined in this specification use the
+The Power and Energy data model defined in this specification uses the
 Monitoring and Control MIB for Power and Energy {{!RFC7460}} as a
 starting point to discuss the solution to the different use cases in
-{{?I-D.ietf-green-use-cases-00}}.
+{{?I-D.ietf-green-use-cases-01}}.
 
 However, it has not been the goal to simply map the MIB module to a
 YANG module. The changes compared to the EMAN MIB modules are mainly
@@ -274,7 +274,7 @@ of network devices and the components on these devices.
 ~~~~
 {: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy@2026-01-22.yang"}
 
-The IANA requested identities for power and energy class are separately
+The IANA-requested identities for power and energy class are separately
 described below.
 
 ~~~~ yang
@@ -289,10 +289,10 @@ and energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
 weight data reliability carefully before aggregating Power
 (instantaneous-power) and Energy (total-energy-consumed and/or
-total-energy-delivered) values to avoid skewing Device-Level Energy
+total-energy-delivered) values to avoid skewing Device Level Energy
 Efficiency (DLEE) metrics.
 
-Operators might not always be interested to get the individual component
+Operators might not always be interested in getting the individual component
 accuracy. What counts is the device level or domain level, identity
 accuracy-like-parent is introduced to meet their demands. From an
 implementation point of view, to facilitate data collection and
@@ -324,27 +324,27 @@ The model defines the following primary accuracy categories using YANG identitie
     - Identity: `accuracy-learned`
 
 - Measured Data: Direct, real-time sensor measurements with quantified precision:
-- Bronze: ±30% accuracy for typical values.
-- Silver: ±10% accuracy for typical values.
-- Gold: ±5% accuracy for typical values.
-- Red: ±2% accuracy for typical values.
+- Bronze: +/-30% accuracy for typical values.
+- Silver: +/-10% accuracy for typical values.
+- Gold: +/-5% accuracy for typical values.
+- Red: +/-2% accuracy for typical values.
 - Ones: All non-zero digits are significant/valid.
 
-Percentage-based accuracy fails for small values. For example, ±5% of 0.1W is only 0.005W, which may be smaller than sensor noise. Industry standards (IEC 62053, IEC 61850-7-4) address this by specifying: Accuracy = MAX(percentage_error, absolute_threshold)
+Percentage-based accuracy fails for small values. For example, +/-5% of 0.1W is only 0.005W, which may be smaller than sensor noise. Industry standards (IEC 62053, IEC 61850-7-4) address this by specifying: Accuracy = MAX(percentage_error, absolute_threshold)
 
-The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) refer to the unit-multiplier scale. For `unit-multiplier: milli`, `-10` means ±10 milliwatts.
+The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) refer to the unit-multiplier scale. For `unit-multiplier: milli`, `-10` means +/-10 milliwatts.
 
 Example - A sensor with `accuracy-measured-gold-10` reports:
 
-- 16.25W → actual value between 16.2375W and 16.2625W (5% = 0.8125W > 0.010W threshold)
-- 0.15W → actual value between 0.140W and 0.160W (5% = 0.0075W < 0.010W threshold, so ±10mW applies)
+- 16.25W -> actual value between 16.2375W and 16.2625W (5% = 0.8125W > 0.010W threshold)
+- 0.15W -> actual value between 0.140W and 0.160W (5% = 0.0075W < 0.010W threshold, so +/-10mW applies)
 
 Explicit accuracy reporting enables:
 
 - Weighted aggregation: High-precision measurements carry appropriate weight when calculating network-wide energy consumption
 - Upgrade prioritization: Identify devices with low-accuracy reporting for sensor upgrades or replacement
 - Compliance validation: Automated verification against regulatory thresholds requiring specific measurement precision
-- Double-accounting prevention: Understand when PDU-level measurements (±2%) should override device estimates (±30%) to avoid counting the same energy twice (UC 13)
+- Double-accounting prevention: Understand when PDU-level measurements (+/-2%) should override device estimates (+/-30%) to avoid counting the same energy twice (UC 13)
 - Cross-domain correlation: Map accuracy expectations when integrating with external systems like 3GPP energy KPIs (UC 6)
 
 The accuracy hierarchy uses YANG identities for extensibility, allowing vendors to define manufacturer-specific accuracy classes while maintaining interoperability through standardized base types.
@@ -379,8 +379,8 @@ Both types of information may be reported simultaneously for the same energy obj
 
 Example: A power supply might have:
 
-- Certification: `c80-PLUS-Platinum` (≥92% efficient at 50% load, independently verified)
-- Measurement Accuracy: `accuracy-measured-silver` (±10% sensor precision on real-time power readings)
+- Certification: `c80-PLUS-Platinum` (>=92% efficient at 50% load, independently verified)
+- Measurement Accuracy: `accuracy-measured-silver` (+/-10% sensor precision on real-time power readings)
 
 The certification tells operators the energy object, for example, a PSU, is designed to be efficient; the measurement accuracy tells them how precisely they can monitor its actual performance.
 
