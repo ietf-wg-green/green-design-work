@@ -1052,11 +1052,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">GREEN-PEM-YANG</td>
-<td class="right">June 2026</td>
+<td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Benoit, et al.</td>
-<td class="center">Expires 24 December 2026</td>
+<td class="center">Expires 3 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1069,12 +1069,12 @@ svg {
 <dd class="internet-draft">draft-ietf-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-06-22" class="published">22 June 2026</time>
+<time datetime="2026-07-02" class="published">2 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-12-24">24 December 2026</time></dd>
+<dd class="expires"><time datetime="2027-01-03">3 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1121,7 +1121,7 @@ monitoring of devices within or connected to communication networks.<a href="#se
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 December 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1867,86 +1867,103 @@ module ietf-power-and-energy {
         ";
   }
   identity multiplier-yocto {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^-24 associated with the
        integer units used to measure the power or energy.";
   }
   identity multiplier-zepto {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^-21 associated with the
        integer units used to measure the power or energy.";
   }
   identity multiplier-atto {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^-18 associated with the
        integer units used to measure the power or energy.";
   }
   identity multiplier-femto {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^-15 associated with the
        integer units used to measure the power or energy.";
   }
   identity multiplier-pico {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^-12 associated with the
        integer units used to measure the power or energy.";
   }
   identity multiplier-nano {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^-9 associated with the
        integer units used to measure the power or energy.";
   }
   identity multiplier-micro {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^-6 (0.000001) associated with the
        integer units used to measure the power or energy.";
   }
   identity multiplier-milli {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^-3 (0.001) associated with the
        integer units used to measure the power or energy.";
   }
   identity multiplier-units {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^0 (1) associated with
        the integer units used to measure the power or energy.";
   }
   identity multiplier-kilo {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^3 (1,000) associated with the
        integer units used to measure the power or energy.";
   }
   identity multiplier-mega {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^6 (1,000,000) associated with
        the integer units used to measure the power or energy.";
   }
   identity multiplier-giga {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^9 (1,000,000,000) associated
        with the integer units used to measure the power or energy.";
   }
   identity multiplier-tera {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^12 associated
        with the integer units used to measure the power or energy.";
   }
   identity multiplier-peta {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^15 associated
        with the integer units used to measure the power or energy.";
   }
   identity multiplier-exa {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^18 associated
        with the integer units used to measure the power or energy.";
   }
   identity multiplier-zetta {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^21 associated
        with the integer units used to measure the power or energy.";
   }
   identity multiplier-yotta {
+    base unit-multiplier;
     description
       "Represents a multiplier of 10^24 associated
        with the integer units used to measure the power or energy.";
