@@ -312,7 +312,7 @@ Table of Contents
    This YANG Module is used to monitor and control Power and Energy
    usage of network devices and the components on these devices.
 
-   <CODE BEGINS> file "ietf-power-and-energy@2026-01-22.yang"
+   <CODE BEGINS> file "ietf-power-and-energy@2026-07-02.yang"
    module ietf-power-and-energy {
      yang-version 1.1;
 
@@ -364,7 +364,7 @@ Table of Contents
         (https://www.rfc-editor.org/info/rfcXXX); see the RFC itself
         for full legal notices.";
 
-     revision 2026-01-22 {
+     revision 2026-07-02 {
        description
          "Initial revision";
        reference
@@ -883,9 +883,11 @@ Table of Contents
            }
            description
              "Reference to the component name in the ietf-hardware
-             model. This leaf creates a direct semantic link between the
-             power/energy attributes and the physical component they describe.
-             ";
+              model. This leaf creates a direct semantic link between the
+              power/energy attributes and the physical component they
+              describe.";
+           reference
+             "RFC 8348: A YANG Data Model for Hardware Management";
          }
 
          container power {
@@ -1063,8 +1065,8 @@ Table of Contents
          list relationship {
            key "type";
            config false;
-           description "Relationships for this energy entry. Replaces
-           RFC 7461 eoRelationTable.";
+           description
+             "Relationships for this energy entry.";
 
            leaf type {
              type identityref {
@@ -1082,12 +1084,15 @@ Table of Contents
 
              leaf id {
                type string;
-               description "This id specifies the Universally Unique
-                 Identifier (UUID) of the peer (other) Energy Object that
-                 this energy object is powering/powered-by/metering/
-                 metered-by, etc. If the network level UUID is not known,
-                 some other locally unique identifier MAY be used, in
-                 conjunction with human readable details.";
+               description
+                 "This id specifies the Universally Unique Identifier
+                  (UUID) of the peer (other) Energy Object that this
+                  energy object is powering/powered-by/metering/metered-by,
+                  etc. If the network level UUID is not known,some other
+                  locally unique identifier MAY be used, in conjunction
+                  with human readable details.";
+               reference
+                 "RFC 9562: Universally Unique IDentifiers (UUIDs)";
              }
              leaf details {
                type string;
@@ -1154,7 +1159,7 @@ Table of Contents
    The IANA-requested identities for power and energy class are
    separately described below.
 
-   <CODE BEGINS> file "iana-power-and-energy@2026-02-26.yang"
+   <CODE BEGINS> file "iana-power-and-energy@2026-07-02.yang"
    module iana-ietf-power-and-energy {
      yang-version 1.1;
      namespace "urn:ietf:params:xml:ns:yang:iana-ietf-power-and-energy";
@@ -1200,7 +1205,7 @@ Table of Contents
      reference
        "https://www.iana.org/assignments/yang-parameters";
 
-     revision 2026-02-26 {
+     revision 2026-07-02 {
        description
          "Initial revision.";
        reference
