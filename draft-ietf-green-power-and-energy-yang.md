@@ -321,6 +321,18 @@ described below.
 
 # Operational Considerations
 
+In the YANG data model, the unit-multiplier leaf is defined with
+different constraints in the power and energy containers. In the power
+container, the leaf is mandatory true. This ensures that every power
+measurement (instantaneous or nameplate) is always accompanied by an
+explicit scale, eliminating any ambiguity about the unit. In the energy
+container, the leaf is optional and has a default value of
+"multiplier-units" (which corresponds to 10^0 = 1, i.e., Watt‑hours).
+If a device does not provide this leaf, the client MUST assume that all
+energy values (total-energy-consumed and total-energy-delivered) are
+expressed in Watt‑hours. This default eliminates the ambiguity that
+would otherwise exist when the leaf is absent.
+
 Heterogeneous sensor capabilities across components complicate power
 and energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to

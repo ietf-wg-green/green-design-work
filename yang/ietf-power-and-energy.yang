@@ -687,12 +687,15 @@ module ietf-power-and-energy {
           type identityref {
             base unit-multiplier;
           }
+          default "multiplier-units";
           description
-            "This multiplier applies to both total-energy-consumed
-             and total-energy-delivered values. It determines the scale
-             of the energy measurements, allowing representation of
-             energy values from milliwatt-hours to gigawatt-hours
-             using integer arithmetic.";
+            "This multiplier applies to both total-energy-consumed and 
+             total-energy-delivered values. It determines the scale of 
+             the energy measurements, allowing representation of energy 
+             values from milliwatt-hours to gigawatt-hours using 
+             integer arithmetic. When not explicitly specified, the 
+             default value of multiplier-units (10^0 = 1) applies, 
+             meaning values are expressed in Watt-hours.";
         }
         
         leaf data-source-accuracy {
