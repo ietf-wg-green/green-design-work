@@ -543,7 +543,19 @@ module ietf-power-and-energy {
     base energy-relationship-type;
     description "Energy Object A is aggregating Energy Object B";
   }
-
+  identity enabled-by {
+    base energy-relationship-type;
+    description
+      "Energy Object A is enabled by Energy Object B. B must be 
+      operational for A to function correctly";
+  }
+  identity enabling {
+    base energy-relationship-type;
+    description
+      "Energy Object A is enabling Energy Object B. A must be 
+      operational for B to function correctly.
+      The inverse relationship is 'enabled-by'.";
+  }
   container energy-objects {
     config false;
     description
