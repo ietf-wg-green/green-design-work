@@ -49,7 +49,7 @@ module ietf-power-and-energy {
      (https://www.rfc-editor.org/info/rfcXXX); see the RFC itself
      for full legal notices.";
 
-  revision 2026-01-22 {
+  revision 2026-07-02 {
     description
       "Initial revision";
     reference
@@ -568,9 +568,11 @@ module ietf-power-and-energy {
         }
         description
           "Reference to the component name in the ietf-hardware 
-          model. This leaf creates a direct semantic link between the
-          power/energy attributes and the physical component they describe.
-          ";
+           model. This leaf creates a direct semantic link between the
+           power/energy attributes and the physical component they 
+           describe.";
+        reference
+          "RFC 8348: A YANG Data Model for Hardware Management";
       }
 
       container power {
@@ -748,8 +750,8 @@ module ietf-power-and-energy {
       list relationship {
         key "type";
         config false;
-        description "Relationships for this energy entry. Replaces 
-        RFC 7461 eoRelationTable.";
+        description 
+          "Relationships for this energy entry.";
                 
         leaf type {
           type identityref {
@@ -767,12 +769,15 @@ module ietf-power-and-energy {
           
           leaf id {
             type string;
-            description "This id specifies the Universally Unique
-              Identifier (UUID) of the peer (other) Energy Object that
-              this energy object is powering/powered-by/metering/
-              metered-by, etc. If the network level UUID is not known,
-              some other locally unique identifier MAY be used, in
-              conjunction with human readable details.";
+            description 
+              "This id specifies the Universally Unique Identifier 
+               (UUID) of the peer (other) Energy Object that this 
+               energy object is powering/powered-by/metering/metered-by,
+               etc. If the network level UUID is not known,some other 
+               locally unique identifier MAY be used, in conjunction 
+               with human readable details.";
+            reference
+              "RFC 9562: Universally Unique IDentifiers (UUIDs)";
           }
           leaf details {
             type string;
