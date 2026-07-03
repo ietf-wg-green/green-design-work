@@ -1002,12 +1002,15 @@ Table of Contents
              type identityref {
                base unit-multiplier;
              }
+             default "multiplier-units";
              description
-               "This multiplier applies to both total-energy-consumed
-                and total-energy-delivered values. It determines the scale
-                of the energy measurements, allowing representation of
-                energy values from milliwatt-hours to gigawatt-hours
-                using integer arithmetic.";
+               "This multiplier applies to both total-energy-consumed and
+                total-energy-delivered values. It determines the scale of
+                the energy measurements, allowing representation of energy
+                values from milliwatt-hours to gigawatt-hours using
+                integer arithmetic. When not explicitly specified, the
+                default value of multiplier-units (10^0 = 1) applies,
+                meaning values are expressed in Watt-hours.";
            }
 
            leaf data-source-accuracy {
@@ -1276,6 +1279,18 @@ Table of Contents
    <CODE ENDS>
 
 7.  Operational Considerations
+
+   In the YANG data model, the unit-multiplier leaf is defined with
+   different constraints in the power and energy containers.  In the
+   power container, the leaf is mandatory true.  This ensures that every
+   power measurement (instantaneous or nameplate) is always accompanied
+   by an explicit scale, eliminating any ambiguity about the unit.  In
+   the energy container, the leaf is optional and has a default value of
+   "multiplier-units" (which corresponds to 10^0 = 1, i.e., Watt-hours).
+   If a device does not provide this leaf, the client MUST assume that
+   all energy values (total-energy-consumed and total-energy-delivered)
+   are expressed in Watt-hours.  This default eliminates the ambiguity
+   that would otherwise exist when the leaf is absent.
 
    Heterogeneous sensor capabilities across components complicate power
    and energy aggregation.  Operators must use the data-source-accuracy

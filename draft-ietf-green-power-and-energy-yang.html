@@ -2160,12 +2160,15 @@ module ietf-power-and-energy {
           type identityref {
             base unit-multiplier;
           }
+          default "multiplier-units";
           description
-            "This multiplier applies to both total-energy-consumed
-             and total-energy-delivered values. It determines the scale
-             of the energy measurements, allowing representation of
-             energy values from milliwatt-hours to gigawatt-hours
-             using integer arithmetic.";
+            "This multiplier applies to both total-energy-consumed and
+             total-energy-delivered values. It determines the scale of
+             the energy measurements, allowing representation of energy
+             values from milliwatt-hours to gigawatt-hours using
+             integer arithmetic. When not explicitly specified, the
+             default value of multiplier-units (10^0 = 1) applies,
+             meaning values are expressed in Watt-hours.";
         }
 
         leaf data-source-accuracy {
@@ -2445,26 +2448,37 @@ module iana-ietf-power-and-energy {
       <h2 id="name-operational-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-operational-considerations" class="section-name selfRef">Operational Considerations</a>
       </h2>
-<p id="section-7-1">Heterogeneous sensor capabilities across components complicate power
+<p id="section-7-1">In the YANG data model, the unit-multiplier leaf is defined with
+different constraints in the power and energy containers. In the power
+container, the leaf is mandatory true. This ensures that every power
+measurement (instantaneous or nameplate) is always accompanied by an
+explicit scale, eliminating any ambiguity about the unit. In the energy
+container, the leaf is optional and has a default value of
+"multiplier-units" (which corresponds to 10^0 = 1, i.e., Watt‑hours).
+If a device does not provide this leaf, the client <span class="bcp14">MUST</span> assume that all
+energy values (total-energy-consumed and total-energy-delivered) are
+expressed in Watt‑hours. This default eliminates the ambiguity that
+would otherwise exist when the leaf is absent.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">Heterogeneous sensor capabilities across components complicate power
 and energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
 weight data reliability carefully before aggregating Power
 (instantaneous-power) and Energy (total-energy-consumed and/or
 total-energy-delivered) values to avoid skewing Device Level Energy
-Efficiency (DLEE) metrics.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">Operators might not always be interested in getting the individual component
+Efficiency (DLEE) metrics.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">Operators might not always be interested in getting the individual component
 accuracy. What counts is the device level or domain level, identity
 accuracy-like-parent is introduced to meet their demands. From an
 implementation point of view, to facilitate data collection and
 aggregation on runtime and avoid post-aggregation data confidence
 interval issues, operators and implementers should use as much as
-possible this accuracy-like-parent identity.<a href="#section-7-2" class="pilcrow">¶</a></p>
-<p id="section-7-3">YANG Push support eliminates device-side bucket storage by streaming
+possible this accuracy-like-parent identity.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<p id="section-7-4">YANG Push support eliminates device-side bucket storage by streaming
 energy telemetry directly to controller-side via subscriptions.
 Operators must verify the 'yang-push' bundle is enabled and validate
 push-max-operational limits accommodate all component subscriptions,
 preventing notification flooding while avoiding memory overhead on the
-device.<a href="#section-7-3" class="pilcrow">¶</a></p>
+device.<a href="#section-7-4" class="pilcrow">¶</a></p>
 <div id="measurement-accuracy-and-data-source-classification">
 <section id="section-7.1">
         <h3 id="name-measurement-accuracy-and-da">
