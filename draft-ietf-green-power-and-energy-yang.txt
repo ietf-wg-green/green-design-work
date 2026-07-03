@@ -73,20 +73,20 @@ Table of Contents
      1.1.  Terminology . . . . . . . . . . . . . . . . . . . . . . .   3
    2.  The GREEN Framework . . . . . . . . . . . . . . . . . . . . .   4
    3.  Power and Energy Data Model . . . . . . . . . . . . . . . . .   4
-   4.  Relationship to the Hardware YANG Data Model  . . . . . . . .   5
-   5.  Relationship to the EMAN Work . . . . . . . . . . . . . . . .   6
-   6.  Power and Energy YANG Module  . . . . . . . . . . . . . . . .   6
-   7.  Operational Considerations  . . . . . . . . . . . . . . . . .  27
-     7.1.  Measurement Accuracy and Data Source Classification . . .  27
-     7.2.  Industry-Standard Certifications  . . . . . . . . . . . .  29
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  30
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  31
-     9.1.  GREEN Certification Type Registry . . . . . . . . . . . .  31
-   10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  33
-   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  33
-     11.1.  Normative References . . . . . . . . . . . . . . . . . .  33
-     11.2.  Informative References . . . . . . . . . . . . . . . . .  34
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  35
+   4.  Relationship to the Hardware YANG Data Model  . . . . . . . .   6
+   5.  Relationship to the EMAN Work . . . . . . . . . . . . . . . .   7
+   6.  Power and Energy YANG Module  . . . . . . . . . . . . . . . .   7
+   7.  Operational Considerations  . . . . . . . . . . . . . . . . .  28
+     7.1.  Measurement Accuracy and Data Source Classification . . .  28
+     7.2.  Industry-Standard Certifications  . . . . . . . . . . . .  30
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  31
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  33
+     9.1.  GREEN Certification Type Registry . . . . . . . . . . . .  33
+   10. Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  35
+   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  35
+     11.1.  Normative References . . . . . . . . . . . . . . . . . .  35
+     11.2.  Informative References . . . . . . . . . . . . . . . . .  36
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  37
 
 1.  Introduction
 
@@ -214,14 +214,70 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
    Finally, note that the instance is in the configuration tree, having
    a required-instance false leafref to operational tree instance.
 
-
-
-
-
+   The relationship list models the relationship between an Energy
+   Object and its peer Energy Objects, using the energy-relationship-
+   type identities: powered-by and powering (Power Source Relationship),
+   metered-by and metering (Metering Relationship), and aggregated-by
 
 
 
 Benoit, et al.           Expires 3 January 2027                 [Page 4]
+
+Internet-Draft               GREEN-PEM-YANG                    July 2026
+
+
+   and aggregating (Aggregation Relationship).  Each pair of identities
+   expresses the same relationship from the perspective of each
+   participant (e.g., if Energy Object A is powered-by Energy Object B,
+   then Energy Object B is powering Energy Object A).  These three
+   relationship categories, including their use for power/metering
+   topology discovery and for preventing double-counting of Energy
+   values, are defined in [I-D.ietf-green-framework-01].  For each
+   relationship type, one or more peer Energy Objects can be identified
+   via the id leaf within the peer list, a string value that is
+   typically the peer's UUID when known, or another locally unique
+   identifier, together with human-readable details captured in the
+   details leaf, otherwise.
+
+   Regarding relationships among Energy Objects, this document does not
+   provide a mechanism to configure relationships on the device (i.e.,
+   there is no relationship list under /energy-control); the
+   relationship list under /energy-objects/energy-entry is read-only
+   operational data (config false).
+
+   For relationships between components within the same device (e.g.,
+   between a Line Processing Unit (LPU) and a Switch Fabric Unit (SFU)),
+   the device can typically determine and populate this data directly,
+   without requiring external configuration.
+
+   Relationships between Energy Objects located on different devices are
+   generally established and maintained at the controller or Energy
+   Management System (EnMS) level, which has visibility into the broader
+   network topology, as discussed in [I-D.ietf-green-framework-01].  A
+   device may still report a known inter-device relationship (e.g.,
+   using the peer's network-level UUID) when it has been made aware of
+   it, but this module does not provide a mechanism to configure such
+   relationships on the device itself.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Benoit, et al.           Expires 3 January 2027                 [Page 5]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -277,7 +333,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                 [Page 5]
+Benoit, et al.           Expires 3 January 2027                 [Page 6]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -333,7 +389,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                 [Page 6]
+Benoit, et al.           Expires 3 January 2027                 [Page 7]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -389,7 +445,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                 [Page 7]
+Benoit, et al.           Expires 3 January 2027                 [Page 8]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -445,7 +501,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                 [Page 8]
+Benoit, et al.           Expires 3 January 2027                 [Page 9]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -501,7 +557,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                 [Page 9]
+Benoit, et al.           Expires 3 January 2027                [Page 10]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -557,7 +613,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 10]
+Benoit, et al.           Expires 3 January 2027                [Page 11]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -613,7 +669,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 11]
+Benoit, et al.           Expires 3 January 2027                [Page 12]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -669,7 +725,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 12]
+Benoit, et al.           Expires 3 January 2027                [Page 13]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -725,7 +781,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 13]
+Benoit, et al.           Expires 3 January 2027                [Page 14]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -781,7 +837,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 14]
+Benoit, et al.           Expires 3 January 2027                [Page 15]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -837,7 +893,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 15]
+Benoit, et al.           Expires 3 January 2027                [Page 16]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -893,7 +949,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 16]
+Benoit, et al.           Expires 3 January 2027                [Page 17]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -949,7 +1005,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 17]
+Benoit, et al.           Expires 3 January 2027                [Page 18]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1005,7 +1061,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 18]
+Benoit, et al.           Expires 3 January 2027                [Page 19]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1061,7 +1117,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 19]
+Benoit, et al.           Expires 3 January 2027                [Page 20]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1117,7 +1173,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 20]
+Benoit, et al.           Expires 3 January 2027                [Page 21]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1173,7 +1229,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 21]
+Benoit, et al.           Expires 3 January 2027                [Page 22]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1229,7 +1285,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 22]
+Benoit, et al.           Expires 3 January 2027                [Page 23]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1285,7 +1341,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 23]
+Benoit, et al.           Expires 3 January 2027                [Page 24]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1341,7 +1397,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 24]
+Benoit, et al.           Expires 3 January 2027                [Page 25]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1397,7 +1453,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 25]
+Benoit, et al.           Expires 3 January 2027                [Page 26]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1453,7 +1509,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 26]
+Benoit, et al.           Expires 3 January 2027                [Page 27]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1509,7 +1565,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 27]
+Benoit, et al.           Expires 3 January 2027                [Page 28]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1565,7 +1621,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 28]
+Benoit, et al.           Expires 3 January 2027                [Page 29]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1621,7 +1677,7 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 29]
+Benoit, et al.           Expires 3 January 2027                [Page 30]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1666,10 +1722,6 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 8.  Security Considerations
 
-   This section will be completed once the YANG module is complete,
-   according to https://wiki.ietf.org/group/ops/yang-security-
-   guidelines.
-
    This section is modeled after the template described in Section 3.7.1
    of [rfc8407bis].
 
@@ -1677,7 +1729,11 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 30]
+
+
+
+
+Benoit, et al.           Expires 3 January 2027                [Page 31]
 
 Internet-Draft               GREEN-PEM-YANG                    July 2026
 
@@ -1693,6 +1749,57 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
    provides the means to restrict access for particular NETCONF or
    RESTCONF users to a preconfigured subset of all available NETCONF or
    RESTCONF protocol operations and content.
+
+   There is one writable data node defined in this YANG module that may
+   be considered sensitive or vulnerable in some network environments.
+   Write operations (e.g., edit-config) to this data node without proper
+   protection can have a negative effect on network operations:
+
+   *  /energy-control/energy-entry/power-state/power-state-admin:
+      Unauthorized write access to this leaf allows an attacker to
+      change the administratively requested power state of an Energy
+      Object.  Depending on the target device or component, this could
+      be used to power down critical network infrastructure (resulting
+      in denial of service), force a component into a state that damages
+      hardware, or mask an ongoing attack by cycling power states to
+      disrupt monitoring.  Access to this data node SHOULD be limited to
+      authorized administrators via NACM.
+
+   Some of the readable data nodes in this YANG module may be considered
+   sensitive or vulnerable in some network environments.  It is thus
+   important to control read access (e.g., via get, get-config, or
+   notification) to these data nodes.  Specifically, the following
+   subtrees and data nodes have particular sensitivities:
+
+   *  /energy-objects/energy-entry/power and /energy-objects/energy-
+      entry/energy: These subtrees expose real-time and cumulative power
+      and energy consumption for individual hardware components.  Fine-
+      grained, time-correlated power/energy telemetry can reveal
+      operational patterns, such as workload levels, traffic volume, or
+      usage schedules, of a device or of the network behind it.  In some
+      environments, this information could be leveraged as a side
+      channel to infer sensitive operational or business information
+      (e.g., data center utilization, capacity, or customer activity
+      patterns).
+
+   *  /energy-objects/energy-entry/relationship: This list exposes
+      relationships (e.g., powered-by, powering, metered-by) and UUIDs
+      between Energy Objects, which can reveal the physical and logical
+      power topology of a site.  Disclosure of this information could
+
+
+
+Benoit, et al.           Expires 3 January 2027                [Page 32]
+
+Internet-Draft               GREEN-PEM-YANG                    July 2026
+
+
+      assist an attacker in identifying high-value targets (e.g., shared
+      power infrastructure whose disruption has a broad impact) or in
+      correlating Energy Objects across administrative domains.
+
+   This document does not define any RPC operations or YANG
+   notifications.
 
 9.  IANA Considerations
 
@@ -1730,17 +1837,18 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
    certification-type identity in the iana-power-and-energy YANG module.
    The registry assigns string identity names for power and energy
    efficiency certification types, for use as identityref values in
-
-
-
-Benoit, et al.           Expires 3 January 2027                [Page 31]
-
-Internet-Draft               GREEN-PEM-YANG                    July 2026
-
-
    "ietf-power-and-energy" YANG module.  The registered value is the
    unqualified identity name (e.g., energy-star, c80-plus, etc).  No
    numeric code points are assigned by this registry.
+
+
+
+
+
+Benoit, et al.           Expires 3 January 2027                [Page 33]
+
+Internet-Draft               GREEN-PEM-YANG                    July 2026
+
 
    New entries to "Power and Energy Certification Types" registry
    require Expert Review [RFC8126].  The Designated Expert(s) should
@@ -1782,23 +1890,21 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
    IANA is requested to add the following note to the "Power and Energy
    Certification Types" registry:
 
-
-
-
-
-
-
-
-Benoit, et al.           Expires 3 January 2027                [Page 32]
-
-Internet-Draft               GREEN-PEM-YANG                    July 2026
-
-
    Certification types MUST NOT be directly added to the iana-power-and-
    energy YANG module.  They MUST instead be added to the "Power and
    Energy Certification Types" registry.  When this registry is updated,
    the iana-power-and-energy YANG module MUST be updated as defined in
    RFC XXX.
+
+
+
+
+
+
+Benoit, et al.           Expires 3 January 2027                [Page 34]
+
+Internet-Draft               GREEN-PEM-YANG                    July 2026
+
 
 10.  Acknowledgments
 
@@ -1842,18 +1948,19 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
    [RFC8040]  "RESTCONF Protocol", June 2017,
               <https://datatracker.ietf.org/doc/html/rfc8040>.
 
-
-
-
-Benoit, et al.           Expires 3 January 2027                [Page 33]
-
-Internet-Draft               GREEN-PEM-YANG                    July 2026
-
-
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
               RFC 8126, DOI 10.17487/RFC8126, June 2017,
               <https://www.rfc-editor.org/rfc/rfc8126>.
+
+
+
+
+
+Benoit, et al.           Expires 3 January 2027                [Page 35]
+
+Internet-Draft               GREEN-PEM-YANG                    July 2026
+
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -1895,21 +2002,21 @@ Internet-Draft               GREEN-PEM-YANG                    July 2026
               2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
               green-use-cases-01>.
 
-
-
-
-
-
-
-Benoit, et al.           Expires 3 January 2027                [Page 34]
-
-Internet-Draft               GREEN-PEM-YANG                    July 2026
-
-
    [RFC6933]  Bierman, A., Romascanu, D., Quittek, J., and M.
               Chandramouli, "Entity MIB (Version 4)", RFC 6933,
               DOI 10.17487/RFC6933, May 2013,
               <https://www.rfc-editor.org/rfc/rfc6933>.
+
+
+
+
+
+
+
+Benoit, et al.           Expires 3 January 2027                [Page 36]
+
+Internet-Draft               GREEN-PEM-YANG                    July 2026
+
 
    [RFC8342]  Bjorklund, M., Schoenwaelder, J., Shafer, P., Watsen, K.,
               and R. Wilton, "Network Management Datastore Architecture
@@ -1957,4 +2064,9 @@ Authors' Addresses
 
 
 
-Benoit, et al.           Expires 3 January 2027                [Page 35]
+
+
+
+
+
+Benoit, et al.           Expires 3 January 2027                [Page 37]
