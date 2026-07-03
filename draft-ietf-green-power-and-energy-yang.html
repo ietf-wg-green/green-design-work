@@ -1334,38 +1334,40 @@ document.<a href="#section-3-2" class="pilcrow">¶</a></p>
 required-instance false leafref to operational tree instance.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">The relationship list models the relationship between an Energy
 Object and its peer Energy Objects, using the
-energy-relationship-type identities: powered-by and powering (Power
-Source Relationship), metered-by and metering (Metering
-Relationship), and aggregated-by and aggregating (Aggregation
-Relationship). Each pair of identities expresses the same
+<code>energy-relationship-type</code> identities: <code>powered-by</code> and <code>powering</code>
+(Power Source Relationship), <code>metered-by</code> and <code>metering</code> (Metering
+Relationship), <code>aggregated-by</code> and <code>aggregating</code> (Aggregation
+Relationship), and <code>enabled-by</code> and <code>enabling</code> (Functional
+Enablement Relationship).<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">Each pair of identities expresses the same
 relationship from the perspective of each participant (e.g., if
 Energy Object A is powered-by Energy Object B, then Energy Object B
-is powering Energy Object A). These three relationship categories,
+is powering Energy Object A). These relationship categories,
 including their use for power/metering topology discovery and for
 preventing double-counting of Energy values, are defined in
-<span>[<a href="#I-D.ietf-green-framework-01" class="cite xref">I-D.ietf-green-framework-01</a>]</span>. For each relationship type, one or
+<span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.ietf-green-framework</a>]</span>. For each relationship type, one or
 more peer Energy Objects can be identified via the <code>id</code> leaf within
 the <code>peer</code> list, a string value that is typically the peer's UUID
 when known, or another locally unique identifier, together with
-human-readable details captured in the <code>details</code> leaf, otherwise.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">Regarding relationships among Energy Objects, this document does not
+human-readable details captured in the <code>details</code> leaf, otherwise.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-6">Regarding relationships among Energy Objects, this document does not
 provide a mechanism to configure relationships on the device (i.e.,
 there is no relationship list under /energy-control); the
 relationship list under /energy-objects/energy-entry is read-only
-operational data (config false).<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">For relationships between components within the same device (e.g.,
+operational data (config false).<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">For relationships between components within the same device (e.g.,
 between a Line Processing Unit (LPU) and a Switch Fabric Unit (SFU)),
 the device can typically determine and populate this data directly,
-without requiring external configuration.<a href="#section-3-6" class="pilcrow">¶</a></p>
-<p id="section-3-7">Relationships between Energy Objects located on different devices are
+without requiring external configuration.<a href="#section-3-7" class="pilcrow">¶</a></p>
+<p id="section-3-8">Relationships between Energy Objects located on different devices are
 generally established and maintained at the controller or Energy
 Management System (EnMS) level, which has visibility into the
 broader network topology, as discussed in
 <span>[<a href="#I-D.ietf-green-framework-01" class="cite xref">I-D.ietf-green-framework-01</a>]</span>. A device may still report a known
 inter-device relationship (e.g., using the peer's network-level UUID)
 when it has been made aware of it, but this module does not provide a
-mechanism to configure such relationships on the device itself.<a href="#section-3-7" class="pilcrow">¶</a></p>
-<div class="lang-yangtree sourcecode" id="section-3-8">
+mechanism to configure such relationships on the device itself.<a href="#section-3-8" class="pilcrow">¶</a></p>
+<div class="lang-yangtree sourcecode" id="section-3-9">
 <pre>
 module: ietf-power-and-energy
   +--ro energy-objects
@@ -1399,7 +1401,7 @@ module: ietf-power-and-energy
         +--rw power-state
            +--rw power-state-oper?    -&gt; /energy-objects/energy-entry/power-state/power-state-oper
            +--rw power-state-admin?   identityref
-</pre><a href="#section-3-8" class="pilcrow">¶</a>
+</pre><a href="#section-3-9" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2016,7 +2018,19 @@ module ietf-power-and-energy {
     base energy-relationship-type;
     description "Energy Object A is aggregating Energy Object B";
   }
-
+  identity enabled-by {
+    base energy-relationship-type;
+    description
+      "Energy Object A is enabled by Energy Object B. B must be
+      operational for A to function correctly";
+  }
+  identity enabling {
+    base energy-relationship-type;
+    description
+      "Energy Object A is enabling Energy Object B. A must be
+      operational for B to function correctly.
+      The inverse relationship is 'enabled-by'.";
+  }
   container energy-objects {
     config false;
     description
@@ -2883,6 +2897,10 @@ who provided helpful comments and reviews to this document.<a href="#section-10-
 <a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="I-D.ietf-green-framework">[I-D.ietf-green-framework]</dt>
+        <dd>
+<span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Lindblad, J.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Stephan, E.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Framework for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-framework-01</span>, <time datetime="2026-03-17" class="refDate">17 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-framework-01">https://datatracker.ietf.org/doc/html/draft-ietf-green-framework-01</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-green-framework-01">[I-D.ietf-green-framework-01]</dt>
         <dd>
 <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Lindblad, J.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Stephan, E.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Framework for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-framework-01</span>, <time datetime="2026-03-17" class="refDate">17 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-framework-01">https://datatracker.ietf.org/doc/html/draft-ietf-green-framework-01</a>&gt;</span>. </dd>

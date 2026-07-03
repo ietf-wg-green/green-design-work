@@ -184,14 +184,16 @@ Table of Contents
    The relationship list models the relationship between an Energy
    Object and its peer Energy Objects, using the energy-relationship-
    type identities: powered-by and powering (Power Source Relationship),
-   metered-by and metering (Metering Relationship), and aggregated-by
-   and aggregating (Aggregation Relationship).  Each pair of identities
-   expresses the same relationship from the perspective of each
-   participant (e.g., if Energy Object A is powered-by Energy Object B,
-   then Energy Object B is powering Energy Object A).  These three
-   relationship categories, including their use for power/metering
-   topology discovery and for preventing double-counting of Energy
-   values, are defined in [I-D.ietf-green-framework-01].  For each
+   metered-by and metering (Metering Relationship), aggregated-by and
+   aggregating (Aggregation Relationship), and enabled-by and enabling
+   (Functional Enablement Relationship).
+
+   Each pair of identities expresses the same relationship from the
+   perspective of each participant (e.g., if Energy Object A is powered-
+   by Energy Object B, then Energy Object B is powering Energy Object
+   A).  These relationship categories, including their use for power/
+   metering topology discovery and for preventing double-counting of
+   Energy values, are defined in [I-D.ietf-green-framework].  For each
    relationship type, one or more peer Energy Objects can be identified
    via the id leaf within the peer list, a string value that is
    typically the peer's UUID when known, or another locally unique
@@ -858,7 +860,19 @@ Table of Contents
        base energy-relationship-type;
        description "Energy Object A is aggregating Energy Object B";
      }
-
+     identity enabled-by {
+       base energy-relationship-type;
+       description
+         "Energy Object A is enabled by Energy Object B. B must be
+         operational for A to function correctly";
+     }
+     identity enabling {
+       base energy-relationship-type;
+       description
+         "Energy Object A is enabling Energy Object B. A must be
+         operational for B to function correctly.
+         The inverse relationship is 'enabled-by'.";
+     }
      container energy-objects {
        config false;
        description
@@ -1689,6 +1703,14 @@ Table of Contents
               2021, <https://datatracker.ietf.org/doc/html/rfc9000>.
 
 11.2.  Informative References
+
+   [I-D.ietf-green-framework]
+              Claise, B., Contreras, L. M., Lindblad, J., Palmero, M.
+              P., Stephan, E., and Q. Wu, "Framework for Energy
+              Efficiency Management", Work in Progress, Internet-Draft,
+              draft-ietf-green-framework-01, 17 March 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-green-
+              framework-01>.
 
    [I-D.ietf-green-framework-01]
               Claise, B., Contreras, L. M., Lindblad, J., Palmero, M.
