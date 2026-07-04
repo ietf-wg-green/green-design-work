@@ -204,16 +204,19 @@ required-instance false leafref to operational tree instance.
 
 The relationship list models the relationship between an Energy
 Object and its peer Energy Objects, using the
-energy-relationship-type identities: powered-by and powering (Power
-Source Relationship), metered-by and metering (Metering
-Relationship), and aggregated-by and aggregating (Aggregation
-Relationship). Each pair of identities expresses the same
+`energy-relationship-type` identities: `powered-by` and `powering`
+(Power Source Relationship), `metered-by` and `metering` (Metering
+Relationship), `aggregated-by` and `aggregating` (Aggregation
+Relationship), and `enabled-by` and `enabling` (Functional
+Enablement Relationship).
+
+Each pair of identities expresses the same
 relationship from the perspective of each participant (e.g., if
 Energy Object A is powered-by Energy Object B, then Energy Object B
-is powering Energy Object A). These three relationship categories,
+is powering Energy Object A). These relationship categories,
 including their use for power/metering topology discovery and for
 preventing double-counting of Energy values, are defined in
-{{?I-D.ietf-green-framework-01}}. For each relationship type, one or
+{{?I-D.ietf-green-framework}}. For each relationship type, one or
 more peer Energy Objects can be identified via the `id` leaf within
 the `peer` list, a string value that is typically the peer's UUID
 when known, or another locally unique identifier, together with
