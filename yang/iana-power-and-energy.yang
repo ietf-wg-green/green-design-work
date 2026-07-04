@@ -1,6 +1,6 @@
-module iana-ietf-power-and-energy {
+module iana-power-and-energy {
   yang-version 1.1;
-  namespace "urn:ietf:params:xml:ns:yang:iana-ietf-power-and-energy";
+  namespace "urn:ietf:params:xml:ns:yang:iana-power-and-energy";
   prefix ianaeo;
 
   organization "IANA";
