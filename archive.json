@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-02T02:00:28.829358+00:00",
+  "timestamp": "2026-07-05T01:47:13.035581+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -55,31 +55,39 @@
       "id": "I_kwDOP9HHVc7SjK70",
       "title": "Need to figure out how to identify devices",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rgwilton",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Need to be able to identify sources:\n- Model currently defines as source-id, and defines it as a string, but perhaps a union or more complex type is needed.\n- Benoit: perhaps this is not the right place to solve this.\n\n\nAlso, considering  when data is configured separate and pushed up from the devices.  But still need a generic way of identifying the data.\n",
       "createdAt": "2025-10-20T13:22:15Z",
-      "updatedAt": "2025-10-20T13:22:15Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-07-02T14:28:55Z",
+      "closedAt": "2026-07-02T14:28:55Z",
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is covered by the section 4 \"Relationship to the Hardware YANG Data Model\" in the GREEN YANG model.\nBut also by  section 3.1.2 \"Controller vs. Device Initiated\" in the GREEN framework\n",
+          "createdAt": "2026-07-02T14:28:55Z",
+          "updatedAt": "2026-07-02T14:28:55Z"
+        }
+      ]
     },
     {
       "number": 3,
       "id": "I_kwDOP9HHVc7SjLfE",
       "title": "For sources, is this a read/write property or a read-only property",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/3",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "rgwilton",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "I.e., do you have to configure all the sources within this model, or can they come from somewhere else.",
       "createdAt": "2025-10-20T13:22:58Z",
-      "updatedAt": "2026-06-18T08:12:11Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-02T14:34:30Z",
+      "closedAt": "2026-07-02T14:34:30Z",
       "comments": [
         {
           "author": "bclaise",
@@ -87,6 +95,13 @@
           "body": "In the GREEN framework, we should better explain read/write in section 3.1.2\n\n3.1.2.  Controller vs. Device Initiated\n\n   The framework supports both initiation models:\n\n   *  Controller-Initiated:\n\n      -  Controller subscribes to Energy Objects streaming.\n\n      -  Provides centralized control over monitoring scope and\n         frequency\n\n      -  Enables dynamic adjustment of monitoring based on operational\n         needs\n\n   *  Device-Initiated:\n\n      -  Devices can autonomously report critical energy events\n\n      -  Useful for threshold violations or hardware failures\n\n      -  Complements controller-initiated subscriptions",
           "createdAt": "2026-06-18T08:12:11Z",
           "updatedAt": "2026-06-18T08:12:11Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This should be better in the GREEN framework, moving this open issue over there.",
+          "createdAt": "2026-07-02T14:34:30Z",
+          "updatedAt": "2026-07-02T14:34:30Z"
         }
       ]
     },
@@ -173,63 +188,91 @@
       "id": "I_kwDOP9HHVc8AAAABDS8ADQ",
       "title": "Some text around the IEEE power state set",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/33",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Right now, there is just one reference to IEEE in the YANG module",
       "createdAt": "2026-05-25T10:21:12Z",
-      "updatedAt": "2026-05-25T10:21:12Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-07-02T08:50:40Z",
+      "closedAt": "2026-07-02T08:50:40Z",
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "same issue as Tony's #43 \n\nRe: Power state. You\u2019ve provided a URL to the IANA page for power states. All well and good, except that there are three different sets of power states on that page. I think we\u2019re using IEEE1621, so the URL should point to that. https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621",
+          "createdAt": "2026-07-02T08:50:40Z",
+          "updatedAt": "2026-07-02T08:50:40Z"
+        }
+      ]
     },
     {
       "number": 36,
       "id": "I_kwDOP9HHVc8AAAABDapMQQ",
       "title": "IEEE or GREEN Power State Set?",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/36",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "From the May 25th meeting minutes\n\n - Module is using powerstates based on IEEE, starts with a small initial set.\n    - Suggestion:\n        - Create a new IANA registry for this module.\n        - Hava an IANA derived YANG module.\n        - Populate with the 3 entries from IEEE 1621.\n        - Keep it simple.\n\n    - Diego: Could we also allow a device to advise IEEE values.\n    - Jan: Mapping between different power states can be done but would be complex and imperfect.\n    - Benoit: Don't want overkill\n    - Rob: Agree to keep it simple have one small list, can extend if we need more complexity.\n\nThis would be a good topic for discussion at the IETF in Vienna\n",
       "createdAt": "2026-05-26T12:51:05Z",
-      "updatedAt": "2026-05-26T12:51:05Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-07-02T08:49:10Z",
+      "closedAt": "2026-07-02T08:49:10Z",
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "This is linked to Tony's point #43 ",
+          "createdAt": "2026-07-02T08:49:10Z",
+          "updatedAt": "2026-07-02T08:49:10Z"
+        }
+      ]
     },
     {
       "number": 37,
       "id": "I_kwDOP9HHVc8AAAABDapy8Q",
       "title": "No relationship configuration on the device-level GREEN YANG module",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/37",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "bclaise"
+      ],
       "labels": [],
       "body": "From the May 25th 2026 meeting minutes\n\n- Looking at Q2: Relationship between devices.  Should they be configurable?\n     -  Rob: My suggestion is no, keep relationship between devices to the controller level rather than the device level.  In case of relationship between LC and switchcard this should be populated by the device directly in the operational data.\n     -  Benoit: I'm happy with this direction.\n     -  General agreement between others on the call.\n\nWe should have some text around\n\nRegards, Benoit ",
       "createdAt": "2026-05-26T12:52:43Z",
-      "updatedAt": "2026-05-26T12:52:43Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-07-03T09:57:39Z",
+      "closedAt": "2026-07-03T09:57:39Z",
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "#49 ",
+          "createdAt": "2026-07-02T16:25:29Z",
+          "updatedAt": "2026-07-02T16:25:29Z"
+        }
+      ]
     },
     {
       "number": 38,
       "id": "I_kwDOP9HHVc8AAAABDaqxHg",
       "title": "Need to specify and document the \"dependent\" relationship, as discussed at the IETF in Shenzhen",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/38",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "marisolpalmero"
+      ],
       "labels": [],
       "body": "",
       "createdAt": "2026-05-26T12:55:09Z",
-      "updatedAt": "2026-05-26T12:55:09Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-03T15:22:45Z",
+      "closedAt": "2026-07-03T15:22:45Z",
       "comments": []
     },
     {
@@ -268,15 +311,17 @@
       "id": "I_kwDOP9HHVc8AAAABF5DS1g",
       "title": "Per's feedback during the Call for Adoption",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/42",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "bclaise"
+      ],
       "labels": [],
       "body": "Hi,\n\nI suggest that the reference RFC 4122 is updated to 9562 and\nthat the type yang:uuid is used instead of string for\n/energy-objects/energy-entry/relationship/peer/id\n\nThe following errors are reported by pyang:\n\n# ietf-power-and-energy.yang\n\nietf-power-and-energy.yang:45: warning: RFC 8407: 3.1: The IETF Trust\nCopyright statement seems to be missing or is not correct (see pyang\n--ietf-help for details).\nietf-power-and-energy.yang:768: warning: the module seems to use RFC\n2119 keywords, but the required text from RFC 8174 is not found or is\nnot correct (see pyang --ietf-help for details).\n\nFurthermore I suggest to add authors to the YANG module contact\nstatement.\n\n\n# iana-ietf-power-and-energy.yang\n\niana-ietf-power-and-energy.yang:38: warning: RFC 8407: 3.1: The IETF\nTrust Copyright statement seems to be missing or is not correct (see\npyang --ietf-help for details).\n\nThe name contains both iana and ietf, I suggest to drop \"ietf-\" from\nthe name.\n\nThe placeholder is \"XXX\" and not \"XXXX\", and there is no instruction\nto the RFC Editor what to do with the placeholder.\n\n\nNit: The section number is not rendered properly for the\nOperational Considerations section.\n\n\n--",
       "createdAt": "2026-06-18T07:50:16Z",
-      "updatedAt": "2026-06-18T07:50:16Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-02T14:08:02Z",
+      "closedAt": "2026-07-02T14:08:02Z",
       "comments": []
     },
     {
@@ -284,14 +329,138 @@
       "id": "I_kwDOP9HHVc8AAAABF83VTg",
       "title": "Tony's feedback during call for adoption",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/43",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tony1athome",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "1. The notion of accuracy bands and tolerance classes seems unnecessary. We have the capability of transmitting numbers.  If I know that my measurement is +/- 23.7%, why not just say so?\n2. Re: Power state.  You\u2019ve provided a URL to the IANA page for power states.  All well and good, except that there are three different sets of power states on that page.  I think we\u2019re using IEEE1621, so the URL should point to that. https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621\n3. I don\u2019t see how instantaneous power can be mandatory. Most devices today do not have power meters built-in and will not, due to cost reasons. It would make much more sense to make nameplate-power mandatory instead.\n",
       "createdAt": "2026-06-18T16:43:01Z",
-      "updatedAt": "2026-06-18T16:43:01Z",
+      "updatedAt": "2026-07-02T14:08:02Z",
+      "closedAt": "2026-07-02T14:08:02Z",
+      "comments": []
+    },
+    {
+      "number": 46,
+      "id": "I_kwDOP9HHVc8AAAABHdS-QQ",
+      "title": "No relationship text",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/46",
+      "state": "CLOSED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "bclaise"
+      ],
+      "labels": [],
+      "body": "There is no text around the relationship, only in the YANG module\n\n     identity powered-by {\n       base energy-relationship-type;\n       description \"Energy Object A is powered by Energy Object B\";\n     }\n     identity powering {\n       base energy-relationship-type;\n       description \"Energy Object A is powering Energy Object B\";\n     }\n     identity metered-by {\n       base energy-relationship-type;\n       description \"Energy Object A is metered by Energy Object B\";\n     }\n     identity metering {\n       base energy-relationship-type;\n       description \"Energy Object A is metering Energy Object B\";\n     }\n     identity aggregated-by {\n       base energy-relationship-type;\n       description \"Energy Object A is aggregated by Energy Object B\";\n     }\n     identity aggregating {\n       base energy-relationship-type;\n       description \"Energy Object A is aggregating Energy Object B\";\n\nShould have some text about relationships in the GREEN YANG module, or is it described in the GREEN framework?",
+      "createdAt": "2026-07-02T14:36:13Z",
+      "updatedAt": "2026-07-03T09:56:53Z",
+      "closedAt": "2026-07-03T09:56:53Z",
+      "comments": []
+    },
+    {
+      "number": 47,
+      "id": "I_kwDOP9HHVc8AAAABHd4GDQ",
+      "title": "security considerations",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/47",
+      "state": "CLOSED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "bclaise"
+      ],
+      "labels": [],
+      "body": "   This section will be completed once the YANG module is complete,\n   according to https://wiki.ietf.org/group/ops/yang-security-\n   guidelines.",
+      "createdAt": "2026-07-02T15:50:39Z",
+      "updatedAt": "2026-07-03T08:15:15Z",
+      "closedAt": "2026-07-03T08:15:15Z",
+      "comments": []
+    },
+    {
+      "number": 50,
+      "id": "I_kwDOP9HHVc8AAAABHg3ORw",
+      "title": "unit-multiplier inconsistency between power and energy containers",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/50",
+      "state": "CLOSED",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The unit-multiplier leaf is currently defined differently in the power and energy containers of ietf-power-and-energy.yang:\n\nIn container power: defined as mandatory true. Devices must always specify the scale \nIn container energy: neither mandatory nor has a default value.\n\nThis asymmetry introduces an ambiguity problem. If a device reports total-energy-consumed: 1500 without including unit-multiplier, the client cannot determine whether that value represents 1500 Wh, 1500 kWh, or 1500 mWh \u2014 a potential error of factor 1000x in energy calculations, which is unacceptable for billing, reporting, and sustainability use cases.\nAdditionally, this inconsistency creates unnecessary client implementation complexity: the client must handle two different cases depending on whether it is reading power or energy data.\nNote that unit-multiplier is intentionally not inherited from parent energy objects in the hardware containment tree. Each energy object declares its own unit-multiplier independently, so the client does not need to traverse the hardware tree to resolve the scale. This is a deliberate design choice to avoid client implementation errors of the kind described above.\n\n\n**Proposed fix:**\nAdd a default \"multiplier-units\" statement to the unit-multiplier leaf in container energy:\n\nleaf unit-multiplier {\n  type identityref { base unit-multiplier; }\n  **default \"multiplier-units\";**\n  description\n    \"This multiplier applies to both total-energy-consumed\n     and total-energy-delivered values. It determines the scale\n     of the energy measurements, allowing representation of\n     energy values from milliwatt-hours to gigawatt-hours\n     using integer arithmetic. When not explicitly specified,\n     the default value of multiplier-units (10^0 = 1) applies,\n     meaning values are expressed in Watt-hours.\";\n}\n\n\nThe approach:\n\nietf-power-and-energy.yang: add default \"multiplier-units\" to unit-multiplier in container energy.\ndraft-ietf-green-power-and-energy-yang.md: document the difference between the mandatory unit-multiplier in power and the optional-with-default unit-multiplier in energy in the Operational Considerations section.\ndraft-ietf-green-framework.md: update Section 3.1.8 to reflect this design, removing the open WG discussion note.",
+      "createdAt": "2026-07-03T00:48:37Z",
+      "updatedAt": "2026-07-03T14:38:11Z",
+      "closedAt": "2026-07-03T14:38:11Z",
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree with Marisol:\nNEW: \nleaf unit-multiplier {\ntype identityref { base unit-multiplier; }\ndefault \"multiplier-units\";\ndescription\n\"This multiplier applies to both total-energy-consumed\nand total-energy-delivered values. It determines the scale\nof the energy measurements, allowing representation of\nenergy values from milliwatt-hours to gigawatt-hours\nusing integer arithmetic. When not explicitly specified,\nthe default value of multiplier-units (10^0 = 1) applies,\nmeaning values are expressed in Watt-hours.\";\n}",
+          "createdAt": "2026-07-03T10:33:01Z",
+          "updatedAt": "2026-07-03T10:33:01Z"
+        }
+      ]
+    },
+    {
+      "number": 55,
+      "id": "I_kwDOP9HHVc8AAAABHpXHOA",
+      "title": "relationship peer id as union yang:uuid and string?",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/55",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Per's discussion the GREEN mailing list regarding the relationship peer id\n  module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int32\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro unit-multiplier         identityref\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro unit-multiplier?          identityref\n     |     |  +--ro data-source-accuracy?     identityref\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n     |     +--ro power-state\n     |     |  +--ro power-state-oper?   identityref\n     |     +--ro relationship* [type]\n     |        +--ro type    identityref\n     |        +--ro peer* [id]                                  \n     |           +--ro id         string                     <=================\n     |           +--ro details?   string\n     +--rw energy-control\n        +--rw energy-entry* [object-id]\n           +--rw object-id      string\n           +--rw power-state\n              +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper\n              +--rw power-state-admin?   identityref\n\nPer: I suggest that the reference RFC 4122 is updated to 9562 and\nthat the type yang:uuid is used instead of string for\n/energy-objects/energy-entry/relationship/peer/id\n\nBenoit: Actually, while it sounds interesting, we can not use the UUID in such as a case.\nIndeed, a router (or a specific PoE interface) has not way to know the remove UUID. It's not even transmitted via something such as LLDP (or CDP).  On top of that, the remote device might not even support the ietf-hardware (RFC 8348).\n\nThe controller might know both UUIDs at each end of a relationship. However, we concluded that the relationships in the YANG module on router are read-only, basically present to only document what the router knows ... as opposed to be configured by the controller.\n\nPer: This is fine, perhaps use type union yang:uuid and string?\nI see that you already qualified when it can be a UUID and\nwhen it MAY be some other identifier, so the text is fine.",
+      "createdAt": "2026-07-04T07:27:22Z",
+      "updatedAt": "2026-07-04T07:27:22Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 56,
+      "id": "I_kwDOP9HHVc8AAAABHpbJOg",
+      "title": "Accurarcy discussion",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/56",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Tony Li\n\n    1) I would like to propose that we stop using accuracy banding and instead just include numerical values.  Old school resistors used a color code to represent accuracy because they had only a single strip of color to work with.  Fortunately, YANG is much more expressive.  There is no need for us to hobble ourselves with bands when we are perfectly capable of expressing explicit error bounds, such at 650W \u00b130W or 700W \u00b110%.  This would be the scientifically accurate thing to do.\n\n\nThis issue was also covered at https://github.com/ietf-wg-green/green-design-work/issues/43\n\n    The notion of accuracy bands and tolerance classes seems unnecessary. We have the capability of transmitting numbers. If I know that my measurement is +/- 23.7%, why not just say so?\n\nHowever, this issue was closed automatically due to a link PR",
+      "createdAt": "2026-07-04T07:53:38Z",
+      "updatedAt": "2026-07-04T07:53:38Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 57,
+      "id": "I_kwDOP9HHVc8AAAABHpbbRg",
+      "title": "instantaneous power as mandatory or optional?",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/57",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Tony Li\n\n2) Right now, we have the instantaneous power as mandatory.  How are people supposed to comply with that?  Put an active power meter on each and every component?  Many manufacturers will refuse for cost and space reasons.  I can see nameplate power as mandatory, but not instantaneous power.",
+      "createdAt": "2026-07-04T07:55:09Z",
+      "updatedAt": "2026-07-04T07:55:09Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 58,
+      "id": "I_kwDOP9HHVc8AAAABHpce3w",
+      "title": "The unit-multiplier is for BOTH total-energy-consumed and total-energy-delivered: right or wrong?",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/58",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "       module: ietf-power-and-energy\n         +--ro energy-objects\n         |  +--ro energy-entry* [object-id]\n         |     +--ro object-id              string\n         |     +--ro source-component-id?   -> /hw:hardware/component/name\n         |     +--ro power\n         |     |  +--ro instantaneous-power     int32\n         |     |  +--ro nameplate-power?        uint32\n         |     |  +--ro unit-multiplier         identityref\n         |     |  +--ro data-source-accuracy?   identityref\n         |     |  +--ro power-factor?           power-factor\n         |     |  +--ro measurement-local?      boolean\n         |     +--ro energy\n         |     |  +--ro total-energy-consumed?    uint64\n         |     |  +--ro total-energy-delivered?   uint64\n         |     |  +--ro unit-multiplier?          identityref\n         |     |  +--ro data-source-accuracy?     identityref\n         |     |  +--ro measurement-local?        boolean\n         |     |  +--ro certifications*           identityref\n\nThinking about which default values to apply, I stumbled upon this potentially new issue\n\n           leaf total-energy-consumed {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy consumed by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is useful for tracking\n               overall energy usage over time for billing, reporting,\n               or optimization purposes.\";\n           }\n\n           leaf total-energy-delivered {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy delivered by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is relevant for energy objects\n               capable of generating power, such as those with renewable\n               energy sources or battery backup systems, or capable of providing\n               energy to other energy objects (e.g., PoE switches).\";\n           }\n           leaf unit-multiplier {\n             type identityref {\n               base unit-multiplier;\n             }\n             description\n               \"This multiplier applies to both total-energy-consumed\n                and total-energy-delivered values. It determines the scale\n                of the energy measurements, allowing representation of\n                energy values from milliwatt-hours to gigawatt-hours\n                using integer arithmetic.\";\n           }\n\nThe unit-multiplier is for BOTH total-energy-consumed and total-energy-delivered.\nWhat if the scale between the two is completely different?\n\nRegards, Benoit ",
+      "createdAt": "2026-07-04T08:01:04Z",
+      "updatedAt": "2026-07-04T08:01:04Z",
       "closedAt": null,
       "comments": []
     }
@@ -1562,7 +1731,7 @@
       "labels": [],
       "body": "1. fix the issue of file name missing behind the \"code begins\" according to Benoit's feedback.\r\n2. fix pyang warning info (modify YANG module descriptions complyinig with the required text from RFC 8174 , etc.) \r\n3. change relationship peer id type from string to uuid according to Per's CoW feedback;\r\n4. update reference from rfc4122 to rfc9562 according to Per's CoW feedback;\r\n5. change title to comply with working group draft requirements;",
       "createdAt": "2026-06-11T12:10:45Z",
-      "updatedAt": "2026-06-29T08:04:44Z",
+      "updatedAt": "2026-07-02T07:33:30Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "4c0df4b3bec6347402711e5e39d5cfa82a8de54f",
@@ -1576,31 +1745,368 @@
         "oid": "d41c3a635b391b5f08719ff6f022d0807386580c"
       },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABExk27g",
+          "commit": {
+            "abbreviatedOid": "0713325"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "We don't need to have new revisons for the YANG module. We are good with a single revision that mentions \"Initial revision\"",
+          "createdAt": "2026-07-02T07:33:30Z",
+          "updatedAt": "2026-07-02T07:33:30Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 44,
       "id": "PR_kwDOP9HHVc7snW4Y",
       "title": "Use unit-multiplier as base identity for other drived identities",
       "url": "https://github.com/ietf-wg-green/green-design-work/pull/44",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "billwuqin",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2026-07-01T09:56:50Z",
-      "updatedAt": "2026-07-01T09:56:50Z",
+      "updatedAt": "2026-07-02T08:46:52Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "d41c3a635b391b5f08719ff6f022d0807386580c",
       "headRepository": "billwuqin/green-design-work",
       "headRefName": "patch-1",
       "headRefOid": "368ac97d1743dfe7f862f91861f3222c259335a5",
-      "closedAt": null,
+      "closedAt": "2026-07-02T08:46:52Z",
+      "mergedAt": "2026-07-02T08:46:52Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "b472b842c017f4c8de81e8fe4f8503e5f6516cb2"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 45,
+      "id": "PR_kwDOP9HHVc7tIDKv",
+      "title": "optimize complying to Per and Tony's feedback with some reversion",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/45",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "1. shrink revision section to the initial one in all the YANG data models;\r\n2. remove \"ietf\" letters from iana file name;\r\n3. revert peer id from uuid to string to be aligned with object id;\r\n4. update URL to the IANA page for power states;\r\n5. Update the placeholder from \"XXXX\" to \"XXX\"",
+      "createdAt": "2026-07-02T12:45:42Z",
+      "updatedAt": "2026-07-02T14:08:01Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "b472b842c017f4c8de81e8fe4f8503e5f6516cb2",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "dc1f5bda0919e05bb5a88d77d04e0623afc5f044",
+      "closedAt": "2026-07-02T14:08:01Z",
+      "mergedAt": "2026-07-02T14:08:01Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "446ddbb4ba3c5ce5925771e7720253dd88eab052"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 48,
+      "id": "PR_kwDOP9HHVc7tNmQ-",
+      "title": "security considerations update",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/48",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "security considerations update",
+      "createdAt": "2026-07-02T16:09:08Z",
+      "updatedAt": "2026-07-03T09:59:03Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "75629ccc2ece185518abb4be75da224831f344b6",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "bclaise-security-considerations",
+      "headRefOid": "f04fc2391dc203ad81a02b25bac97fd7c6b491dd",
+      "closedAt": "2026-07-03T08:15:14Z",
+      "mergedAt": "2026-07-03T08:15:14Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "efedc251db986791d564b2cd0f0e1690a7e1f194"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABE4U70Q",
+          "commit": {
+            "abbreviatedOid": "1e6e8d7"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good to me. Thanks.",
+          "createdAt": "2026-07-03T03:02:34Z",
+          "updatedAt": "2026-07-03T03:02:34Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 49,
+      "id": "PR_kwDOP9HHVc7tN7ep",
+      "title": "no relationship configuration on the device YANG module",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/49",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Issue 37\r\nFrom the May 25th 2026 meeting minutes\r\n\r\n    Looking at Q2: Relationship between devices. Should they be configurable?\r\n        Rob: My suggestion is no, keep relationship between devices to the controller level rather than the device level. In case of relationship between LC and switchcard this should be populated by the device directly in the operational data.\r\n        Benoit: I'm happy with this direction.\r\n        General agreement between others on the call.\r\n\r\nWe should have some text around\r\n\r\nRegards, Benoit",
+      "createdAt": "2026-07-02T16:23:03Z",
+      "updatedAt": "2026-07-03T09:57:33Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "bclaise-security-considerations",
+      "baseRefOid": "1e6e8d709694c6a249caab8a22f16720f0b628dc",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "no-relationship-configuration-on-the-device-YANG-module",
+      "headRefOid": "7f0fd74da813d12703d0be6281e013acf9782069",
+      "closedAt": "2026-07-03T08:13:10Z",
+      "mergedAt": "2026-07-03T08:13:10Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "f04fc2391dc203ad81a02b25bac97fd7c6b491dd"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABE4WAwg",
+          "commit": {
+            "abbreviatedOid": "7f0fd74"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "It's quite clear with this descriptions. Thanks.",
+          "createdAt": "2026-07-03T03:06:41Z",
+          "updatedAt": "2026-07-03T03:06:41Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 51,
+      "id": "PR_kwDOP9HHVc7tZXxT",
+      "title": "Adding more minor optimizations",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/51",
+      "state": "CLOSED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "1. Add rfc reference in source-component-id and peer id yang model;\r\n(from Per: Reference should still be updated)\r\n2. remove eman reference from relationship yang model;\r\n(Remove \"Replaces RFC 7461 eoRelationTable.\")\r\n3. After shrinking the revision sections, update all the dates of revisions' dates to 07-02",
+      "createdAt": "2026-07-03T02:42:35Z",
+      "updatedAt": "2026-07-03T08:50:40Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "75629ccc2ece185518abb4be75da224831f344b6",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "2d13e601bec13285c609041d2dd5653507a3568b",
+      "closedAt": "2026-07-03T08:50:11Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
+      "comments": [
+        {
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Need polishment.",
+          "createdAt": "2026-07-03T08:50:40Z",
+          "updatedAt": "2026-07-03T08:50:40Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 52,
+      "id": "PR_kwDOP9HHVc7th0H5",
+      "title": "Adding reference to source-component-id and peer id",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/52",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add rfc reference in source-component-id and peer id yang model;\r\n(from Per: Reference should still be updated)\r\nremove eman reference from relationship yang model;\r\n(Remove \"Replaces RFC 7461 eoRelationTable.\")\r\nAfter shrinking the revision sections, update all the dates of revisions' dates to 07-02",
+      "createdAt": "2026-07-03T09:41:58Z",
+      "updatedAt": "2026-07-03T09:55:19Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "efedc251db986791d564b2cd0f0e1690a7e1f194",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "bcb8b14c187b3378a3e3d21a2390b82e3afa28e6",
+      "closedAt": "2026-07-03T09:55:19Z",
+      "mergedAt": "2026-07-03T09:55:19Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "9ad39286560890a09d6b1f2af2de938bdcb71a7f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABE6n-Og",
+          "commit": {
+            "abbreviatedOid": "bcb8b14"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-03T09:55:10Z",
+          "updatedAt": "2026-07-03T09:55:10Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 53,
+      "id": "PR_kwDOP9HHVc7toBLm",
+      "title": "dealing with unit-multiplier inconsistency between power and energy c\u2026",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/53",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Please check with ISSUE #50 \r\nunit-multiplier inconsistency between power and energy containers #50",
+      "createdAt": "2026-07-03T14:30:16Z",
+      "updatedAt": "2026-07-03T14:37:52Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "9ad39286560890a09d6b1f2af2de938bdcb71a7f",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "b7396d570f3143d5eec69bce0ef07ad780136887",
+      "closedAt": "2026-07-03T14:37:51Z",
+      "mergedAt": "2026-07-03T14:37:51Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "fc2e57195e4840ee441d7b2c8ae1602b7bbbac5c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABE8LnAA",
+          "commit": {
+            "abbreviatedOid": "b7396d5"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-03T14:33:49Z",
+          "updatedAt": "2026-07-03T14:33:49Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABE8NBWg",
+          "commit": {
+            "abbreviatedOid": "b7396d5"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-03T14:36:34Z",
+          "updatedAt": "2026-07-03T14:36:34Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 54,
+      "id": "PR_kwDOP9HHVc7toy0K",
+      "title": "Branch 3 jul",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/54",
+      "state": "MERGED",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "extending relationship identities",
+      "createdAt": "2026-07-03T15:04:59Z",
+      "updatedAt": "2026-07-03T15:22:30Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "fc2e57195e4840ee441d7b2c8ae1602b7bbbac5c",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "branch-3Jul",
+      "headRefOid": "f7fdc81844be592666b6b8626924515bc3aae9b6",
+      "closedAt": "2026-07-03T15:22:30Z",
+      "mergedAt": "2026-07-03T15:22:30Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "928a9f393dd6e364b34e7452ab4995c4d9e72ac4"
+      },
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "addressing issue #38 https://github.com/ietf-wg-green/green-design-work/issues/38",
+          "createdAt": "2026-07-03T15:06:50Z",
+          "updatedAt": "2026-07-03T15:06:50Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABE8dMew",
+          "commit": {
+            "abbreviatedOid": "f7fdc81"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-03T15:21:21Z",
+          "updatedAt": "2026-07-03T15:21:21Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 59,
+      "id": "PR_kwDOP9HHVc7t08N2",
+      "title": "remove ietf letters from iana yang module",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/59",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There are still two legacy ietf letters which were not removed correctly before. ",
+      "createdAt": "2026-07-04T09:02:02Z",
+      "updatedAt": "2026-07-04T09:08:13Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "928a9f393dd6e364b34e7452ab4995c4d9e72ac4",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "0e37a253bafdb013a03e31d2f42d0f8d23119604",
+      "closedAt": "2026-07-04T09:08:13Z",
+      "mergedAt": "2026-07-04T09:08:12Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "55d3cc19f28b8f8dbaf37863f01facfba77566fd"
+      },
       "comments": [],
       "reviews": []
     }
