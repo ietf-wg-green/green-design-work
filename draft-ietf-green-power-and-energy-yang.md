@@ -110,8 +110,8 @@ The data model includes both the monitoring and control of Energy
 Objects for networked devices.
 
 This YANG data model is based on the "GREEN framework"
-{{?I-D.ietf-green-framework-01}}, following the "GREEN terminology"
-{{!I-D.ietf-green-terminology-02}}.
+{{?I-D.ietf-green-framework}}, following the "GREEN terminology"
+{{!I-D.ietf-green-terminology}}.
 
 Power and Energy Monitoring and Control can be applied to devices in
 communication networks. All identifiable devices with measurable or
@@ -132,10 +132,11 @@ Processing Unit (MPU).
 ## Terminology
 
 This document makes use of the terms defined in
-{{!I-D.ietf-green-terminology-02}}:
+{{!I-D.ietf-green-terminology}}:
 
     - Power
     - Energy
+    - Energy Object
     - Energy Management
     - Energy Monitoring
     - Energy Control
@@ -144,17 +145,12 @@ This document makes use of the terms defined in
     - Component Level Energy Efficiency (CLEE)
     - Service Level Energy Efficiency (SLEE)
 
-This document makes use of the terms defined in
-{{?I-D.ietf-green-framework-01}}
-
-    - Energy Object
-
-The terms reused from {{!I-D.ietf-green-terminology-02}} and
-{{?I-D.ietf-green-framework-01}} are capitalized in this
+The terms reused from {{!I-D.ietf-green-terminology}} and
+{{?I-D.ietf-green-framework}} are capitalized in this
 specification.
 
 This document uses the terms Power and Energy in accordance with
-{{!I-D.ietf-green-terminology-02}}. Power refers to the instantaneous
+{{!I-D.ietf-green-terminology}}. Power refers to the instantaneous
 rate at which a device consumes or produces electrical energy
 (typically expressed in Watts). Energy, by contrast, represents the
 cumulative amount of work performed over time (typically expressed in
@@ -171,14 +167,14 @@ The meanings of the symbols in the YANG tree diagrams are defined in
 
 # The GREEN Framework
 
-The "GREEN framework" described in {{?I-D.ietf-green-framework-01}}
+The "GREEN framework" described in {{?I-D.ietf-green-framework}}
 covers monitoring and controlling devices and components where
 monitoring includes measuring Power, Energy, demand and attributes of
 Power.
 
 For the whole picture of the monitoring interfaces and the relevant
 requirements, please refer to "GREEN reference model" in section 4 in
-{{?I-D.ietf-green-framework-01}}.
+{{?I-D.ietf-green-framework}}.
 
 # Power and Energy Data Model
 
@@ -199,28 +195,40 @@ NMDA (Network Management Datastore Architecture) design with a single
 "state" leaf (per {{?RFC8342}}) was considered, it is not adopted in this
 document.
 
-Finally, note that the instance is in the configuration tree, having a
-required-instance false leafref to operational tree instance.
+Entries in /energy-control/energy-entry are expected to use the same
+energy-object-id value as the corresponding entry in
+/energy-objects/energy-entry, allowing an administrator or controller
+to correlate a configured power state intent with the Energy Object
+being monitored. The configuration tree does not itself discover
+energy-object-id values; it is populated by referencing an
+energy-object-id that the device is expected to also report
+operationally. Because the power-state-oper leafref under
+/energy-control uses require-instance false, a configuration entry MAY
+be created for an energy-object-id for which no corresponding
+operational entry currently exists (e.g., if the entry is provisioned
+before the device starts reporting it, or if the Energy Object is
+temporarily or permanently absent). In that case, power-state-oper
+simply does not resolve to any value until a matching operational entry
+appears.
 
 The relationship list models the relationship between an Energy
 Object and its peer Energy Objects, using the
 `energy-relationship-type` identities: `powered-by` and `powering`
 (Power Source Relationship), `metered-by` and `metering` (Metering
 Relationship), `aggregated-by` and `aggregating` (Aggregation
-Relationship), and `enabled-by` and `enabling` (Functional
-Enablement Relationship).
+Relationship), and `enabled-by` and `enabling` (Functional Enablement
+Relationship).
 
-Each pair of identities expresses the same
-relationship from the perspective of each participant (e.g., if
-Energy Object A is powered-by Energy Object B, then Energy Object B
-is powering Energy Object A). These relationship categories,
-including their use for power/metering topology discovery and for
-preventing double-counting of Energy values, are defined in
-{{?I-D.ietf-green-framework}}. For each relationship type, one or
-more peer Energy Objects can be identified via the `id` leaf within
-the `peer` list, a string value that is typically the peer's UUID
-when known, or another locally unique identifier, together with
-human-readable details captured in the `details` leaf, otherwise.
+Each pair of identities expresses the same relationship from the
+perspective of each participant (e.g., if Energy Object A is powered-by
+Energy Object B, then Energy Object B is powering Energy Object A).
+These relationship categories, including their use for power/metering
+topology discovery and for preventing double-counting of Energy values,
+are defined in {{?I-D.ietf-green-framework}}. For each relationship
+type, one or more peer Energy Objects can be identified via the `id`
+leaf within the `peer` list, a string value that is typically the
+peer's UUID when known, or another locally unique identifier, together
+with human-readable details captured in the `details` leaf, otherwise.
 
 Regarding relationships among Energy Objects, this document does not
 provide a mechanism to configure relationships on the device (i.e.,
@@ -237,7 +245,7 @@ Relationships between Energy Objects located on different devices are
 generally established and maintained at the controller or Energy
 Management System (EnMS) level, which has visibility into the
 broader network topology, as discussed in
-{{?I-D.ietf-green-framework-01}}. A device may still report a known
+{{?I-D.ietf-green-framework}}. A device may still report a known
 inter-device relationship (e.g., using the peer's network-level UUID)
 when it has been made aware of it, but this module does not provide a
 mechanism to configure such relationships on the device itself.
