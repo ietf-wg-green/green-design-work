@@ -5,12 +5,12 @@
 GREEN                                                          C. Benoit
 Internet-Draft                                            Everything OPS
 Intended status: Standards Track                                  C. Gen
-Expires: 5 January 2027                                           Huawei
+Expires: 20 January 2027                                          Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                             4 July 2026
+                                                            19 July 2026
 
 
                       Power and Energy YANG Module
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 January 2027.
+   This Internet-Draft will expire on 20 January 2027.
 
 Copyright Notice
 
@@ -90,8 +90,8 @@ Table of Contents
    Objects for networked devices.
 
    This YANG data model is based on the "GREEN framework"
-   [I-D.ietf-green-framework-01], following the "GREEN terminology"
-   [I-D.ietf-green-terminology-02].
+   [I-D.ietf-green-framework], following the "GREEN terminology"
+   [I-D.ietf-green-terminology].
 
    Power and Energy Monitoring and Control can be applied to devices in
    communication networks.  All identifiable devices with measurable or
@@ -112,10 +112,11 @@ Table of Contents
 1.1.  Terminology
 
    This document makes use of the terms defined in
-   [I-D.ietf-green-terminology-02]:
+   [I-D.ietf-green-terminology]:
 
    - Power
    - Energy
+   - Energy Object
    - Energy Management
    - Energy Monitoring
    - Energy Control
@@ -124,25 +125,20 @@ Table of Contents
    - Component Level Energy Efficiency (CLEE)
    - Service Level Energy Efficiency (SLEE)
 
-   This document makes use of the terms defined in
-   [I-D.ietf-green-framework-01]
-
-   - Energy Object
-
-   The terms reused from [I-D.ietf-green-terminology-02] and
-   [I-D.ietf-green-framework-01] are capitalized in this specification.
+   The terms reused from [I-D.ietf-green-terminology] and
+   [I-D.ietf-green-framework] are capitalized in this specification.
 
    This document uses the terms Power and Energy in accordance with
-   [I-D.ietf-green-terminology-02].  Power refers to the instantaneous
-   rate at which a device consumes or produces electrical energy
-   (typically expressed in Watts).  Energy, by contrast, represents the
-   cumulative amount of work performed over time (typically expressed in
-   Joules or Watt-hours).  Both concepts are required within this YANG
-   module.  Power enables real-time monitoring, control, and
-   optimization of device operation, while Energy provides a time-
-   integrated view necessary for accounting, reporting, and even for
-   sustainability analysis.  This specification includes both Power and
-   Energy attributes.
+   [I-D.ietf-green-terminology].  Power refers to the instantaneous rate
+   at which a device consumes or produces electrical energy (typically
+   expressed in Watts).  Energy, by contrast, represents the cumulative
+   amount of work performed over time (typically expressed in Joules or
+   Watt-hours).  Both concepts are required within this YANG module.
+   Power enables real-time monitoring, control, and optimization of
+   device operation, while Energy provides a time-integrated view
+   necessary for accounting, reporting, and even for sustainability
+   analysis.  This specification includes both Power and Energy
+   attributes.
 
    The terminology for describing YANG modules is defined in [RFC7950].
    The meanings of the symbols in the YANG tree diagrams are defined in
@@ -150,14 +146,13 @@ Table of Contents
 
 2.  The GREEN Framework
 
-   The "GREEN framework" described in [I-D.ietf-green-framework-01]
-   covers monitoring and controlling devices and components where
-   monitoring includes measuring Power, Energy, demand and attributes of
-   Power.
+   The "GREEN framework" described in [I-D.ietf-green-framework] covers
+   monitoring and controlling devices and components where monitoring
+   includes measuring Power, Energy, demand and attributes of Power.
 
    For the whole picture of the monitoring interfaces and the relevant
    requirements, please refer to "GREEN reference model" in section 4 in
-   [I-D.ietf-green-framework-01].
+   [I-D.ietf-green-framework].
 
 3.  Power and Energy Data Model
 
@@ -178,8 +173,20 @@ Table of Contents
    Datastore Architecture) design with a single "state" leaf (per
    [RFC8342]) was considered, it is not adopted in this document.
 
-   Finally, note that the instance is in the configuration tree, having
-   a required-instance false leafref to operational tree instance.
+   Entries in /energy-control/energy-entry are expected to use the same
+   energy-object-id value as the corresponding entry in /energy-objects/
+   energy-entry, allowing an administrator or controller to correlate a
+   configured power state intent with the Energy Object being monitored.
+   The configuration tree does not itself discover energy-object-id
+   values; it is populated by referencing an energy-object-id that the
+   device is expected to also report operationally.  Because the power-
+   state-oper leafref under /energy-control uses require-instance false,
+   a configuration entry MAY be created for an energy-object-id for
+   which no corresponding operational entry currently exists (e.g., if
+   the entry is provisioned before the device starts reporting it, or if
+   the Energy Object is temporarily or permanently absent).  In that
+   case, power-state-oper simply does not resolve to any value until a
+   matching operational entry appears.
 
    The relationship list models the relationship between an Energy
    Object and its peer Energy Objects, using the energy-relationship-
@@ -214,7 +221,7 @@ Table of Contents
    Relationships between Energy Objects located on different devices are
    generally established and maintained at the controller or Energy
    Management System (EnMS) level, which has visibility into the broader
-   network topology, as discussed in [I-D.ietf-green-framework-01].  A
+   network topology, as discussed in [I-D.ietf-green-framework].  A
    device may still report a known inter-device relationship (e.g.,
    using the peer's network-level UUID) when it has been made aware of
    it, but this module does not provide a mechanism to configure such
@@ -222,8 +229,8 @@ Table of Contents
 
    module: ietf-power-and-energy
      +--ro energy-objects
-     |  +--ro energy-entry* [object-id]
-     |     +--ro object-id              string
+     |  +--ro energy-entry* [energy-object-id]
+     |     +--ro energy-object-id       string
      |     +--ro source-component-id?   -> /hw:hardware/component/name
      |     +--ro power
      |     |  +--ro instantaneous-power     int32
@@ -247,8 +254,8 @@ Table of Contents
      |           +--ro id         string
      |           +--ro details?   string
      +--rw energy-control
-        +--rw energy-entry* [object-id]
-           +--rw object-id      string
+        +--rw energy-entry* [energy-object-id]
+           +--rw energy-object-id    string
            +--rw power-state
               +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper
               +--rw power-state-admin?   identityref
@@ -879,13 +886,13 @@ Table of Contents
          "Energy objects container for power and energy attributes.";
 
        list energy-entry {
-         key "object-id";
+         key "energy-object-id";
          description
            "Power and energy entry for an energy object, indexed by object id.
             Each entry contains the complete set of power and energy attributes
             for a specific physical component.";
 
-         leaf object-id {
+         leaf energy-object-id {
            type string;
            description
              "An identifier that uniquely identifies the energy object";
@@ -1131,11 +1138,11 @@ Table of Contents
           entries.";
 
        list energy-entry {
-         key "object-id";
+         key "energy-object-id";
          description
            "Control entry for a specific energy object.";
 
-         leaf object-id {
+         leaf energy-object-id {
            type string;
            description
              "An identifier that uniquely identifies the energy object.";
@@ -1645,7 +1652,7 @@ Table of Contents
 
 11.1.  Normative References
 
-   [I-D.ietf-green-terminology-02]
+   [I-D.ietf-green-terminology]
               Chen, G., Boucadair, M., Wu, Q., Contreras, L. M., and M.
               P. Palmero, "Terminology for Energy Efficiency Network
               Management", Work in Progress, Internet-Draft, draft-ietf-
@@ -1708,17 +1715,9 @@ Table of Contents
               Claise, B., Contreras, L. M., Lindblad, J., Palmero, M.
               P., Stephan, E., and Q. Wu, "Framework for Energy
               Efficiency Management", Work in Progress, Internet-Draft,
-              draft-ietf-green-framework-01, 17 March 2026,
+              draft-ietf-green-framework-02, 5 July 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-green-
-              framework-01>.
-
-   [I-D.ietf-green-framework-01]
-              Claise, B., Contreras, L. M., Lindblad, J., Palmero, M.
-              P., Stephan, E., and Q. Wu, "Framework for Energy
-              Efficiency Management", Work in Progress, Internet-Draft,
-              draft-ietf-green-framework-01, 17 March 2026,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-green-
-              framework-01>.
+              framework-02>.
 
    [I-D.ietf-green-use-cases-01]
               Stephan, E., Palmero, M. P., Claise, B., Wu, Q.,
