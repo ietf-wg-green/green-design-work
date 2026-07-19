@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-05T01:47:13.035581+00:00",
+  "timestamp": "2026-07-19T01:21:00.963191+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -419,7 +419,7 @@
     {
       "number": 56,
       "id": "I_kwDOP9HHVc8AAAABHpbJOg",
-      "title": "Accurarcy discussion",
+      "title": "Accuracy discussion",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/56",
       "state": "OPEN",
       "author": "bclaise",
@@ -428,7 +428,7 @@
       "labels": [],
       "body": "From Tony Li\n\n    1) I would like to propose that we stop using accuracy banding and instead just include numerical values.  Old school resistors used a color code to represent accuracy because they had only a single strip of color to work with.  Fortunately, YANG is much more expressive.  There is no need for us to hobble ourselves with bands when we are perfectly capable of expressing explicit error bounds, such at 650W \u00b130W or 700W \u00b110%.  This would be the scientifically accurate thing to do.\n\n\nThis issue was also covered at https://github.com/ietf-wg-green/green-design-work/issues/43\n\n    The notion of accuracy bands and tolerance classes seems unnecessary. We have the capability of transmitting numbers. If I know that my measurement is +/- 23.7%, why not just say so?\n\nHowever, this issue was closed automatically due to a link PR",
       "createdAt": "2026-07-04T07:53:38Z",
-      "updatedAt": "2026-07-04T07:53:38Z",
+      "updatedAt": "2026-07-16T12:43:48Z",
       "closedAt": null,
       "comments": []
     },
@@ -461,6 +461,70 @@
       "body": "       module: ietf-power-and-energy\n         +--ro energy-objects\n         |  +--ro energy-entry* [object-id]\n         |     +--ro object-id              string\n         |     +--ro source-component-id?   -> /hw:hardware/component/name\n         |     +--ro power\n         |     |  +--ro instantaneous-power     int32\n         |     |  +--ro nameplate-power?        uint32\n         |     |  +--ro unit-multiplier         identityref\n         |     |  +--ro data-source-accuracy?   identityref\n         |     |  +--ro power-factor?           power-factor\n         |     |  +--ro measurement-local?      boolean\n         |     +--ro energy\n         |     |  +--ro total-energy-consumed?    uint64\n         |     |  +--ro total-energy-delivered?   uint64\n         |     |  +--ro unit-multiplier?          identityref\n         |     |  +--ro data-source-accuracy?     identityref\n         |     |  +--ro measurement-local?        boolean\n         |     |  +--ro certifications*           identityref\n\nThinking about which default values to apply, I stumbled upon this potentially new issue\n\n           leaf total-energy-consumed {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy consumed by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is useful for tracking\n               overall energy usage over time for billing, reporting,\n               or optimization purposes.\";\n           }\n\n           leaf total-energy-delivered {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy delivered by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is relevant for energy objects\n               capable of generating power, such as those with renewable\n               energy sources or battery backup systems, or capable of providing\n               energy to other energy objects (e.g., PoE switches).\";\n           }\n           leaf unit-multiplier {\n             type identityref {\n               base unit-multiplier;\n             }\n             description\n               \"This multiplier applies to both total-energy-consumed\n                and total-energy-delivered values. It determines the scale\n                of the energy measurements, allowing representation of\n                energy values from milliwatt-hours to gigawatt-hours\n                using integer arithmetic.\";\n           }\n\nThe unit-multiplier is for BOTH total-energy-consumed and total-energy-delivered.\nWhat if the scale between the two is completely different?\n\nRegards, Benoit ",
       "createdAt": "2026-07-04T08:01:04Z",
       "updatedAt": "2026-07-04T08:01:04Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 60,
+      "id": "I_kwDOP9HHVc8AAAABJC21zg",
+      "title": "YANG: object-id to energy-object-id",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/60",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The terminology covers Energy Object but the YANG uses object-id. I believe we should be using the energy-object-id instead, in both instances belwo\n\n  module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int32\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro unit-multiplier         identityref\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro unit-multiplier?          identityref\n     |     |  +--ro data-source-accuracy?     identityref\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n     |     +--ro power-state\n     |     |  +--ro power-state-oper?   identityref\n     |     +--ro relationship* [type]\n     |        +--ro type    identityref\n     |        +--ro peer* [id]\n     |           +--ro id         string\n     |           +--ro details?   string\n     +--rw energy-control\n        +--rw energy-entry* [object-id]\n           +--rw object-id      string\n           +--rw power-state\n              +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper\n              +--rw power-state-admin?   identityref",
+      "createdAt": "2026-07-16T12:22:46Z",
+      "updatedAt": "2026-07-16T12:22:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 61,
+      "id": "I_kwDOP9HHVc8AAAABJC4OSw",
+      "title": "Link the object-id in the control tree and operational tree",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/61",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "we see the two object-id, one read and one read-write?\n\n  module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int32\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro unit-multiplier         identityref\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro unit-multiplier?          identityref\n     |     |  +--ro data-source-accuracy?\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n     |     +--ro power-state\n     |     |  +--ro power-state-oper?   identityref\n     |     +--ro relationship* [type]\n     |        +--ro type    identityref\n     |        +--ro peer* [id]\n     |           +--ro id         string\n     |           +--ro details?   string\n     +--rw energy-control\n        +--rw energy-entry* [object-id]\n           +--rw object-id      string\n           +--rw power-state\n              +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper\n              +--rw power-state-admin?   identityref\n\n\nThe two object-id values are meant to match: the read-write one under energy-control is how an admin/controller creates a control entry for a specific Energy Object (to then set power-state-admin), while the read-only one under energy-objects is the device's own report of which Energy Objects actually exist. They correlate by sharing the same string value \u2014 the config side doesn't discover object IDs, it just needs to reference the ID of an object the device is already reporting operationally.\n\nIt seems that we must be more precise in the draft to cover this aspect. \n\nOLD:\nFinally, note that the instance is in the configuration tree, having a\nrequired-instance false leafref to operational tree instance.\n\nNEW:\nEntries in /energy-control/energy-entry are expected to use the same\nobject-id value as the corresponding entry in\n/energy-objects/energy-entry, allowing an administrator or controller\nto correlate a configured power state intent with the Energy Object\nbeing monitored. The configuration tree does not itself discover\nobject-id values; it is populated by referencing an object-id that\nthe device is expected to also report operationally.\nBecause the power-state-oper leafref under /energy-control uses\nrequire-instance false, a configuration entry MAY be created for an\nobject-id for which no corresponding operational entry currently\nexists (e.g., if the entry is provisioned before the device starts\nreporting it, or if the Energy Object is temporarily or permanently\nabsent). In that case, power-state-oper simply does not resolve to\nany value until a matching operational entry appears.",
+      "createdAt": "2026-07-16T12:25:48Z",
+      "updatedAt": "2026-07-16T12:25:48Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 62,
+      "id": "I_kwDOP9HHVc8AAAABJC6MCw",
+      "title": "The Energy Object should be in the terminology draft, not the framework",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/62",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "https://datatracker.ietf.org/doc/draft-ietf-green-power-and-energy-yang/ version 3 mentions:\n\n   This document makes use of the terms defined in\n   [I-D.ietf-green-framework-01]\n\n   - Energy Object\n\nIt would be easier if this term, like the other ones, would be in the terminology section.",
+      "createdAt": "2026-07-16T12:30:18Z",
+      "updatedAt": "2026-07-16T12:30:18Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 63,
+      "id": "I_kwDOP9HHVc8AAAABJRq9kg",
+      "title": "IANA issues from the early review",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/63",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Dear Authors (cc: green),\n\nBefore the IETF meeting, we check working group agendas for documents with IANA-related issues. We have notes about this document:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-green-power-and-energy-yang-03\n\nIt looks like this IANA Considerations section is still in progress, but I'll go ahead and point out that it currently has these issues: \n\n1) it doesn\u2019t include the registration templates from RFC 9907, Section 3.8.3\n\n2) it states that registrations should be added to the registry instead of being added directly to the module, but a table of registrations hasn\u2019t been included.\n\n3) The conflation of the instruction to create a registry group with the YANG module name registration in Table 1 is a little confusing, as it makes it look like we\u2019re creating a registry that consists of the information that we also need to populate the registration of the YANG module name. The URI and YANG module name registrations should have their own subsection(s), separate from the creation of the registry group.\n\nIf you have any questions, just let us know. If you'd like to talk in person, you can find us at the IANA table from Monday through Thursday. You can also request another review at any time by contacting us at [iana@iana.org](mailto:iana@iana.org).\n\nFor more information about IANA Considerations section requirements, please see\n\nhttps://www.iana.org/help/protocol-registration\n\nBest regards,\n\nAmanda Baber\nIANA",
+      "createdAt": "2026-07-18T08:22:34Z",
+      "updatedAt": "2026-07-18T08:22:34Z",
       "closedAt": null,
       "comments": []
     }
@@ -2109,6 +2173,46 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 64,
+      "id": "PR_kwDOP9HHVc7zVRsK",
+      "title": "Optimize and resolves #60 #61 #62 ",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/64",
+      "state": "OPEN",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolves #60 #61 #62 ",
+      "createdAt": "2026-07-18T13:23:25Z",
+      "updatedAt": "2026-07-18T14:36:45Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "55d3cc19f28b8f8dbaf37863f01facfba77566fd",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "ea68caaea1cffc958299f564962aa156cc241e12",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABGdnTZA",
+          "commit": {
+            "abbreviatedOid": "ea68caa"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-07-18T14:36:45Z",
+          "updatedAt": "2026-07-18T14:36:45Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
