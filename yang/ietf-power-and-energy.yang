@@ -562,13 +562,13 @@ module ietf-power-and-energy {
       "Energy objects container for power and energy attributes.";
     
     list energy-entry {
-      key "object-id";
+      key "energy-object-id";
       description
         "Power and energy entry for an energy object, indexed by object id.
          Each entry contains the complete set of power and energy attributes
          for a specific physical component.";
         
-      leaf object-id {
+      leaf energy-object-id {
         type string;
         description
           "An identifier that uniquely identifies the energy object";
@@ -814,11 +814,11 @@ module ietf-power-and-energy {
        entries.";
     
     list energy-entry {
-      key "object-id";
+      key "energy-object-id";
       description
         "Control entry for a specific energy object.";
       
-      leaf object-id {
+      leaf energy-object-id {
         type string;
         description 
           "An identifier that uniquely identifies the energy object.";
