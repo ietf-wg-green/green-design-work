@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-19T01:21:00.963191+00:00",
+  "timestamp": "2026-07-21T01:20:47.959385+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -469,15 +469,15 @@
       "id": "I_kwDOP9HHVc8AAAABJC21zg",
       "title": "YANG: object-id to energy-object-id",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/60",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The terminology covers Energy Object but the YANG uses object-id. I believe we should be using the energy-object-id instead, in both instances belwo\n\n  module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int32\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro unit-multiplier         identityref\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro unit-multiplier?          identityref\n     |     |  +--ro data-source-accuracy?     identityref\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n     |     +--ro power-state\n     |     |  +--ro power-state-oper?   identityref\n     |     +--ro relationship* [type]\n     |        +--ro type    identityref\n     |        +--ro peer* [id]\n     |           +--ro id         string\n     |           +--ro details?   string\n     +--rw energy-control\n        +--rw energy-entry* [object-id]\n           +--rw object-id      string\n           +--rw power-state\n              +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper\n              +--rw power-state-admin?   identityref",
       "createdAt": "2026-07-16T12:22:46Z",
-      "updatedAt": "2026-07-16T12:22:46Z",
-      "closedAt": null,
+      "updatedAt": "2026-07-19T10:28:02Z",
+      "closedAt": "2026-07-19T10:28:02Z",
       "comments": []
     },
     {
@@ -525,6 +525,22 @@
       "body": "Dear Authors (cc: green),\n\nBefore the IETF meeting, we check working group agendas for documents with IANA-related issues. We have notes about this document:\n\nhttps://datatracker.ietf.org/doc/html/draft-ietf-green-power-and-energy-yang-03\n\nIt looks like this IANA Considerations section is still in progress, but I'll go ahead and point out that it currently has these issues: \n\n1) it doesn\u2019t include the registration templates from RFC 9907, Section 3.8.3\n\n2) it states that registrations should be added to the registry instead of being added directly to the module, but a table of registrations hasn\u2019t been included.\n\n3) The conflation of the instruction to create a registry group with the YANG module name registration in Table 1 is a little confusing, as it makes it look like we\u2019re creating a registry that consists of the information that we also need to populate the registration of the YANG module name. The URI and YANG module name registrations should have their own subsection(s), separate from the creation of the registry group.\n\nIf you have any questions, just let us know. If you'd like to talk in person, you can find us at the IANA table from Monday through Thursday. You can also request another review at any time by contacting us at [iana@iana.org](mailto:iana@iana.org).\n\nFor more information about IANA Considerations section requirements, please see\n\nhttps://www.iana.org/help/protocol-registration\n\nBest regards,\n\nAmanda Baber\nIANA",
       "createdAt": "2026-07-18T08:22:34Z",
       "updatedAt": "2026-07-18T08:22:34Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 67,
+      "id": "I_kwDOP9HHVc8AAAABJeFm1w",
+      "title": "instantaneous-power YANG leaf must be uint32, as opposed to int32",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/67",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Feedback from IETF 126 GREEN meeting",
+      "createdAt": "2026-07-20T15:34:54Z",
+      "updatedAt": "2026-07-20T15:34:54Z",
       "closedAt": null,
       "comments": []
     }
@@ -2179,24 +2195,26 @@
       "id": "PR_kwDOP9HHVc7zVRsK",
       "title": "Optimize and resolves #60 #61 #62 ",
       "url": "https://github.com/ietf-wg-green/green-design-work/pull/64",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "williamchern",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Resolves #60 #61 #62 ",
+      "body": "Resolves #60 \r\nResolves #61\r\nResolves #62 ",
       "createdAt": "2026-07-18T13:23:25Z",
-      "updatedAt": "2026-07-18T14:36:45Z",
+      "updatedAt": "2026-07-19T10:29:20Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "55d3cc19f28b8f8dbaf37863f01facfba77566fd",
       "headRepository": "williamchern/green-design-work",
       "headRefName": "main",
       "headRefOid": "ea68caaea1cffc958299f564962aa156cc241e12",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-07-19T10:28:01Z",
+      "mergedAt": "2026-07-19T10:28:01Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "1c5a213421d7fe3cbf9c8f4855de7719e04c84d4"
+      },
       "comments": [],
       "reviews": [
         {
@@ -2213,6 +2231,58 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 65,
+      "id": "PR_kwDOP9HHVc7zjPNl",
+      "title": "resolving IANA issues #63",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/65",
+      "state": "CLOSED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "resolves #63 ",
+      "createdAt": "2026-07-19T14:22:43Z",
+      "updatedAt": "2026-07-19T14:33:02Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "1c5a213421d7fe3cbf9c8f4855de7719e04c84d4",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "67459c18d4bd06c6fd22400a1700343781f102fe",
+      "closedAt": "2026-07-19T14:33:02Z",
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 66,
+      "id": "PR_kwDOP9HHVc7zxlCK",
+      "title": "Deal with IANA review issues #63",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/66",
+      "state": "OPEN",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Resolves #63 ",
+      "createdAt": "2026-07-20T09:24:37Z",
+      "updatedAt": "2026-07-20T09:24:37Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "1c5a213421d7fe3cbf9c8f4855de7719e04c84d4",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "80d83748a2d48647d9fa92031af671666494da94",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
