@@ -27,7 +27,8 @@ module ietf-power-and-energy {
   
   description
     "This YANG module specifies for Power and Energy monitoring and 
-     control of devices within or connected to communication networks.
+     control of devices within or connected to communication 
+     networks.
      
      The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
      NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
@@ -97,8 +98,8 @@ module ietf-power-and-energy {
           red:     +/- 2%
 
        In addition, the accuracy-measured-ones identity indicates
-       a power data measurement with all digits valid, except trailing
-       zeros.
+       a power data measurement with all digits valid, except 
+       trailing zeros.
 
        Since percent-wise accuracy works poorly for very small
        values, standards such as IEC 62053, IEC 61850-7-4 and
@@ -141,16 +142,16 @@ module ietf-power-and-energy {
   identity accuracy-unavailable {
     base accuracy-unknown;
     description
-      "A power data is not available for some reason, such
-       as a sensor failure or a component being powered off.";
+      "A power data is not available for some reason, such as a 
+       sensor failure or a component being powered off.";
   }
   identity accuracy-like-parent {
     base data-source-accuracy;
     description
-      "The accuracy of the power/energy data is the same as this energy
-       object's parent object. This identity is useful for hierarchical
-       energy objects where child objects inherit the accuracy
-       characteristics.";
+      "The accuracy of the power/energy data is the same as this 
+       energy object's parent object. This identity is useful for 
+       hierarchical energy objects where child objects inherit the 
+       accuracy characteristics.";
   }
   identity accuracy-estimated {
     base data-source-accuracy;
@@ -161,34 +162,34 @@ module ietf-power-and-energy {
   identity accuracy-static {
     base accuracy-estimated;
     description
-      "The power data is based on static data, such as
-       manufacturer specifications, datasheet of typical power values
-       or nameplate ratings, rather than real-time measurements.";
+      "The power data is based on static data, such as manufacturer 
+       specifications, datasheet of typical power values or nameplate 
+       ratings, rather than real-time measurements.";
   }
   identity accuracy-historic {
     base accuracy-estimated;
     description
-      "The power data is based on an historic measurement data
-       for this specific system and usage pattern.";
+      "The power data is based on an historic measurement data for 
+       this specific system and usage pattern.";
   }
   identity accuracy-learned {
     base accuracy-estimated;
     description
-      "The power data is based on an machine learning
-       model prediction.";
+      "The power data is based on an machine learning model 
+       prediction.";
   }
   identity accuracy-measured {
     base data-source-accuracy;
     description
-      "The power data is a direct, real-time measurement
-       from a sensor.";
+      "The power data is a direct, real-time measurement from a 
+       sensor.";
   }
   identity accuracy-measured-bronze {
     base accuracy-measured;
     description
       "The power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
-        |actual-sensor| <= sensor * 30% OR |actual-sensor| <= 0.5";
+       |actual-sensor| <= sensor * 30% OR |actual-sensor| <= 0.5";
   }
   identity accuracy-measured-bronze-1 {
     base accuracy-measured-bronze;
@@ -223,7 +224,7 @@ module ietf-power-and-energy {
     description
       "The power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
-        |actual-sensor| <= sensor * 10% OR |actual-sensor| <= 0.5";
+       |actual-sensor| <= sensor * 10% OR |actual-sensor| <= 0.5";
   }  
   identity accuracy-measured-silver-1 {
     base accuracy-measured-silver;
@@ -326,10 +327,10 @@ module ietf-power-and-energy {
   identity accuracy-measured-ones {
     base accuracy-measured;
     description
-      "The power data is a direct, real-time measurement
-       from a sensor with all digits valid, except trailing zeros.
-       For example, a sensor reading of 12300 represents
-       a sensor value between 12250 and 12350.";
+      "The power data is a direct, real-time measurement from a 
+       sensor with all digits valid, except trailing zeros.
+       For example, a sensor reading of 12300 represents a sensor 
+       value between 12250 and 12350.";
   }
   
   typedef power-factor {
@@ -453,8 +454,8 @@ module ietf-power-and-energy {
   identity multiplier-micro {
     base unit-multiplier;
     description 
-      "Represents a multiplier of 10^-6 (0.000001) associated with the
-       integer units used to measure the power or energy.";
+      "Represents a multiplier of 10^-6 (0.000001) associated with 
+       the integer units used to measure the power or energy.";
   }
   identity multiplier-milli {
     base unit-multiplier;
@@ -547,14 +548,14 @@ module ietf-power-and-energy {
     base energy-relationship-type;
     description
       "Energy Object A is enabled by Energy Object B. B must be 
-      operational for A to function correctly";
+       operational for A to function correctly";
   }
   identity enabling {
     base energy-relationship-type;
     description
       "Energy Object A is enabling Energy Object B. A must be 
-      operational for B to function correctly.
-      The inverse relationship is 'enabled-by'.";
+       operational for B to function correctly.
+       The inverse relationship is 'enabled-by'.";
   }
   container energy-objects {
     config false;
@@ -564,9 +565,10 @@ module ietf-power-and-energy {
     list energy-entry {
       key "energy-object-id";
       description
-        "Power and energy entry for an energy object, indexed by object id.
-         Each entry contains the complete set of power and energy attributes
-         for a specific physical component.";
+        "Power and energy entry for an energy object, indexed by 
+         energy object id. Each entry contains the complete set of 
+         power and energy attributes for a specific physical 
+         component.";
         
       leaf energy-object-id {
         type string;
@@ -580,9 +582,9 @@ module ietf-power-and-energy {
         }
         description
           "Reference to the component name in the ietf-hardware 
-           model. This leaf creates a direct semantic link between the
-           power/energy attributes and the physical component they 
-           describe.";
+           model. This leaf creates a direct semantic link between 
+           the power/energy attributes and the physical component 
+           they describe.";
         reference
           "RFC 8348: A YANG Data Model for Hardware Management";
       }
@@ -596,14 +598,15 @@ module ietf-power-and-energy {
           units "Watts";
           mandatory true;
           description
-            "The power usage measurement for the energy object right now.
-            This value represents the instantaneous power consumption
-            of the component. This value is specified in SI units of watts 
-            with the magnitude of watts (milliwatts, kilowatts, etc.) indicated 
-            separately as unit-multiplier in this container. Positive values 
-            indicate power consumption, while negative values can indicate power 
-            generation (e.g., for devices with battery backup or 
-            renewable energy sources).";
+            "The power usage measurement for the energy object right 
+             now. This value represents the instantaneous power 
+             consumption of the component. This value is specified 
+             in SI units of watts with the magnitude of watts 
+             (milliwatts, kilowatts, etc.) indicated separately as 
+             unit-multiplier in this container. Positive values 
+             indicate power consumption, while negative values can 
+             indicate power generation (e.g., for devices with 
+             battery backup or renewable energy sources).";
         }
         
         leaf nameplate-power {
@@ -611,9 +614,10 @@ module ietf-power-and-energy {
           units "Watts";
           description
             "The nameplate power rating of an energy object. This is 
-            the maximum power that the energy object is designed to consume or
-            produce, as specified by the manufacturer. Essential for
-            power budget calculations and capacity planning.";
+             the maximum power that the energy object is designed to 
+             consume or produce, as specified by the manufacturer. 
+             Essential for power budget calculations and capacity 
+             planning.";
         }
         
         leaf unit-multiplier {
@@ -623,9 +627,10 @@ module ietf-power-and-energy {
           mandatory true;
           description
             "The unit multiplier used to measure the power. 
-            This multiplier applies to both instantaneous-power and nameplate-power
-            values, allowing representation of power values from milliwatts
-            to gigawatts using integer arithmetic.";
+             This multiplier applies to both instantaneous-power and 
+             nameplate-power values, allowing representation of power 
+             values from milliwatts to gigawatts using integer 
+             arithmetic.";
         }
         
         leaf data-source-accuracy {
@@ -634,34 +639,36 @@ module ietf-power-and-energy {
           }
           default accuracy-like-parent;
           description
-            "The accuracy of the power data source. Indicates whether 
-            the data source is a direct measurement, an estimate, or 
-            unavailable and also the accuracy level of the data source. 
-            By default, the accuracy is inherited from the parent energy
-            object, facilitating hierarchical accuracy definitions
-            without the need to specify accuracy at every level.
-            This metadata is crucial for network management 
-            applications to assess the reliability and accuracy of the 
-            power data.";
+            "The accuracy of the power data source. Indicates 
+             whether the data source is a direct measurement, an 
+             estimate, or unavailable and also the accuracy level of 
+             the data source. By default, the accuracy is inherited 
+             from the parent energy object, facilitating 
+             hierarchical accuracy definitions without the need to 
+             specify accuracy at every level. This metadata is 
+             crucial for network management applications to assess 
+             the reliability and accuracy of the power data.";
         }
         
         leaf power-factor {
           type power-factor;
           description
-            "The percent value of the power factor measurement for the 
-            energy object. This information is important for 
-            understanding the electrical characteristics of the energy object
-            and for correctly interpreting the power data.";
+            "The percent value of the power factor measurement for 
+             the energy object. This information is important for 
+             understanding the electrical characteristics of the 
+             energy object and for correctly interpreting the power 
+             data.";
         }
 
         leaf measurement-local {
           type boolean;
           description
-            "Indicates whether the power measurement is local (true) or
-             remote (false). A local measurement is taken directly at
-             the energy object, while a remote measurement is collected from
-             an external source. This information can be useful for
-             troubleshooting and understanding the data source.";
+            "Indicates whether the power measurement is local (true) 
+             or remote (false). A local measurement is taken 
+             directly at the energy object, while a remote 
+             measurement is collected from an external source. 
+             This information can be useful for troubleshooting and 
+             understanding the data source.";
         }
       }
 
@@ -673,27 +680,29 @@ module ietf-power-and-energy {
           type uint64;
           units "Watt-hours";
           description
-            "The total cumulative energy consumed by the energy object
-            since the last reset. This value is specified as 
-            watt-hours with the magnitude of watt-hours (milliwatt-hours, 
-            kilowatt-hours, etc.) indicated separately as unit-multiplier 
-            in this container. This value is useful for tracking
-            overall energy usage over time for billing, reporting,
-            or optimization purposes.";
+            "The total cumulative energy consumed by the energy 
+             object since the last reset. This value is specified as 
+             watt-hours with the magnitude of watt-hours 
+             (milliwatt-hours, kilowatt-hours, etc.) indicated 
+             separately as unit-multiplier in this container. This 
+             value is useful for tracking overall energy usage over 
+             time for billing, reporting, or optimization purposes.";
         }
         
         leaf total-energy-delivered {
           type uint64;
           units "Watt-hours";
           description
-            "The total cumulative energy delivered by the energy object
-            since the last reset. This value is specified as
-            watt-hours with the magnitude of watt-hours (milliwatt-hours, 
-            kilowatt-hours, etc.) indicated separately as unit-multiplier 
-            in this container. This value is relevant for energy objects
-            capable of generating power, such as those with renewable
-            energy sources or battery backup systems, or capable of providing
-            energy to other energy objects (e.g., PoE switches).";
+            "The total cumulative energy delivered by the energy 
+             object since the last reset. This value is specified as 
+             watt-hours with the magnitude of watt-hours 
+             (milliwatt-hours, kilowatt-hours, etc.) indicated 
+             separately as unit-multiplier in this container. 
+             This value is relevant for energy objects capable of 
+             generating power, such as those with renewable energy 
+             sources or battery backup systems, or capable of 
+             providing energy to other energy objects 
+             (e.g., PoE switches).";
         }
         leaf unit-multiplier {
           type identityref {
@@ -701,12 +710,13 @@ module ietf-power-and-energy {
           }
           default "multiplier-units";
           description
-            "This multiplier applies to both total-energy-consumed and 
-             total-energy-delivered values. It determines the scale of 
-             the energy measurements, allowing representation of energy 
-             values from milliwatt-hours to gigawatt-hours using 
-             integer arithmetic. When not explicitly specified, the 
-             default value of multiplier-units (10^0 = 1) applies, 
+            "This multiplier applies to both total-energy-consumed 
+             and total-energy-delivered values. It determines the 
+             scale of the energy measurements, allowing 
+             representation of energy values from milliwatt-hours 
+             to gigawatt-hours using integer arithmetic. When not 
+             explicitly specified, the default value of 
+             multiplier-units (10^0 = 1) applies, 
              meaning values are expressed in Watt-hours.";
         }
         
@@ -716,32 +726,35 @@ module ietf-power-and-energy {
           }
           default accuracy-like-parent;
           description
-            "The accuracy of the energy data source. Indicates whether 
-            the data source is a direct measurement, an estimate, or 
-            unavailable and also the accuracy level of the data source. 
-            By default, the accuracy is inherited from the parent energy
-            object, facilitating hierarchical accuracy definitions
-            without the need to specify accuracy at every level.
-            This metadata is crucial for network management 
-            applications to assess the reliability and accuracy of the 
-            energy data.";
+            "The accuracy of the energy data source. Indicates 
+             whether the data source is a direct measurement, 
+             an estimate, or unavailable and also the accuracy 
+             level of the data source. 
+             By default, the accuracy is inherited from the parent 
+             energy object, facilitating hierarchical accuracy 
+             definitions without the need to specify accuracy at 
+             every level. This metadata is crucial for network 
+             management applications to assess the reliability and 
+             accuracy of the energy data.";
         }
         leaf measurement-local {
           type boolean;
           description
-            "Indicates whether the energy measurement is local (true) or
-             remote (false). A local measurement is taken directly at
-             the energy object, while a remote measurement is collected from
-             an external source. This information can be useful for
-             troubleshooting and understanding the data source.";
+            "Indicates whether the energy measurement is local 
+             (true) or remote (false). A local measurement is taken 
+             directly at the energy object, while a remote 
+             measurement is collected from an external source. 
+             This information can be useful for troubleshooting and 
+             understanding the data source.";
         }
         leaf-list certifications {
           type identityref {
             base ianaeo:certification-type;
           }
           description
-            "List of certifications applicable to this energy object. If 
-            this list is empty, the energy object has no certifications.";
+            "List of certifications applicable to this energy object. 
+             If this list is empty, the energy object has no 
+             certifications.";
         }    
       }
       container power-state {
@@ -753,11 +766,11 @@ module ietf-power-and-energy {
           }
           description
             "The actual operational power state of the Energy Object.
-             This reflects the current state, which may differ from the
-             admin-state during transitions. This leaf is the 
+             This reflects the current state, which may differ from 
+             the admin-state during transitions. This leaf is the 
              operational counterpart of the administratively set 
-             'power-state-admin' in /energy-control/energy-entry. The 
-             two leaves together form the complete power state 
+             'power-state-admin' in /energy-control/energy-entry. 
+             The two leaves together form the complete power state 
              management interface.";
         }
       }
@@ -774,21 +787,23 @@ module ietf-power-and-energy {
             // powered-by, powering, metered-by, metering, etc.
           }
           description
-            "The type of relationship this energy object has with peer 
-            objects.";
+            "The type of relationship this energy object has with 
+             peer objects.";
         }
         
         list peer {
           key "id";
-          description "Multiple peers for this relationship type.";
+          description 
+            "Multiple peers for this relationship type.";
           
           leaf id {
             type string;
             description 
               "This id specifies the Universally Unique Identifier 
                (UUID) of the peer (other) Energy Object that this 
-               energy object is powering/powered-by/metering/metered-by,
-               etc. If the network level UUID is not known,some other 
+               energy object is 
+               powering/powered-by/metering/metered-by, etc. 
+               If the network level UUID is not known,some other 
                locally unique identifier MAY be used, in conjunction 
                with human readable details.";
             reference
@@ -806,12 +821,12 @@ module ietf-power-and-energy {
   
   container energy-control {
     description
-      "Energy control configuration, mirroring monitored objects. The 
-       operational tree ('container energy-objects') will typically 
-       contain a significantly larger number of instances than the 
-       configuration tree here. The configuration tree represents the 
-       administrator's intent and is limited to explicitly provisioned 
-       entries.";
+      "Energy control configuration, mirroring monitored objects. 
+       The operational tree ('container energy-objects') will 
+       typically contain a significantly larger number of instances 
+       than the configuration tree here. The configuration tree 
+       represents the administrator's intent and is limited to 
+       explicitly provisioned entries.";
     
     list energy-entry {
       key "energy-object-id";
@@ -821,7 +836,8 @@ module ietf-power-and-energy {
       leaf energy-object-id {
         type string;
         description 
-          "An identifier that uniquely identifies the energy object.";
+          "An identifier that uniquely identifies the energy 
+           object.";
       }
       container power-state {
         description
@@ -846,8 +862,8 @@ module ietf-power-and-energy {
              Energy Object. This is the state that the management 
              system desires the energy object to be in. This leaf is 
              the administrative counterpart of the operational set 
-             'power-state-oper' in /energy-objects/energy-entry. The 
-             two leaves together form the complete power state 
+             'power-state-oper' in /energy-objects/energy-entry. 
+             The two leaves together form the complete power state 
              management interface.";
         }
       }
