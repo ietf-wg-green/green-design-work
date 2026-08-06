@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-07-23T01:26:40.265461+00:00",
+  "timestamp": "2026-08-06T01:16:45.546559+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -540,7 +540,86 @@
       "labels": [],
       "body": "Feedback from IETF 126 GREEN meeting",
       "createdAt": "2026-07-20T15:34:54Z",
-      "updatedAt": "2026-07-20T15:34:54Z",
+      "updatedAt": "2026-08-04T13:54:49Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "From the discussions in Vienna IETF 126 and notes:\n(https://notes.ietf.org/notes-ietf-126-green?)\nInstantaneous power reporting will likely be optional, but conditionally required \u2014 the group leaned toward making it optional (so vendors aren't forced to report an incorrect/fabricated value when they can't measure it), but with the rule that if a device can measure it, it must report it. This mirrors how another SDO handled temperature reporting (per Nigel Davis).",
+          "createdAt": "2026-08-04T13:53:37Z",
+          "updatedAt": "2026-08-04T13:53:37Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Also from the notes:\nwhether that \"must report if measurable\" guidance goes directly into the YANG module description, or into the document text as a normative reference (possibly via \"profiles\")?  Benoit flagged this as \"a bigger discussion\" since it effectively changes the YANG itself \u2014 no decision was made in-session.\n",
+          "createdAt": "2026-08-04T13:54:49Z",
+          "updatedAt": "2026-08-04T13:54:49Z"
+        }
+      ]
+    },
+    {
+      "number": 68,
+      "id": "I_kwDOP9HHVc8AAAABLa1FgA",
+      "title": "Negative power values need to be addressed",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/68",
+      "state": "OPEN",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Vienna IETF 126 meeting:\nhttps://notes.ietf.org/notes-ietf-126-green?\n\nTony Li asked whether Instantaneous Power (currently Int32) needs to support negative values, and Jan Lindblad pointed out the case of solar power (a device generating rather than consuming power). Benoit acknowledged this (\"point taken\") as something to fix.",
+      "createdAt": "2026-08-04T13:56:23Z",
+      "updatedAt": "2026-08-04T13:56:23Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 69,
+      "id": "I_kwDOP9HHVc8AAAABLa17vw",
+      "title": "Possible new attribute for declaring device measurement capability",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/69",
+      "state": "OPEN",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From IETF 126 Vienna:\nNigel Davis suggested adding an attribute so a device can explicitly state what it does/doesn't support measuring (partly in response to Carsten Rossenhoevel's concern that optional fields are good for adoption but bad for conformance/testing long-term).",
+      "createdAt": "2026-08-04T13:57:46Z",
+      "updatedAt": "2026-08-04T13:57:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 70,
+      "id": "I_kwDOP9HHVc8AAAABLa3J3w",
+      "title": "Poll result during Vienna IETF 126",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/70",
+      "state": "OPEN",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\"Should the base network controller model be scoped to include more than just power/energy attributes?\" \u2192 Yes: 16, No: 2, NoOp: 5. The working group agreed? the model's scope should expand beyond just power/energy?.\n\nNext?",
+      "createdAt": "2026-08-04T13:59:54Z",
+      "updatedAt": "2026-08-04T14:02:57Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 71,
+      "id": "I_kwDOP9HHVc8AAAABLh8KtQ",
+      "title": "Power group discussion: awareness?",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/71",
+      "state": "OPEN",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Anything to consider in the GREEN device YANG Data model? in the controller YANG data model?\n\ncheck mailer: https://mailarchive.ietf.org/arch/browse/lsr/ >>  \"IS-IS Support for PCPPS\" (lsr WG, 22 messages, Jul 20 \u2013 Aug 5, 2026)\n\nOpen technical points to raise:\n\n**Context **: discussing draft-many-teas-power-steering (the Power Conserving Path Placement Strategy) and its IS-IS encoding in draft-many-lsr-power-group. Several participants raised questions about whether the \"Power Group\" power-value model can accurately represent real hardware behavior, and whether that's a Green WG data-model question rather than an LSR encoding question >>> Zafar Ali explicitly said \"What is the right data model? We need to ask the Green WG.\"\n\n**Open technical points to raise:**\n\n1. Non-linear/step-function power consumption isn't representable. Gen Chen's example: static per-path power values (A=100W, B=100W) don't capture that pushing more load onto path A can cross a vendor-internal threshold (e.g., 40% load) that wakes a second component and jumps consumption by +200W. A model built on single static values per power group can produce negative net energy savings in practice. Ask: does/should the Green YANG model support threshold- or curve-based power profiles per component, not just a scalar?\n\n2. Sleeping \u2260 zero power, and that's disputed even among proposers. Zafar noted sleeping power is often non-zero; Bonica countered \"in many hardware architectures, sleeping power is zero.\" Ask: should the data model require vendors to expose actual sleep-state power draw (not just a boolean sleep-capable flag) so downstream consumers aren't guessing?\n\n3. No health/liveness check for sleeping components. Gen Chen: if a Power Group (interface, line card, etc.) is asleep and later needed for fast recovery, is there a way to verify it's still healthy without a full wake-up cycle? Wake latency ranges from milliseconds to minute. Should GREEN model should expose a lightweight liveness/health leaf independent of the full power-state transition.\n\n4. Granularity mismatch on modern ASICs. Rob Evans pushed back on the \"all you can do is turn off the SFP laser\" framing \u2014 many modern ASICs can power off internal functional blocks selectively, not just whole interfaces. Ask: Should the GREEN YANG model support sub-component (intra-ASIC) power-group granularity, or only interface/line-card level?\n\n5. Where does the static-vs-dynamic tradeoff belong? Tony Li's response (draft author) was that publishing static values avoids LSDB churn \u2014 implying the IGP encoding deliberately trades accuracy for flooding efficiency. That's a legitimate protocol-design constraint for IS-IS, but it raises the question of whether the *authoritative, accurate* power data should live in a device/controller-queried YANG model (pulled on demand, no flooding cost) while the IGP only carries a coarse, infrequently-updated hint.\n\n**Device vs. controller \u2014 my read, worth stating as your own framing in the issue:**\n\nThere seem to be two distinct layers already in play, and conflating them is likely part of the confusion in the thread:\n\n- **Device-level**: points 1\u20134?\n- **Controller/PCE-level**: draft-barth-teas-yang-pg-aware-topo already models \"Power-Group\" as an attribute of a TE link for topology-wide path computation, that's inherently an aggregated, controller-facing view, not raw device telemetry.\n\nThe gap this thread surfaces isn't \"device or controller\" as an either/or >>>> it's that the *IS-IS-flooded* static value (coarse, by design, per Tony Li) is being used as if it were the accurate device-level number, when accurate values (thresholds, curves, health) should arguably be sourced from a device-level Green YANG model and only pulled by a controller/PCE when making a placement decision, rather than flooded via IGP at all. That's a legitimate scoping question for the GREEN WG!!\n\nQuestion for the WG: \nThe specific data affected by the static-for-flooding-cost trade-off are the per-interface power values carried in the PSP TLV (section 3.3.2 of the draft), particularly the QSFP power consumption figure, and the aggregated per-Power-Group value used by PCPPS to decide whether shifting traffic between paths saves energy (e.g., the A=100W/B=100W example). Because these values are advertised as static to avoid frequent LSDB updates, they don't reflect load-dependent, non-linear consumption \u2014 meaning the number stays fixed even as actual power draw jumps when a vendor-specific internal threshold is crossed. This is distinct from the power-sleep-capable bit (section 3.3.4), which is a simple boolean flag and isn't subject to the same churn/accuracy trade-off.\n\nshould accurate power data (thresholds, curves, health) be sourced from a **device-level** GREEN YANG model and pulled on demand by a controller/PCE making placement decisions, rather than flooded via IGP at all (where accuracy is traded off against flooding cost by design)? Input on whether this is in scope for the Green WG's device/energy YANG work, or whether it belongs elsewhere, would help the LSR/TEAS discussion move forward.",
+      "createdAt": "2026-08-05T08:00:10Z",
+      "updatedAt": "2026-08-05T08:00:10Z",
       "closedAt": null,
       "comments": []
     }
