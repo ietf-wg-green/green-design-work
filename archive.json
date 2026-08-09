@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-06T01:16:45.546559+00:00",
+  "timestamp": "2026-08-09T00:43:59.876349+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -144,13 +144,23 @@
       "state": "OPEN",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "janlindblad"
+      ],
       "labels": [],
       "body": "Should we replace \"accuracy-measured-red\" by \"accuracy-measured-platinium\" to mantain the logic of the next level in tiered systems (e.g., loyalty programs, credit cards, medals)?\n        \u2514\u2500\u2500 accuracy-measured\n             \u251c\u2500\u2500 accuracy-measured-bronze\n             \u251c\u2500\u2500 accuracy-measured-silver\n             \u251c\u2500\u2500 accuracy-measured-gold\n             \u251c\u2500\u2500 accuracy-measured-red <<<<<<<<< to be replaced by accuracy-measured-platinium?",
       "createdAt": "2025-12-12T08:23:15Z",
-      "updatedAt": "2025-12-12T08:23:15Z",
+      "updatedAt": "2026-08-06T10:17:07Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@janlindblad what do you think about that one?\n",
+          "createdAt": "2026-08-06T10:17:06Z",
+          "updatedAt": "2026-08-06T10:17:06Z"
+        }
+      ]
     },
     {
       "number": 8,
@@ -287,7 +297,7 @@
       "labels": [],
       "body": "Reason: the CODE BEGINS does not have the right convention\n\nhttps://datatracker.ietf.org/doc/rfc9907/\n\n1.1.  Changes Since RFC 8407\n\n  ...\n\n   *  Updated the guidance so that the \"file name\" after the \"<CODE\n      BEGINS>\" tag is mandatory.\n\n\n\n   The \"<CODE BEGINS>\" tag MUST be followed by a string identifying the\n   file name specified in Section 5.2 of [RFC7950].  The name string\n   form that includes the revision date SHOULD be used.  The revision\n   date MUST match the date used in the most recent revision of the\n   module.\n\n   The following example is for the \"2016-03-20\" revision of the \"ietf-\n   foo\" module:\n\n   <CODE BEGINS>\n   file \"ietf-foo@2016-03-20.yang\"\n\n       module ietf-foo {\n         namespace \"urn:ietf:params:xml:ns:yang:ietf-foo\";\n         prefix \"foo\";\n         organization \"...\";\n         contact \"...\";\n         description \"...\";\n         revision 2016-03-20 {\n           description \"Latest revision\";\n           reference \"RFC FFFF: Foo Protocol\";\n         }\n         // ... more statements\n       }\n   <CODE ENDS>",
       "createdAt": "2026-06-04T07:06:19Z",
-      "updatedAt": "2026-06-18T07:46:12Z",
+      "updatedAt": "2026-08-06T10:11:05Z",
       "closedAt": null,
       "comments": [
         {
@@ -303,6 +313,13 @@
           "body": "I opened this ticket with the datatracker: https://github.com/ietf-tools/datatracker/issues/11012",
           "createdAt": "2026-06-18T07:46:12Z",
           "updatedAt": "2026-06-18T07:46:12Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Pinged https://github.com/ietf-tools/datatracker/issues/11012 authors today",
+          "createdAt": "2026-08-06T10:11:05Z",
+          "updatedAt": "2026-08-06T10:11:05Z"
         }
       ]
     },
@@ -405,16 +422,24 @@
       "id": "I_kwDOP9HHVc8AAAABHpXHOA",
       "title": "relationship peer id as union yang:uuid and string?",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/55",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Per's discussion the GREEN mailing list regarding the relationship peer id\n  module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int32\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro unit-multiplier         identityref\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro unit-multiplier?          identityref\n     |     |  +--ro data-source-accuracy?     identityref\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n     |     +--ro power-state\n     |     |  +--ro power-state-oper?   identityref\n     |     +--ro relationship* [type]\n     |        +--ro type    identityref\n     |        +--ro peer* [id]                                  \n     |           +--ro id         string                     <=================\n     |           +--ro details?   string\n     +--rw energy-control\n        +--rw energy-entry* [object-id]\n           +--rw object-id      string\n           +--rw power-state\n              +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper\n              +--rw power-state-admin?   identityref\n\nPer: I suggest that the reference RFC 4122 is updated to 9562 and\nthat the type yang:uuid is used instead of string for\n/energy-objects/energy-entry/relationship/peer/id\n\nBenoit: Actually, while it sounds interesting, we can not use the UUID in such as a case.\nIndeed, a router (or a specific PoE interface) has not way to know the remove UUID. It's not even transmitted via something such as LLDP (or CDP).  On top of that, the remote device might not even support the ietf-hardware (RFC 8348).\n\nThe controller might know both UUIDs at each end of a relationship. However, we concluded that the relationships in the YANG module on router are read-only, basically present to only document what the router knows ... as opposed to be configured by the controller.\n\nPer: This is fine, perhaps use type union yang:uuid and string?\nI see that you already qualified when it can be a UUID and\nwhen it MAY be some other identifier, so the text is fine.",
       "createdAt": "2026-07-04T07:27:22Z",
-      "updatedAt": "2026-07-04T07:27:22Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-08-06T09:48:06Z",
+      "closedAt": "2026-08-06T09:48:06Z",
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Per discussion with Per, we can close this one",
+          "createdAt": "2026-08-06T09:48:06Z",
+          "updatedAt": "2026-08-06T09:48:06Z"
+        }
+      ]
     },
     {
       "number": 56,
@@ -424,13 +449,23 @@
       "state": "OPEN",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "janlindblad"
+      ],
       "labels": [],
       "body": "From Tony Li\n\n    1) I would like to propose that we stop using accuracy banding and instead just include numerical values.  Old school resistors used a color code to represent accuracy because they had only a single strip of color to work with.  Fortunately, YANG is much more expressive.  There is no need for us to hobble ourselves with bands when we are perfectly capable of expressing explicit error bounds, such at 650W \u00b130W or 700W \u00b110%.  This would be the scientifically accurate thing to do.\n\n\nThis issue was also covered at https://github.com/ietf-wg-green/green-design-work/issues/43\n\n    The notion of accuracy bands and tolerance classes seems unnecessary. We have the capability of transmitting numbers. If I know that my measurement is +/- 23.7%, why not just say so?\n\nHowever, this issue was closed automatically due to a link PR",
       "createdAt": "2026-07-04T07:53:38Z",
-      "updatedAt": "2026-07-16T12:43:48Z",
+      "updatedAt": "2026-08-06T10:17:48Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "see also #7 ",
+          "createdAt": "2026-08-06T10:17:48Z",
+          "updatedAt": "2026-08-06T10:17:48Z"
+        }
+      ]
     },
     {
       "number": 57,
@@ -460,9 +495,17 @@
       "labels": [],
       "body": "       module: ietf-power-and-energy\n         +--ro energy-objects\n         |  +--ro energy-entry* [object-id]\n         |     +--ro object-id              string\n         |     +--ro source-component-id?   -> /hw:hardware/component/name\n         |     +--ro power\n         |     |  +--ro instantaneous-power     int32\n         |     |  +--ro nameplate-power?        uint32\n         |     |  +--ro unit-multiplier         identityref\n         |     |  +--ro data-source-accuracy?   identityref\n         |     |  +--ro power-factor?           power-factor\n         |     |  +--ro measurement-local?      boolean\n         |     +--ro energy\n         |     |  +--ro total-energy-consumed?    uint64\n         |     |  +--ro total-energy-delivered?   uint64\n         |     |  +--ro unit-multiplier?          identityref\n         |     |  +--ro data-source-accuracy?     identityref\n         |     |  +--ro measurement-local?        boolean\n         |     |  +--ro certifications*           identityref\n\nThinking about which default values to apply, I stumbled upon this potentially new issue\n\n           leaf total-energy-consumed {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy consumed by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is useful for tracking\n               overall energy usage over time for billing, reporting,\n               or optimization purposes.\";\n           }\n\n           leaf total-energy-delivered {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy delivered by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is relevant for energy objects\n               capable of generating power, such as those with renewable\n               energy sources or battery backup systems, or capable of providing\n               energy to other energy objects (e.g., PoE switches).\";\n           }\n           leaf unit-multiplier {\n             type identityref {\n               base unit-multiplier;\n             }\n             description\n               \"This multiplier applies to both total-energy-consumed\n                and total-energy-delivered values. It determines the scale\n                of the energy measurements, allowing representation of\n                energy values from milliwatt-hours to gigawatt-hours\n                using integer arithmetic.\";\n           }\n\nThe unit-multiplier is for BOTH total-energy-consumed and total-energy-delivered.\nWhat if the scale between the two is completely different?\n\nRegards, Benoit ",
       "createdAt": "2026-07-04T08:01:04Z",
-      "updatedAt": "2026-07-04T08:01:04Z",
+      "updatedAt": "2026-08-06T10:09:50Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Email sent to the GREEN mailing list today, to close on this one.\nSubject: One or Two Energy unit-multipliers for total-energy-consumed and total-energy-delivered",
+          "createdAt": "2026-08-06T10:09:50Z",
+          "updatedAt": "2026-08-06T10:09:50Z"
+        }
+      ]
     },
     {
       "number": 60,
@@ -488,11 +531,13 @@
       "state": "OPEN",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "williamchern"
+      ],
       "labels": [],
       "body": "we see the two object-id, one read and one read-write?\n\n  module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int32\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro unit-multiplier         identityref\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro unit-multiplier?          identityref\n     |     |  +--ro data-source-accuracy?\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n     |     +--ro power-state\n     |     |  +--ro power-state-oper?   identityref\n     |     +--ro relationship* [type]\n     |        +--ro type    identityref\n     |        +--ro peer* [id]\n     |           +--ro id         string\n     |           +--ro details?   string\n     +--rw energy-control\n        +--rw energy-entry* [object-id]\n           +--rw object-id      string\n           +--rw power-state\n              +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper\n              +--rw power-state-admin?   identityref\n\n\nThe two object-id values are meant to match: the read-write one under energy-control is how an admin/controller creates a control entry for a specific Energy Object (to then set power-state-admin), while the read-only one under energy-objects is the device's own report of which Energy Objects actually exist. They correlate by sharing the same string value \u2014 the config side doesn't discover object IDs, it just needs to reference the ID of an object the device is already reporting operationally.\n\nIt seems that we must be more precise in the draft to cover this aspect. \n\nOLD:\nFinally, note that the instance is in the configuration tree, having a\nrequired-instance false leafref to operational tree instance.\n\nNEW:\nEntries in /energy-control/energy-entry are expected to use the same\nobject-id value as the corresponding entry in\n/energy-objects/energy-entry, allowing an administrator or controller\nto correlate a configured power state intent with the Energy Object\nbeing monitored. The configuration tree does not itself discover\nobject-id values; it is populated by referencing an object-id that\nthe device is expected to also report operationally.\nBecause the power-state-oper leafref under /energy-control uses\nrequire-instance false, a configuration entry MAY be created for an\nobject-id for which no corresponding operational entry currently\nexists (e.g., if the entry is provisioned before the device starts\nreporting it, or if the Energy Object is temporarily or permanently\nabsent). In that case, power-state-oper simply does not resolve to\nany value until a matching operational entry appears.",
       "createdAt": "2026-07-16T12:25:48Z",
-      "updatedAt": "2026-07-16T12:25:48Z",
+      "updatedAt": "2026-08-06T10:03:57Z",
       "closedAt": null,
       "comments": []
     },
@@ -504,11 +549,13 @@
       "state": "OPEN",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "williamchern"
+      ],
       "labels": [],
       "body": "https://datatracker.ietf.org/doc/draft-ietf-green-power-and-energy-yang/ version 3 mentions:\n\n   This document makes use of the terms defined in\n   [I-D.ietf-green-framework-01]\n\n   - Energy Object\n\nIt would be easier if this term, like the other ones, would be in the terminology section.",
       "createdAt": "2026-07-16T12:30:18Z",
-      "updatedAt": "2026-07-16T12:30:18Z",
+      "updatedAt": "2026-08-06T09:28:48Z",
       "closedAt": null,
       "comments": []
     },
@@ -536,11 +583,13 @@
       "state": "OPEN",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "bclaise"
+      ],
       "labels": [],
       "body": "Feedback from IETF 126 GREEN meeting",
       "createdAt": "2026-07-20T15:34:54Z",
-      "updatedAt": "2026-08-04T13:54:49Z",
+      "updatedAt": "2026-08-06T10:01:23Z",
       "closedAt": null,
       "comments": [
         {
@@ -556,6 +605,20 @@
           "body": "Also from the notes:\nwhether that \"must report if measurable\" guidance goes directly into the YANG module description, or into the document text as a normative reference (possibly via \"profiles\")?  Benoit flagged this as \"a bigger discussion\" since it effectively changes the YANG itself \u2014 no decision was made in-session.\n",
           "createdAt": "2026-08-04T13:54:49Z",
           "updatedAt": "2026-08-04T13:54:49Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "GREEN design team discussion: do we have a use case for it? IoT devices, or devices in the open air, where they might have a solar entry for energy? can we meter negative power? or meter direction to add negative ? if we do sign for the direction of the energy source, which is the default value? should we this be in the description of the energy-object? Are we covering batteries? ",
+          "createdAt": "2026-08-06T09:01:35Z",
+          "updatedAt": "2026-08-06T09:03:45Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "this is a question for the extended WG: should we cover batteries?",
+          "createdAt": "2026-08-06T10:01:23Z",
+          "updatedAt": "2026-08-06T10:01:23Z"
         }
       ]
     },
@@ -564,16 +627,31 @@
       "id": "I_kwDOP9HHVc8AAAABLa1FgA",
       "title": "Negative power values need to be addressed",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/68",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "From Vienna IETF 126 meeting:\nhttps://notes.ietf.org/notes-ietf-126-green?\n\nTony Li asked whether Instantaneous Power (currently Int32) needs to support negative values, and Jan Lindblad pointed out the case of solar power (a device generating rather than consuming power). Benoit acknowledged this (\"point taken\") as something to fix.",
       "createdAt": "2026-08-04T13:56:23Z",
-      "updatedAt": "2026-08-04T13:56:23Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-08-06T08:18:53Z",
+      "closedAt": "2026-08-06T08:18:42Z",
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "duplicate to #67 ",
+          "createdAt": "2026-08-06T08:18:42Z",
+          "updatedAt": "2026-08-06T08:18:42Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "duplicate to https://github.com/ietf-wg-green/green-design-work/issues/67",
+          "createdAt": "2026-08-06T08:18:53Z",
+          "updatedAt": "2026-08-06T08:18:53Z"
+        }
+      ]
     },
     {
       "number": 69,
@@ -594,18 +672,35 @@
     {
       "number": 70,
       "id": "I_kwDOP9HHVc8AAAABLa3J3w",
-      "title": "Poll result during Vienna IETF 126",
+      "title": "Controller YANG Module: Poll result during Vienna IETF 126",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/70",
       "state": "OPEN",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "marisolpalmero"
+      ],
       "labels": [],
       "body": "\"Should the base network controller model be scoped to include more than just power/energy attributes?\" \u2192 Yes: 16, No: 2, NoOp: 5. The working group agreed? the model's scope should expand beyond just power/energy?.\n\nNext?",
       "createdAt": "2026-08-04T13:59:54Z",
-      "updatedAt": "2026-08-04T14:02:57Z",
+      "updatedAt": "2026-08-06T10:10:32Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "GREEN design group discussion: https://datatracker.ietf.org/doc/html/rfc7952#section-3.1\nRefer to section [3.1](https://datatracker.ietf.org/doc/html/rfc7952#section-3.1).  Example Definition\n\n   The following module defines the \"last-modified\" annotation:\n\n   module example-last-modified {\n     namespace \"http://example.org/example-last-modified\";\n     prefix \"elm\";\n     import ietf-yang-types {\n       prefix \"yang\";\n     }\n     import ietf-yang-metadata {\n       prefix \"md\";\n     }\n     md:annotation last-modified {\n       type yang:date-and-time;\n       description\n         \"This annotation contains the date and time when the\n          annotated instance was last modified (or created).\";\n     }\n   }",
+          "createdAt": "2026-08-06T09:11:24Z",
+          "updatedAt": "2026-08-06T09:11:24Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "1st option: decide to move the GREEN provenance draft to the controller. \n2nd option: more generic... move it outside of the GREEN WG, with an independent annotation linked to the RFC 7952\n\nTo be discussed with the GREEN provenance authors.",
+          "createdAt": "2026-08-06T09:15:14Z",
+          "updatedAt": "2026-08-06T09:15:14Z"
+        }
+      ]
     },
     {
       "number": 71,
@@ -615,13 +710,30 @@
       "state": "OPEN",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "marisolpalmero"
+      ],
       "labels": [],
       "body": "Anything to consider in the GREEN device YANG Data model? in the controller YANG data model?\n\ncheck mailer: https://mailarchive.ietf.org/arch/browse/lsr/ >>  \"IS-IS Support for PCPPS\" (lsr WG, 22 messages, Jul 20 \u2013 Aug 5, 2026)\n\nOpen technical points to raise:\n\n**Context **: discussing draft-many-teas-power-steering (the Power Conserving Path Placement Strategy) and its IS-IS encoding in draft-many-lsr-power-group. Several participants raised questions about whether the \"Power Group\" power-value model can accurately represent real hardware behavior, and whether that's a Green WG data-model question rather than an LSR encoding question >>> Zafar Ali explicitly said \"What is the right data model? We need to ask the Green WG.\"\n\n**Open technical points to raise:**\n\n1. Non-linear/step-function power consumption isn't representable. Gen Chen's example: static per-path power values (A=100W, B=100W) don't capture that pushing more load onto path A can cross a vendor-internal threshold (e.g., 40% load) that wakes a second component and jumps consumption by +200W. A model built on single static values per power group can produce negative net energy savings in practice. Ask: does/should the Green YANG model support threshold- or curve-based power profiles per component, not just a scalar?\n\n2. Sleeping \u2260 zero power, and that's disputed even among proposers. Zafar noted sleeping power is often non-zero; Bonica countered \"in many hardware architectures, sleeping power is zero.\" Ask: should the data model require vendors to expose actual sleep-state power draw (not just a boolean sleep-capable flag) so downstream consumers aren't guessing?\n\n3. No health/liveness check for sleeping components. Gen Chen: if a Power Group (interface, line card, etc.) is asleep and later needed for fast recovery, is there a way to verify it's still healthy without a full wake-up cycle? Wake latency ranges from milliseconds to minute. Should GREEN model should expose a lightweight liveness/health leaf independent of the full power-state transition.\n\n4. Granularity mismatch on modern ASICs. Rob Evans pushed back on the \"all you can do is turn off the SFP laser\" framing \u2014 many modern ASICs can power off internal functional blocks selectively, not just whole interfaces. Ask: Should the GREEN YANG model support sub-component (intra-ASIC) power-group granularity, or only interface/line-card level?\n\n5. Where does the static-vs-dynamic tradeoff belong? Tony Li's response (draft author) was that publishing static values avoids LSDB churn \u2014 implying the IGP encoding deliberately trades accuracy for flooding efficiency. That's a legitimate protocol-design constraint for IS-IS, but it raises the question of whether the *authoritative, accurate* power data should live in a device/controller-queried YANG model (pulled on demand, no flooding cost) while the IGP only carries a coarse, infrequently-updated hint.\n\n**Device vs. controller \u2014 my read, worth stating as your own framing in the issue:**\n\nThere seem to be two distinct layers already in play, and conflating them is likely part of the confusion in the thread:\n\n- **Device-level**: points 1\u20134?\n- **Controller/PCE-level**: draft-barth-teas-yang-pg-aware-topo already models \"Power-Group\" as an attribute of a TE link for topology-wide path computation, that's inherently an aggregated, controller-facing view, not raw device telemetry.\n\nThe gap this thread surfaces isn't \"device or controller\" as an either/or >>>> it's that the *IS-IS-flooded* static value (coarse, by design, per Tony Li) is being used as if it were the accurate device-level number, when accurate values (thresholds, curves, health) should arguably be sourced from a device-level Green YANG model and only pulled by a controller/PCE when making a placement decision, rather than flooded via IGP at all. That's a legitimate scoping question for the GREEN WG!!\n\nQuestion for the WG: \nThe specific data affected by the static-for-flooding-cost trade-off are the per-interface power values carried in the PSP TLV (section 3.3.2 of the draft), particularly the QSFP power consumption figure, and the aggregated per-Power-Group value used by PCPPS to decide whether shifting traffic between paths saves energy (e.g., the A=100W/B=100W example). Because these values are advertised as static to avoid frequent LSDB updates, they don't reflect load-dependent, non-linear consumption \u2014 meaning the number stays fixed even as actual power draw jumps when a vendor-specific internal threshold is crossed. This is distinct from the power-sleep-capable bit (section 3.3.4), which is a simple boolean flag and isn't subject to the same churn/accuracy trade-off.\n\nshould accurate power data (thresholds, curves, health) be sourced from a **device-level** GREEN YANG model and pulled on demand by a controller/PCE making placement decisions, rather than flooded via IGP at all (where accuracy is traded off against flooding cost by design)? Input on whether this is in scope for the Green WG's device/energy YANG work, or whether it belongs elsewhere, would help the LSR/TEAS discussion move forward.",
       "createdAt": "2026-08-05T08:00:10Z",
-      "updatedAt": "2026-08-05T08:00:10Z",
+      "updatedAt": "2026-08-06T09:27:36Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "review as a group and get back into it.",
+          "createdAt": "2026-08-06T09:24:34Z",
+          "updatedAt": "2026-08-06T09:24:34Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "should the GREEN controller YANG module support power groups? >>> once the controller repo is open, this case should be shared/pushed there",
+          "createdAt": "2026-08-06T09:27:07Z",
+          "updatedAt": "2026-08-06T09:27:36Z"
+        }
+      ]
     }
   ],
   "pulls": [
