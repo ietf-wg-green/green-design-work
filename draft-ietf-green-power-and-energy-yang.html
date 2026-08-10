@@ -29,7 +29,7 @@ monitoring of devices within or connected to communication networks.
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.10.1
+    platformdirs 4.11.0
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
@@ -69,7 +69,6 @@ monitoring of devices within or connected to communication networks.
   src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: italic;
@@ -118,7 +117,6 @@ monitoring of devices within or connected to communication networks.
   src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: normal;
@@ -183,7 +181,6 @@ monitoring of devices within or connected to communication networks.
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 }
 
 @font-face {
@@ -1052,11 +1049,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">GREEN-PEM-YANG</td>
-<td class="right">July 2026</td>
+<td class="right">August 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Benoit, et al.</td>
-<td class="center">Expires 23 January 2027</td>
+<td class="center">Expires 11 February 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1069,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-ietf-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-22" class="published">22 July 2026</time>
+<time datetime="2026-08-10" class="published">10 August 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-23">23 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-02-11">11 February 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1121,7 +1118,7 @@ monitoring of devices within or connected to communication networks.<a href="#se
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 23 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1327,21 +1324,14 @@ compact self-contained view of the intent. For this reason, although an
 NMDA (Network Management Datastore Architecture) design with a single
 "state" leaf (per <span>[<a href="#RFC8342" class="cite xref">RFC8342</a>]</span>) was considered, it is not adopted in
 this document.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">Entries in /energy-control/energy-entry are expected to use the same
-energy-object-id value as the corresponding entry in
-/energy-objects/energy-entry, allowing an administrator or controller
-to correlate a configured power state intent with the Energy Object
-being monitored. The configuration tree does not itself discover
-energy-object-id values; it is populated by referencing an
-energy-object-id that the device is expected to also report
-operationally. Because the power-state-oper leafref under
-/energy-control uses require-instance false, a configuration entry <span class="bcp14">MAY</span>
-be created for an energy-object-id for which no corresponding
-operational entry currently exists (e.g., if the entry is provisioned
-before the device starts reporting it, or if the Energy Object is
-temporarily or permanently absent). In that case, power-state-oper
-simply does not resolve to any value until a matching operational entry
-appears.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-3">Entries in /energy-control/energy-objects/energy-object <span class="bcp14">SHOULD</span>
+reference the /energy-objects/energy-object/id using a leafref with
+require-instance false. This allows an administrator or controller to
+correlate a configured power state intent with the Energy Object being
+monitored. The require-instance false statement allows the
+configuration to remain after an energy-object has disappeared from the
+system, or before it has been introduced. If the referred energy object
+does not currently exist, the configuration item for it has no effect.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">The relationship list models the relationship between an Energy
 Object and its peer Energy Objects, using the
 <code>energy-relationship-type</code> identities: <code>powered-by</code> and <code>powering</code>
@@ -1380,8 +1370,8 @@ mechanism to configure such relationships on the device itself.<a href="#section
 <pre>
 module: ietf-power-and-energy
   +--ro energy-objects
-  |  +--ro energy-entry* [energy-object-id]
-  |     +--ro energy-object-id       string
+  |  +--ro energy-object* [id]
+  |     +--ro id                     string
   |     +--ro source-component-id?   -&gt; /hw:hardware/component/name
   |     +--ro power
   |     |  +--ro instantaneous-power     int32
@@ -1398,18 +1388,19 @@ module: ietf-power-and-energy
   |     |  +--ro measurement-local?        boolean
   |     |  +--ro certifications*           identityref
   |     +--ro power-state
-  |     |  +--ro power-state-oper?   identityref
+  |     |  +--ro oper?   identityref
   |     +--ro relationship* [type]
   |        +--ro type    identityref
   |        +--ro peer* [id]
   |           +--ro id         string
   |           +--ro details?   string
   +--rw energy-control
-     +--rw energy-entry* [energy-object-id]
-        +--rw energy-object-id    string
-        +--rw power-state
-           +--rw power-state-oper?    -&gt; /energy-objects/energy-entry/power-state/power-state-oper
-           +--rw power-state-admin?   identityref
+     +--rw energy-objects
+        +--rw energy-object* [id]
+           +--rw id             -&gt; /energy-objects/energy-object/id
+           +--rw power-state
+              +--rw oper?    -&gt; /energy-objects/energy-object/power-state/oper
+              +--rw admin?   identityref
 </pre><a href="#section-3-9" class="pilcrow">¶</a>
 </div>
 </section>
@@ -2046,15 +2037,15 @@ module ietf-power-and-energy {
     description
       "Energy objects container for power and energy attributes.";
 
-    list energy-entry {
-      key "energy-object-id";
+    list energy-object {
+      key "id";
       description
         "Power and energy entry for an energy object, indexed by
          energy object id. Each entry contains the complete set of
          power and energy attributes for a specific physical
          component.";
 
-      leaf energy-object-id {
+      leaf id {
         type string;
         description
           "An identifier that uniquely identifies the energy object";
@@ -2244,7 +2235,7 @@ module ietf-power-and-energy {
       container power-state {
         description
           "Container for Power state monitoring.";
-        leaf power-state-oper {
+        leaf oper {
           type identityref {
             base power-state-oper;
           }
@@ -2253,7 +2244,8 @@ module ietf-power-and-energy {
              This reflects the current state, which may differ from
              the admin-state during transitions. This leaf is the
              operational counterpart of the administratively set
-             'power-state-admin' in /energy-control/energy-entry.
+             'admin' in
+             /energy-control/energy-objects/energy-object/power-state.
              The two leaves together form the complete power state
              management interface.";
         }
@@ -2263,7 +2255,7 @@ module ietf-power-and-energy {
         key "type";
         config false;
         description
-          "Relationships for this energy entry.";
+          "Relationships for this energy object.";
 
         leaf type {
           type identityref {
@@ -2306,49 +2298,56 @@ module ietf-power-and-energy {
   container energy-control {
     description
       "Energy control configuration, mirroring monitored objects.
-       The operational tree ('container energy-objects') will
-       typically contain a significantly larger number of instances
-       than the configuration tree here. The configuration tree
-       represents the administrator's intent and is limited to
-       explicitly provisioned entries.";
-
-    list energy-entry {
-      key "energy-object-id";
+       The operational tree ('list energy-object' in
+       /energy-objects) will typically contain a significantly
+       larger number of instances than the configuration tree here.
+       The configuration tree represents the administrator's intent
+       and is limited to explicitly provisioned entries.";
+    container energy-objects {
       description
-        "Control entry for a specific energy object.";
-
-      leaf energy-object-id {
-        type string;
+        "Configuration container for the list of administratively
+         provisioned energy objects.";
+      list energy-object {
+        key "id";
         description
-          "An identifier that uniquely identifies the energy
-           object.";
-      }
-      container power-state {
-        description
-          "Container for Power state management.";
+          "Control entry for a specific energy object.";
 
-        leaf power-state-oper {
+        leaf id {
           type leafref {
-            path "/energy-objects/energy-entry/power-state/power-state-oper";
-            require-instance false;
-          }
-          description
-            "References the corresponding operational energy object
-             instance in the monitoring tree.";
+          path "/energy-objects/energy-object/id";
+          require-instance false;
         }
-
-        leaf power-state-admin {
-          type identityref {
-            base power-state-admin;
-          }
           description
-            "The administratively requested power state for the
-             Energy Object. This is the state that the management
-             system desires the energy object to be in. This leaf is
-             the administrative counterpart of the operational set
-             'power-state-oper' in /energy-objects/energy-entry.
-             The two leaves together form the complete power state
-             management interface.";
+            "An identifier that uniquely identifies the energy
+             object.";
+        }
+        container power-state {
+          description
+            "Container for Power state management.";
+
+          leaf oper {
+            type leafref {
+              path "/energy-objects/energy-object/power-state/oper";
+              require-instance false;
+            }
+            description
+              "References the corresponding operational energy object
+               instance in the monitoring tree.";
+          }
+
+          leaf admin {
+            type identityref {
+              base power-state-admin;
+            }
+            description
+              "The administratively requested power state for the
+               Energy Object. This is the state that the management
+               system desires the energy object to be in. This leaf is
+               the administrative counterpart of the operational set
+               'oper' in /energy-objects/energy-object/power-state.
+               The two leaves together form the complete power state
+               management interface.";
+          }
         }
       }
     }
@@ -2801,9 +2800,11 @@ notifications.<a href="#section-8-8" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-9.1-1">IANA is requested to register the following URI in the "IETF XML
 Registry" [RFC3688].<a href="#section-9.1-1" class="pilcrow">¶</a></p>
-<p id="section-9.1-2">IETF URI Registry<a href="#section-9.1-2" class="pilcrow">¶</a></p>
-<table class="center" id="table-1">
-          <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<span id="name-ietf-uri-registry"></span><table class="center" id="table-1">
+          <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-ietf-uri-registry" class="selfRef">IETF URI Registry</a>
+          </caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Field</th>
@@ -2825,12 +2826,14 @@ Registry" [RFC3688].<a href="#section-9.1-1" class="pilcrow">¶</a></p>
             </tr>
           </tbody>
         </table>
-<p id="section-9.1-4">IANA is also requested to register the following YANG module in the
+<p id="section-9.1-3">IANA is also requested to register the following YANG module in the
 "YANG Module Names" registry [RFC6020] [RFC9890] within the "YANG
-Parameters" registry group.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
-<p id="section-9.1-5">IETF "YANG Module Name" Registry<a href="#section-9.1-5" class="pilcrow">¶</a></p>
-<table class="center" id="table-2">
-          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+Parameters" registry group.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
+<span id="name-ietf-yang-module-name-regis"></span><table class="center" id="table-2">
+          <caption>
+<a href="#table-2" class="selfRef">Table 2</a>:
+<a href="#name-ietf-yang-module-name-regis" class="selfRef">IETF YANG Module Name Registry</a>
+          </caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Field</th>
@@ -2860,7 +2863,7 @@ Parameters" registry group.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
             </tr>
           </tbody>
         </table>
-<p id="section-9.1-7">Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.<a href="#section-9.1-7" class="pilcrow">¶</a></p>
+<p id="section-9.1-5">Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.<a href="#section-9.1-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="power-and-energy-certification-types-registry">
@@ -2879,9 +2882,11 @@ efficiency certification types, for use as identityref values in
 unqualified identity name (e.g., energy-star, c80-plus, etc). No
 numeric code points are assigned by this registry. Registry Template is
 as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
-<p id="section-9.2-3">IETF "Power and Energy Certification Types" Registry<a href="#section-9.2-3" class="pilcrow">¶</a></p>
-<table class="center" id="table-3">
-          <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
+<span id="name-ietf-power-and-energy-certi"></span><table class="center" id="table-3">
+          <caption>
+<a href="#table-3" class="selfRef">Table 3</a>:
+<a href="#name-ietf-power-and-energy-certi" class="selfRef">IETF Power and Energy Certification Types Registry</a>
+          </caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Field</th>
@@ -2908,9 +2913,11 @@ as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
             </tr>
           </tbody>
         </table>
-<p id="section-9.2-5">Initial Registries<a href="#section-9.2-5" class="pilcrow">¶</a></p>
-<table class="center" id="table-4">
-          <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
+<span id="name-initial-registries"></span><table class="center" id="table-4">
+          <caption>
+<a href="#table-4" class="selfRef">Table 4</a>:
+<a href="#name-initial-registries" class="selfRef">Initial Registries</a>
+          </caption>
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Identity Name</th>
@@ -2944,64 +2951,59 @@ as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
               <td class="text-left" rowspan="1" colspan="1">CN Energy Label: China efficiency ratings</td>
               <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
             </tr>
-            <tr>
-              <td class="text-left" rowspan="1" colspan="1">cqc</td>
-              <td class="text-left" rowspan="1" colspan="1">China Quality Certification for energy efficiency</td>
-              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
-            </tr>
           </tbody>
         </table>
-<p id="section-9.2-7">Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.<a href="#section-9.2-7" class="pilcrow">¶</a></p>
-<p id="section-9.2-8">New entries to "Power and Energy Certification Types" registry require
-Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. The Designated Expert(s) should verify that:<a href="#section-9.2-8" class="pilcrow">¶</a></p>
+<p id="section-9.2-5">Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.<a href="#section-9.2-5" class="pilcrow">¶</a></p>
+<p id="section-9.2-6">New entries to "Power and Energy Certification Types" registry require
+Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. The Designated Expert(s) should verify that:<a href="#section-9.2-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-9.2-9.1">
-            <p id="section-9.2-9.1.1">The certification is issued by a recognized and independent
+<li class="normal" id="section-9.2-7.1">
+            <p id="section-9.2-7.1.1">The certification is issued by a recognized and independent
 standards body, testing laboratory, regulatory authority, or
-equivalent organization.<a href="#section-9.2-9.1.1" class="pilcrow">¶</a></p>
+equivalent organization.<a href="#section-9.2-7.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.2-9.2">
-            <p id="section-9.2-9.2.1">The certification has a stable, publicly accessible reference.<a href="#section-9.2-9.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.2-7.2">
+            <p id="section-9.2-7.2.1">The certification has a stable, publicly accessible reference.<a href="#section-9.2-7.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.2-9.3">
-            <p id="section-9.2-9.3.1">The proposed identity name <span class="bcp14">SHOULD</span> be a short mnemonic derived
-from the official certification name.<a href="#section-9.2-9.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.2-7.3">
+            <p id="section-9.2-7.3.1">The proposed identity name <span class="bcp14">SHOULD</span> be a short mnemonic derived
+from the official certification name.<a href="#section-9.2-7.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.2-10">When a new certification type is added to the registry, a new
+<p id="section-9.2-8">When a new certification type is added to the registry, a new
 <code>identity</code> statement <span class="bcp14">MUST</span> be added to the <code>iana-power-and-energy</code> YANG
 module. The following substatements to the <code>identity</code> statement <span class="bcp14">MUST</span> be
-defined:<a href="#section-9.2-10" class="pilcrow">¶</a></p>
+defined:<a href="#section-9.2-8" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-9.2-11.1">
-            <p id="section-9.2-11.1.1"><code>base</code>: <span class="bcp14">MUST</span> contain the value <code>certification-type</code>.<a href="#section-9.2-11.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-9.2-9.1">
+            <p id="section-9.2-9.1.1"><code>base</code>: <span class="bcp14">MUST</span> contain the value <code>certification-type</code>.<a href="#section-9.2-9.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.2-11.2">
-            <p id="section-9.2-11.2.1"><code>status</code>: Include only if a registration has been deprecated (use the
-value <code>deprecated</code>) or obsoleted (use the value <code>obsolete</code>).<a href="#section-9.2-11.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.2-9.2">
+            <p id="section-9.2-9.2.1"><code>status</code>: Include only if a registration has been deprecated (use the
+value <code>deprecated</code>) or obsoleted (use the value <code>obsolete</code>).<a href="#section-9.2-9.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.2-11.3">
-            <p id="section-9.2-11.3.1"><code>description</code>: <span class="bcp14">MUST</span> include the full name of the certification
+          <li class="normal" id="section-9.2-9.3">
+            <p id="section-9.2-9.3.1"><code>description</code>: <span class="bcp14">MUST</span> include the full name of the certification
 program and a brief description of its energy efficiency scope.
-Lines <span class="bcp14">MUST NOT</span> exceed 72 characters.<a href="#section-9.2-11.3.1" class="pilcrow">¶</a></p>
+Lines <span class="bcp14">MUST NOT</span> exceed 72 characters.<a href="#section-9.2-9.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.2-11.4">
-            <p id="section-9.2-11.4.1"><code>reference</code>: <span class="bcp14">MUST</span> include a stable URI to the certification program's
-official documentation or registry.<a href="#section-9.2-11.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.2-9.4">
+            <p id="section-9.2-9.4.1"><code>reference</code>: <span class="bcp14">MUST</span> include a stable URI to the certification program's
+official documentation or registry.<a href="#section-9.2-9.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.2-12">Unassigned or reserved values <span class="bcp14">MUST NOT</span> be present in the module.<a href="#section-9.2-12" class="pilcrow">¶</a></p>
-<p id="section-9.2-13">When the "Power and Energy Certification Types" registry is updated
+<p id="section-9.2-10">Unassigned or reserved values <span class="bcp14">MUST NOT</span> be present in the module.<a href="#section-9.2-10" class="pilcrow">¶</a></p>
+<p id="section-9.2-11">When the "Power and Energy Certification Types" registry is updated
 with a new entry, a corresponding new <code>identity</code> statement <span class="bcp14">MUST</span> be
 added to the <code>iana-power-and-energy</code> YANG module, and a new revision
-statement <span class="bcp14">MUST</span> be added in front of the existing revision statements.<a href="#section-9.2-13" class="pilcrow">¶</a></p>
-<p id="section-9.2-14">IANA is requested to add the following note to the "Power and Energy
-Certification Types" registry:<a href="#section-9.2-14" class="pilcrow">¶</a></p>
-<p id="section-9.2-15">Certification types <span class="bcp14">MUST NOT</span> be directly added to the
+statement <span class="bcp14">MUST</span> be added in front of the existing revision statements.<a href="#section-9.2-11" class="pilcrow">¶</a></p>
+<p id="section-9.2-12">IANA is requested to add the following note to the "Power and Energy
+Certification Types" registry:<a href="#section-9.2-12" class="pilcrow">¶</a></p>
+<p id="section-9.2-13">Certification types <span class="bcp14">MUST NOT</span> be directly added to the
 iana-power-and-energy YANG module. They <span class="bcp14">MUST</span> instead be added to the
 "Power and Energy Certification Types" registry. When this registry is
 updated, the iana-power-and-energy YANG module <span class="bcp14">MUST</span> be updated as
-defined in RFC XXX.<a href="#section-9.2-15" class="pilcrow">¶</a></p>
+defined in RFC XXX.<a href="#section-9.2-13" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>

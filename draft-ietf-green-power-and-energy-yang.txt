@@ -5,12 +5,12 @@
 GREEN                                                          C. Benoit
 Internet-Draft                                            Everything OPS
 Intended status: Standards Track                                  C. Gen
-Expires: 23 January 2027                                          Huawei
+Expires: 11 February 2027                                         Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                            22 July 2026
+                                                          10 August 2026
 
 
                       Power and Energy YANG Module
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 January 2027.
+   This Internet-Draft will expire on 11 February 2027.
 
 Copyright Notice
 
@@ -174,20 +174,15 @@ Table of Contents
    Datastore Architecture) design with a single "state" leaf (per
    [RFC8342]) was considered, it is not adopted in this document.
 
-   Entries in /energy-control/energy-entry are expected to use the same
-   energy-object-id value as the corresponding entry in /energy-objects/
-   energy-entry, allowing an administrator or controller to correlate a
-   configured power state intent with the Energy Object being monitored.
-   The configuration tree does not itself discover energy-object-id
-   values; it is populated by referencing an energy-object-id that the
-   device is expected to also report operationally.  Because the power-
-   state-oper leafref under /energy-control uses require-instance false,
-   a configuration entry MAY be created for an energy-object-id for
-   which no corresponding operational entry currently exists (e.g., if
-   the entry is provisioned before the device starts reporting it, or if
-   the Energy Object is temporarily or permanently absent).  In that
-   case, power-state-oper simply does not resolve to any value until a
-   matching operational entry appears.
+   Entries in /energy-control/energy-objects/energy-object SHOULD
+   reference the /energy-objects/energy-object/id using a leafref with
+   require-instance false.  This allows an administrator or controller
+   to correlate a configured power state intent with the Energy Object
+   being monitored.  The require-instance false statement allows the
+   configuration to remain after an energy-object has disappeared from
+   the system, or before it has been introduced.  If the referred energy
+   object does not currently exist, the configuration item for it has no
+   effect.
 
    The relationship list models the relationship between an Energy
    Object and its peer Energy Objects, using the energy-relationship-
@@ -230,8 +225,8 @@ Table of Contents
 
    module: ietf-power-and-energy
      +--ro energy-objects
-     |  +--ro energy-entry* [energy-object-id]
-     |     +--ro energy-object-id       string
+     |  +--ro energy-object* [id]
+     |     +--ro id                     string
      |     +--ro source-component-id?   -> /hw:hardware/component/name
      |     +--ro power
      |     |  +--ro instantaneous-power     int32
@@ -248,18 +243,19 @@ Table of Contents
      |     |  +--ro measurement-local?        boolean
      |     |  +--ro certifications*           identityref
      |     +--ro power-state
-     |     |  +--ro power-state-oper?   identityref
+     |     |  +--ro oper?   identityref
      |     +--ro relationship* [type]
      |        +--ro type    identityref
      |        +--ro peer* [id]
      |           +--ro id         string
      |           +--ro details?   string
      +--rw energy-control
-        +--rw energy-entry* [energy-object-id]
-           +--rw energy-object-id    string
-           +--rw power-state
-              +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper
-              +--rw power-state-admin?   identityref
+        +--rw energy-objects
+           +--rw energy-object* [id]
+              +--rw id             -> /energy-objects/energy-object/id
+              +--rw power-state
+                 +--rw oper?    -> /energy-objects/energy-object/power-state/oper
+                 +--rw admin?   identityref
 
 4.  Relationship to the Hardware YANG Data Model
 
@@ -887,15 +883,15 @@ Table of Contents
        description
          "Energy objects container for power and energy attributes.";
 
-       list energy-entry {
-         key "energy-object-id";
+       list energy-object {
+         key "id";
          description
            "Power and energy entry for an energy object, indexed by
             energy object id. Each entry contains the complete set of
             power and energy attributes for a specific physical
             component.";
 
-         leaf energy-object-id {
+         leaf id {
            type string;
            description
              "An identifier that uniquely identifies the energy object";
@@ -1085,7 +1081,7 @@ Table of Contents
          container power-state {
            description
              "Container for Power state monitoring.";
-           leaf power-state-oper {
+           leaf oper {
              type identityref {
                base power-state-oper;
              }
@@ -1094,7 +1090,8 @@ Table of Contents
                 This reflects the current state, which may differ from
                 the admin-state during transitions. This leaf is the
                 operational counterpart of the administratively set
-                'power-state-admin' in /energy-control/energy-entry.
+                'admin' in
+                /energy-control/energy-objects/energy-object/power-state.
                 The two leaves together form the complete power state
                 management interface.";
            }
@@ -1104,7 +1101,7 @@ Table of Contents
            key "type";
            config false;
            description
-             "Relationships for this energy entry.";
+             "Relationships for this energy object.";
 
            leaf type {
              type identityref {
@@ -1147,49 +1144,56 @@ Table of Contents
      container energy-control {
        description
          "Energy control configuration, mirroring monitored objects.
-          The operational tree ('container energy-objects') will
-          typically contain a significantly larger number of instances
-          than the configuration tree here. The configuration tree
-          represents the administrator's intent and is limited to
-          explicitly provisioned entries.";
-
-       list energy-entry {
-         key "energy-object-id";
+          The operational tree ('list energy-object' in
+          /energy-objects) will typically contain a significantly
+          larger number of instances than the configuration tree here.
+          The configuration tree represents the administrator's intent
+          and is limited to explicitly provisioned entries.";
+       container energy-objects {
          description
-           "Control entry for a specific energy object.";
-
-         leaf energy-object-id {
-           type string;
+           "Configuration container for the list of administratively
+            provisioned energy objects.";
+         list energy-object {
+           key "id";
            description
-             "An identifier that uniquely identifies the energy
-              object.";
-         }
-         container power-state {
-           description
-             "Container for Power state management.";
+             "Control entry for a specific energy object.";
 
-           leaf power-state-oper {
+           leaf id {
              type leafref {
-               path "/energy-objects/energy-entry/power-state/power-state-oper";
-               require-instance false;
-             }
-             description
-               "References the corresponding operational energy object
-                instance in the monitoring tree.";
+             path "/energy-objects/energy-object/id";
+             require-instance false;
            }
-
-           leaf power-state-admin {
-             type identityref {
-               base power-state-admin;
-             }
              description
-               "The administratively requested power state for the
-                Energy Object. This is the state that the management
-                system desires the energy object to be in. This leaf is
-                the administrative counterpart of the operational set
-                'power-state-oper' in /energy-objects/energy-entry.
-                The two leaves together form the complete power state
-                management interface.";
+               "An identifier that uniquely identifies the energy
+                object.";
+           }
+           container power-state {
+             description
+               "Container for Power state management.";
+
+             leaf oper {
+               type leafref {
+                 path "/energy-objects/energy-object/power-state/oper";
+                 require-instance false;
+               }
+               description
+                 "References the corresponding operational energy object
+                  instance in the monitoring tree.";
+             }
+
+             leaf admin {
+               type identityref {
+                 base power-state-admin;
+               }
+               description
+                 "The administratively requested power state for the
+                  Energy Object. This is the state that the management
+                  system desires the energy object to be in. This leaf is
+                  the administrative counterpart of the operational set
+                  'oper' in /energy-objects/energy-object/power-state.
+                  The two leaves together form the complete power state
+                  management interface.";
+             }
            }
          }
        }
@@ -1581,8 +1585,6 @@ Table of Contents
    IANA is requested to register the following URI in the "IETF XML
    Registry" [RFC3688].
 
-   IETF URI Registry
-
     +============+===================================================+
     | Field      | Value                                             |
     +============+===================================================+
@@ -1594,13 +1596,11 @@ Table of Contents
     | XML        | N/A; the requested URI is an XML namespace.       |
     +------------+---------------------------------------------------+
 
-                                 Table 1
+                        Table 1: IETF URI Registry
 
    IANA is also requested to register the following YANG module in the
    "YANG Module Names" registry [RFC6020] [RFC9890] within the "YANG
    Parameters" registry group.
-
-   IETF "YANG Module Name" Registry
 
     +============+===================================================+
     | Field      | Value                                             |
@@ -1617,7 +1617,7 @@ Table of Contents
     | Reference  | RFC XXX                                           |
     +------------+---------------------------------------------------+
 
-                                 Table 2
+                 Table 2: IETF YANG Module Name Registry
 
    Note to IANA: RFC XXX must be replaced by the newly assigned RFC
    number.
@@ -1636,8 +1636,6 @@ Table of Contents
    numeric code points are assigned by this registry.  Registry Template
    is as follows.
 
-   IETF "Power and Energy Certification Types" Registry
-
     +========================+=======================================+
     | Field                  | Value                                 |
     +========================+=======================================+
@@ -1650,9 +1648,7 @@ Table of Contents
     | Available Values       | Unqualified identity names as strings |
     +------------------------+---------------------------------------+
 
-                                 Table 3
-
-   Initial Registries
+       Table 3: IETF Power and Energy Certification Types Registry
 
    +=================+====================================+===========+
    | Identity Name   | Description                        | Reference |
@@ -1670,11 +1666,8 @@ Table of Contents
    | cn-energy-level | CN Energy Label: China efficiency  | RFC XXX   |
    |                 | ratings                            |           |
    +-----------------+------------------------------------+-----------+
-   | cqc             | China Quality Certification for    | RFC XXX   |
-   |                 | energy efficiency                  |           |
-   +-----------------+------------------------------------+-----------+
 
-                                 Table 4
+                       Table 4: Initial Registries
 
    Note to IANA: RFC XXX must be replaced by the newly assigned RFC
    number.
