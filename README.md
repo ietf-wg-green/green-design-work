@@ -4,10 +4,10 @@
 
 This is the working area for the individual Internet-Draft, "Power and Energy YANG Module".
 
-* [Editor's Copy](https://ietf-wg-green.github.io/green-design-work/#go.draft-bcmj-green-power-and-energy-yang.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-bcmj-green-power-and-energy-yang)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-bcmj-green-power-and-energy-yang)
-* [Compare Editor's Copy to Individual Draft](https://ietf-wg-green.github.io/green-design-work/#go.draft-bcmj-green-power-and-energy-yang.diff)
+* [Editor's Copy](https://ietf-wg-green.github.io/green-design-work/draft-ietf-green-power-and-energy-yang.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-green-power-and-energy-yang)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-green-power-and-energy-yang)
+* [Compare Editor's Copy to Individual Draft](https://ietf-wg-green.github.io/green-design-work/diff/draft-ietf-green-power-and-energy-yang.html)
 
 
 ## Contributing
