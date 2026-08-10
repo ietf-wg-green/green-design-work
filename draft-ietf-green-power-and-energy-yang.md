@@ -195,21 +195,14 @@ NMDA (Network Management Datastore Architecture) design with a single
 "state" leaf (per {{?RFC8342}}) was considered, it is not adopted in
 this document.
 
-Entries in /energy-control/energy-entry are expected to use the same
-energy-object-id value as the corresponding entry in
-/energy-objects/energy-entry, allowing an administrator or controller
-to correlate a configured power state intent with the Energy Object
-being monitored. The configuration tree does not itself discover
-energy-object-id values; it is populated by referencing an
-energy-object-id that the device is expected to also report
-operationally. Because the power-state-oper leafref under
-/energy-control uses require-instance false, a configuration entry MAY
-be created for an energy-object-id for which no corresponding
-operational entry currently exists (e.g., if the entry is provisioned
-before the device starts reporting it, or if the Energy Object is
-temporarily or permanently absent). In that case, power-state-oper
-simply does not resolve to any value until a matching operational entry
-appears.
+Entries in /energy-control/energy-objects/energy-object SHOULD
+reference the /energy-objects/energy-object/id using a leafref with
+require-instance false. This allows an administrator or controller to
+correlate a configured power state intent with the Energy Object being
+monitored. The require-instance false statement allows the
+configuration to remain after an energy-object has disappeared from the
+system, or before it has been introduced. If the referred energy object
+does not currently exist, the configuration item for it has no effect.
 
 The relationship list models the relationship between an Energy
 Object and its peer Energy Objects, using the
@@ -566,19 +559,16 @@ This document requests IANA to perform the following actions.
 IANA is requested to register the following URI in the "IETF XML
 Registry" [RFC3688].
 
-IETF URI Registry
-
 | Field | Value                                                 |
 |-------|-------------------------------------------------------|
 | URI   | urn:ietf:params:xml:ns:yang:iana-power-and-energy     |
 | Registrant Contact | The IESG                                 |
 | XML   | N/A; the requested URI is an XML namespace.           |
+{: title="IETF URI Registry"}
 
 IANA is also requested to register the following YANG module in the
 "YANG Module Names" registry [RFC6020] [RFC9890] within the "YANG
 Parameters" registry group.
-
-IETF "YANG Module Name" Registry
 
 | Field               | Value                                   |
 |---------------------|-----------------------------------------|
@@ -587,6 +577,7 @@ IETF "YANG Module Name" Registry
 | Namespace | urn:ietf:params:xml:ns:yang:iana-power-and-energy |
 | Prefix    | ianaeo                                            |
 | Reference | RFC XXX                                           |
+{: title="IETF YANG Module Name Registry"}
 
 Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.
 
@@ -605,16 +596,13 @@ unqualified identity name (e.g., energy-star, c80-plus, etc). No
 numeric code points are assigned by this registry. Registry Template is
 as follows.
 
-IETF "Power and Energy Certification Types" Registry
-
 | Field                  | Value                                 |
 |------------------------|---------------------------------------|
 | Registry Name          | Power and Energy Certification Types  |
 | Reference              | RFC XXX                               |
 | Registration Procedure | Expert Review [RFC8126]               |
 | Available Values       | Unqualified identity names as strings |
-
-Initial Registries
+{: title="IETF Power and Energy Certification Types Registry"}
 
 | Identity Name |	Description	                       | Reference |
 |---------------|------------------------------------|-----------|
@@ -623,7 +611,7 @@ Initial Registries
 | epeat | Electronic Product Environmental Assessment Tool ratings | RFC XXX |
 | eu-energy-level |	EU Energy Label: European efficiency ratings   | RFC XXX |
 | cn-energy-level | CN Energy Label: China efficiency ratings      | RFC XXX |
-| cqc   |	China Quality Certification for energy efficiency	       | RFC XXX |
+{: title="Initial Registries"}
 
 Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.
 

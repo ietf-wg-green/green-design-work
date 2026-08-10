@@ -1,7 +1,7 @@
 module: ietf-power-and-energy
   +--ro energy-objects
-  |  +--ro energy-entry* [energy-object-id]
-  |     +--ro energy-object-id       string
+  |  +--ro energy-object* [id]
+  |     +--ro id                     string
   |     +--ro source-component-id?   -> /hw:hardware/component/name
   |     +--ro power
   |     |  +--ro instantaneous-power     int32
@@ -18,15 +18,16 @@ module: ietf-power-and-energy
   |     |  +--ro measurement-local?        boolean
   |     |  +--ro certifications*           identityref
   |     +--ro power-state
-  |     |  +--ro power-state-oper?   identityref
+  |     |  +--ro oper?   identityref
   |     +--ro relationship* [type]
   |        +--ro type    identityref
   |        +--ro peer* [id]
   |           +--ro id         string
   |           +--ro details?   string
   +--rw energy-control
-     +--rw energy-entry* [energy-object-id]
-        +--rw energy-object-id    string
-        +--rw power-state
-           +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper
-           +--rw power-state-admin?   identityref
+     +--rw energy-objects
+        +--rw energy-object* [id]
+           +--rw id             -> /energy-objects/energy-object/id
+           +--rw power-state
+              +--rw oper?    -> /energy-objects/energy-object/power-state/oper
+              +--rw admin?   identityref

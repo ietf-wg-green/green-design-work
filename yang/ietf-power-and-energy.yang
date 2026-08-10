@@ -562,15 +562,15 @@ module ietf-power-and-energy {
     description
       "Energy objects container for power and energy attributes.";
     
-    list energy-entry {
-      key "energy-object-id";
+    list energy-object {
+      key "id";
       description
         "Power and energy entry for an energy object, indexed by 
          energy object id. Each entry contains the complete set of 
          power and energy attributes for a specific physical 
          component.";
         
-      leaf energy-object-id {
+      leaf id {
         type string;
         description
           "An identifier that uniquely identifies the energy object";
@@ -760,7 +760,7 @@ module ietf-power-and-energy {
       container power-state {
         description
           "Container for Power state monitoring.";
-        leaf power-state-oper {
+        leaf oper {
           type identityref {
             base power-state-oper;
           }
@@ -769,7 +769,8 @@ module ietf-power-and-energy {
              This reflects the current state, which may differ from 
              the admin-state during transitions. This leaf is the 
              operational counterpart of the administratively set 
-             'power-state-admin' in /energy-control/energy-entry. 
+             'admin' in 
+             /energy-control/energy-objects/energy-object/power-state. 
              The two leaves together form the complete power state 
              management interface.";
         }
@@ -779,7 +780,7 @@ module ietf-power-and-energy {
         key "type";
         config false;
         description 
-          "Relationships for this energy entry.";
+          "Relationships for this energy object.";
                 
         leaf type {
           type identityref {
@@ -822,49 +823,56 @@ module ietf-power-and-energy {
   container energy-control {
     description
       "Energy control configuration, mirroring monitored objects. 
-       The operational tree ('container energy-objects') will 
-       typically contain a significantly larger number of instances 
-       than the configuration tree here. The configuration tree 
-       represents the administrator's intent and is limited to 
-       explicitly provisioned entries.";
-    
-    list energy-entry {
-      key "energy-object-id";
+       The operational tree ('list energy-object' in 
+       /energy-objects) will typically contain a significantly 
+       larger number of instances than the configuration tree here. 
+       The configuration tree represents the administrator's intent 
+       and is limited to explicitly provisioned entries.";
+    container energy-objects {
       description
-        "Control entry for a specific energy object.";
-      
-      leaf energy-object-id {
-        type string;
-        description 
-          "An identifier that uniquely identifies the energy 
-           object.";
-      }
-      container power-state {
+        "Configuration container for the list of administratively 
+         provisioned energy objects.";
+      list energy-object {
+        key "id";
         description
-          "Container for Power state management.";
+          "Control entry for a specific energy object.";
         
-        leaf power-state-oper {
+        leaf id {
           type leafref {
-            path "/energy-objects/energy-entry/power-state/power-state-oper";
-            require-instance false;
-          }
-          description
-            "References the corresponding operational energy object 
-             instance in the monitoring tree.";
+          path "/energy-objects/energy-object/id";
+          require-instance false;
         }
-
-        leaf power-state-admin {
-          type identityref {
-            base power-state-admin;
-          }
+          description 
+            "An identifier that uniquely identifies the energy 
+             object.";
+        }
+        container power-state {
           description
-            "The administratively requested power state for the 
-             Energy Object. This is the state that the management 
-             system desires the energy object to be in. This leaf is 
-             the administrative counterpart of the operational set 
-             'power-state-oper' in /energy-objects/energy-entry. 
-             The two leaves together form the complete power state 
-             management interface.";
+            "Container for Power state management.";
+          
+          leaf oper {
+            type leafref {
+              path "/energy-objects/energy-object/power-state/oper";
+              require-instance false;
+            }
+            description
+              "References the corresponding operational energy object 
+               instance in the monitoring tree.";
+          }
+  
+          leaf admin {
+            type identityref {
+              base power-state-admin;
+            }
+            description
+              "The administratively requested power state for the 
+               Energy Object. This is the state that the management 
+               system desires the energy object to be in. This leaf is 
+               the administrative counterpart of the operational set 
+               'oper' in /energy-objects/energy-object/power-state. 
+               The two leaves together form the complete power state 
+               management interface.";
+          }
         }
       }
     }
