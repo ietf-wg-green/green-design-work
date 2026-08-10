@@ -7,7 +7,7 @@ This is the working area for the individual Internet-Draft, "Power and Energy YA
 * [Editor's Copy](https://ietf-wg-green.github.io/green-design-work/draft-ietf-green-power-and-energy-yang.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-ietf-green-power-and-energy-yang)
 * [Individual Draft](https://datatracker.ietf.org/doc/html/draft-ietf-green-power-and-energy-yang)
-* [Compare Editor's Copy to Individual Draft](https://ietf-wg-green.github.io/green-design-work/diff/draft-ietf-green-power-and-energy-yang.html)
+* [Compare Editor's Copy to Individual Draft](https://ietf-wg-green.github.io/green-design-work/#go.draft-ietf-green-power-and-energy-yang.diff)
 
 
 ## Contributing
