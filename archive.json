@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-09T00:43:59.876349+00:00",
+  "timestamp": "2026-08-11T00:45:13.720553+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -528,7 +528,7 @@
       "id": "I_kwDOP9HHVc8AAAABJC4OSw",
       "title": "Link the object-id in the control tree and operational tree",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/61",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -537,8 +537,8 @@
       "labels": [],
       "body": "we see the two object-id, one read and one read-write?\n\n  module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int32\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro unit-multiplier         identityref\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro unit-multiplier?          identityref\n     |     |  +--ro data-source-accuracy?\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n     |     +--ro power-state\n     |     |  +--ro power-state-oper?   identityref\n     |     +--ro relationship* [type]\n     |        +--ro type    identityref\n     |        +--ro peer* [id]\n     |           +--ro id         string\n     |           +--ro details?   string\n     +--rw energy-control\n        +--rw energy-entry* [object-id]\n           +--rw object-id      string\n           +--rw power-state\n              +--rw power-state-oper?    -> /energy-objects/energy-entry/power-state/power-state-oper\n              +--rw power-state-admin?   identityref\n\n\nThe two object-id values are meant to match: the read-write one under energy-control is how an admin/controller creates a control entry for a specific Energy Object (to then set power-state-admin), while the read-only one under energy-objects is the device's own report of which Energy Objects actually exist. They correlate by sharing the same string value \u2014 the config side doesn't discover object IDs, it just needs to reference the ID of an object the device is already reporting operationally.\n\nIt seems that we must be more precise in the draft to cover this aspect. \n\nOLD:\nFinally, note that the instance is in the configuration tree, having a\nrequired-instance false leafref to operational tree instance.\n\nNEW:\nEntries in /energy-control/energy-entry are expected to use the same\nobject-id value as the corresponding entry in\n/energy-objects/energy-entry, allowing an administrator or controller\nto correlate a configured power state intent with the Energy Object\nbeing monitored. The configuration tree does not itself discover\nobject-id values; it is populated by referencing an object-id that\nthe device is expected to also report operationally.\nBecause the power-state-oper leafref under /energy-control uses\nrequire-instance false, a configuration entry MAY be created for an\nobject-id for which no corresponding operational entry currently\nexists (e.g., if the entry is provisioned before the device starts\nreporting it, or if the Energy Object is temporarily or permanently\nabsent). In that case, power-state-oper simply does not resolve to\nany value until a matching operational entry appears.",
       "createdAt": "2026-07-16T12:25:48Z",
-      "updatedAt": "2026-08-06T10:03:57Z",
-      "closedAt": null,
+      "updatedAt": "2026-08-10T07:31:32Z",
+      "closedAt": "2026-08-10T07:31:32Z",
       "comments": []
     },
     {
@@ -546,7 +546,7 @@
       "id": "I_kwDOP9HHVc8AAAABJC6MCw",
       "title": "The Energy Object should be in the terminology draft, not the framework",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/62",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -555,9 +555,17 @@
       "labels": [],
       "body": "https://datatracker.ietf.org/doc/draft-ietf-green-power-and-energy-yang/ version 3 mentions:\n\n   This document makes use of the terms defined in\n   [I-D.ietf-green-framework-01]\n\n   - Energy Object\n\nIt would be easier if this term, like the other ones, would be in the terminology section.",
       "createdAt": "2026-07-16T12:30:18Z",
-      "updatedAt": "2026-08-06T09:28:48Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-08-10T07:33:19Z",
+      "closedAt": "2026-08-10T07:33:19Z",
+      "comments": [
+        {
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "body": "YANG model node name optimizations #72 solves this issue\n",
+          "createdAt": "2026-08-10T07:33:13Z",
+          "updatedAt": "2026-08-10T07:33:13Z"
+        }
+      ]
     },
     {
       "number": 63,
@@ -2481,6 +2489,42 @@
           "body": "Amanda Baber via RT <iana-issues@iana.org>\r\n[IANA #1456118] Early review: draft-ietf-green-power-and-energy-yang-03 (IETF 126)\r\n\r\nHi,\r\nThanks to Gen for stopping by the table. The revised IANA text looks good to me.\r\nAt the table, I was wondering whether the IANA Considerations section had guidance for the designated experts, as described in RFC 8126, Section 4.5 (third paragraph). It looks like this has already been addressed by the first set of bullet points in Section 9.1.\r\nThanks,\r\nAmanda",
           "createdAt": "2026-07-22T10:27:07Z",
           "updatedAt": "2026-07-22T10:27:07Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 72,
+      "id": "PR_kwDOP9HHVc784W9L",
+      "title": "YANG model node name optimizations",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/72",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Jan,\r\n\r\nSummary:\r\n+ I suggest that we keep container energy-objects as is. Rename list energy-entry to list energy-object. Rename key energy-object-id to id. This is maximally aligned with YANG naming conventions, and we have no particular reason not to do it this way.\r\n+ I propose this text\r\n\r\nOLD:\r\nEntries in /energy-control/energy-entry ...\r\n\r\nNEW:\r\nEntries in /energy-control/energy-object SHOULD reference the\r\n/energy-objects/energy-object/id using a leafref with require-instance\r\nfalse. This allows an administrator or controller to correlate a configured\r\npower state intent with the Energy Object being monitored. The \r\nrequire-instance false statement allows the configuration to remain \r\nafter an energy-object has disappeared from the system,\r\nor before it has been introduced. If the referred energy object does\r\nnot currently exist, the configuration item for it has no effect.",
+      "createdAt": "2026-08-10T07:26:34Z",
+      "updatedAt": "2026-08-10T07:56:26Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "ea2b33965730d4ef400519b2c2b323a373cc1472",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "a332283e192015aeaab813614961342d7978e6fe",
+      "closedAt": "2026-08-10T07:56:26Z",
+      "mergedAt": "2026-08-10T07:56:26Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "532bffdc0d5a37a8bd0c9291c539f100132be8ee"
+      },
+      "comments": [
+        {
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "body": "resolves #61 ",
+          "createdAt": "2026-08-10T07:32:29Z",
+          "updatedAt": "2026-08-10T07:32:29Z"
         }
       ],
       "reviews": []
