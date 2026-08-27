@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-11T00:45:13.720553+00:00",
+  "timestamp": "2026-08-27T05:23:45.227004+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -673,9 +673,17 @@
       "labels": [],
       "body": "From IETF 126 Vienna:\nNigel Davis suggested adding an attribute so a device can explicitly state what it does/doesn't support measuring (partly in response to Carsten Rossenhoevel's concern that optional fields are good for adoption but bad for conformance/testing long-term).",
       "createdAt": "2026-08-04T13:57:46Z",
-      "updatedAt": "2026-08-04T13:57:46Z",
+      "updatedAt": "2026-08-26T12:18:30Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "See [draft-claise-green-capability-discovery](https://datatracker.ietf.org/doc/draft-claise-green-capability-discovery/)",
+          "createdAt": "2026-08-26T12:18:30Z",
+          "updatedAt": "2026-08-26T12:18:30Z"
+        }
+      ]
     },
     {
       "number": 70,
@@ -742,6 +750,22 @@
           "updatedAt": "2026-08-06T09:27:36Z"
         }
       ]
+    },
+    {
+      "number": 73,
+      "id": "I_kwDOP9HHVc8AAAABOJZDDA",
+      "title": "source-component-id as  \"mandatory true.\"",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/73",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From the text: \"The ietf-hardware YANG module [RFC8348] is required by the Power and   Energy YANG module.\"\n\nsource-component-id is a regular leaf, not the key \u2014 I believe it must be \"mandatory true.\"\n",
+      "createdAt": "2026-08-25T09:34:56Z",
+      "updatedAt": "2026-08-25T09:34:56Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
