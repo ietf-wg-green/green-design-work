@@ -353,22 +353,6 @@ module ietf-power-and-energy {
       "IANA: Power State Set Registry:
        https://www.iana.org/assignments/power-state-sets/";
   }
-  identity power-state-admin {
-    base power-state;
-    description
-      "Base identity for administratively requested power states. The 
-       administrative power state indicates the desired power state 
-       requested for the Energy Object by a management system.";
-  }
-  identity power-state-oper {
-    base power-state;
-    description
-      "Base identity for operational power states. The operational 
-       power state indicates the actual current power state of the 
-       Energy Object. A difference between the administrative state 
-       and the operational state indicates that the Energy Object is 
-       transitioning between power states.";
-  }
   identity power-state-on {
     base power-state;
     description "full power on.";
@@ -762,7 +746,7 @@ module ietf-power-and-energy {
           "Container for Power state monitoring.";
         leaf oper {
           type identityref {
-            base power-state-oper;
+            base power-state;
           }
           description
             "The actual operational power state of the Energy Object.
@@ -862,7 +846,7 @@ module ietf-power-and-energy {
   
           leaf admin {
             type identityref {
-              base power-state-admin;
+              base power-state;
             }
             description
               "The administratively requested power state for the 
