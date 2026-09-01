@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-08-30T02:00:31.345414+00:00",
+  "timestamp": "2026-09-01T02:18:28.680010+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -290,15 +290,15 @@
       "id": "I_kwDOP9HHVc8AAAABEWIl-w",
       "title": "YANG module in the draft not picked up by the yangcatalog.org",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/40",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Reason: the CODE BEGINS does not have the right convention\n\nhttps://datatracker.ietf.org/doc/rfc9907/\n\n1.1.  Changes Since RFC 8407\n\n  ...\n\n   *  Updated the guidance so that the \"file name\" after the \"<CODE\n      BEGINS>\" tag is mandatory.\n\n\n\n   The \"<CODE BEGINS>\" tag MUST be followed by a string identifying the\n   file name specified in Section 5.2 of [RFC7950].  The name string\n   form that includes the revision date SHOULD be used.  The revision\n   date MUST match the date used in the most recent revision of the\n   module.\n\n   The following example is for the \"2016-03-20\" revision of the \"ietf-\n   foo\" module:\n\n   <CODE BEGINS>\n   file \"ietf-foo@2016-03-20.yang\"\n\n       module ietf-foo {\n         namespace \"urn:ietf:params:xml:ns:yang:ietf-foo\";\n         prefix \"foo\";\n         organization \"...\";\n         contact \"...\";\n         description \"...\";\n         revision 2016-03-20 {\n           description \"Latest revision\";\n           reference \"RFC FFFF: Foo Protocol\";\n         }\n         // ... more statements\n       }\n   <CODE ENDS>",
       "createdAt": "2026-06-04T07:06:19Z",
-      "updatedAt": "2026-08-06T10:11:05Z",
-      "closedAt": null,
+      "updatedAt": "2026-08-31T12:04:59Z",
+      "closedAt": "2026-08-31T12:04:59Z",
       "comments": [
         {
           "author": "bclaise",
@@ -777,9 +777,9 @@
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "The identities under power-state mean two different things\n\nyang/ietf-power-and-energy.yang defines five identities with the same\nbase, power-state:\n\nidentity power-state { ... }\nidentity power-state-admin { base power-state; }\nidentity power-state-oper { base power-state; }\nidentity power-state-on { base power-state; }\nidentity power-state-off { base power-state; }\nidentity power-state-sleep { base power-state; }\n\nThey are siblings, but they belong to two unrelated categories:\n\npower-state-on, power-state-off, power-state-sleep\nA state a Component can be in. Concrete values, taken from the\nIEEE 1621 power state set.\n\npower-state-admin, power-state-oper\nA way of reporting a state. Not a state at all: \"desired\" versus\n\"actual\".\n\nThe first group is a set of values. The second group is a set of roles,\nand the role is already expressed by the leaf names admin and oper in\nthe power-state container. Modelling both as siblings under one base is\nthe underlying problem; the two issues below both follow from it.\n\nConsequence 1: the admin and oper leaves have no usable values\n\nBoth leaves are typed against the role identities:\n\nleaf oper {\ntype identityref {\nbase power-state-oper;\n}\n\nleaf admin {\ntype identityref {\nbase power-state-admin;\n}\n\nNothing derives from power-state-oper or from power-state-admin. The\nconcrete states derive from power-state instead. So power-state-on,\npower-state-off, and power-state-sleep are not valid values for either\nleaf, and the module cannot currently report or request any actual power\nstate.\n\nConsequence 2: base power-state accepts things that are not states\n\nAnywhere a leaf is typed identityref { base power-state; }, the role\nidentities are accepted alongside the real states. A value such as\npower-state-admin passes validation while meaning nothing, so a module\nusing this base must exclude them in prose rather than in the schema.\n\nProposed fix\n\nLet power-state carry only the value semantics, and let the leaf names\ncarry the role semantics.\n\nChange 1: remove the two role identities.\n\nOLD:\n\nidentity power-state-admin {\nbase power-state;\ndescription\n\"Base identity for administratively requested power states. ...\";\n}\nidentity power-state-oper {\nbase power-state;\ndescription\n\"Base identity for operational power states. ...\";\n}\n\nNEW:\n\n(removed)\n\nChange 2: retype the oper leaf.\n\nOLD:\n\nleaf oper {\ntype identityref {\nbase power-state-oper;\n}\n\nNEW:\n\nleaf oper {\ntype identityref {\nbase power-state;\n}\n\nChange 3: retype the admin leaf.\n\nOLD:\n\nleaf admin {\ntype identityref {\nbase power-state-admin;\n}\n\nNEW:\n\nleaf admin {\ntype identityref {\nbase power-state;\n}\n\nThe text explaining the administrative/operational distinction, and that\na difference between the two indicates a transition in progress, moves\ninto the description of each leaf, which is where that role belongs.\n\nAfter these three changes, power-state derives exactly the states a\nComponent can be in, both leaves accept them, and Consequence 2\ndisappears as well.",
+      "body": "The identities under power-state mean two different things\n\nyang/ietf-power-and-energy.yang defines five identities with the same\nbase, power-state:\n\nidentity power-state { ... }\nidentity power-state-admin { base power-state; }\nidentity power-state-oper { base power-state; }\nidentity power-state-on { base power-state; }\nidentity power-state-off { base power-state; }\nidentity power-state-sleep { base power-state; }\n\nThey are siblings, but they belong to two unrelated categories:\n\npower-state-on, power-state-off, power-state-sleep\nA state a Component can be in. Concrete values, taken from the\nIEEE 1621 power state set.\n\npower-state-admin, power-state-oper\nA way of reporting a state. Not a state at all: \"desired\" versus\n\"actual\".\n\nThe first group is a set of values. The second group is a set of roles,\nand the role is already expressed by the leaf names admin and oper in\nthe power-state container. Modelling both as siblings under one base is\nthe underlying problem; the two issues below both follow from it.\n\nConsequence 1: the admin and oper leaves have no usable values\n\nBoth leaves are typed against the role identities:\n\nleaf oper {\ntype identityref {\nbase power-state-oper;\n}\n\nleaf admin {\ntype identityref {\nbase power-state-admin;\n}\n\nNothing derives from power-state-oper or from power-state-admin. The\nconcrete states derive from power-state instead. So power-state-on,\npower-state-off, and power-state-sleep are not valid values for either\nleaf, and the module cannot currently report or request any actual power\nstate.\n\nConsequence 2: base power-state accepts things that are not states\n\nAnywhere a leaf is typed identityref { base power-state; }, the role\nidentities are accepted alongside the real states. A value such as\npower-state-admin passes validation while meaning nothing, so a module\nusing this base must exclude them in prose rather than in the schema.\n\nProposed fix\n\nLet power-state carry only the value semantics, and let the leaf names\ncarry the role semantics.\n\nChange 1: remove the two role identities.\n\nOLD:\n\nidentity power-state-admin {\nbase power-state;\ndescription\n\"Base identity for administratively requested power states. ...\";\n}\nidentity power-state-oper {\nbase power-state;\ndescription\n\"Base identity for operational power states. ...\";\n}\n\nNEW:\n\n(removed)\n\nChange 2: retype the oper leaf.\n\nOLD:\n\nleaf oper {\ntype identityref {\nbase power-state-oper;\n}\n\nNEW:\n\nleaf oper {\ntype identityref {\nbase power-state;\n}\n\nChange 3: retype the admin leaf.\n\nOLD:\n\nleaf admin {\ntype identityref {\nbase power-state-admin;\n}\n\nNEW:\n\nleaf admin {\ntype identityref {\nbase power-state;\n}\n\nThe text explaining the administrative/operational distinction, and that\na difference between the two indicates a transition in progress, moves\ninto the description of each leaf, which is where that role belongs.\n\nAfter these three changes, power-state derives exactly the states a\nComponent can be in, both leaves accept them.",
       "createdAt": "2026-08-29T20:52:37Z",
-      "updatedAt": "2026-08-29T20:52:37Z",
+      "updatedAt": "2026-08-31T09:48:59Z",
       "closedAt": null,
       "comments": []
     }
@@ -2565,6 +2565,40 @@
           "body": "resolves #61 ",
           "createdAt": "2026-08-10T07:32:29Z",
           "updatedAt": "2026-08-10T07:32:29Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 75,
+      "id": "PR_kwDOP9HHVc8AAAABBkq3iA",
+      "title": "solving power-state identity issue #74",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/75",
+      "state": "OPEN",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "resolving #74 ",
+      "createdAt": "2026-08-31T08:19:17Z",
+      "updatedAt": "2026-08-31T09:53:52Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "064daf14b068391810830bbb1da62a1a748ab39a",
+      "headRepository": "williamchern/green-design-work",
+      "headRefName": "main",
+      "headRefOid": "14bdac6d28d5399e3814745d7f0ba98d8ae4c90d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "All good from my side. \r\n@janlindblad and @marisolpalmero please review this\r\n",
+          "createdAt": "2026-08-31T09:53:51Z",
+          "updatedAt": "2026-08-31T09:53:51Z"
         }
       ],
       "reviews": []
