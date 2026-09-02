@@ -251,6 +251,11 @@ mechanism to configure such relationships on the device itself.
 
 # Relationship to the Hardware YANG Data Model
 
+To enable stable component identification across systems with the
+'uuid' YANG leaf from the ietf-hardware YANG Data Model for Hardware
+Management [RFC8348], the ietf-hardware YANG module [RFC8348] is
+required in connection with the 'source-component-id'.
+
 In the Power and Energy YANG Module defined in this specification,
 the leaf 'source-component-id' refers to a hardware component
 defined in the ietf-hardware module [RFC8348].
