@@ -202,7 +202,7 @@ require-instance false. This allows an administrator or controller to
 correlate a configured power state intent with the Energy Object being
 monitored. The require-instance false statement allows the
 configuration to remain after an energy-object has disappeared from the
-system, or before it has been introduced. If the referred energy object
+system, or before it has been introduced. If the referred Energy Object
 does not currently exist, the configuration item for it has no effect.
 
 The relationship list models the relationship between an Energy
@@ -251,18 +251,30 @@ mechanism to configure such relationships on the device itself.
 
 # Relationship to the Hardware YANG Data Model
 
-The ietf-hardware YANG module {{!RFC8348}} is required by the Power
-and Energy YANG module. In the ietf-hardware YANG model, there are
-three identifiers for hardware components, which are "name",
-"physical-index" and "uuid". Among them, "name" is the key to "List of
-components", "physical-index" matches entPhysicalIndex in the legacy
-Entity MIB {{?RFC6933}} if it exists, and UUID is the Universally
-Unified IDentifier {{?RFC9562}} of the component.
+To enable stable component identification across systems with the
+'uuid' YANG leaf from the ietf-hardware YANG Data Model for Hardware
+Management [RFC8348], the ietf-hardware YANG module [RFC8348] is
+required in connection with the 'source-component-id'.
 
 In the Power and Energy YANG Module defined in this specification,
-there is a leaf named "source-component-id" which refers to the
-component name in the ietf-hardware model. The "source-component-id"
-can in turn reuse the UUID in the ietf-hardware YANG module.
+the leaf 'source-component-id' refers to a hardware component
+defined in the ietf-hardware module [RFC8348].
+
+The ietf-hardware module provides three identifiers for hardware
+components: 'name', 'physical-index', and 'uuid'.  The 'name'
+leaf is the list key and uniquely identifies a component within
+a single device, but carries no uniqueness guarantee across
+different devices or management systems.  The 'physical-index'
+leaf optionally matches entPhysicalIndex in the Entity MIB
+[RFC6933] when the entity-mib feature is supported.  The 'uuid'
+leaf is a Universally Unique Identifier [RFC9562] that is
+globally unique and therefore suitable for stable identification
+of a component across management systems.
+
+The GREEN YANG module imports the ietf-hardware module [RFC8348]
+and uses the 'uuid' leaf as the value of 'source-component-id',
+enabling unambiguous component identification across management
+systems independent of device-local naming conventions.
 
 The mapping between energy-object entries in this YANG Module and the
 hardware-components in ietf-hardware YANG module {{!RFC8348}} is
@@ -360,6 +372,25 @@ Operators must verify the 'yang-push' bundle is enabled and validate
 push-max-operational limits accommodate all component subscriptions,
 preventing notification flooding while avoiding memory overhead on the
 device.
+
+## Hardware Component Identification
+
+The GREEN YANG module relies on the ietf-hardware module {{!RFC8348}}
+for hardware component identification.  Among the three identifiers
+that ietf-hardware provides for each component: 'name',
+'physical-index', and 'uuid', only `uuid` is globally unique.
+The 'name' leaf, while serving as the list key within a device,
+is meaningful only in the context of that specific device.  The
+'physical-index' leaf, where present, provides a mapping to the
+legacy Entity MIB {{?RFC6933}}, but its availability depends on
+whether the entity-mib feature is supported.
+
+For these reasons, the 'source-component-id' leaf in this module
+is bound to the 'uuid' leaf of the corresponding ietf-hardware
+component, as defined in {{!RFC9562}}.  This choice ensures that
+Energy Objects can be unambiguously referenced and correlated across
+devices, management systems, and administrative domains without
+relying on device-local naming conventions.
 
 ## Measurement Accuracy and Data Source Classification
 
@@ -477,7 +508,7 @@ Key differences include:
   subsystem, or system level.
 
 Both types of information may be reported simultaneously for the same
-energy object.
+Energy Object.
 
 Example: A power supply might have:
 
@@ -486,7 +517,7 @@ Example: A power supply might have:
 - Measurement Accuracy: `accuracy-measured-silver`
   (+/-10% sensor precision on real-time power readings)
 
-The certification tells operators the energy object, for example,
+The certification tells operators the Energy Object, for example,
 a PSU, is designed to be efficient; the measurement accuracy tells them
 how precisely they can monitor its actual performance.
 

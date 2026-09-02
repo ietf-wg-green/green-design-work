@@ -578,9 +578,9 @@ module ietf-power-and-energy {
           "Container for power measurement attributes.";
         
         leaf instantaneous-power {
-          type int32;
+          type int64;
           units "Watts";
-          mandatory true;
+          mandatory false;
           description
             "The power usage measurement for the energy object right 
              now. This value represents the instantaneous power 
