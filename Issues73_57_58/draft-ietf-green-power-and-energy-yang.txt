@@ -907,7 +907,7 @@ Table of Contents
              "Container for power measurement attributes.";
 
            leaf instantaneous-power {
-             type int32;
+             type int64;
              units "Watts";
              mandatory false;
              description
