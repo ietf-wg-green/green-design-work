@@ -62,8 +62,9 @@ Table of Contents
    5.  Relationship to the EMAN Work
    6.  Power and Energy YANG Module
    7.  Operational Considerations
-     7.1.  Measurement Accuracy and Data Source Classification
-     7.2.  Industry-Standard Certifications
+     7.1.  Hardware Component Identification
+     7.2.  Measurement Accuracy and Data Source Classification
+     7.3.  Industry-Standard Certifications
    8.  Security Considerations
    9.  IANA Considerations
      9.1.  YANG Module Name and URI Registry
@@ -158,7 +159,7 @@ Table of Contents
 3.  Power and Energy Data Model
 
    The Power and Energy Data Model reports the Power and Energy
-   consumption of each Energy Object as well as the units, sign,
+   consumption of each energy object as well as the units, sign,
    measurement accuracy, etc.
 
    A containment tree view of the Power and Energy Monitoring is
@@ -178,7 +179,7 @@ Table of Contents
    Entries in /energy-control/energy-objects/energy-object SHOULD
    reference the /energy-objects/energy-object/id using a leafref with
    require-instance false.  This allows an administrator or controller
-   to correlate a configured power state intent with the Energy Object
+   to correlate a configured power state intent with the energy object
    being monitored.  The require-instance false statement allows the
    configuration to remain after an energy-object has disappeared from
    the system, or before it has been introduced.  If the referred energy
@@ -260,18 +261,24 @@ Table of Contents
 
 4.  Relationship to the Hardware YANG Data Model
 
-   The ietf-hardware YANG module [RFC8348] is required by the Power and
-   Energy YANG module.  In the ietf-hardware YANG model, there are three
-   identifiers for hardware components, which are "name", "physical-
-   index" and "uuid".  Among them, "name" is the key to "List of
-   components", "physical-index" matches entPhysicalIndex in the legacy
-   Entity MIB [RFC6933] if it exists, and UUID is the Universally
-   Unified IDentifier [RFC9562] of the component.
-
    In the Power and Energy YANG Module defined in this specification,
-   there is a leaf named "source-component-id" which refers to the
-   component name in the ietf-hardware model.  The "source-component-id"
-   can in turn reuse the UUID in the ietf-hardware YANG module.
+   the leaf 'source-component-id' refers to a hardware component defined
+   in the ietf-hardware module [RFC8348].
+
+   The ietf-hardware module provides three identifiers for hardware
+   components: 'name', 'physical-index', and 'uuid'.  The 'name' leaf is
+   the list key and uniquely identifies a component within a single
+   device, but carries no uniqueness guarantee across different devices
+   or management systems.  The 'physical-index' leaf optionally matches
+   entPhysicalIndex in the Entity MIB [RFC6933] when the entity-mib
+   feature is supported.  The 'uuid' leaf is a Universally Unique
+   Identifier [RFC9562] that is globally unique and therefore suitable
+   for stable identification of a component across management systems.
+
+   The GREEN YANG module imports the ietf-hardware module [RFC8348] and
+   uses the 'uuid' leaf as the value of 'source-component-id', enabling
+   unambiguous component identification across management systems
+   independent of device-local naming conventions.
 
    The mapping between energy-object entries in this YANG Module and the
    hardware-components in ietf-hardware YANG module [RFC8348] is
@@ -1338,7 +1345,26 @@ Table of Contents
    preventing notification flooding while avoiding memory overhead on
    the device.
 
-7.1.  Measurement Accuracy and Data Source Classification
+7.1.  Hardware Component Identification
+
+   The GREEN YANG module relies on the ietf-hardware module [RFC8348]
+   for hardware component identification.  Among the three identifiers
+   that ietf-hardware provides for each component: 'name', 'physical-
+   index', and 'uuid', only uuid is globally unique.  The 'name' leaf,
+   while serving as the list key within a device, is meaningful only in
+   the context of that specific device.  The 'physical-index' leaf,
+   where present, provides a mapping to the legacy Entity MIB [RFC6933],
+   but its availability depends on whether the entity-mib feature is
+   supported.
+
+   For these reasons, the 'source-component-id' leaf in this module is
+   bound to the 'uuid' leaf of the corresponding ietf-hardware
+   component, as defined in [RFC9562].  This choice ensures that Energy
+   Objects can be unambiguously referenced and correlated across
+   devices, management systems, and administrative domains without
+   relying on device-local naming conventions.
+
+7.2.  Measurement Accuracy and Data Source Classification
 
    Power and energy metrics may originate from a wide range of sources
    and estimation methods, each with different levels of reliability.
@@ -1428,7 +1454,7 @@ Table of Contents
    allowing vendors to define manufacturer-specific accuracy classes
    while maintaining interoperability through standardized base types.
 
-7.2.  Industry-Standard Certifications
+7.3.  Industry-Standard Certifications
 
    Energy efficiency certifications issued by recognized testing
    organizations provide standardized benchmarks for the expected
@@ -1520,7 +1546,7 @@ Table of Contents
 
    *  /energy-control/energy-entry/power-state/admin: Unauthorized write
       access to this leaf allows an attacker to change the
-      administratively requested power state of an Energy Object.
+      administratively requested power state of an energy object.
       Depending on the target device or component, this could be used to
       power down critical network infrastructure (resulting in denial of
       service), force a component into a state that damages hardware, or
@@ -1547,11 +1573,11 @@ Table of Contents
 
    *  /energy-objects/energy-entry/relationship: This list exposes
       relationships (e.g., powered-by, powering, metered-by) and UUIDs
-      between Energy Objects, which can reveal the physical and logical
+      between energy objects, which can reveal the physical and logical
       power topology of a site.  Disclosure of this information could
       assist an attacker in identifying high-value targets (e.g., shared
       power infrastructure whose disruption has a broad impact) or in
-      correlating Energy Objects across administrative domains.
+      correlating energy objects across administrative domains.
 
    This document does not define any RPC operations or YANG
    notifications.
@@ -1767,6 +1793,10 @@ Table of Contents
    [RFC9000]  "QUIC - A UDP-Based Multiplexed and Secure Transport", May
               2021, <https://datatracker.ietf.org/doc/html/rfc9000>.
 
+   [RFC9562]  Davis, K., Peabody, B., and P. Leach, "Universally Unique
+              IDentifiers (UUIDs)", RFC 9562, DOI 10.17487/RFC9562, May
+              2024, <https://www.rfc-editor.org/rfc/rfc9562>.
+
 11.2.  Informative References
 
    [I-D.ietf-green-framework]
@@ -1802,10 +1832,6 @@ Table of Contents
               netmod-rfc8407bis-28, 5 June 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-netmod-
               rfc8407bis-28>.
-
-   [RFC9562]  Davis, K., Peabody, B., and P. Leach, "Universally Unique
-              IDentifiers (UUIDs)", RFC 9562, DOI 10.17487/RFC9562, May
-              2024, <https://www.rfc-editor.org/rfc/rfc9562>.
 
 Authors' Addresses
 
