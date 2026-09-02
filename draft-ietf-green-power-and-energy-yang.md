@@ -179,7 +179,7 @@ requirements, please refer to "GREEN reference model" in section 4 in
 # Power and Energy Data Model
 
 The Power and Energy Data Model reports the Power and Energy
-consumption of each energy object as well as the units, sign,
+consumption of each Energy Object as well as the units, sign,
 measurement accuracy, etc.
 
 A containment tree view of the Power and Energy Monitoring is presented.
@@ -199,10 +199,10 @@ this document.
 Entries in /energy-control/energy-objects/energy-object SHOULD
 reference the /energy-objects/energy-object/id using a leafref with
 require-instance false. This allows an administrator or controller to
-correlate a configured power state intent with the energy object being
+correlate a configured power state intent with the Energy Object being
 monitored. The require-instance false statement allows the
 configuration to remain after an energy-object has disappeared from the
-system, or before it has been introduced. If the referred energy object
+system, or before it has been introduced. If the referred Energy Object
 does not currently exist, the configuration item for it has no effect.
 
 The relationship list models the relationship between an Energy
@@ -503,7 +503,7 @@ Key differences include:
   subsystem, or system level.
 
 Both types of information may be reported simultaneously for the same
-energy object.
+Energy Object.
 
 Example: A power supply might have:
 
@@ -512,7 +512,7 @@ Example: A power supply might have:
 - Measurement Accuracy: `accuracy-measured-silver`
   (+/-10% sensor precision on real-time power readings)
 
-The certification tells operators the energy object, for example,
+The certification tells operators the Energy Object, for example,
 a PSU, is designed to be efficient; the measurement accuracy tells them
 how precisely they can monitor its actual performance.
 
@@ -541,7 +541,7 @@ protection can have a negative effect on network operations:
 
 - /energy-control/energy-entry/power-state/admin:
   Unauthorized write access to this leaf allows an attacker to change
-  the administratively requested power state of an energy object.
+  the administratively requested power state of an Energy Object.
   Depending on the target device or component, this could be used to
   power down critical network infrastructure (resulting in denial of
   service), force a component into a state that damages hardware, or
@@ -568,11 +568,11 @@ subtrees and data nodes have particular sensitivities:
 
 - /energy-objects/energy-entry/relationship: This list exposes
   relationships (e.g., powered-by, powering, metered-by) and UUIDs
-  between energy objects, which can reveal the physical and logical
+  between Energy Objects, which can reveal the physical and logical
   power topology of a site. Disclosure of this information could
   assist an attacker in identifying high-value targets (e.g., shared
   power infrastructure whose disruption has a broad impact) or in
-  correlating energy objects across administrative domains.
+  correlating Energy Objects across administrative domains.
 
 This document does not define any RPC operations or YANG
 notifications.
