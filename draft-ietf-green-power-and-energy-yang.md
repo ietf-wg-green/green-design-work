@@ -183,15 +183,16 @@ consumption of each Energy Object as well as the units, sign,
 measurement accuracy, etc.
 
 A containment tree view of the Power and Energy Monitoring is presented.
-The model differentiates the power-state-admin and power-state-oper
-YANG leaves, representing the intended and operational power states
-respectively. The two leaves together form the complete power state
-management interface. The operational tree ('container energy-objects')
-will typically contain a significantly larger number of instances than
-the configuration tree ('container energy-control'). The configuration
-tree, which is limited to explicitly provisioned entries, provides a
-compact self-contained view of the intent. For this reason, although an
-NMDA (Network Management Datastore Architecture) design with a single
+The model uses the admin and oper leaves within the power-state
+container to represent the intended (administrative) and operational
+(actual) power states respectively. The two leaves together form the
+complete power state management interface. The operational tree
+('container energy-objects') will typically contain a significantly
+larger number of instances than the configuration tree
+('container energy-control'). The configuration tree, which is limited
+to explicitly provisioned entries, provides a compact self-contained
+view of the intent. For this reason, although an NMDA
+(Network Management Datastore Architecture) design with a single
 "state" leaf (per {{?RFC8342}}) was considered, it is not adopted in
 this document.
 
@@ -512,7 +513,7 @@ be considered sensitive or vulnerable in some network environments.
 Write operations (e.g., edit-config) to this data node without proper
 protection can have a negative effect on network operations:
 
-- /energy-control/energy-entry/power-state/power-state-admin:
+- /energy-control/energy-entry/power-state/admin:
   Unauthorized write access to this leaf allows an attacker to change
   the administratively requested power state of an Energy Object.
   Depending on the target device or component, this could be used to

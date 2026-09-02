@@ -353,22 +353,6 @@ module ietf-power-and-energy {
       "IANA: Power State Set Registry:
        https://www.iana.org/assignments/power-state-sets/";
   }
-  identity power-state-admin {
-    base power-state;
-    description
-      "Base identity for administratively requested power states. The 
-       administrative power state indicates the desired power state 
-       requested for the Energy Object by a management system.";
-  }
-  identity power-state-oper {
-    base power-state;
-    description
-      "Base identity for operational power states. The operational 
-       power state indicates the actual current power state of the 
-       Energy Object. A difference between the administrative state 
-       and the operational state indicates that the Energy Object is 
-       transitioning between power states.";
-  }
   identity power-state-on {
     base power-state;
     description "full power on.";
@@ -762,17 +746,12 @@ module ietf-power-and-energy {
           "Container for Power state monitoring.";
         leaf oper {
           type identityref {
-            base power-state-oper;
+            base power-state;
           }
           description
-            "The actual operational power state of the Energy Object.
-             This reflects the current state, which may differ from 
-             the admin-state during transitions. This leaf is the 
-             operational counterpart of the administratively set 
-             'admin' in 
-             /energy-control/energy-objects/energy-object/power-state. 
-             The two leaves together form the complete power state 
-             management interface.";
+            "The current operational Power State of this Component, 
+             as reported by the device. The leaf reflects the actual 
+             observed Power State.";
         }
       }
 
@@ -850,6 +829,20 @@ module ietf-power-and-energy {
           description
             "Container for Power state management.";
           
+          leaf admin {
+            type identityref {
+              base power-state;
+            }
+            description
+              "The administratively requested Power State for this 
+               Component. This leaf represents the management system 
+               intended Power State. When the 'admin' and the 
+               respective 'oper' YANG leaf values differ, a 
+               transition toward the 'admin' power state is in 
+               progress. Absence of a configured value indicates that 
+               the Component operates at its default Power State.";
+          }
+
           leaf oper {
             type leafref {
               path "/energy-objects/energy-object/power-state/oper";
@@ -858,20 +851,6 @@ module ietf-power-and-energy {
             description
               "References the corresponding operational energy object 
                instance in the monitoring tree.";
-          }
-  
-          leaf admin {
-            type identityref {
-              base power-state-admin;
-            }
-            description
-              "The administratively requested power state for the 
-               Energy Object. This is the state that the management 
-               system desires the energy object to be in. This leaf is 
-               the administrative counterpart of the operational set 
-               'oper' in /energy-objects/energy-object/power-state. 
-               The two leaves together form the complete power state 
-               management interface.";
           }
         }
       }
