@@ -1414,10 +1414,14 @@ module: ietf-power-and-energy
       <h2 id="name-relationship-to-the-hardwar">
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-relationship-to-the-hardwar" class="section-name selfRef">Relationship to the Hardware YANG Data Model</a>
       </h2>
-<p id="section-4-1">In the Power and Energy YANG Module defined in this specification,
+<p id="section-4-1">To enable stable component identification across systems with the
+'uuid' YANG leaf from the ietf-hardware YANG Data Model for Hardware
+Management <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span>, the ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> is
+required in connection with the 'source-component-id'.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">In the Power and Energy YANG Module defined in this specification,
 the leaf 'source-component-id' refers to a hardware component
-defined in the ietf-hardware module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span>.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">The ietf-hardware module provides three identifiers for hardware
+defined in the ietf-hardware module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span>.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">The ietf-hardware module provides three identifiers for hardware
 components: 'name', 'physical-index', and 'uuid'.  The 'name'
 leaf is the list key and uniquely identifies a component within
 a single device, but carries no uniqueness guarantee across
@@ -1426,25 +1430,25 @@ leaf optionally matches entPhysicalIndex in the Entity MIB
 <span>[<a href="#RFC6933" class="cite xref">RFC6933</a>]</span> when the entity-mib feature is supported.  The 'uuid'
 leaf is a Universally Unique Identifier <span>[<a href="#RFC9562" class="cite xref">RFC9562</a>]</span> that is
 globally unique and therefore suitable for stable identification
-of a component across management systems.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">The GREEN YANG module imports the ietf-hardware module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span>
+of a component across management systems.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-4">The GREEN YANG module imports the ietf-hardware module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span>
 and uses the 'uuid' leaf as the value of 'source-component-id',
 enabling unambiguous component identification across management
-systems independent of device-local naming conventions.<a href="#section-4-3" class="pilcrow">¶</a></p>
-<p id="section-4-4">The mapping between energy-object entries in this YANG Module and the
+systems independent of device-local naming conventions.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-5">The mapping between energy-object entries in this YANG Module and the
 hardware-components in ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> is
 designed to be 1:1, architecturally aligning each energy-entry with
-exactly one physical hardware component via source-component-id.<a href="#section-4-4" class="pilcrow">¶</a></p>
-<p id="section-4-5">There are also cases where the controllers also generate their own set
+exactly one physical hardware component via source-component-id.<a href="#section-4-5" class="pilcrow">¶</a></p>
+<p id="section-4-6">There are also cases where the controllers also generate their own set
 of UUIDs for the hardware (components). In such a case, it might be
 necessary to document the mappings between the UUIDs generated on the
 hardware side and the UUIDs on the controller side. Basically, the
 devices (such as routers) generate the UUID and the controller can
-query it.<a href="#section-4-5" class="pilcrow">¶</a></p>
-<p id="section-4-6">The ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> allows discovering all the
+query it.<a href="#section-4-6" class="pilcrow">¶</a></p>
+<p id="section-4-7">The ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> allows discovering all the
 device components, including the containment tree, and the parent/child
 relationship, which is important for energy/power aggregation (see the
-contains-child relationship in RFC 8348).<a href="#section-4-6" class="pilcrow">¶</a></p>
+contains-child relationship in RFC 8348).<a href="#section-4-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="relationship-to-the-eman-work">
