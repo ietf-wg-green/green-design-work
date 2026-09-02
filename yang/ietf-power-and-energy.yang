@@ -749,14 +749,11 @@ module ietf-power-and-energy {
             base power-state;
           }
           description
-            "The actual operational power state of the Energy Object.
-             This reflects the current state, which may differ from 
-             the admin-state during transitions. This leaf is the 
-             operational counterpart of the administratively set 
-             'admin' in 
-             /energy-control/energy-objects/energy-object/power-state. 
-             The two leaves together form the complete power state 
-             management interface.";
+            "The current operational power state of this component, 
+             as reported by the device. This leaf reflects the 
+             actual measured state. 
+             When oper differs from admin, a transition toward the 
+             admin state is in progress.";
         }
       }
 
@@ -849,13 +846,13 @@ module ietf-power-and-energy {
               base power-state;
             }
             description
-              "The administratively requested power state for the 
-               Energy Object. This is the state that the management 
-               system desires the energy object to be in. This leaf is 
-               the administrative counterpart of the operational set 
-               'oper' in /energy-objects/energy-object/power-state. 
-               The two leaves together form the complete power state 
-               management interface.";
+              "The administratively requested power state for this 
+               component. This leaf represents the operator's 
+               intended target state. When admin and oper differ, 
+               a transition is in progress. 
+               Absence of a configured value indicates no 
+               administrative preference; the component operates 
+               at its default state.";
           }
         }
       }
