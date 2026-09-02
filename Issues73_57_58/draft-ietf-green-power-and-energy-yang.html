@@ -1313,7 +1313,7 @@ requirements, please refer to "GREEN reference model" in section 4 in
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-power-and-energy-data-model" class="section-name selfRef">Power and Energy Data Model</a>
       </h2>
 <p id="section-3-1">The Power and Energy Data Model reports the Power and Energy
-consumption of each energy object as well as the units, sign,
+consumption of each Energy Object as well as the units, sign,
 measurement accuracy, etc.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
@@ -1331,10 +1331,10 @@ this document.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">Entries in /energy-control/energy-objects/energy-object <span class="bcp14">SHOULD</span>
 reference the /energy-objects/energy-object/id using a leafref with
 require-instance false. This allows an administrator or controller to
-correlate a configured power state intent with the energy object being
+correlate a configured power state intent with the Energy Object being
 monitored. The require-instance false statement allows the
 configuration to remain after an energy-object has disappeared from the
-system, or before it has been introduced. If the referred energy object
+system, or before it has been introduced. If the referred Energy Object
 does not currently exist, the configuration item for it has no effect.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">The relationship list models the relationship between an Energy
 Object and its peer Energy Objects, using the
@@ -2713,7 +2713,7 @@ subsystem, or system level.<a href="#section-7.3-8.4.1" class="pilcrow">¶</a></
 </li>
         </ul>
 <p id="section-7.3-9">Both types of information may be reported simultaneously for the same
-energy object.<a href="#section-7.3-9" class="pilcrow">¶</a></p>
+Energy Object.<a href="#section-7.3-9" class="pilcrow">¶</a></p>
 <p id="section-7.3-10">Example: A power supply might have:<a href="#section-7.3-10" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-11.1">
@@ -2725,7 +2725,7 @@ energy object.<a href="#section-7.3-9" class="pilcrow">¶</a></p>
 (+/-10% sensor precision on real-time power readings)<a href="#section-7.3-11.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.3-12">The certification tells operators the energy object, for example,
+<p id="section-7.3-12">The certification tells operators the Energy Object, for example,
 a PSU, is designed to be efficient; the measurement accuracy tells them
 how precisely they can monitor its actual performance.<a href="#section-7.3-12" class="pilcrow">¶</a></p>
 </section>
@@ -2757,7 +2757,7 @@ protection can have a negative effect on network operations:<a href="#section-8-
 <li class="normal" id="section-8-5.1">
           <p id="section-8-5.1.1">/energy-control/energy-entry/power-state/admin:
 Unauthorized write access to this leaf allows an attacker to change
-the administratively requested power state of an energy object.
+the administratively requested power state of an Energy Object.
 Depending on the target device or component, this could be used to
 power down critical network infrastructure (resulting in denial of
 service), force a component into a state that damages hardware, or
@@ -2787,11 +2787,11 @@ utilization, capacity, or customer activity patterns).<a href="#section-8-7.1.1"
         <li class="normal" id="section-8-7.2">
           <p id="section-8-7.2.1">/energy-objects/energy-entry/relationship: This list exposes
 relationships (e.g., powered-by, powering, metered-by) and UUIDs
-between energy objects, which can reveal the physical and logical
+between Energy Objects, which can reveal the physical and logical
 power topology of a site. Disclosure of this information could
 assist an attacker in identifying high-value targets (e.g., shared
 power infrastructure whose disruption has a broad impact) or in
-correlating energy objects across administrative domains.<a href="#section-8-7.2.1" class="pilcrow">¶</a></p>
+correlating Energy Objects across administrative domains.<a href="#section-8-7.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-8-8">This document does not define any RPC operations or YANG
