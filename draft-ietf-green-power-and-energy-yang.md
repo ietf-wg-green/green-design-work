@@ -251,18 +251,25 @@ mechanism to configure such relationships on the device itself.
 
 # Relationship to the Hardware YANG Data Model
 
-The ietf-hardware YANG module {{!RFC8348}} is required by the Power
-and Energy YANG module. In the ietf-hardware YANG model, there are
-three identifiers for hardware components, which are "name",
-"physical-index" and "uuid". Among them, "name" is the key to "List of
-components", "physical-index" matches entPhysicalIndex in the legacy
-Entity MIB {{?RFC6933}} if it exists, and UUID is the Universally
-Unified IDentifier {{?RFC9562}} of the component.
-
 In the Power and Energy YANG Module defined in this specification,
-there is a leaf named "source-component-id" which refers to the
-component name in the ietf-hardware model. The "source-component-id"
-can in turn reuse the UUID in the ietf-hardware YANG module.
+the leaf 'source-component-id' refers to a hardware component
+defined in the ietf-hardware module [RFC8348].
+
+The ietf-hardware module provides three identifiers for hardware
+components: 'name', 'physical-index', and 'uuid'.  The 'name'
+leaf is the list key and uniquely identifies a component within
+a single device, but carries no uniqueness guarantee across
+different devices or management systems.  The 'physical-index'
+leaf optionally matches entPhysicalIndex in the Entity MIB
+[RFC6933] when the entity-mib feature is supported.  The 'uuid'
+leaf is a Universally Unique Identifier [RFC9562] that is
+globally unique and therefore suitable for stable identification
+of a component across management systems.
+
+The GREEN YANG module imports the ietf-hardware module [RFC8348]
+and uses the 'uuid' leaf as the value of 'source-component-id',
+enabling unambiguous component identification across management
+systems independent of device-local naming conventions.
 
 The mapping between energy-object entries in this YANG Module and the
 hardware-components in ietf-hardware YANG module {{!RFC8348}} is
