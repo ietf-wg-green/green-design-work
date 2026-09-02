@@ -580,7 +580,7 @@ module ietf-power-and-energy {
         leaf instantaneous-power {
           type int32;
           units "Watts";
-          mandatory true;
+          mandatory false;
           description
             "The power usage measurement for the energy object right 
              now. This value represents the instantaneous power 
