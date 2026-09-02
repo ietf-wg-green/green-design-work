@@ -179,7 +179,7 @@ requirements, please refer to "GREEN reference model" in section 4 in
 # Power and Energy Data Model
 
 The Power and Energy Data Model reports the Power and Energy
-consumption of each Energy Object as well as the units, sign,
+consumption of each energy object as well as the units, sign,
 measurement accuracy, etc.
 
 A containment tree view of the Power and Energy Monitoring is presented.
@@ -199,7 +199,7 @@ this document.
 Entries in /energy-control/energy-objects/energy-object SHOULD
 reference the /energy-objects/energy-object/id using a leafref with
 require-instance false. This allows an administrator or controller to
-correlate a configured power state intent with the Energy Object being
+correlate a configured power state intent with the energy object being
 monitored. The require-instance false statement allows the
 configuration to remain after an energy-object has disappeared from the
 system, or before it has been introduced. If the referred energy object
@@ -368,6 +368,25 @@ push-max-operational limits accommodate all component subscriptions,
 preventing notification flooding while avoiding memory overhead on the
 device.
 
+## Hardware Component Identification
+
+The GREEN YANG module relies on the ietf-hardware module {{!RFC8348}}
+for hardware component identification.  Among the three identifiers
+that ietf-hardware provides for each component: 'name',
+'physical-index', and 'uuid', only `uuid` is globally unique.
+The 'name' leaf, while serving as the list key within a device,
+is meaningful only in the context of that specific device.  The
+'physical-index' leaf, where present, provides a mapping to the
+legacy Entity MIB {{?RFC6933}}, but its availability depends on
+whether the entity-mib feature is supported.
+
+For these reasons, the 'source-component-id' leaf in this module
+is bound to the 'uuid' leaf of the corresponding ietf-hardware
+component, as defined in {{!RFC9562}}.  This choice ensures that
+Energy Objects can be unambiguously referenced and correlated across
+devices, management systems, and administrative domains without
+relying on device-local naming conventions.
+
 ## Measurement Accuracy and Data Source Classification
 
 Power and energy metrics may originate from a wide range of sources and
@@ -522,7 +541,7 @@ protection can have a negative effect on network operations:
 
 - /energy-control/energy-entry/power-state/admin:
   Unauthorized write access to this leaf allows an attacker to change
-  the administratively requested power state of an Energy Object.
+  the administratively requested power state of an energy object.
   Depending on the target device or component, this could be used to
   power down critical network infrastructure (resulting in denial of
   service), force a component into a state that damages hardware, or
@@ -549,11 +568,11 @@ subtrees and data nodes have particular sensitivities:
 
 - /energy-objects/energy-entry/relationship: This list exposes
   relationships (e.g., powered-by, powering, metered-by) and UUIDs
-  between Energy Objects, which can reveal the physical and logical
+  between energy objects, which can reveal the physical and logical
   power topology of a site. Disclosure of this information could
   assist an attacker in identifying high-value targets (e.g., shared
   power infrastructure whose disruption has a broad impact) or in
-  correlating Energy Objects across administrative domains.
+  correlating energy objects across administrative domains.
 
 This document does not define any RPC operations or YANG
 notifications.
