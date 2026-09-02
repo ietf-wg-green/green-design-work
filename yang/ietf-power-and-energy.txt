@@ -29,5 +29,5 @@ module: ietf-power-and-energy
         +--rw energy-object* [id]
            +--rw id             -> /energy-objects/energy-object/id
            +--rw power-state
-              +--rw oper?    -> /energy-objects/energy-object/power-state/oper
               +--rw admin?   identityref
+              +--rw oper?    -> /energy-objects/energy-object/power-state/oper
