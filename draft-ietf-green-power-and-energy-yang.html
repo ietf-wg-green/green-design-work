@@ -22,14 +22,14 @@ monitoring of devices within or connected to communication networks.
 <meta content="draft-ietf-green-power-and-energy-yang-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.0
-    Python 3.14.5
+    Python 3.14.7
     ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.11.0
+    platformdirs 4.11.5
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
@@ -1049,11 +1049,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">GREEN-PEM-YANG</td>
-<td class="right">August 2026</td>
+<td class="right">September 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Benoit, et al.</td>
-<td class="center">Expires 11 February 2027</td>
+<td class="center">Expires 6 March 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-ietf-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-08-10" class="published">10 August 2026</time>
+<time datetime="2026-09-02" class="published">2 September 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-02-11">11 February 2027</time></dd>
+<dd class="expires"><time datetime="2027-03-06">6 March 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1118,7 +1118,7 @@ monitoring of devices within or connected to communication networks.<a href="#se
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 11 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1313,15 +1313,16 @@ requirements, please refer to "GREEN reference model" in section 4 in
 consumption of each Energy Object as well as the units, sign,
 measurement accuracy, etc.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">A containment tree view of the Power and Energy Monitoring is presented.
-The model differentiates the power-state-admin and power-state-oper
-YANG leaves, representing the intended and operational power states
-respectively. The two leaves together form the complete power state
-management interface. The operational tree ('container energy-objects')
-will typically contain a significantly larger number of instances than
-the configuration tree ('container energy-control'). The configuration
-tree, which is limited to explicitly provisioned entries, provides a
-compact self-contained view of the intent. For this reason, although an
-NMDA (Network Management Datastore Architecture) design with a single
+The model uses the admin and oper leaves within the power-state
+container to represent the intended (administrative) and operational
+(actual) power states respectively. The two leaves together form the
+complete power state management interface. The operational tree
+('container energy-objects') will typically contain a significantly
+larger number of instances than the configuration tree
+('container energy-control'). The configuration tree, which is limited
+to explicitly provisioned entries, provides a compact self-contained
+view of the intent. For this reason, although an NMDA
+(Network Management Datastore Architecture) design with a single
 "state" leaf (per <span>[<a href="#RFC8342" class="cite xref">RFC8342</a>]</span>) was considered, it is not adopted in
 this document.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <p id="section-3-3">Entries in /energy-control/energy-objects/energy-object <span class="bcp14">SHOULD</span>
@@ -1399,8 +1400,8 @@ module: ietf-power-and-energy
         +--rw energy-object* [id]
            +--rw id             -&gt; /energy-objects/energy-object/id
            +--rw power-state
-              +--rw oper?    -&gt; /energy-objects/energy-object/power-state/oper
               +--rw admin?   identityref
+              +--rw oper?    -&gt; /energy-objects/energy-object/power-state/oper
 </pre><a href="#section-3-9" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1828,22 +1829,6 @@ module ietf-power-and-energy {
       "IANA: Power State Set Registry:
        https://www.iana.org/assignments/power-state-sets/";
   }
-  identity power-state-admin {
-    base power-state;
-    description
-      "Base identity for administratively requested power states. The
-       administrative power state indicates the desired power state
-       requested for the Energy Object by a management system.";
-  }
-  identity power-state-oper {
-    base power-state;
-    description
-      "Base identity for operational power states. The operational
-       power state indicates the actual current power state of the
-       Energy Object. A difference between the administrative state
-       and the operational state indicates that the Energy Object is
-       transitioning between power states.";
-  }
   identity power-state-on {
     base power-state;
     description "full power on.";
@@ -2237,17 +2222,12 @@ module ietf-power-and-energy {
           "Container for Power state monitoring.";
         leaf oper {
           type identityref {
-            base power-state-oper;
+            base power-state;
           }
           description
-            "The actual operational power state of the Energy Object.
-             This reflects the current state, which may differ from
-             the admin-state during transitions. This leaf is the
-             operational counterpart of the administratively set
-             'admin' in
-             /energy-control/energy-objects/energy-object/power-state.
-             The two leaves together form the complete power state
-             management interface.";
+            "The current operational Power State of this Component,
+             as reported by the device. The leaf reflects the actual
+             observed Power State.";
         }
       }
 
@@ -2325,6 +2305,20 @@ module ietf-power-and-energy {
           description
             "Container for Power state management.";
 
+          leaf admin {
+            type identityref {
+              base power-state;
+            }
+            description
+              "The administratively requested Power State for this
+               Component. This leaf represents the management system
+               intended Power State. When the 'admin' and the
+               respective 'oper' YANG leaf values differ, a
+               transition toward the 'admin' power state is in
+               progress. Absence of a configured value indicates that
+               the Component operates at its default Power State.";
+          }
+
           leaf oper {
             type leafref {
               path "/energy-objects/energy-object/power-state/oper";
@@ -2333,20 +2327,6 @@ module ietf-power-and-energy {
             description
               "References the corresponding operational energy object
                instance in the monitoring tree.";
-          }
-
-          leaf admin {
-            type identityref {
-              base power-state-admin;
-            }
-            description
-              "The administratively requested power state for the
-               Energy Object. This is the state that the management
-               system desires the energy object to be in. This leaf is
-               the administrative counterpart of the operational set
-               'oper' in /energy-objects/energy-object/power-state.
-               The two leaves together form the complete power state
-               management interface.";
           }
         }
       }
@@ -2744,7 +2724,7 @@ Write operations (e.g., edit-config) to this data node without proper
 protection can have a negative effect on network operations:<a href="#section-8-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8-5.1">
-          <p id="section-8-5.1.1">/energy-control/energy-entry/power-state/power-state-admin:
+          <p id="section-8-5.1.1">/energy-control/energy-entry/power-state/admin:
 Unauthorized write access to this leaf allows an attacker to change
 the administratively requested power state of an Energy Object.
 Depending on the target device or component, this could be used to

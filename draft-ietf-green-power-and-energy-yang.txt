@@ -5,12 +5,12 @@
 GREEN                                                          C. Benoit
 Internet-Draft                                            Everything OPS
 Intended status: Standards Track                                  C. Gen
-Expires: 11 February 2027                                         Huawei
+Expires: 6 March 2027                                             Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                          10 August 2026
+                                                        2 September 2026
 
 
                       Power and Energy YANG Module
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 11 February 2027.
+   This Internet-Draft will expire on 6 March 2027.
 
 Copyright Notice
 
@@ -162,17 +162,18 @@ Table of Contents
    measurement accuracy, etc.
 
    A containment tree view of the Power and Energy Monitoring is
-   presented.  The model differentiates the power-state-admin and power-
-   state-oper YANG leaves, representing the intended and operational
-   power states respectively.  The two leaves together form the complete
-   power state management interface.  The operational tree ('container
-   energy-objects') will typically contain a significantly larger number
-   of instances than the configuration tree ('container energy-
-   control').  The configuration tree, which is limited to explicitly
-   provisioned entries, provides a compact self-contained view of the
-   intent.  For this reason, although an NMDA (Network Management
-   Datastore Architecture) design with a single "state" leaf (per
-   [RFC8342]) was considered, it is not adopted in this document.
+   presented.  The model uses the admin and oper leaves within the
+   power-state container to represent the intended (administrative) and
+   operational (actual) power states respectively.  The two leaves
+   together form the complete power state management interface.  The
+   operational tree ('container energy-objects') will typically contain
+   a significantly larger number of instances than the configuration
+   tree ('container energy-control').  The configuration tree, which is
+   limited to explicitly provisioned entries, provides a compact self-
+   contained view of the intent.  For this reason, although an NMDA
+   (Network Management Datastore Architecture) design with a single
+   "state" leaf (per [RFC8342]) was considered, it is not adopted in
+   this document.
 
    Entries in /energy-control/energy-objects/energy-object SHOULD
    reference the /energy-objects/energy-object/id using a leafref with
@@ -254,8 +255,8 @@ Table of Contents
            +--rw energy-object* [id]
               +--rw id             -> /energy-objects/energy-object/id
               +--rw power-state
-                 +--rw oper?    -> /energy-objects/energy-object/power-state/oper
                  +--rw admin?   identityref
+                 +--rw oper?    -> /energy-objects/energy-object/power-state/oper
 
 4.  Relationship to the Hardware YANG Data Model
 
@@ -674,22 +675,6 @@ Table of Contents
          "IANA: Power State Set Registry:
           https://www.iana.org/assignments/power-state-sets/";
      }
-     identity power-state-admin {
-       base power-state;
-       description
-         "Base identity for administratively requested power states. The
-          administrative power state indicates the desired power state
-          requested for the Energy Object by a management system.";
-     }
-     identity power-state-oper {
-       base power-state;
-       description
-         "Base identity for operational power states. The operational
-          power state indicates the actual current power state of the
-          Energy Object. A difference between the administrative state
-          and the operational state indicates that the Energy Object is
-          transitioning between power states.";
-     }
      identity power-state-on {
        base power-state;
        description "full power on.";
@@ -1083,17 +1068,12 @@ Table of Contents
              "Container for Power state monitoring.";
            leaf oper {
              type identityref {
-               base power-state-oper;
+               base power-state;
              }
              description
-               "The actual operational power state of the Energy Object.
-                This reflects the current state, which may differ from
-                the admin-state during transitions. This leaf is the
-                operational counterpart of the administratively set
-                'admin' in
-                /energy-control/energy-objects/energy-object/power-state.
-                The two leaves together form the complete power state
-                management interface.";
+               "The current operational Power State of this Component,
+                as reported by the device. The leaf reflects the actual
+                observed Power State.";
            }
          }
 
@@ -1171,6 +1151,20 @@ Table of Contents
              description
                "Container for Power state management.";
 
+             leaf admin {
+               type identityref {
+                 base power-state;
+               }
+               description
+                 "The administratively requested Power State for this
+                  Component. This leaf represents the management system
+                  intended Power State. When the 'admin' and the
+                  respective 'oper' YANG leaf values differ, a
+                  transition toward the 'admin' power state is in
+                  progress. Absence of a configured value indicates that
+                  the Component operates at its default Power State.";
+             }
+
              leaf oper {
                type leafref {
                  path "/energy-objects/energy-object/power-state/oper";
@@ -1179,20 +1173,6 @@ Table of Contents
                description
                  "References the corresponding operational energy object
                   instance in the monitoring tree.";
-             }
-
-             leaf admin {
-               type identityref {
-                 base power-state-admin;
-               }
-               description
-                 "The administratively requested power state for the
-                  Energy Object. This is the state that the management
-                  system desires the energy object to be in. This leaf is
-                  the administrative counterpart of the operational set
-                  'oper' in /energy-objects/energy-object/power-state.
-                  The two leaves together form the complete power state
-                  management interface.";
              }
            }
          }
@@ -1538,14 +1518,14 @@ Table of Contents
    Write operations (e.g., edit-config) to this data node without proper
    protection can have a negative effect on network operations:
 
-   *  /energy-control/energy-entry/power-state/power-state-admin:
-      Unauthorized write access to this leaf allows an attacker to
-      change the administratively requested power state of an Energy
-      Object.  Depending on the target device or component, this could
-      be used to power down critical network infrastructure (resulting
-      in denial of service), force a component into a state that damages
-      hardware, or mask an ongoing attack by cycling power states to
-      disrupt monitoring.  Access to this data node SHOULD be limited to
+   *  /energy-control/energy-entry/power-state/admin: Unauthorized write
+      access to this leaf allows an attacker to change the
+      administratively requested power state of an Energy Object.
+      Depending on the target device or component, this could be used to
+      power down critical network infrastructure (resulting in denial of
+      service), force a component into a state that damages hardware, or
+      mask an ongoing attack by cycling power states to disrupt
+      monitoring.  Access to this data node SHOULD be limited to
       authorized administrators via NACM.
 
    Some of the readable data nodes in this YANG module may be considered
