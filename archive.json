@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-01T02:18:28.680010+00:00",
+  "timestamp": "2026-09-03T01:45:25.133542+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -479,9 +479,17 @@
       "labels": [],
       "body": "From Tony Li\n\n2) Right now, we have the instantaneous power as mandatory.  How are people supposed to comply with that?  Put an active power meter on each and every component?  Many manufacturers will refuse for cost and space reasons.  I can see nameplate power as mandatory, but not instantaneous power.",
       "createdAt": "2026-07-04T07:55:09Z",
-      "updatedAt": "2026-07-04T07:55:09Z",
+      "updatedAt": "2026-09-02T08:58:51Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Conclusion from the meeting minutes at IETF 126; let's make it optional.",
+          "createdAt": "2026-09-02T08:58:51Z",
+          "updatedAt": "2026-09-02T08:58:51Z"
+        }
+      ]
     },
     {
       "number": 58,
@@ -495,7 +503,7 @@
       "labels": [],
       "body": "       module: ietf-power-and-energy\n         +--ro energy-objects\n         |  +--ro energy-entry* [object-id]\n         |     +--ro object-id              string\n         |     +--ro source-component-id?   -> /hw:hardware/component/name\n         |     +--ro power\n         |     |  +--ro instantaneous-power     int32\n         |     |  +--ro nameplate-power?        uint32\n         |     |  +--ro unit-multiplier         identityref\n         |     |  +--ro data-source-accuracy?   identityref\n         |     |  +--ro power-factor?           power-factor\n         |     |  +--ro measurement-local?      boolean\n         |     +--ro energy\n         |     |  +--ro total-energy-consumed?    uint64\n         |     |  +--ro total-energy-delivered?   uint64\n         |     |  +--ro unit-multiplier?          identityref\n         |     |  +--ro data-source-accuracy?     identityref\n         |     |  +--ro measurement-local?        boolean\n         |     |  +--ro certifications*           identityref\n\nThinking about which default values to apply, I stumbled upon this potentially new issue\n\n           leaf total-energy-consumed {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy consumed by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is useful for tracking\n               overall energy usage over time for billing, reporting,\n               or optimization purposes.\";\n           }\n\n           leaf total-energy-delivered {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy delivered by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is relevant for energy objects\n               capable of generating power, such as those with renewable\n               energy sources or battery backup systems, or capable of providing\n               energy to other energy objects (e.g., PoE switches).\";\n           }\n           leaf unit-multiplier {\n             type identityref {\n               base unit-multiplier;\n             }\n             description\n               \"This multiplier applies to both total-energy-consumed\n                and total-energy-delivered values. It determines the scale\n                of the energy measurements, allowing representation of\n                energy values from milliwatt-hours to gigawatt-hours\n                using integer arithmetic.\";\n           }\n\nThe unit-multiplier is for BOTH total-energy-consumed and total-energy-delivered.\nWhat if the scale between the two is completely different?\n\nRegards, Benoit ",
       "createdAt": "2026-07-04T08:01:04Z",
-      "updatedAt": "2026-08-06T10:09:50Z",
+      "updatedAt": "2026-09-02T09:16:53Z",
       "closedAt": null,
       "comments": [
         {
@@ -504,6 +512,13 @@
           "body": "Email sent to the GREEN mailing list today, to close on this one.\nSubject: One or Two Energy unit-multipliers for total-energy-consumed and total-energy-delivered",
           "createdAt": "2026-08-06T10:09:50Z",
           "updatedAt": "2026-08-06T10:09:50Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Conclusion from the call on Sept 2nd\n\nOLD:\n\n   module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int32\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro unit-multiplier         identityref\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro unit-multiplier?          identityref\n     |     |  +--ro data-source-accuracy?     identityref\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n\n\nNEW:\n\n   module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int64\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro data-source-accuracy?     identityref\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n\n\nWe propose to discuss the signed versus unsigned in a different email thread.",
+          "createdAt": "2026-09-02T09:16:53Z",
+          "updatedAt": "2026-09-02T09:16:53Z"
         }
       ]
     },
@@ -597,7 +612,7 @@
       "labels": [],
       "body": "Feedback from IETF 126 GREEN meeting",
       "createdAt": "2026-07-20T15:34:54Z",
-      "updatedAt": "2026-08-06T10:01:23Z",
+      "updatedAt": "2026-09-02T09:32:37Z",
       "closedAt": null,
       "comments": [
         {
@@ -627,6 +642,13 @@
           "body": "this is a question for the extended WG: should we cover batteries?",
           "createdAt": "2026-08-06T10:01:23Z",
           "updatedAt": "2026-08-06T10:01:23Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Conclusion from the Sept 2nd call.\nLet's try to model a router, with line card, interface AND power supply with the current objects.\nAnd let's continue the discussion the mailing list",
+          "createdAt": "2026-09-02T09:32:37Z",
+          "updatedAt": "2026-09-02T09:32:37Z"
         }
       ]
     },
@@ -666,15 +688,15 @@
       "id": "I_kwDOP9HHVc8AAAABLa17vw",
       "title": "Possible new attribute for declaring device measurement capability",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/69",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "From IETF 126 Vienna:\nNigel Davis suggested adding an attribute so a device can explicitly state what it does/doesn't support measuring (partly in response to Carsten Rossenhoevel's concern that optional fields are good for adoption but bad for conformance/testing long-term).",
       "createdAt": "2026-08-04T13:57:46Z",
-      "updatedAt": "2026-08-26T12:18:30Z",
-      "closedAt": null,
+      "updatedAt": "2026-09-02T08:55:54Z",
+      "closedAt": "2026-09-02T08:55:54Z",
       "comments": [
         {
           "author": "bclaise",
@@ -682,6 +704,13 @@
           "body": "See [draft-claise-green-capability-discovery](https://datatracker.ietf.org/doc/draft-claise-green-capability-discovery/)",
           "createdAt": "2026-08-26T12:18:30Z",
           "updatedAt": "2026-08-26T12:18:30Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "100%, I agree to close this issue",
+          "createdAt": "2026-09-01T09:37:43Z",
+          "updatedAt": "2026-09-01T09:37:43Z"
         }
       ]
     },
@@ -763,9 +792,17 @@
       "labels": [],
       "body": "From the text: \"The ietf-hardware YANG module [RFC8348] is required by the Power and   Energy YANG module.\"\n\nsource-component-id is a regular leaf, not the key \u2014 I believe it must be \"mandatory true.\"\n",
       "createdAt": "2026-08-25T09:34:56Z",
-      "updatedAt": "2026-08-25T09:34:56Z",
+      "updatedAt": "2026-09-02T08:54:55Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "module: ietf-power-and-energy\n  +--ro energy-objects\n  |  +--ro energy-entry* [object-id]\n  |     +--ro object-id              string\n  |     +--ro source-component-id?   -> /hw:hardware/component/name\n\nsource-component-id is optional from the YANG tree.\nHowever, the text says: \"The ietf-hardware YANG module [[RFC8348](https://www.rfc-editor.org/rfc/rfc8348)] is required by the Power and Energy YANG module.\"\n\nConclusion: \n\"The ietf-hardware YANG module [RFC8348] is required by the Power and Energy YANG module.\" is too strong with \"required\"\n\nProposal:\nTo enable stable component identification across systems with the 'uuid' YANG leaf from the ietf-hardware YANG Data Model for Hardware Management [RFC8348], the ietf-hardware YANG module [RFC8348] is required in connection with the 'source-component-id'.\n\n+ similar comment in the Operational Considerations section.\n",
+          "createdAt": "2026-09-02T08:54:55Z",
+          "updatedAt": "2026-09-02T08:54:55Z"
+        }
+      ]
     },
     {
       "number": 74,
@@ -2574,24 +2611,26 @@
       "id": "PR_kwDOP9HHVc8AAAABBkq3iA",
       "title": "solving power-state identity issue #74",
       "url": "https://github.com/ietf-wg-green/green-design-work/pull/75",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "williamchern",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "resolving #74 ",
       "createdAt": "2026-08-31T08:19:17Z",
-      "updatedAt": "2026-08-31T09:53:52Z",
+      "updatedAt": "2026-09-02T10:04:08Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "064daf14b068391810830bbb1da62a1a748ab39a",
       "headRepository": "williamchern/green-design-work",
       "headRefName": "main",
-      "headRefOid": "14bdac6d28d5399e3814745d7f0ba98d8ae4c90d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "69a6c95c435658cff37f6c0b2d0d375ef1c77835",
+      "closedAt": "2026-09-02T10:04:07Z",
+      "mergedAt": "2026-09-02T10:04:07Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "aa95d4b3e37a6b09ea26798b50c1c73a3cc6765b"
+      },
       "comments": [
         {
           "author": "bclaise",
@@ -2599,8 +2638,41 @@
           "body": "All good from my side. \r\n@janlindblad and @marisolpalmero please review this\r\n",
           "createdAt": "2026-08-31T09:53:51Z",
           "updatedAt": "2026-08-31T09:53:51Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would change the description for \"admin\" and \"oper\" leaf to following:\r\nleaf admin {\r\n  type identityref { base power-state; }\r\n  description\r\n    \"The administratively requested power state for this component.\r\n     This leaf represents the operator's intended target state.\r\n     When admin and oper differ, a transition is in progress.\r\n     Absence of a configured value indicates no administrative\r\n     preference; the component operates at its default state.\";\r\n}\r\n\r\nleaf oper {\r\n  type identityref { base power-state; }\r\n  config false;\r\n  description\r\n    \"The current operational power state of this component,\r\n     as reported by the device.  This leaf reflects the actual\r\n     measured state.  When oper differs from admin, a transition\r\n     toward the admin state is in progress.\";\r\n}",
+          "createdAt": "2026-09-01T09:33:47Z",
+          "updatedAt": "2026-09-01T09:33:47Z"
         }
       ],
+      "reviews": []
+    },
+    {
+      "number": 76,
+      "id": "PR_kwDOP9HHVc8AAAABB6Ojpg",
+      "title": "Issues to be fixed #73 #57 #58",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/76",
+      "state": "OPEN",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "PR created with agreement to address issues #73 #57 #58",
+      "createdAt": "2026-09-02T14:10:00Z",
+      "updatedAt": "2026-09-02T14:48:05Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "aa95d4b3e37a6b09ea26798b50c1c73a3cc6765b",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "Issues73_57_58",
+      "headRefOid": "5285501be2ce9a3f60953587c60ad7803abfc9dd",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
       "reviews": []
     }
   ]
