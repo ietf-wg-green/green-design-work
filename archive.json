@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-03T01:45:25.133542+00:00",
+  "timestamp": "2026-09-06T01:34:35.730694+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -503,7 +503,7 @@
       "labels": [],
       "body": "       module: ietf-power-and-energy\n         +--ro energy-objects\n         |  +--ro energy-entry* [object-id]\n         |     +--ro object-id              string\n         |     +--ro source-component-id?   -> /hw:hardware/component/name\n         |     +--ro power\n         |     |  +--ro instantaneous-power     int32\n         |     |  +--ro nameplate-power?        uint32\n         |     |  +--ro unit-multiplier         identityref\n         |     |  +--ro data-source-accuracy?   identityref\n         |     |  +--ro power-factor?           power-factor\n         |     |  +--ro measurement-local?      boolean\n         |     +--ro energy\n         |     |  +--ro total-energy-consumed?    uint64\n         |     |  +--ro total-energy-delivered?   uint64\n         |     |  +--ro unit-multiplier?          identityref\n         |     |  +--ro data-source-accuracy?     identityref\n         |     |  +--ro measurement-local?        boolean\n         |     |  +--ro certifications*           identityref\n\nThinking about which default values to apply, I stumbled upon this potentially new issue\n\n           leaf total-energy-consumed {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy consumed by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is useful for tracking\n               overall energy usage over time for billing, reporting,\n               or optimization purposes.\";\n           }\n\n           leaf total-energy-delivered {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy delivered by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is relevant for energy objects\n               capable of generating power, such as those with renewable\n               energy sources or battery backup systems, or capable of providing\n               energy to other energy objects (e.g., PoE switches).\";\n           }\n           leaf unit-multiplier {\n             type identityref {\n               base unit-multiplier;\n             }\n             description\n               \"This multiplier applies to both total-energy-consumed\n                and total-energy-delivered values. It determines the scale\n                of the energy measurements, allowing representation of\n                energy values from milliwatt-hours to gigawatt-hours\n                using integer arithmetic.\";\n           }\n\nThe unit-multiplier is for BOTH total-energy-consumed and total-energy-delivered.\nWhat if the scale between the two is completely different?\n\nRegards, Benoit ",
       "createdAt": "2026-07-04T08:01:04Z",
-      "updatedAt": "2026-09-02T09:16:53Z",
+      "updatedAt": "2026-09-04T10:30:36Z",
       "closedAt": null,
       "comments": [
         {
@@ -519,6 +519,13 @@
           "body": "Conclusion from the call on Sept 2nd\n\nOLD:\n\n   module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int32\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro unit-multiplier         identityref\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro unit-multiplier?          identityref\n     |     |  +--ro data-source-accuracy?     identityref\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n\n\nNEW:\n\n   module: ietf-power-and-energy\n     +--ro energy-objects\n     |  +--ro energy-entry* [object-id]\n     |     +--ro object-id              string\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\n     |     +--ro power\n     |     |  +--ro instantaneous-power     int64\n     |     |  +--ro nameplate-power?        uint32\n     |     |  +--ro data-source-accuracy?   identityref\n     |     |  +--ro power-factor?           power-factor\n     |     |  +--ro measurement-local?      boolean\n     |     +--ro energy\n     |     |  +--ro total-energy-consumed?    uint64\n     |     |  +--ro total-energy-delivered?   uint64\n     |     |  +--ro data-source-accuracy?     identityref\n     |     |  +--ro measurement-local?        boolean\n     |     |  +--ro certifications*           identityref\n\n\nWe propose to discuss the signed versus unsigned in a different email thread.",
           "createdAt": "2026-09-02T09:16:53Z",
           "updatedAt": "2026-09-02T09:16:53Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "removing unit-multiplier, from energy and power leafs, as per  Rob's proposal: \nOn 07/08/2026 11:51, Rob Wilton (rwilton) wrote:\n> Hi Benoit,\n>\n> My instinct is that having just one unit-multiplier is sufficient, \n> cleaner and simpler.\n>\n> However, after thinking about this a bit more (and quizzing an LLM), \n> what granularity is really needed?  I.e., would a 1mWh resolution be \n> sufficient?  If so, might it not just be easier to just have a uint64 \n> with units defined as milliwatt-Hours.  Given that this is a unit64, \n> it would effectively be able to hold \"58% of one year of global \n> electricity generation\".  I.e., sufficient I think \ud83d\ude09.\n>\n> Similarly, we could probably avoid the unit-multiplier in the power \n> model (with a maximum granularity of 1mW), although that may also mean \n> that we would need to move from a uint32 to a uint64.\n>\n> If you end up carrying the unit-multiplier then I think that you would \n> have some more complexity when trying to aggregate values together, \n> since I suspect that you would need to normalise them first.\n>\n> Kind regards,\n> Rob\n>\n>\nimplies that YANG needs to change:\n  >>>>>   leaf instantaneous-power {\n          type int32;\n          units \"Watts\";\n          mandatory true;\n          description\n            \"The power usage measurement for the energy object right \n             now. This value represents the instantaneous power \n             consumption of the component. This value is specified \n             in SI units of watts with the magnitude of watts \n             (milliwatts, kilowatts, etc.) indicated separately as \n             unit-multiplier in this container. Positive values \n             indicate power consumption, while negative values can \n             indicate power generation (e.g., for devices with \n             battery backup or renewable energy sources).\";\n        }\n    and nameplate:    \n        leaf nameplate-power {\n          type uint32;\n          units \"Watts\";\n          description\n            \"The nameplate power rating of an energy object. This is \n             the maximum power that the energy object is designed to \n             consume or produce, as specified by the manufacturer. \n             Essential for power budget calculations and capacity \n             planning.\";\n        }\n\nare we ok with \"Watts\" being the units by default? as it is 64 counters, it should it be mWatts?",
+          "createdAt": "2026-09-04T10:30:36Z",
+          "updatedAt": "2026-09-04T10:30:36Z"
         }
       ]
     },
@@ -752,7 +759,7 @@
       "id": "I_kwDOP9HHVc8AAAABLh8KtQ",
       "title": "Power group discussion: awareness?",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/71",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -761,8 +768,8 @@
       "labels": [],
       "body": "Anything to consider in the GREEN device YANG Data model? in the controller YANG data model?\n\ncheck mailer: https://mailarchive.ietf.org/arch/browse/lsr/ >>  \"IS-IS Support for PCPPS\" (lsr WG, 22 messages, Jul 20 \u2013 Aug 5, 2026)\n\nOpen technical points to raise:\n\n**Context **: discussing draft-many-teas-power-steering (the Power Conserving Path Placement Strategy) and its IS-IS encoding in draft-many-lsr-power-group. Several participants raised questions about whether the \"Power Group\" power-value model can accurately represent real hardware behavior, and whether that's a Green WG data-model question rather than an LSR encoding question >>> Zafar Ali explicitly said \"What is the right data model? We need to ask the Green WG.\"\n\n**Open technical points to raise:**\n\n1. Non-linear/step-function power consumption isn't representable. Gen Chen's example: static per-path power values (A=100W, B=100W) don't capture that pushing more load onto path A can cross a vendor-internal threshold (e.g., 40% load) that wakes a second component and jumps consumption by +200W. A model built on single static values per power group can produce negative net energy savings in practice. Ask: does/should the Green YANG model support threshold- or curve-based power profiles per component, not just a scalar?\n\n2. Sleeping \u2260 zero power, and that's disputed even among proposers. Zafar noted sleeping power is often non-zero; Bonica countered \"in many hardware architectures, sleeping power is zero.\" Ask: should the data model require vendors to expose actual sleep-state power draw (not just a boolean sleep-capable flag) so downstream consumers aren't guessing?\n\n3. No health/liveness check for sleeping components. Gen Chen: if a Power Group (interface, line card, etc.) is asleep and later needed for fast recovery, is there a way to verify it's still healthy without a full wake-up cycle? Wake latency ranges from milliseconds to minute. Should GREEN model should expose a lightweight liveness/health leaf independent of the full power-state transition.\n\n4. Granularity mismatch on modern ASICs. Rob Evans pushed back on the \"all you can do is turn off the SFP laser\" framing \u2014 many modern ASICs can power off internal functional blocks selectively, not just whole interfaces. Ask: Should the GREEN YANG model support sub-component (intra-ASIC) power-group granularity, or only interface/line-card level?\n\n5. Where does the static-vs-dynamic tradeoff belong? Tony Li's response (draft author) was that publishing static values avoids LSDB churn \u2014 implying the IGP encoding deliberately trades accuracy for flooding efficiency. That's a legitimate protocol-design constraint for IS-IS, but it raises the question of whether the *authoritative, accurate* power data should live in a device/controller-queried YANG model (pulled on demand, no flooding cost) while the IGP only carries a coarse, infrequently-updated hint.\n\n**Device vs. controller \u2014 my read, worth stating as your own framing in the issue:**\n\nThere seem to be two distinct layers already in play, and conflating them is likely part of the confusion in the thread:\n\n- **Device-level**: points 1\u20134?\n- **Controller/PCE-level**: draft-barth-teas-yang-pg-aware-topo already models \"Power-Group\" as an attribute of a TE link for topology-wide path computation, that's inherently an aggregated, controller-facing view, not raw device telemetry.\n\nThe gap this thread surfaces isn't \"device or controller\" as an either/or >>>> it's that the *IS-IS-flooded* static value (coarse, by design, per Tony Li) is being used as if it were the accurate device-level number, when accurate values (thresholds, curves, health) should arguably be sourced from a device-level Green YANG model and only pulled by a controller/PCE when making a placement decision, rather than flooded via IGP at all. That's a legitimate scoping question for the GREEN WG!!\n\nQuestion for the WG: \nThe specific data affected by the static-for-flooding-cost trade-off are the per-interface power values carried in the PSP TLV (section 3.3.2 of the draft), particularly the QSFP power consumption figure, and the aggregated per-Power-Group value used by PCPPS to decide whether shifting traffic between paths saves energy (e.g., the A=100W/B=100W example). Because these values are advertised as static to avoid frequent LSDB updates, they don't reflect load-dependent, non-linear consumption \u2014 meaning the number stays fixed even as actual power draw jumps when a vendor-specific internal threshold is crossed. This is distinct from the power-sleep-capable bit (section 3.3.4), which is a simple boolean flag and isn't subject to the same churn/accuracy trade-off.\n\nshould accurate power data (thresholds, curves, health) be sourced from a **device-level** GREEN YANG model and pulled on demand by a controller/PCE making placement decisions, rather than flooded via IGP at all (where accuracy is traded off against flooding cost by design)? Input on whether this is in scope for the Green WG's device/energy YANG work, or whether it belongs elsewhere, would help the LSR/TEAS discussion move forward.",
       "createdAt": "2026-08-05T08:00:10Z",
-      "updatedAt": "2026-08-06T09:27:36Z",
-      "closedAt": null,
+      "updatedAt": "2026-09-04T10:09:33Z",
+      "closedAt": "2026-09-04T10:09:33Z",
       "comments": [
         {
           "author": "marisolpalmero",
@@ -777,6 +784,13 @@
           "body": "should the GREEN controller YANG module support power groups? >>> once the controller repo is open, this case should be shared/pushed there",
           "createdAt": "2026-08-06T09:27:07Z",
           "updatedAt": "2026-08-06T09:27:36Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I would close this one, much feedback has been provided to the GREEN, LSR, TEAS mailing list",
+          "createdAt": "2026-09-04T09:52:24Z",
+          "updatedAt": "2026-09-04T09:52:24Z"
         }
       ]
     },
@@ -809,16 +823,24 @@
       "id": "I_kwDOP9HHVc8AAAABOzyQYw",
       "title": "Title: power-state identity tree mixes two different semantics, leaving admin/oper with no valid values",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/74",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The identities under power-state mean two different things\n\nyang/ietf-power-and-energy.yang defines five identities with the same\nbase, power-state:\n\nidentity power-state { ... }\nidentity power-state-admin { base power-state; }\nidentity power-state-oper { base power-state; }\nidentity power-state-on { base power-state; }\nidentity power-state-off { base power-state; }\nidentity power-state-sleep { base power-state; }\n\nThey are siblings, but they belong to two unrelated categories:\n\npower-state-on, power-state-off, power-state-sleep\nA state a Component can be in. Concrete values, taken from the\nIEEE 1621 power state set.\n\npower-state-admin, power-state-oper\nA way of reporting a state. Not a state at all: \"desired\" versus\n\"actual\".\n\nThe first group is a set of values. The second group is a set of roles,\nand the role is already expressed by the leaf names admin and oper in\nthe power-state container. Modelling both as siblings under one base is\nthe underlying problem; the two issues below both follow from it.\n\nConsequence 1: the admin and oper leaves have no usable values\n\nBoth leaves are typed against the role identities:\n\nleaf oper {\ntype identityref {\nbase power-state-oper;\n}\n\nleaf admin {\ntype identityref {\nbase power-state-admin;\n}\n\nNothing derives from power-state-oper or from power-state-admin. The\nconcrete states derive from power-state instead. So power-state-on,\npower-state-off, and power-state-sleep are not valid values for either\nleaf, and the module cannot currently report or request any actual power\nstate.\n\nConsequence 2: base power-state accepts things that are not states\n\nAnywhere a leaf is typed identityref { base power-state; }, the role\nidentities are accepted alongside the real states. A value such as\npower-state-admin passes validation while meaning nothing, so a module\nusing this base must exclude them in prose rather than in the schema.\n\nProposed fix\n\nLet power-state carry only the value semantics, and let the leaf names\ncarry the role semantics.\n\nChange 1: remove the two role identities.\n\nOLD:\n\nidentity power-state-admin {\nbase power-state;\ndescription\n\"Base identity for administratively requested power states. ...\";\n}\nidentity power-state-oper {\nbase power-state;\ndescription\n\"Base identity for operational power states. ...\";\n}\n\nNEW:\n\n(removed)\n\nChange 2: retype the oper leaf.\n\nOLD:\n\nleaf oper {\ntype identityref {\nbase power-state-oper;\n}\n\nNEW:\n\nleaf oper {\ntype identityref {\nbase power-state;\n}\n\nChange 3: retype the admin leaf.\n\nOLD:\n\nleaf admin {\ntype identityref {\nbase power-state-admin;\n}\n\nNEW:\n\nleaf admin {\ntype identityref {\nbase power-state;\n}\n\nThe text explaining the administrative/operational distinction, and that\na difference between the two indicates a transition in progress, moves\ninto the description of each leaf, which is where that role belongs.\n\nAfter these three changes, power-state derives exactly the states a\nComponent can be in, both leaves accept them.",
       "createdAt": "2026-08-29T20:52:37Z",
-      "updatedAt": "2026-08-31T09:48:59Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2026-09-04T09:50:56Z",
+      "closedAt": "2026-09-04T09:50:56Z",
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "closed with #75 ",
+          "createdAt": "2026-09-04T09:50:56Z",
+          "updatedAt": "2026-09-04T09:50:56Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -2661,7 +2683,7 @@
       "labels": [],
       "body": "PR created with agreement to address issues #73 #57 #58",
       "createdAt": "2026-09-02T14:10:00Z",
-      "updatedAt": "2026-09-02T14:48:05Z",
+      "updatedAt": "2026-09-04T10:17:41Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "aa95d4b3e37a6b09ea26798b50c1c73a3cc6765b",
@@ -2672,7 +2694,22 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@marisolpalmero , I don't see the removal of unit-multiplierS, as sent on the GREEN mailing list\r\n\r\nWe discussed this issue in our GREEN design team light today.\r\n\r\nWe propose to follow Rob' suggestion.\r\n\r\nOLD:\r\n\r\n   module: ietf-power-and-energy\r\n     +--ro energy-objects\r\n     |  +--ro energy-entry* [object-id]\r\n     |     +--ro object-id              string\r\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\r\n     |     +--ro power\r\n     |     |  +--ro instantaneous-power     int32\r\n     |     |  +--ro nameplate-power?        uint32\r\n     |     |  +--ro unit-multiplier         identityref\r\n     |     |  +--ro data-source-accuracy?   identityref\r\n     |     |  +--ro power-factor?           power-factor\r\n     |     |  +--ro measurement-local?      boolean\r\n     |     +--ro energy\r\n     |     |  +--ro total-energy-consumed?    uint64\r\n     |     |  +--ro total-energy-delivered?   uint64\r\n     |     |  +--ro unit-multiplier?          identityref\r\n     |     |  +--ro data-source-accuracy?     identityref\r\n     |     |  +--ro measurement-local?        boolean\r\n     |     |  +--ro certifications*           identityref\r\n\r\n\r\nNEW:\r\n\r\n   module: ietf-power-and-energy\r\n     +--ro energy-objects\r\n     |  +--ro energy-entry* [object-id]\r\n     |     +--ro object-id              string\r\n     |     +--ro source-component-id?   -> /hw:hardware/component/name\r\n     |     +--ro power\r\n     |     |  +--ro instantaneous-power     int64\r\n     |     |  +--ro nameplate-power?        uint32\r\n     |     |  +--ro data-source-accuracy?   identityref\r\n     |     |  +--ro power-factor?           power-factor\r\n     |     |  +--ro measurement-local?      boolean\r\n     |     +--ro energy\r\n     |     |  +--ro total-energy-consumed?    uint64\r\n     |     |  +--ro total-energy-delivered?   uint64\r\n     |     |  +--ro data-source-accuracy?     identityref\r\n     |     |  +--ro measurement-local?        boolean\r\n     |     |  +--ro certifications*           identityref\r\n\r\n\r\nWe propose to discuss the signed versus unsigned in a different email thread.",
+          "createdAt": "2026-09-04T10:05:11Z",
+          "updatedAt": "2026-09-04T10:05:11Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> @marisolpalmero , I don't see the removal of unit-multiplierS, as sent on the GREEN mailing list\r\n> \r\n> We discussed this issue in our GREEN design team light today.\r\n> \r\n> We propose to follow Rob' suggestion.\r\n> \r\n> OLD:\r\n> \r\n> module: ietf-power-and-energy +--ro energy-objects | +--ro energy-entry* [object-id] | +--ro object-id string | +--ro source-component-id? -> /hw:hardware/component/name | +--ro power | | +--ro instantaneous-power int32 | | +--ro nameplate-power? uint32 | | +--ro unit-multiplier identityref | | +--ro data-source-accuracy? identityref | | +--ro power-factor? power-factor | | +--ro measurement-local? boolean | +--ro energy | | +--ro total-energy-consumed? uint64 | | +--ro total-energy-delivered? uint64 | | +--ro unit-multiplier? identityref | | +--ro data-source-accuracy? identityref | | +--ro measurement-local? boolean | | +--ro certifications* identityref\r\n> \r\n> NEW:\r\n> \r\n> module: ietf-power-and-energy +--ro energy-objects | +--ro energy-entry* [object-id] | +--ro object-id string | +--ro source-component-id? -> /hw:hardware/component/name | +--ro power | | +--ro instantaneous-power int64 | | +--ro nameplate-power? uint32 | | +--ro data-source-accuracy? identityref | | +--ro power-factor? power-factor | | +--ro measurement-local? boolean | +--ro energy | | +--ro total-energy-consumed? uint64 | | +--ro total-energy-delivered? uint64 | | +--ro data-source-accuracy? identityref | | +--ro measurement-local? boolean | | +--ro certifications* identityref\r\n> \r\n> We propose to discuss the signed versus unsigned in a different email thread.\r\n\r\nthis is the suggestion from Rob Wilton:\r\nOn 07/08/2026 11:51, Rob Wilton (rwilton) wrote:\r\n> Hi Benoit,\r\n>\r\n> My instinct is that having just one unit-multiplier is sufficient, \r\n> cleaner and simpler.\r\n>\r\n> However, after thinking about this a bit more (and quizzing an LLM), \r\n> what granularity is really needed?  I.e., would a 1mWh resolution be \r\n> sufficient?  If so, might it not just be easier to just have a uint64 \r\n> with units defined as milliwatt-Hours.  Given that this is a unit64, \r\n> it would effectively be able to hold \"58% of one year of global \r\n> electricity generation\".  I.e., sufficient I think \ud83d\ude09.\r\n>\r\n> Similarly, we could probably avoid the unit-multiplier in the power \r\n> model (with a maximum granularity of 1mW), although that may also mean \r\n> that we would need to move from a uint32 to a uint64.\r\n>\r\n> If you end up carrying the unit-multiplier then I think that you would \r\n> have some more complexity when trying to aggregate values together, \r\n> since I suspect that you would need to normalise them first.\r\n>\r\n> Kind regards,\r\n> Rob\r\n>\r\n>\r\n",
+          "createdAt": "2026-09-04T10:17:41Z",
+          "updatedAt": "2026-09-04T10:17:41Z"
+        }
+      ],
       "reviews": []
     }
   ]
