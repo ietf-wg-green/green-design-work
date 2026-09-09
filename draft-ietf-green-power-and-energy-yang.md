@@ -338,18 +338,6 @@ described below.
 
 # Operational Considerations
 
-In the YANG data model, the unit-multiplier leaf is defined with
-different constraints in the power and energy containers. In the power
-container, the leaf is mandatory true. This ensures that every power
-measurement (instantaneous or nameplate) is always accompanied by an
-explicit scale, eliminating any ambiguity about the unit. In the energy
-container, the leaf is optional and has a default value of
-"multiplier-units" (which corresponds to 10^0 = 1, i.e., Watt‑hours).
-If a device does not provide this leaf, the client MUST assume that all
-energy values (total-energy-consumed and total-energy-delivered) are
-expressed in Watt‑hours. This default eliminates the ambiguity that
-would otherwise exist when the leaf is absent.
-
 Heterogeneous sensor capabilities across components complicate power
 and energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
@@ -430,14 +418,12 @@ identities:
 - Ones: All non-zero digits are significant/valid.
 
 Percentage-based accuracy fails for small values. For example, +/-5% of
-0.1W is only 0.005W, which may be smaller than sensor noise. Industry
+100 mW is only 5 mW, which may be smaller than sensor noise. Industry
 standards (IEC 62053, IEC 61850-7-4) address this by specifying:
 Accuracy = MAX(percentage_error, absolute_threshold)
 
-The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) refer to
-the unit-multiplier scale. For `unit-multiplier: milli`, `-10` means
-The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) refer to
-the milliwatts scale. `-10` means +/-10 milliwatts.
+The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) refer
+to milliwatts. `-10` means +/-10 milliwatts.
 
 Example - A sensor with `accuracy-measured-gold-10` reports:
 
