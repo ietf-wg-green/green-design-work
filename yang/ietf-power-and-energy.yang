@@ -590,7 +590,13 @@ module ietf-power-and-energy {
              unit-multiplier in this container. Positive values 
              indicate power consumption, while negative values can 
              indicate power generation (e.g., for devices with 
-             battery backup or renewable energy sources).";
+"The power usage measurement for the energy object right 
+            now. This value represents the instantaneous power 
+            consumption of the component. This value is 
+            specified in milliwatts (mW). Positive values 
+            indicate power consumption, while negative values can 
+            indicate power generation (e.g., for devices with 
+            battery backup or renewable energy sources).";
         }
         
         leaf nameplate-power {
