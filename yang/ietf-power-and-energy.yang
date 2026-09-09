@@ -578,9 +578,9 @@ module ietf-power-and-energy {
           "Container for power measurement attributes.";
         
         leaf instantaneous-power {
-          type int32;
+          type int64;
           units "Watts";
-          mandatory true;
+          mandatory false;
           description
             "The power usage measurement for the energy object right 
              now. This value represents the instantaneous power 
@@ -590,7 +590,13 @@ module ietf-power-and-energy {
              unit-multiplier in this container. Positive values 
              indicate power consumption, while negative values can 
              indicate power generation (e.g., for devices with 
-             battery backup or renewable energy sources).";
+"The power usage measurement for the energy object right 
+            now. This value represents the instantaneous power 
+            consumption of the component. This value is 
+            specified in milliwatts (mW). Positive values 
+            indicate power consumption, while negative values can 
+            indicate power generation (e.g., for devices with 
+            battery backup or renewable energy sources).";
         }
         
         leaf nameplate-power {
@@ -615,7 +621,8 @@ module ietf-power-and-energy {
              nameplate-power values, allowing representation of power 
              values from milliwatts to gigawatts using integer 
              arithmetic.";
-        }
+
+}
         
         leaf data-source-accuracy {
           type identityref {
@@ -670,7 +677,11 @@ module ietf-power-and-energy {
              (milliwatt-hours, kilowatt-hours, etc.) indicated 
              separately as unit-multiplier in this container. This 
              value is useful for tracking overall energy usage over 
-             time for billing, reporting, or optimization purposes.";
+"The total cumulative energy consumed by the energy 
+            object since the last reset. This value is specified as 
+            milliwatt-hours (mWh). This value is useful for 
+            tracking overall energy usage over time for billing, 
+            reporting, or optimization purposes.";
         }
         
         leaf total-energy-delivered {
@@ -686,7 +697,14 @@ module ietf-power-and-energy {
              generating power, such as those with renewable energy 
              sources or battery backup systems, or capable of 
              providing energy to other energy objects 
-             (e.g., PoE switches).";
+"The total cumulative energy delivered by the energy 
+            object since the last reset. This value is specified as 
+            milliwatt-hours (mWh). 
+            This value is relevant for energy objects capable of 
+            generating power, such as those with renewable energy 
+            sources or battery backup systems, or capable of 
+            providing energy to other energy objects 
+            (e.g., PoE switches).";
         }
         leaf unit-multiplier {
           type identityref {
