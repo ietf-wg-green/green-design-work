@@ -436,7 +436,8 @@ Accuracy = MAX(percentage_error, absolute_threshold)
 
 The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) refer to
 the unit-multiplier scale. For `unit-multiplier: milli`, `-10` means
-+/-10 milliwatts.
+The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) refer to
+the milliwatts scale. `-10` means +/-10 milliwatts.
 
 Example - A sensor with `accuracy-measured-gold-10` reports:
 
