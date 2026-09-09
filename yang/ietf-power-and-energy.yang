@@ -670,7 +670,11 @@ module ietf-power-and-energy {
              (milliwatt-hours, kilowatt-hours, etc.) indicated 
              separately as unit-multiplier in this container. This 
              value is useful for tracking overall energy usage over 
-             time for billing, reporting, or optimization purposes.";
+"The total cumulative energy consumed by the energy 
+            object since the last reset. This value is specified as 
+            milliwatt-hours (mWh). This value is useful for 
+            tracking overall energy usage over time for billing, 
+            reporting, or optimization purposes.";
         }
         
         leaf total-energy-delivered {
