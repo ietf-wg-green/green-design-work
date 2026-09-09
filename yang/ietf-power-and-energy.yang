@@ -691,7 +691,14 @@ module ietf-power-and-energy {
              generating power, such as those with renewable energy 
              sources or battery backup systems, or capable of 
              providing energy to other energy objects 
-             (e.g., PoE switches).";
+"The total cumulative energy delivered by the energy 
+            object since the last reset. This value is specified as 
+            milliwatt-hours (mWh). 
+            This value is relevant for energy objects capable of 
+            generating power, such as those with renewable energy 
+            sources or battery backup systems, or capable of 
+            providing energy to other energy objects 
+            (e.g., PoE switches).";
         }
         leaf unit-multiplier {
           type identityref {
