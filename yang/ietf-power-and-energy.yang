@@ -121,18 +121,17 @@ module ietf-power-and-energy {
        +/-5% or +/-10 absolute units, whichever is larger.
 
        For example, a power sensor reading might report a value
-       of 16250, with unit multiplier of milli (10^-3), under
-       accuracy-measured-gold-10. This indicates that the actual
-       power value is between 16.2375 and 16.2625 Watts, since
-       5% of 16.250 Watts is 0.8125 Watts, which is greater than
-       the absolute threshold of 10 milliwatts (0.010 W).
+       of 16250 milliwatts, under accuracy-measured-gold-10. This 
+       indicates that the actual power value is between 15437.5 and 
+       17062.5 milliwatts, since 5% of 16250 milliwatts is 812.5 
+       milliwatts, which is greater than the absolute threshold of 
+       10 milliwatts.
 
        At another time, the same sensor might report a value
-       of 150, with unit multiplier of milli (10^-3), under
-       accuracy-measured-gold-10. This indicates that the actual
-       power value is between 0.140 and 0.160 Watts, since 5% of 
-       0.150 Watts is only 0.0075 Watts, which is less than the
-       absolute threshold of 10 milliwatts (0.010 W).";
+       of 150 milliwatts, under accuracy-measured-gold-10. This 
+       indicates that the actual power value is between 140 and 160 
+       milliwatts, since 5% of 150 milliwatts is only 7.5 millwatts, 
+       which is less than the absolute threshold of 10 milliwatts.";
   }
   identity accuracy-unknown {
     base data-source-accuracy;
@@ -374,133 +373,6 @@ module ietf-power-and-energy {
       "IANA: Power State Set Registry (ieee1621-power-state-set):
        https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
   }
-  identity unit-multiplier {
-    description 
-      "Base identity for unit multipliers as defined in IEC 61850-7-3
-       Annex A. These represent exponents of 10 for scaling units 
-       associated with the integer units used to measure the power or 
-       energy.
-           yocto(-24),   -- 10^-24
-           zepto(-21),   -- 10^-21
-           atto(-18),    -- 10^-18
-           femto(-15),   -- 10^-15
-           pico(-12),    -- 10^-12
-           nano(-9),     -- 10^-9
-           micro(-6),    -- 10^-6
-           milli(-3),    -- 10^-3
-           units(0),     -- 10^0
-           kilo(3),      -- 10^3
-           mega(6),      -- 10^6
-           giga(9),      -- 10^9
-           tera(12),     -- 10^12
-           peta(15),     -- 10^15
-           exa(18),      -- 10^18
-           zetta(21),    -- 10^21
-           yotta(24)     -- 10^24
-        ";
-  }
-  identity multiplier-yocto {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^-24 associated with the
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-zepto {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^-21 associated with the 
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-atto {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^-18 associated with the 
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-femto {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^-15 associated with the 
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-pico {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^-12 associated with the 
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-nano {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^-9 associated with the 
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-micro {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^-6 (0.000001) associated with 
-       the integer units used to measure the power or energy.";
-  }
-  identity multiplier-milli {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^-3 (0.001) associated with the 
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-units {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^0 (1) associated with 
-       the integer units used to measure the power or energy.";
-  }
-  identity multiplier-kilo {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^3 (1,000) associated with the 
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-mega {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^6 (1,000,000) associated with 
-       the integer units used to measure the power or energy.";
-  }
-  identity multiplier-giga {
-    base unit-multiplier;
-    description 
-      "Represents a multiplier of 10^9 (1,000,000,000) associated 
-       with the integer units used to measure the power or energy.";
-  }
-  identity multiplier-tera {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^12 associated 
-       with the integer units used to measure the power or energy.";
-  }
-  identity multiplier-peta {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^15 associated 
-       with the integer units used to measure the power or energy.";
-  }
-  identity multiplier-exa {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^18 associated 
-       with the integer units used to measure the power or energy.";
-  }
-  identity multiplier-zetta {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^21 associated 
-       with the integer units used to measure the power or energy.";
-  }
-  identity multiplier-yotta {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^24 associated 
-       with the integer units used to measure the power or energy.";
-  }
   identity energy-relationship-type {
     description "Base identity for energy object relationships";
   }
@@ -579,18 +451,10 @@ module ietf-power-and-energy {
         
         leaf instantaneous-power {
           type int64;
-          units "Watts";
+          units "mWatts";
           mandatory false;
           description
-            "The power usage measurement for the energy object right 
-             now. This value represents the instantaneous power 
-             consumption of the component. This value is specified 
-             in SI units of watts with the magnitude of watts 
-             (milliwatts, kilowatts, etc.) indicated separately as 
-             unit-multiplier in this container. Positive values 
-             indicate power consumption, while negative values can 
-             indicate power generation (e.g., for devices with 
-"The power usage measurement for the energy object right 
+           "The power usage measurement for the energy object right 
             now. This value represents the instantaneous power 
             consumption of the component. This value is 
             specified in milliwatts (mW). Positive values 
@@ -609,20 +473,6 @@ module ietf-power-and-energy {
              Essential for power budget calculations and capacity 
              planning.";
         }
-        
-        leaf unit-multiplier {
-          type identityref {
-            base unit-multiplier;
-          }
-          mandatory true;
-          description
-            "The unit multiplier used to measure the power. 
-             This multiplier applies to both instantaneous-power and 
-             nameplate-power values, allowing representation of power 
-             values from milliwatts to gigawatts using integer 
-             arithmetic.";
-
-}
         
         leaf data-source-accuracy {
           type identityref {
@@ -671,57 +521,26 @@ module ietf-power-and-energy {
           type uint64;
           units "Watt-hours";
           description
-            "The total cumulative energy consumed by the energy 
-             object since the last reset. This value is specified as 
-             watt-hours with the magnitude of watt-hours 
-             (milliwatt-hours, kilowatt-hours, etc.) indicated 
-             separately as unit-multiplier in this container. This 
-             value is useful for tracking overall energy usage over 
-"The total cumulative energy consumed by the energy 
+           "The total cumulative energy consumed by the energy 
             object since the last reset. This value is specified as 
-            milliwatt-hours (mWh). This value is useful for 
-            tracking overall energy usage over time for billing, 
-            reporting, or optimization purposes.";
+            milliwatt-hours (mWh). This value is useful for tracking 
+            overall energy usage over time for billing, reporting, 
+            or optimization purposes.";
         }
         
         leaf total-energy-delivered {
           type uint64;
           units "Watt-hours";
           description
-            "The total cumulative energy delivered by the energy 
-             object since the last reset. This value is specified as 
-             watt-hours with the magnitude of watt-hours 
-             (milliwatt-hours, kilowatt-hours, etc.) indicated 
-             separately as unit-multiplier in this container. 
-             This value is relevant for energy objects capable of 
-             generating power, such as those with renewable energy 
-             sources or battery backup systems, or capable of 
-             providing energy to other energy objects 
-"The total cumulative energy delivered by the energy 
+           "The total cumulative energy delivered by the energy 
             object since the last reset. This value is specified as 
-            milliwatt-hours (mWh). 
-            This value is relevant for energy objects capable of 
-            generating power, such as those with renewable energy 
-            sources or battery backup systems, or capable of 
-            providing energy to other energy objects 
+            milliwatt-hours (mWh). This value is relevant for energy 
+            objects capable of generating power, such as those with 
+            renewable energy sources or battery backup systems, or 
+            capable of providing energy to other energy objects 
             (e.g., PoE switches).";
         }
-        leaf unit-multiplier {
-          type identityref {
-            base unit-multiplier;
-          }
-          default "multiplier-units";
-          description
-            "This multiplier applies to both total-energy-consumed 
-             and total-energy-delivered values. It determines the 
-             scale of the energy measurements, allowing 
-             representation of energy values from milliwatt-hours 
-             to gigawatt-hours using integer arithmetic. When not 
-             explicitly specified, the default value of 
-             multiplier-units (10^0 = 1) applies, 
-             meaning values are expressed in Watt-hours.";
-        }
-        
+
         leaf data-source-accuracy {
           type identityref {
             base data-source-accuracy;
@@ -867,7 +686,9 @@ module ietf-power-and-energy {
               require-instance false;
             }
             description
-              "References the corresponding operational energy object 
+              "The current operational Power State of this Component, 
+               as reported by the device. 
+               References the corresponding operational energy object 
                instance in the monitoring tree.";
           }
         }
