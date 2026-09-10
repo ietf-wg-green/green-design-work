@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-06T01:34:35.730694+00:00",
+  "timestamp": "2026-09-10T01:45:41.785130+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -799,15 +799,15 @@
       "id": "I_kwDOP9HHVc8AAAABOJZDDA",
       "title": "source-component-id as  \"mandatory true.\"",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/73",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "From the text: \"The ietf-hardware YANG module [RFC8348] is required by the Power and   Energy YANG module.\"\n\nsource-component-id is a regular leaf, not the key \u2014 I believe it must be \"mandatory true.\"\n",
       "createdAt": "2026-08-25T09:34:56Z",
-      "updatedAt": "2026-09-02T08:54:55Z",
-      "closedAt": null,
+      "updatedAt": "2026-09-09T07:01:26Z",
+      "closedAt": "2026-09-09T07:01:26Z",
       "comments": [
         {
           "author": "bclaise",
@@ -2676,24 +2676,26 @@
       "id": "PR_kwDOP9HHVc8AAAABB6Ojpg",
       "title": "Issues to be fixed #73 #57 #58",
       "url": "https://github.com/ietf-wg-green/green-design-work/pull/76",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "PR created with agreement to address issues #73 #57 #58",
       "createdAt": "2026-09-02T14:10:00Z",
-      "updatedAt": "2026-09-04T10:17:41Z",
+      "updatedAt": "2026-09-09T07:07:58Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "aa95d4b3e37a6b09ea26798b50c1c73a3cc6765b",
       "headRepository": "ietf-wg-green/green-design-work",
       "headRefName": "Issues73_57_58",
-      "headRefOid": "5285501be2ce9a3f60953587c60ad7803abfc9dd",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "cafc78f3dc2d6bc3add59025714788f93219a72f",
+      "closedAt": "2026-09-09T07:01:24Z",
+      "mergedAt": "2026-09-09T07:01:24Z",
+      "mergedBy": "marisolpalmero",
+      "mergeCommit": {
+        "oid": "b6abf7b01d30801895bf37499ff98730d2952ccf"
+      },
       "comments": [
         {
           "author": "bclaise",
@@ -2708,9 +2710,202 @@
           "body": "> @marisolpalmero , I don't see the removal of unit-multiplierS, as sent on the GREEN mailing list\r\n> \r\n> We discussed this issue in our GREEN design team light today.\r\n> \r\n> We propose to follow Rob' suggestion.\r\n> \r\n> OLD:\r\n> \r\n> module: ietf-power-and-energy +--ro energy-objects | +--ro energy-entry* [object-id] | +--ro object-id string | +--ro source-component-id? -> /hw:hardware/component/name | +--ro power | | +--ro instantaneous-power int32 | | +--ro nameplate-power? uint32 | | +--ro unit-multiplier identityref | | +--ro data-source-accuracy? identityref | | +--ro power-factor? power-factor | | +--ro measurement-local? boolean | +--ro energy | | +--ro total-energy-consumed? uint64 | | +--ro total-energy-delivered? uint64 | | +--ro unit-multiplier? identityref | | +--ro data-source-accuracy? identityref | | +--ro measurement-local? boolean | | +--ro certifications* identityref\r\n> \r\n> NEW:\r\n> \r\n> module: ietf-power-and-energy +--ro energy-objects | +--ro energy-entry* [object-id] | +--ro object-id string | +--ro source-component-id? -> /hw:hardware/component/name | +--ro power | | +--ro instantaneous-power int64 | | +--ro nameplate-power? uint32 | | +--ro data-source-accuracy? identityref | | +--ro power-factor? power-factor | | +--ro measurement-local? boolean | +--ro energy | | +--ro total-energy-consumed? uint64 | | +--ro total-energy-delivered? uint64 | | +--ro data-source-accuracy? identityref | | +--ro measurement-local? boolean | | +--ro certifications* identityref\r\n> \r\n> We propose to discuss the signed versus unsigned in a different email thread.\r\n\r\nthis is the suggestion from Rob Wilton:\r\nOn 07/08/2026 11:51, Rob Wilton (rwilton) wrote:\r\n> Hi Benoit,\r\n>\r\n> My instinct is that having just one unit-multiplier is sufficient, \r\n> cleaner and simpler.\r\n>\r\n> However, after thinking about this a bit more (and quizzing an LLM), \r\n> what granularity is really needed?  I.e., would a 1mWh resolution be \r\n> sufficient?  If so, might it not just be easier to just have a uint64 \r\n> with units defined as milliwatt-Hours.  Given that this is a unit64, \r\n> it would effectively be able to hold \"58% of one year of global \r\n> electricity generation\".  I.e., sufficient I think \ud83d\ude09.\r\n>\r\n> Similarly, we could probably avoid the unit-multiplier in the power \r\n> model (with a maximum granularity of 1mW), although that may also mean \r\n> that we would need to move from a uint32 to a uint64.\r\n>\r\n> If you end up carrying the unit-multiplier then I think that you would \r\n> have some more complexity when trying to aggregate values together, \r\n> since I suspect that you would need to normalise them first.\r\n>\r\n> Kind regards,\r\n> Rob\r\n>\r\n>\r\n",
           "createdAt": "2026-09-04T10:17:41Z",
           "updatedAt": "2026-09-04T10:17:41Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We need to fix first the removal of the unit-multiplier",
+          "createdAt": "2026-09-08T10:48:44Z",
+          "updatedAt": "2026-09-08T10:48:44Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Im good with the changes Chengen! please go ahead!",
+          "createdAt": "2026-09-09T06:58:49Z",
+          "updatedAt": "2026-09-09T06:58:49Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I have done the merge! all good! many thanks",
+          "createdAt": "2026-09-09T07:02:47Z",
+          "updatedAt": "2026-09-09T07:02:47Z"
         }
       ],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABMkX7uw",
+          "commit": {
+            "abbreviatedOid": "5285501"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Looks good to me.",
+          "createdAt": "2026-09-08T07:01:23Z",
+          "updatedAt": "2026-09-08T07:01:23Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABMkeApQ",
+          "commit": {
+            "abbreviatedOid": "5285501"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-08T07:13:26Z",
+          "updatedAt": "2026-09-08T07:13:26Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABMvEbNg",
+          "commit": {
+            "abbreviatedOid": "5285501"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "further modification to remove all the \"unit-multiplier\" descriptions.",
+          "createdAt": "2026-09-09T04:08:42Z",
+          "updatedAt": "2026-09-09T06:43:24Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n\n```\nAccording to the discussion, remove all the unit-multipliers for power and energy objects.",
+              "createdAt": "2026-09-09T04:08:42Z",
+              "updatedAt": "2026-09-09T06:43:24Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n\"The power usage measurement for the energy object right \n            now. This value represents the instantaneous power \n            consumption of the component. This value is \n            specified in milliwatts (mW). Positive values \n            indicate power consumption, while negative values can \n            indicate power generation (e.g., for devices with \n            battery backup or renewable energy sources).\";\n```",
+              "createdAt": "2026-09-09T06:27:00Z",
+              "updatedAt": "2026-09-09T06:43:24Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n\n}\n```",
+              "createdAt": "2026-09-09T06:28:03Z",
+              "updatedAt": "2026-09-09T06:43:24Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n\"The total cumulative energy consumed by the energy \n            object since the last reset. This value is specified as \n            milliwatt-hours (mWh). This value is useful for \n            tracking overall energy usage over time for billing, \n            reporting, or optimization purposes.\";\n```",
+              "createdAt": "2026-09-09T06:30:49Z",
+              "updatedAt": "2026-09-09T06:43:24Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n\"The total cumulative energy delivered by the energy \n            object since the last reset. This value is specified as \n            milliwatt-hours (mWh). \n            This value is relevant for energy objects capable of \n            generating power, such as those with renewable energy \n            sources or battery backup systems, or capable of \n            providing energy to other energy objects \n            (e.g., PoE switches).\";\n```",
+              "createdAt": "2026-09-09T06:31:32Z",
+              "updatedAt": "2026-09-09T06:43:24Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n\n```",
+              "createdAt": "2026-09-09T06:33:05Z",
+              "updatedAt": "2026-09-09T06:43:24Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n\n```",
+              "createdAt": "2026-09-09T06:38:30Z",
+              "updatedAt": "2026-09-09T06:43:24Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\nThe absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) refer to\nthe milliwatts scale. `-10` means +/-10 milliwatts.\n```",
+              "createdAt": "2026-09-09T06:42:07Z",
+              "updatedAt": "2026-09-09T06:43:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABMwTK6Q",
+          "commit": {
+            "abbreviatedOid": "cafc78f"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "This change was missing from the commits/merge",
+          "createdAt": "2026-09-09T07:07:16Z",
+          "updatedAt": "2026-09-09T07:07:58Z",
+          "comments": [
+            {
+              "originalPosition": 6,
+              "body": "```suggestion\n          units \"mWatts\";\n```",
+              "createdAt": "2026-09-09T07:07:16Z",
+              "updatedAt": "2026-09-09T07:07:58Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 77,
+      "id": "PR_kwDOP9HHVc8AAAABCzmUKw",
+      "title": "mainly more fix to the unit-multiplier",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/77",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Changes include:\r\n- some changes in the last pull request did not take effect, here again pulled.\r\n- instantaneous power unit changes to mWatt.\r\n- oper leaf optimization.",
+      "createdAt": "2026-09-09T09:21:59Z",
+      "updatedAt": "2026-09-09T12:12:39Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "b6abf7b01d30801895bf37499ff98730d2952ccf",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "genchen-patch-1",
+      "headRefOid": "991402bb97a21d32247c18c3aa7a90f6d7c01a2e",
+      "closedAt": "2026-09-09T12:12:39Z",
+      "mergedAt": "2026-09-09T12:12:39Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "390871df504c9a36f9f7202d0da552f11a00a824"
+      },
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Im good with the changes!",
+          "createdAt": "2026-09-09T10:28:07Z",
+          "updatedAt": "2026-09-09T10:28:07Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABMxqoZQ",
+          "commit": {
+            "abbreviatedOid": "991402b"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2026-09-09T09:28:03Z",
+          "updatedAt": "2026-09-09T09:28:03Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABMyT_dQ",
+          "commit": {
+            "abbreviatedOid": "991402b"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Im good with the changes!\nMarisol",
+          "createdAt": "2026-09-09T10:29:58Z",
+          "updatedAt": "2026-09-09T10:29:58Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
