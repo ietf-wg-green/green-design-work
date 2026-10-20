@@ -13,7 +13,7 @@
        This document defines the YANG data model for Power and Energy
 monitoring of devices within or connected to communication networks. 
     " name="description">
-<meta content="xml2rfc 3.34.0" name="generator">
+<meta content="xml2rfc 3.34.1" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="GREEN" name="keyword">
 <meta content="YANG" name="keyword">
@@ -21,19 +21,19 @@ monitoring of devices within or connected to communication networks.
 <meta content="Energy" name="keyword">
 <meta content="draft-ietf-green-power-and-energy-yang-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.34.0
-    Python 3.14.7
-    ConfigArgParse 1.7.5
+  xml2rfc 3.34.1
+    Python 3.14.8
+    ConfigArgParse 1.8.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.11.7
+    platformdirs 4.13.4
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.8.3
+    wcwidth 0.9.2
 -->
 <link href="draft-ietf-green-power-and-energy-yang.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1049,11 +1049,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">GREEN-PEM-YANG</td>
-<td class="right">September 2026</td>
+<td class="right">October 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Benoit, et al.</td>
-<td class="center">Expires 13 March 2027</td>
+<td class="center">Expires 23 April 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg {
 <dd class="internet-draft">draft-ietf-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-09-09" class="published">9 September 2026</time>
+<time datetime="2026-10-20" class="published">20 October 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-03-13">13 March 2027</time></dd>
+<dd class="expires"><time datetime="2027-04-23">23 April 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1118,7 +1118,7 @@ monitoring of devices within or connected to communication networks.<a href="#se
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 13 March 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 23 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1378,16 +1378,14 @@ module: ietf-power-and-energy
   |     +--ro id                     string
   |     +--ro source-component-id?   -&gt; /hw:hardware/component/name
   |     +--ro power
-  |     |  +--ro instantaneous-power     int32
+  |     |  +--ro instantaneous-power?    int64
   |     |  +--ro nameplate-power?        uint32
-  |     |  +--ro unit-multiplier         identityref
   |     |  +--ro data-source-accuracy?   identityref
   |     |  +--ro power-factor?           power-factor
   |     |  +--ro measurement-local?      boolean
   |     +--ro energy
   |     |  +--ro total-energy-consumed?    uint64
   |     |  +--ro total-energy-delivered?   uint64
-  |     |  +--ro unit-multiplier?          identityref
   |     |  +--ro data-source-accuracy?     identityref
   |     |  +--ro measurement-local?        boolean
   |     |  +--ro certifications*           identityref
@@ -1610,18 +1608,17 @@ module ietf-power-and-energy {
        +/-5% or +/-10 absolute units, whichever is larger.
 
        For example, a power sensor reading might report a value
-       of 16250, with unit multiplier of milli (10^-3), under
-       accuracy-measured-gold-10. This indicates that the actual
-       power value is between 16.2375 and 16.2625 Watts, since
-       5% of 16.250 Watts is 0.8125 Watts, which is greater than
-       the absolute threshold of 10 milliwatts (0.010 W).
+       of 16250 milliwatts, under accuracy-measured-gold-10. This
+       indicates that the actual power value is between 15437.5 and
+       17062.5 milliwatts, since 5% of 16250 milliwatts is 812.5
+       milliwatts, which is greater than the absolute threshold of
+       10 milliwatts.
 
        At another time, the same sensor might report a value
-       of 150, with unit multiplier of milli (10^-3), under
-       accuracy-measured-gold-10. This indicates that the actual
-       power value is between 0.140 and 0.160 Watts, since 5% of
-       0.150 Watts is only 0.0075 Watts, which is less than the
-       absolute threshold of 10 milliwatts (0.010 W).";
+       of 150 milliwatts, under accuracy-measured-gold-10. This
+       indicates that the actual power value is between 140 and 160
+       milliwatts, since 5% of 150 milliwatts is only 7.5 millwatts,
+       which is less than the absolute threshold of 10 milliwatts.";
   }
   identity accuracy-unknown {
     base data-source-accuracy;
@@ -1863,133 +1860,6 @@ module ietf-power-and-energy {
       "IANA: Power State Set Registry (ieee1621-power-state-set):
        https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
   }
-  identity unit-multiplier {
-    description
-      "Base identity for unit multipliers as defined in IEC 61850-7-3
-       Annex A. These represent exponents of 10 for scaling units
-       associated with the integer units used to measure the power or
-       energy.
-           yocto(-24),   -- 10^-24
-           zepto(-21),   -- 10^-21
-           atto(-18),    -- 10^-18
-           femto(-15),   -- 10^-15
-           pico(-12),    -- 10^-12
-           nano(-9),     -- 10^-9
-           micro(-6),    -- 10^-6
-           milli(-3),    -- 10^-3
-           units(0),     -- 10^0
-           kilo(3),      -- 10^3
-           mega(6),      -- 10^6
-           giga(9),      -- 10^9
-           tera(12),     -- 10^12
-           peta(15),     -- 10^15
-           exa(18),      -- 10^18
-           zetta(21),    -- 10^21
-           yotta(24)     -- 10^24
-        ";
-  }
-  identity multiplier-yocto {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^-24 associated with the
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-zepto {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^-21 associated with the
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-atto {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^-18 associated with the
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-femto {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^-15 associated with the
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-pico {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^-12 associated with the
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-nano {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^-9 associated with the
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-micro {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^-6 (0.000001) associated with
-       the integer units used to measure the power or energy.";
-  }
-  identity multiplier-milli {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^-3 (0.001) associated with the
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-units {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^0 (1) associated with
-       the integer units used to measure the power or energy.";
-  }
-  identity multiplier-kilo {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^3 (1,000) associated with the
-       integer units used to measure the power or energy.";
-  }
-  identity multiplier-mega {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^6 (1,000,000) associated with
-       the integer units used to measure the power or energy.";
-  }
-  identity multiplier-giga {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^9 (1,000,000,000) associated
-       with the integer units used to measure the power or energy.";
-  }
-  identity multiplier-tera {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^12 associated
-       with the integer units used to measure the power or energy.";
-  }
-  identity multiplier-peta {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^15 associated
-       with the integer units used to measure the power or energy.";
-  }
-  identity multiplier-exa {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^18 associated
-       with the integer units used to measure the power or energy.";
-  }
-  identity multiplier-zetta {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^21 associated
-       with the integer units used to measure the power or energy.";
-  }
-  identity multiplier-yotta {
-    base unit-multiplier;
-    description
-      "Represents a multiplier of 10^24 associated
-       with the integer units used to measure the power or energy.";
-  }
   identity energy-relationship-type {
     description "Base identity for energy object relationships";
   }
@@ -2030,6 +1900,206 @@ module ietf-power-and-energy {
        operational for B to function correctly.
        The inverse relationship is 'enabled-by'.";
   }
+
+  grouping power-and-energy-values {
+    description
+      "A set of power and energy measurement values that are
+       associated with an Energy Object.
+       A device uses this grouping to expose measured power and energy
+       values. A controller uses this grouping to represent the values
+       collected from devices.
+       This grouping is defined so that the controller-side YANG module
+       can import and reuse the same leaf definitions when collecting
+       and aggregating power and energy data from devices, instead of
+       redefining them locally.";
+    container power {
+      description
+        "Container for power measurement attributes.";
+
+      leaf instantaneous-power {
+        type int64;
+        units "mWatts";
+        mandatory false;
+        description
+         "The power usage measurement for the energy object right
+          now. This value represents the instantaneous power
+          consumption of the component. This value is
+          specified in milliwatts (mW). Positive values
+          indicate power consumption, while negative values can
+          indicate power generation (e.g., for devices with
+          battery backup or renewable energy sources).";
+      }
+
+      leaf nameplate-power {
+        type uint32;
+        units "Watts";
+        description
+          "The nameplate power rating of an energy object. This is
+           the maximum power that the energy object is designed to
+           consume or produce, as specified by the manufacturer.
+           Essential for power budget calculations and capacity
+           planning.";
+      }
+
+      leaf data-source-accuracy {
+        type identityref {
+          base data-source-accuracy;
+        }
+        default accuracy-like-parent;
+        description
+          "The accuracy of the power data source. Indicates
+           whether the data source is a direct measurement, an
+           estimate, or unavailable and also the accuracy level of
+           the data source. By default, the accuracy is inherited
+           from the parent energy object, facilitating
+           hierarchical accuracy definitions without the need to
+           specify accuracy at every level. This metadata is
+           crucial for network management applications to assess
+           the reliability and accuracy of the power data.";
+      }
+
+      leaf power-factor {
+        type power-factor;
+        description
+          "The percent value of the power factor measurement for
+           the energy object. This information is important for
+           understanding the electrical characteristics of the
+           energy object and for correctly interpreting the power
+           data.";
+      }
+      leaf measurement-local {
+        type boolean;
+        description
+          "Indicates whether the power measurement is local (true)
+           or remote (false). A local measurement is taken
+           directly at the energy object, while a remote
+           measurement is collected from an external source.
+           This information can be useful for troubleshooting and
+           understanding the data source.";
+      }
+    }
+    container energy {
+      description
+        "Container for energy measurement attributes.";
+
+      leaf total-energy-consumed {
+        type uint64;
+        units "Watt-hours";
+        description
+         "The total cumulative energy consumed by the energy
+          object since the last reset. This value is specified as
+          milliwatt-hours (mWh). This value is useful for tracking
+          overall energy usage over time for billing, reporting,
+          or optimization purposes.";
+      }
+
+      leaf total-energy-delivered {
+        type uint64;
+        units "Watt-hours";
+        description
+         "The total cumulative energy delivered by the energy
+          object since the last reset. This value is specified as
+          milliwatt-hours (mWh). This value is relevant for energy
+          objects capable of generating power, such as those with
+          renewable energy sources or battery backup systems, or
+          capable of providing energy to other energy objects
+          (e.g., PoE switches).";
+      }
+      leaf data-source-accuracy {
+        type identityref {
+          base data-source-accuracy;
+        }
+        default accuracy-like-parent;
+        description
+          "The accuracy of the energy data source. Indicates
+           whether the data source is a direct measurement,
+           an estimate, or unavailable and also the accuracy
+           level of the data source.
+           By default, the accuracy is inherited from the parent
+           energy object, facilitating hierarchical accuracy
+           definitions without the need to specify accuracy at
+           every level. This metadata is crucial for network
+           management applications to assess the reliability and
+           accuracy of the energy data.";
+      }
+      leaf measurement-local {
+        type boolean;
+        description
+          "Indicates whether the energy measurement is local
+           (true) or remote (false). A local measurement is taken
+           directly at the energy object, while a remote
+           measurement is collected from an external source.
+           This information can be useful for troubleshooting and
+           understanding the data source.";
+      }
+      leaf-list certifications {
+        type identityref {
+          base ianaeo:certification-type;
+        }
+        description
+          "List of certifications applicable to this energy object.
+           If this list is empty, the energy object has no
+           certifications.";
+      }
+    }
+  }
+
+  grouping power-and-energy-relationships {
+    description
+      "A set of relationships between an Energy Object and its peer
+       Energy Objects.
+       A device uses this grouping to report relationships such as
+       powering, powered-by, metering, metered-by, aggregating,
+       aggregated-by, enabling and enabled-by.  A controller uses
+       this grouping to represent the relationships collected from
+       devices.
+       This grouping is defined so that the controller-side YANG
+       module can import and reuse the same relationship structure
+       when collecting and aggregating relationship information from
+       devices, instead of redefining it locally.";
+    list relationship {
+      key "type";
+      config false;
+      description
+        "Relationships for this energy object.";
+
+      leaf type {
+        type identityref {
+          base energy-relationship-type;
+          // powered-by, powering, metered-by, metering, etc.
+        }
+        description
+          "The type of relationship this energy object has with
+           peer objects.";
+      }
+
+      list peer {
+        key "id";
+        description
+          "Multiple peers for this relationship type.";
+
+        leaf id {
+          type string;
+          description
+            "This id specifies the Universally Unique Identifier
+             (UUID) of the peer (other) Energy Object that this
+             energy object is
+             powering/powered-by/metering/metered-by, etc.
+             If the network level UUID is not known,some other
+             locally unique identifier MAY be used, in conjunction
+             with human readable details.";
+          reference
+            "RFC 9562: Universally Unique IDentifiers (UUIDs)";
+        }
+        leaf details {
+          type string;
+          description
+            "Additional details about the relationship.";
+        }
+      }
+    }
+  }
+
   container energy-objects {
     config false;
     description
@@ -2062,192 +2132,8 @@ module ietf-power-and-energy {
           "RFC 8348: A YANG Data Model for Hardware Management";
       }
 
-      container power {
-        description
-          "Container for power measurement attributes.";
+      uses power-and-energy-values;
 
-        leaf instantaneous-power {
-          type int64;
-          units "Watts";
-          mandatory false;
-          description
-            "The power usage measurement for the energy object right
-             now. This value represents the instantaneous power
-             consumption of the component. This value is specified
-             in SI units of watts with the magnitude of watts
-             (milliwatts, kilowatts, etc.) indicated separately as
-             unit-multiplier in this container. Positive values
-             indicate power consumption, while negative values can
-             indicate power generation (e.g., for devices with
-"The power usage measurement for the energy object right
-            now. This value represents the instantaneous power
-            consumption of the component. This value is
-            specified in milliwatts (mW). Positive values
-            indicate power consumption, while negative values can
-            indicate power generation (e.g., for devices with
-            battery backup or renewable energy sources).";
-        }
-
-        leaf nameplate-power {
-          type uint32;
-          units "Watts";
-          description
-            "The nameplate power rating of an energy object. This is
-             the maximum power that the energy object is designed to
-             consume or produce, as specified by the manufacturer.
-             Essential for power budget calculations and capacity
-             planning.";
-        }
-
-        leaf unit-multiplier {
-          type identityref {
-            base unit-multiplier;
-          }
-          mandatory true;
-          description
-            "The unit multiplier used to measure the power.
-             This multiplier applies to both instantaneous-power and
-             nameplate-power values, allowing representation of power
-             values from milliwatts to gigawatts using integer
-             arithmetic.";
-
-}
-
-        leaf data-source-accuracy {
-          type identityref {
-            base data-source-accuracy;
-          }
-          default accuracy-like-parent;
-          description
-            "The accuracy of the power data source. Indicates
-             whether the data source is a direct measurement, an
-             estimate, or unavailable and also the accuracy level of
-             the data source. By default, the accuracy is inherited
-             from the parent energy object, facilitating
-             hierarchical accuracy definitions without the need to
-             specify accuracy at every level. This metadata is
-             crucial for network management applications to assess
-             the reliability and accuracy of the power data.";
-        }
-
-        leaf power-factor {
-          type power-factor;
-          description
-            "The percent value of the power factor measurement for
-             the energy object. This information is important for
-             understanding the electrical characteristics of the
-             energy object and for correctly interpreting the power
-             data.";
-        }
-
-        leaf measurement-local {
-          type boolean;
-          description
-            "Indicates whether the power measurement is local (true)
-             or remote (false). A local measurement is taken
-             directly at the energy object, while a remote
-             measurement is collected from an external source.
-             This information can be useful for troubleshooting and
-             understanding the data source.";
-        }
-      }
-
-      container energy {
-        description
-          "Container for energy measurement attributes.";
-
-        leaf total-energy-consumed {
-          type uint64;
-          units "Watt-hours";
-          description
-            "The total cumulative energy consumed by the energy
-             object since the last reset. This value is specified as
-             watt-hours with the magnitude of watt-hours
-             (milliwatt-hours, kilowatt-hours, etc.) indicated
-             separately as unit-multiplier in this container. This
-             value is useful for tracking overall energy usage over
-"The total cumulative energy consumed by the energy
-            object since the last reset. This value is specified as
-            milliwatt-hours (mWh). This value is useful for
-            tracking overall energy usage over time for billing,
-            reporting, or optimization purposes.";
-        }
-
-        leaf total-energy-delivered {
-          type uint64;
-          units "Watt-hours";
-          description
-            "The total cumulative energy delivered by the energy
-             object since the last reset. This value is specified as
-             watt-hours with the magnitude of watt-hours
-             (milliwatt-hours, kilowatt-hours, etc.) indicated
-             separately as unit-multiplier in this container.
-             This value is relevant for energy objects capable of
-             generating power, such as those with renewable energy
-             sources or battery backup systems, or capable of
-             providing energy to other energy objects
-"The total cumulative energy delivered by the energy
-            object since the last reset. This value is specified as
-            milliwatt-hours (mWh).
-            This value is relevant for energy objects capable of
-            generating power, such as those with renewable energy
-            sources or battery backup systems, or capable of
-            providing energy to other energy objects
-            (e.g., PoE switches).";
-        }
-        leaf unit-multiplier {
-          type identityref {
-            base unit-multiplier;
-          }
-          default "multiplier-units";
-          description
-            "This multiplier applies to both total-energy-consumed
-             and total-energy-delivered values. It determines the
-             scale of the energy measurements, allowing
-             representation of energy values from milliwatt-hours
-             to gigawatt-hours using integer arithmetic. When not
-             explicitly specified, the default value of
-             multiplier-units (10^0 = 1) applies,
-             meaning values are expressed in Watt-hours.";
-        }
-
-        leaf data-source-accuracy {
-          type identityref {
-            base data-source-accuracy;
-          }
-          default accuracy-like-parent;
-          description
-            "The accuracy of the energy data source. Indicates
-             whether the data source is a direct measurement,
-             an estimate, or unavailable and also the accuracy
-             level of the data source.
-             By default, the accuracy is inherited from the parent
-             energy object, facilitating hierarchical accuracy
-             definitions without the need to specify accuracy at
-             every level. This metadata is crucial for network
-             management applications to assess the reliability and
-             accuracy of the energy data.";
-        }
-        leaf measurement-local {
-          type boolean;
-          description
-            "Indicates whether the energy measurement is local
-             (true) or remote (false). A local measurement is taken
-             directly at the energy object, while a remote
-             measurement is collected from an external source.
-             This information can be useful for troubleshooting and
-             understanding the data source.";
-        }
-        leaf-list certifications {
-          type identityref {
-            base ianaeo:certification-type;
-          }
-          description
-            "List of certifications applicable to this energy object.
-             If this list is empty, the energy object has no
-             certifications.";
-        }
-      }
       container power-state {
         description
           "Container for Power state monitoring.";
@@ -2262,47 +2148,7 @@ module ietf-power-and-energy {
         }
       }
 
-      list relationship {
-        key "type";
-        config false;
-        description
-          "Relationships for this energy object.";
-
-        leaf type {
-          type identityref {
-            base energy-relationship-type;
-            // powered-by, powering, metered-by, metering, etc.
-          }
-          description
-            "The type of relationship this energy object has with
-             peer objects.";
-        }
-
-        list peer {
-          key "id";
-          description
-            "Multiple peers for this relationship type.";
-
-          leaf id {
-            type string;
-            description
-              "This id specifies the Universally Unique Identifier
-               (UUID) of the peer (other) Energy Object that this
-               energy object is
-               powering/powered-by/metering/metered-by, etc.
-               If the network level UUID is not known,some other
-               locally unique identifier MAY be used, in conjunction
-               with human readable details.";
-            reference
-              "RFC 9562: Universally Unique IDentifiers (UUIDs)";
-          }
-          leaf details {
-            type string;
-            description
-              "Additional details about the relationship.";
-          }
-        }
-      }
+      uses power-and-energy-relationships;
     }
   }
 
@@ -2356,7 +2202,9 @@ module ietf-power-and-energy {
               require-instance false;
             }
             description
-              "References the corresponding operational energy object
+              "The current operational Power State of this Component,
+               as reported by the device.
+               References the corresponding operational energy object
                instance in the monitoring tree.";
           }
         }
@@ -2498,37 +2346,26 @@ module iana-power-and-energy {
       <h2 id="name-operational-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-operational-considerations" class="section-name selfRef">Operational Considerations</a>
       </h2>
-<p id="section-7-1">In the YANG data model, the unit-multiplier leaf is defined with
-different constraints in the power and energy containers. In the power
-container, the leaf is mandatory true. This ensures that every power
-measurement (instantaneous or nameplate) is always accompanied by an
-explicit scale, eliminating any ambiguity about the unit. In the energy
-container, the leaf is optional and has a default value of
-"multiplier-units" (which corresponds to 10^0 = 1, i.e., Watt‑hours).
-If a device does not provide this leaf, the client <span class="bcp14">MUST</span> assume that all
-energy values (total-energy-consumed and total-energy-delivered) are
-expressed in Watt‑hours. This default eliminates the ambiguity that
-would otherwise exist when the leaf is absent.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">Heterogeneous sensor capabilities across components complicate power
+<p id="section-7-1">Heterogeneous sensor capabilities across components complicate power
 and energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
 weight data reliability carefully before aggregating Power
 (instantaneous-power) and Energy (total-energy-consumed and/or
 total-energy-delivered) values to avoid skewing Device Level Energy
-Efficiency (DLEE) metrics.<a href="#section-7-2" class="pilcrow">¶</a></p>
-<p id="section-7-3">Operators might not always be interested in getting the individual
+Efficiency (DLEE) metrics.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">Operators might not always be interested in getting the individual
 component accuracy. What counts is the device level or domain level,
 identity accuracy-like-parent is introduced to meet their demands.
 From an implementation point of view, to facilitate data collection and
 aggregation on runtime and avoid post-aggregation data confidence
 interval issues, operators and implementers should use as much as
-possible this accuracy-like-parent identity.<a href="#section-7-3" class="pilcrow">¶</a></p>
-<p id="section-7-4">YANG Push support eliminates device-side bucket storage by streaming
+possible this accuracy-like-parent identity.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">YANG Push support eliminates device-side bucket storage by streaming
 energy telemetry directly to controller-side via subscriptions.
 Operators must verify the 'yang-push' bundle is enabled and validate
 push-max-operational limits accommodate all component subscriptions,
 preventing notification flooding while avoiding memory overhead on the
-device.<a href="#section-7-4" class="pilcrow">¶</a></p>
+device.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <div id="hardware-component-identification">
 <section id="section-7.1">
         <h3 id="name-hardware-component-identifi">
@@ -2625,13 +2462,11 @@ precision:<a href="#section-7.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.2-4">Percentage-based accuracy fails for small values. For example, +/-5% of
-0.1W is only 0.005W, which may be smaller than sensor noise. Industry
+100 mW is only 5 mW, which may be smaller than sensor noise. Industry
 standards (IEC 62053, IEC 61850-7-4) address this by specifying:
 Accuracy = MAX(percentage_error, absolute_threshold)<a href="#section-7.2-4" class="pilcrow">¶</a></p>
-<p id="section-7.2-5">The absolute threshold suffixes (<code>-1</code>, <code>-10</code>, <code>-100</code>, <code>-1000</code>) refer to
-the unit-multiplier scale. For <code>unit-multiplier: milli</code>, <code>-10</code> means
-The absolute threshold suffixes (<code>-1</code>, <code>-10</code>, <code>-100</code>, <code>-1000</code>) refer to
-the milliwatts scale. <code>-10</code> means +/-10 milliwatts.<a href="#section-7.2-5" class="pilcrow">¶</a></p>
+<p id="section-7.2-5">The absolute threshold suffixes (<code>-1</code>, <code>-10</code>, <code>-100</code>, <code>-1000</code>) refer
+to milliwatts. <code>-10</code> means +/-10 milliwatts.<a href="#section-7.2-5" class="pilcrow">¶</a></p>
 <p id="section-7.2-6">Example - A sensor with <code>accuracy-measured-gold-10</code> reports:<a href="#section-7.2-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.2-7.1">
