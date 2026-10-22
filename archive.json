@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-09-10T01:45:41.785130+00:00",
+  "timestamp": "2026-10-22T02:09:11.093577+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -841,6 +841,22 @@
           "updatedAt": "2026-09-04T09:50:56Z"
         }
       ]
+    },
+    {
+      "number": 78,
+      "id": "I_kwDOP9HHVc8AAAABYetcPA",
+      "title": "Need to insert groupings to enable reusage from the controller side",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/78",
+      "state": "OPEN",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The groupings may includes at least \n- power and energy values\n- power and energy relationships ",
+      "createdAt": "2026-10-20T07:33:16Z",
+      "updatedAt": "2026-10-20T07:33:16Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -2906,6 +2922,34 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 79,
+      "id": "PR_kwDOP9HHVc8AAAABJgCbsQ",
+      "title": "Insert groupings for values and relationships",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/79",
+      "state": "OPEN",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "williamchern"
+      ],
+      "labels": [],
+      "body": "Resolving #78 ",
+      "createdAt": "2026-10-20T07:35:05Z",
+      "updatedAt": "2026-10-20T07:35:05Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "390871df504c9a36f9f7202d0da552f11a00a824",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "genchen-patch-2",
+      "headRefOid": "861445d4d726bfe3bf5096596a83fdc6a01d965d",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
