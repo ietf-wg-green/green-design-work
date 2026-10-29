@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-22T02:09:11.093577+00:00",
+  "timestamp": "2026-10-29T03:08:37.582346+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -855,6 +855,22 @@
       "body": "The groupings may includes at least \n- power and energy values\n- power and energy relationships ",
       "createdAt": "2026-10-20T07:33:16Z",
       "updatedAt": "2026-10-20T07:33:16Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 80,
+      "id": "I_kwDOP9HHVc8AAAABakwnVg",
+      "title": "units mismatch within the description",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/80",
+      "state": "OPEN",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "units statement on the energy leaves in -04 says \u201cWatt-hours\u201d but the descriptions say \u201cmilliwatt-hours\u201d. That inconsistency should be corrected to units \"mWh\" (or units \"milliwatt-hours\")\n\n\n           leaf total-energy-consumed {\n             type uint64;\n             units \"Watt-hours\";\n             description\n              \"The total cumulative energy consumed by the energy\n               object since the last reset. This value is specified as\n               milliwatt-hours (mWh). This value is useful for tracking\n               overall energy usage over time for billing, reporting,\n               or optimization purposes.\";\n           }\n\n           leaf total-energy-delivered {\n             type uint64;\n             units \"Watt-hours\";\n             description\n              \"The total cumulative energy delivered by the energy\n               object since the last reset. This value is specified as\n               milliwatt-hours (mWh). This value is relevant for energy\n               objects capable of generating power, such as those with\n               renewable energy sources or battery backup systems, or\n               capable of providing energy to other energy objects\n               (e.g., PoE switches).\";",
+      "createdAt": "2026-10-28T11:50:33Z",
+      "updatedAt": "2026-10-28T11:50:33Z",
       "closedAt": null,
       "comments": []
     }
