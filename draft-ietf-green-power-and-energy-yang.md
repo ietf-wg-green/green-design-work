@@ -722,4 +722,6 @@ This work has benefited from the regular discussions on the GREEN
 Design Meetings. The authors wish to thank the WG chairs, Rob Wilton
 and Diego Lopez, for organizing the recurring calls and progressing
 the work. The authors also wish to thank Rob Wilton, Diego Lopez,
-and Tony Li for their helpful comments and reviews of this document.
+Tony Li, Per Andersson, Qin Wu, Chih-Tsung Huang, Alex Huang Feng,
+and Amanda Baber for their helpful comments and reviews of this
+document.
