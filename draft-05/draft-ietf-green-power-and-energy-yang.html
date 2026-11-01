@@ -1444,9 +1444,9 @@ a single device, but carries no uniqueness guarantee across
 different devices or management systems.  The 'physical-index'
 leaf optionally matches entPhysicalIndex in the Entity MIB
 <span>[<a href="#RFC6933" class="cite xref">RFC6933</a>]</span> when the entity-mib feature is supported.  The 'uuid'
-leaf is a Universally Unique Identifier <span>[<a href="#RFC9562" class="cite xref">RFC9562</a>]</span> that is
-globally unique and therefore suitable for stable identification
-of a component across management systems.<a href="#section-4-3" class="pilcrow">¶</a></p>
+leaf is a Universally Unique Identifier <span>[<a href="#RFC9562" class="cite xref">RFC9562</a>]</span>, intended to
+be unique across space and time, and therefore suitable for
+stable identification of a component across management systems.<a href="#section-4-3" class="pilcrow">¶</a></p>
 <p id="section-4-4">The GREEN YANG module imports the ietf-hardware module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span>
 and uses the 'uuid' leaf as the value of 'source-component-id',
 enabling unambiguous component identification across management
@@ -1608,7 +1608,7 @@ module ietf-power-and-energy {
           red:     +/- 2%
 
        In addition, the accuracy-measured-ones identity indicates
-       a Power data measurement with all digits valid, except
+       a Power or Energy measurement with all digits valid, except
        trailing zeros.
 
        Since percent-wise accuracy works poorly for very small
@@ -1646,13 +1646,13 @@ module ietf-power-and-energy {
   identity accuracy-unknown {
     base data-source-accuracy;
     description
-      "The accuracy of the Power data is unknown.";
+      "The accuracy of the Power or Energy data is unknown.";
   }
   identity accuracy-unavailable {
     base accuracy-unknown;
     description
-      "A Power data is not available for some reason, such as a
-       sensor failure or a Component being powered off.";
+      "The Power or Energy data is not available for some reason,
+       such as a sensor failure or a Component being powered off.";
   }
   identity accuracy-like-parent {
     base data-source-accuracy;
@@ -1665,179 +1665,180 @@ module ietf-power-and-energy {
   identity accuracy-estimated {
     base data-source-accuracy;
     description
-      "The Power data is estimated, perhaps based on a model,
-       history or calculation rather than a direct measurement.";
+      "The Power or Energy data is estimated, perhaps based on a
+       model, history or calculation rather than a direct
+       measurement.";
   }
   identity accuracy-static {
     base accuracy-estimated;
     description
-      "The Power data is based on static data, such as manufacturer
-       specifications, datasheet of typical Power values or nameplate
-       ratings, rather than real-time measurements.";
+      "The Power or Energy data is based on static data, such as
+       manufacturer specifications, datasheet of typical Power values
+       or nameplate ratings, rather than real-time measurements.";
   }
   identity accuracy-historic {
     base accuracy-estimated;
     description
-      "The Power data is based on an historic measurement data for
-       this specific system and usage pattern.";
+      "The Power or Energy data is based on historical measurement
+       data for this specific system and usage pattern.";
   }
   identity accuracy-learned {
     base accuracy-estimated;
     description
-      "The Power data is based on an machine learning model
+      "The Power or Energy data is based on a machine learning model
        prediction.";
   }
   identity accuracy-measured {
     base data-source-accuracy;
     description
-      "The Power data is a direct, real-time measurement from a
-       sensor.";
+      "The Power or Energy data is a direct, real-time measurement
+       from a sensor.";
   }
   identity accuracy-measured-bronze {
     base accuracy-measured;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 30% OR |actual-sensor| &lt;= 0.5";
   }
   identity accuracy-measured-bronze-1 {
     base accuracy-measured-bronze;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 30% OR |actual-sensor| &lt;= 1";
   }
   identity accuracy-measured-bronze-10 {
     base accuracy-measured-bronze;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 30% OR |actual-sensor| &lt;= 10";
   }
   identity accuracy-measured-bronze-100 {
     base accuracy-measured-bronze;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 30% OR |actual-sensor| &lt;= 100";
   }
   identity accuracy-measured-bronze-1000 {
     base accuracy-measured-bronze;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 30% OR |actual-sensor| &lt;= 1000";
   }
   identity accuracy-measured-silver {
     base accuracy-measured;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 10% OR |actual-sensor| &lt;= 0.5";
   }
   identity accuracy-measured-silver-1 {
     base accuracy-measured-silver;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 10% OR |actual-sensor| &lt;= 1";
   }
   identity accuracy-measured-silver-10 {
     base accuracy-measured-silver;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 10% OR |actual-sensor| &lt;= 10";
   }
   identity accuracy-measured-silver-100 {
     base accuracy-measured-silver;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 10% OR |actual-sensor| &lt;= 100  ";
   }
   identity accuracy-measured-silver-1000 {
     base accuracy-measured-silver;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 10% OR |actual-sensor| &lt;= 1000";
   }
   identity accuracy-measured-gold {
     base accuracy-measured;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 5% OR |actual-sensor| &lt;= 0.5";
   }
   identity accuracy-measured-gold-1 {
     base accuracy-measured-gold;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 5% OR |actual-sensor| &lt;= 1";
   }
   identity accuracy-measured-gold-10 {
     base accuracy-measured-gold;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 5% OR |actual-sensor| &lt;= 10";
   }
   identity accuracy-measured-gold-100 {
     base accuracy-measured-gold;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 5% OR |actual-sensor| &lt;= 100";
   }
   identity accuracy-measured-gold-1000 {
     base accuracy-measured-gold;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 5% OR |actual-sensor| &lt;= 1000";
   }
   identity accuracy-measured-red {
     base accuracy-measured;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 2% OR |actual-sensor| &lt;= 0.5";
   }
   identity accuracy-measured-red-1 {
     base accuracy-measured-red;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 2% OR |actual-sensor| &lt;= 1";
   }
   identity accuracy-measured-red-10 {
     base accuracy-measured-red;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 2% OR |actual-sensor| &lt;= 10";
   }
   identity accuracy-measured-red-100 {
     base accuracy-measured-red;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 2% OR |actual-sensor| &lt;= 100";
   }
   identity accuracy-measured-red-1000 {
     base accuracy-measured-red;
     description
-      "The Power data is a direct, real-time measurement
+      "The Power or Energy data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| &lt;= sensor * 2% OR |actual-sensor| &lt;= 1000";
   }
   identity accuracy-measured-ones {
     base accuracy-measured;
     description
-      "The Power data is a direct, real-time measurement from a
-       sensor with all digits valid, except trailing zeros.
+      "The Power or Energy data is a direct, real-time measurement
+       from a sensor with all digits valid, except trailing zeros.
        For example, a sensor reading of 12300 represents a sensor
        value between 12250 and 12350.";
   }
@@ -2355,7 +2356,7 @@ module iana-power-and-energy {
       "https://www.epeat.net/";
   }
 
-  identity eu-energy-level{
+  identity eu-energy-label {
     base certification-type;
     description
       "EU Energy Label: European efficiency ratings";
@@ -2363,7 +2364,7 @@ module iana-power-and-energy {
       "https://eprel.ec.europa.eu/screen/home";
   }
 
-  identity cn-energy-level{
+  identity cn-energy-label {
     base certification-type;
     description
       "CN Energy Label: China efficiency ratings";
@@ -2418,7 +2419,8 @@ device.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <p id="section-7.1-1">The GREEN YANG module relies on the ietf-hardware module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span>
 for hardware component identification.  Among the three identifiers
 that ietf-hardware provides for each component: 'name',
-'physical-index', and 'uuid', only <code>uuid</code> is globally unique.
+'physical-index', and 'uuid', only <code>uuid</code> is intended to be
+unique beyond a single device.
 The 'name' leaf, while serving as the list key within a device,
 is meaningful only in the context of that specific device.  The
 'physical-index' leaf, where present, provides a mapping to the
@@ -2840,7 +2842,7 @@ as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">80plus</td>
+              <td class="text-left" rowspan="1" colspan="1">c80-plus</td>
               <td class="text-left" rowspan="1" colspan="1">80 PLUS Power Supply Certification</td>
               <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
             </tr>
@@ -2855,13 +2857,18 @@ as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
               <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">eu-energy-level</td>
+              <td class="text-left" rowspan="1" colspan="1">eu-energy-label</td>
               <td class="text-left" rowspan="1" colspan="1">EU Energy Label: European efficiency ratings</td>
               <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">cn-energy-level</td>
+              <td class="text-left" rowspan="1" colspan="1">cn-energy-label</td>
               <td class="text-left" rowspan="1" colspan="1">CN Energy Label: China efficiency ratings</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">cqc</td>
+              <td class="text-left" rowspan="1" colspan="1">China Quality Certification for energy efficiency</td>
               <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
             </tr>
           </tbody>
