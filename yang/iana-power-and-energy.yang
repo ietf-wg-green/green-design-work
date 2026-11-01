@@ -19,6 +19,9 @@ module iana-power-and-energy {
     "IANA-defined identities for certification types of Energy
      Objects.
 
+     The capitalized terms used in this module are defined in
+     I-D.ietf-green-terminology.
+
      The latest revision of this YANG module can be obtained from
      the IANA website.
 
