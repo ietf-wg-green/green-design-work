@@ -135,12 +135,12 @@ of this specification. Target devices include (but are not limited to)
 routers, switches, Power over Ethernet (PoE) endpoints, smart PDU,
 storage and compute servers, etc.
 
-Where applicable, device monitoring extends to the components of the
+Where applicable, device monitoring extends to the Components of the
 device as well as software and service running on the device. As a
 result, the metrics to be monitored include Device Level Energy
 Efficiency (DLEE), Component Level Energy Efficiency (CLEE) and
 potential Service Level Energy Efficiency (SLEE) at the
-orchestrator-level, etc. For example, a router can contain components
+orchestrator-level, etc. For example, a router can contain Components
 such as Line Processing Unit (LPU), Switch Fabric Unit (SFU), Main
 Processing Unit (MPU).
 
@@ -183,7 +183,7 @@ The meanings of the symbols in the YANG tree diagrams are defined in
 # The GREEN Framework
 
 The "GREEN framework" described in {{?I-D.ietf-green-framework}}
-covers monitoring and controlling devices and components where
+covers monitoring and controlling devices and Components where
 monitoring includes measuring Power, Energy, demand and attributes of
 Power.
 
@@ -200,8 +200,8 @@ measurement accuracy, etc.
 A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
 container to represent the intended (administrative) and operational
-(actual) power states respectively. The two leaves together form the
-complete power state management interface. The operational tree
+(actual) Power States respectively. The two leaves together form the
+complete Power State management interface. The operational tree
 ('container energy-objects') will typically contain a significantly
 larger number of instances than the configuration tree
 ('container energy-control'). The configuration tree, which is limited
@@ -214,7 +214,7 @@ this document.
 Entries in /energy-control/energy-objects/energy-object SHOULD
 reference the /energy-objects/energy-object/id using a leafref with
 require-instance false. This allows an administrator or controller to
-correlate a configured power state intent with the Energy Object being
+correlate a configured Power State intent with the Energy Object being
 monitored. The require-instance false statement allows the
 configuration to remain after an energy-object has disappeared from the
 system, or before it has been introduced. If the referred Energy Object
@@ -245,7 +245,7 @@ there is no relationship list under /energy-control); the
 relationship list under /energy-objects/energy-object is read-only
 operational data (config false).
 
-For relationships between components within the same device (e.g.,
+For relationships between Components within the same device (e.g.,
 between a Line Processing Unit (LPU) and a Switch Fabric Unit (SFU)),
 the device can typically determine and populate this data directly,
 without requiring external configuration.
@@ -305,7 +305,7 @@ query it.
 
 The ietf-hardware YANG module {{!RFC8348}} allows discovering all the
 device components, including the containment tree, and the parent/child
-relationship, which is important for energy/power aggregation (see the
+relationship, which is important for Energy/Power aggregation (see the
 contains-child relationship in RFC 8348).
 
 # Relationship to the EMAN Work
@@ -314,7 +314,7 @@ The EMAN IETF Working Group
 (https://datatracker.ietf.org/wg/eman/about/) is a concluded Working
 Group that produced a couple of RFCs in the domain of Power and
 Energy. The Working Group produced MIB modules for monitoring and
-control for power and energy, for the context information, for battery
+control for Power and Energy, for the context information, for battery
 monitoring, and an extension to the ENTITY-MIB to add the UUID
 definition {{?RFC6933}}.
 
@@ -336,7 +336,7 @@ and some legacy Energy Objects are removed accordingly.
 # Power and Energy YANG Module
 
 This YANG Module is used to monitor and control Power and Energy usage
-of network devices and the components on these devices.
+of network devices and the Components on these devices.
 
 ~~~~ yang
 {::include yang/ietf-power-and-energy.yang}
@@ -353,8 +353,8 @@ described below.
 
 # Operational Considerations
 
-Heterogeneous sensor capabilities across components complicate power
-and energy aggregation. Operators must use the data-source-accuracy
+Heterogeneous sensor capabilities across Components complicate Power
+and Energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
 weight data reliability carefully before aggregating Power
 (instantaneous-power) and Energy (total-energy-consumed and/or
@@ -362,7 +362,7 @@ total-energy-delivered) values to avoid skewing Device Level Energy
 Efficiency (DLEE) metrics.
 
 Operators might not always be interested in getting the individual
-component accuracy. What counts is the device level or domain level,
+Component accuracy. What counts is the device level or domain level,
 identity accuracy-like-parent is introduced to meet their demands.
 From an implementation point of view, to facilitate data collection and
 aggregation on runtime and avoid post-aggregation data confidence
@@ -370,9 +370,9 @@ interval issues, operators and implementers should use as much as
 possible this accuracy-like-parent identity.
 
 YANG Push support eliminates device-side bucket storage by streaming
-energy telemetry directly to controller-side via subscriptions.
+Energy telemetry directly to controller-side via subscriptions.
 Operators must verify the 'yang-push' bundle is enabled and validate
-push-max-operational limits accommodate all component subscriptions,
+push-max-operational limits accommodate all Component subscriptions,
 preventing notification flooding while avoiding memory overhead on the
 device.
 
@@ -397,20 +397,20 @@ relying on device-local naming conventions.
 
 ## Measurement Accuracy and Data Source Classification
 
-Power and energy metrics may originate from a wide range of sources and
+Power and Energy metrics may originate from a wide range of sources and
 estimation methods, each with different levels of reliability. These
 include direct sensor measurements, manufacturer-provided
 specifications, historical observations, and predictive models. Without
 explicit characterization of data quality, comparisons and aggregations
 may be misleading. The GREEN YANG data model therefore requires all
-power and energy values to be associated with an accuracy
+Power and Energy values to be associated with an accuracy
 classification.
 
 The model defines the following primary accuracy categories using YANG
 identities:
 
 - Unknown Accuracy: Data accuracy cannot be determined, or measurements
-  are unavailable due to sensor failures, powered-off components, or
+  are unavailable due to sensor failures, powered-off Components, or
   other operational constraints.
 
 - Estimated Data: Values derived through indirect methods:
@@ -450,14 +450,14 @@ Example - A sensor with `accuracy-measured-gold-10` reports:
 Explicit accuracy reporting enables:
 
 - Weighted aggregation: High-precision measurements carry appropriate
-  weight when calculating network-wide energy consumption
+  weight when calculating network-wide Energy consumption
 - Upgrade prioritization: Identify devices with low-accuracy reporting
   for sensor upgrades or replacement
 - Compliance validation: Automated verification against regulatory
   thresholds requiring specific measurement precision
 - Double-accounting prevention: Understand when PDU-level measurements
   (+/-2%) should override device estimates (+/-30%) to avoid counting
-  the same energy twice (UC 13)
+  the same Energy twice (UC 13)
 - Cross-domain correlation: Map accuracy expectations when integrating
   with external systems like 3GPP energy KPIs (UC 6)
 
@@ -469,7 +469,7 @@ maintaining interoperability through standardized base types.
 
 Energy efficiency certifications issued by recognized testing
 organizations provide standardized benchmarks for the expected
-performance of equipment and components. These certifications are
+performance of equipment and Components. These certifications are
 typically based on controlled laboratory measurements and formal
 evaluation procedures. The GREEN YANG data model supports reporting of
 such certifications in order to complement operational measurement data.
@@ -493,7 +493,7 @@ Certification data and measurement accuracy serve complementary
 functions within the model.
 
 Certification information describes the verified design-time efficiency
-characteristics of a device or component, as established through
+characteristics of a device or Component, as established through
 independent testing. Measurement accuracy describes the precision and
 reliability of reported operational data obtained from sensors or
 estimation mechanisms.
@@ -504,9 +504,9 @@ Key differences include:
   stable throughout the product lifecycle.
 - Measurement accuracy may vary over time due to calibration,
   environmental conditions, or sensor degradation.
-- Certification is generally associated with discrete components,
+- Certification is generally associated with discrete Components,
   such as power supply units.
-- Measurement accuracy applies to individual metrics at component,
+- Measurement accuracy applies to individual metrics at Component,
   subsystem, or system level.
 
 Both types of information may be reported simultaneously for the same
@@ -517,7 +517,7 @@ Example: A power supply might have:
 - Certification: `c80-PLUS-Platinum`
   (>=92% efficient at 50% load, independently verified)
 - Measurement Accuracy: `accuracy-measured-silver`
-  (+/-10% sensor precision on real-time power readings)
+  (+/-10% sensor precision on real-time Power readings)
 
 The certification tells operators the Energy Object, for example,
 a PSU, is designed to be efficient; the measurement accuracy tells them
@@ -548,11 +548,11 @@ protection can have a negative effect on network operations:
 
 - /energy-control/energy-objects/energy-object/power-state/admin:
   Unauthorized write access to this leaf allows an attacker to change
-  the administratively requested power state of an Energy Object.
-  Depending on the target device or component, this could be used to
+  the administratively requested Power State of an Energy Object.
+  Depending on the target device or Component, this could be used to
   power down critical network infrastructure (resulting in denial of
-  service), force a component into a state that damages hardware, or
-  mask an ongoing attack by cycling power states to disrupt
+  service), force a Component into a state that damages hardware, or
+  mask an ongoing attack by cycling Power States to disrupt
   monitoring. Access to this data node SHOULD be limited to
   authorized administrators via NACM.
 
@@ -564,9 +564,9 @@ subtrees and data nodes have particular sensitivities:
 
 - /energy-objects/energy-object/power and
   /energy-objects/energy-object/energy: These subtrees expose
-  real-time and cumulative power and energy consumption for
+  real-time and cumulative Power and Energy consumption for
   individual hardware components. Fine-grained, time-correlated
-  power/energy telemetry can reveal operational patterns, such as
+  Power/Energy telemetry can reveal operational patterns, such as
   workload levels, traffic volume, or usage schedules, of a device
   or of the network behind it. In some environments, this
   information could be leveraged as a side channel to infer

@@ -29,6 +29,11 @@ module ietf-power-and-energy {
     "This YANG module specifies for Power and Energy monitoring and 
      control of devices within or connected to communication 
      networks.
+
+     The capitalized terms used in this module (for example,
+     Power, Energy, Energy Object, Component, Power State, and
+     Nameplate Power) are defined in
+     I-D.ietf-green-terminology.
      
      The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
      NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
@@ -98,7 +103,7 @@ module ietf-power-and-energy {
           red:     +/- 2%
 
        In addition, the accuracy-measured-ones identity indicates
-       a power data measurement with all digits valid, except 
+       a Power data measurement with all digits valid, except 
        trailing zeros.
 
        Since percent-wise accuracy works poorly for very small
@@ -117,216 +122,216 @@ module ietf-power-and-energy {
           -100:        +/-100  absolute units
           -1000:       +/-1000 absolute units
        Thus, for example, accuracy-measured-gold-10 indicates
-       a power data measurement with an accuracy of either
+       a Power data measurement with an accuracy of either
        +/-5% or +/-10 absolute units, whichever is larger.
 
        For example, a power sensor reading might report a value
        of 16250 milliwatts, under accuracy-measured-gold-10. This 
-       indicates that the actual power value is between 15437.5 and 
+       indicates that the actual Power value is between 15437.5 and 
        17062.5 milliwatts, since 5% of 16250 milliwatts is 812.5 
        milliwatts, which is greater than the absolute threshold of 
        10 milliwatts.
 
        At another time, the same sensor might report a value
        of 150 milliwatts, under accuracy-measured-gold-10. This 
-       indicates that the actual power value is between 140 and 160 
+       indicates that the actual Power value is between 140 and 160 
        milliwatts, since 5% of 150 milliwatts is only 7.5 millwatts, 
        which is less than the absolute threshold of 10 milliwatts.";
   }
   identity accuracy-unknown {
     base data-source-accuracy;
     description
-      "The accuracy of the power data is unknown.";
+      "The accuracy of the Power data is unknown.";
   }
   identity accuracy-unavailable {
     base accuracy-unknown;
     description
-      "A power data is not available for some reason, such as a 
-       sensor failure or a component being powered off.";
+      "A Power data is not available for some reason, such as a 
+       sensor failure or a Component being powered off.";
   }
   identity accuracy-like-parent {
     base data-source-accuracy;
     description
-      "The accuracy of the power/energy data is the same as this 
-       energy object's parent object. This identity is useful for 
-       hierarchical energy objects where child objects inherit the 
+      "The accuracy of the Power/Energy data is the same as this 
+       Energy Object's parent object. This identity is useful for 
+       hierarchical Energy Objects where child objects inherit the 
        accuracy characteristics.";
   }
   identity accuracy-estimated {
     base data-source-accuracy;
     description
-      "The power data is estimated, perhaps based on a model,
+      "The Power data is estimated, perhaps based on a model,
        history or calculation rather than a direct measurement.";
   }
   identity accuracy-static {
     base accuracy-estimated;
     description
-      "The power data is based on static data, such as manufacturer 
-       specifications, datasheet of typical power values or nameplate 
+      "The Power data is based on static data, such as manufacturer 
+       specifications, datasheet of typical Power values or nameplate 
        ratings, rather than real-time measurements.";
   }
   identity accuracy-historic {
     base accuracy-estimated;
     description
-      "The power data is based on an historic measurement data for 
+      "The Power data is based on an historic measurement data for 
        this specific system and usage pattern.";
   }
   identity accuracy-learned {
     base accuracy-estimated;
     description
-      "The power data is based on an machine learning model 
+      "The Power data is based on an machine learning model 
        prediction.";
   }
   identity accuracy-measured {
     base data-source-accuracy;
     description
-      "The power data is a direct, real-time measurement from a 
+      "The Power data is a direct, real-time measurement from a 
        sensor.";
   }
   identity accuracy-measured-bronze {
     base accuracy-measured;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 30% OR |actual-sensor| <= 0.5";
   }
   identity accuracy-measured-bronze-1 {
     base accuracy-measured-bronze;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 30% OR |actual-sensor| <= 1";
   }  
   identity accuracy-measured-bronze-10 {
     base accuracy-measured-bronze;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 30% OR |actual-sensor| <= 10";
   }  
   identity accuracy-measured-bronze-100 {
     base accuracy-measured-bronze;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 30% OR |actual-sensor| <= 100";
   }  
   identity accuracy-measured-bronze-1000 {
     base accuracy-measured-bronze;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 30% OR |actual-sensor| <= 1000";
   }  
   identity accuracy-measured-silver {
     base accuracy-measured;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 10% OR |actual-sensor| <= 0.5";
   }  
   identity accuracy-measured-silver-1 {
     base accuracy-measured-silver;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 10% OR |actual-sensor| <= 1";
   }  
   identity accuracy-measured-silver-10 {
     base accuracy-measured-silver;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 10% OR |actual-sensor| <= 10";
   }  
   identity accuracy-measured-silver-100 {
     base accuracy-measured-silver;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 10% OR |actual-sensor| <= 100  ";
   }  
   identity accuracy-measured-silver-1000 {
     base accuracy-measured-silver;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 10% OR |actual-sensor| <= 1000";
   }  
   identity accuracy-measured-gold {
     base accuracy-measured;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 5% OR |actual-sensor| <= 0.5";
   }
   identity accuracy-measured-gold-1 {
     base accuracy-measured-gold;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 5% OR |actual-sensor| <= 1";
   }  
   identity accuracy-measured-gold-10 {
     base accuracy-measured-gold;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 5% OR |actual-sensor| <= 10";
   }  
   identity accuracy-measured-gold-100 {
     base accuracy-measured-gold;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 5% OR |actual-sensor| <= 100";
   }  
   identity accuracy-measured-gold-1000 {
     base accuracy-measured-gold;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 5% OR |actual-sensor| <= 1000";
   }  
   identity accuracy-measured-red {
     base accuracy-measured;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 2% OR |actual-sensor| <= 0.5";
   }
   identity accuracy-measured-red-1 {
     base accuracy-measured-red;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 2% OR |actual-sensor| <= 1";
   }  
   identity accuracy-measured-red-10 {
     base accuracy-measured-red;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 2% OR |actual-sensor| <= 10";
   }  
   identity accuracy-measured-red-100 {
     base accuracy-measured-red;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 2% OR |actual-sensor| <= 100";
   }  
   identity accuracy-measured-red-1000 {
     base accuracy-measured-red;
     description
-      "The power data is a direct, real-time measurement
+      "The Power data is a direct, real-time measurement
        from a sensor with precision and accuracy such that
        |actual-sensor| <= sensor * 2% OR |actual-sensor| <= 1000";
   }  
   identity accuracy-measured-ones {
     base accuracy-measured;
     description
-      "The power data is a direct, real-time measurement from a 
+      "The Power data is a direct, real-time measurement from a 
        sensor with all digits valid, except trailing zeros.
        For example, a sensor reading of 12300 represents a sensor 
        value between 12250 and 12350.";
@@ -344,8 +349,8 @@ module ietf-power-and-energy {
 
   identity power-state {
     description
-      "Base identity for all possible power states. This identity
-       serves as the root for a hierarchy of power states, allowing
+      "Base identity for all possible Power States. This identity
+       serves as the root for a hierarchy of Power States, allowing
        for extensibility while maintaining alignment with the IANA
        Power State Set Registry.";
     reference
@@ -374,7 +379,7 @@ module ietf-power-and-energy {
        https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
   }
   identity energy-relationship-type {
-    description "Base identity for energy object relationships";
+    description "Base identity for Energy Object relationships";
   }
   identity powered-by {
     base energy-relationship-type;
@@ -416,27 +421,27 @@ module ietf-power-and-energy {
 
   grouping power-values {
     description
-      "A set of power measurement values that are associated with an 
+      "A set of Power measurement values that are associated with an 
        Energy Object. 
        This grouping is defined so that the controller-side YANG module
        can import and reuse the same leaf definitions when collecting 
-       and aggregating power data from devices, instead of
+       and aggregating Power data from devices, instead of
        redefining them locally.";
     container power {
       description
-        "Container for power measurement attributes.";
+        "Container for Power measurement attributes.";
       
       leaf instantaneous-power {
         type int64;
         units "mWatts";
         mandatory false;
         description
-         "The power usage measurement for the energy object right 
-          now. This value represents the instantaneous power 
-          consumption of the component. This value is 
+         "The Power usage measurement for the Energy Object right 
+          now. This value represents the instantaneous Power 
+          consumption of the Component. This value is 
           specified in milliwatts (mW). Positive values 
-          indicate power consumption, while negative values can 
-          indicate power generation (e.g., for devices with 
+          indicate Power consumption, while negative values can 
+          indicate Power generation (e.g., for devices with 
           battery backup or renewable energy sources).";
       }
       
@@ -444,8 +449,8 @@ module ietf-power-and-energy {
         type uint32;
         units "Watts";
         description
-          "The Nameplate Power of the energy object: the maximum
-           continuous power the energy object is designed to consume
+          "The Nameplate Power of the Energy Object: the maximum
+           continuous Power the Energy Object is designed to consume
            or deliver, as specified by the manufacturer. It is a
            rated design value, not an expected operating value or an
            observed maximum, and does not change during operation.
@@ -461,32 +466,32 @@ module ietf-power-and-energy {
         }
         default accuracy-like-parent;
         description
-          "The accuracy of the power data source. Indicates 
+          "The accuracy of the Power data source. Indicates 
            whether the data source is a direct measurement, an 
            estimate, or unavailable and also the accuracy level of 
            the data source. By default, the accuracy is inherited 
-           from the parent energy object, facilitating 
+           from the parent Energy Object, facilitating 
            hierarchical accuracy definitions without the need to 
            specify accuracy at every level. This metadata is 
            crucial for network management applications to assess 
-           the reliability and accuracy of the power data.";
+           the reliability and accuracy of the Power data.";
       }
       
       leaf power-factor {
         type power-factor;
         description
           "The percent value of the power factor measurement for 
-           the energy object. This information is important for 
+           the Energy Object. This information is important for 
            understanding the electrical characteristics of the 
-           energy object and for correctly interpreting the power 
+           Energy Object and for correctly interpreting the Power 
            data.";
       }
       leaf measurement-local {
         type boolean;
         description
-          "Indicates whether the power measurement is local (true) 
+          "Indicates whether the Power measurement is local (true) 
            or remote (false). A local measurement is taken 
-           directly at the energy object, while a remote 
+           directly at the Energy Object, while a remote 
            measurement is collected from an external source. 
            This information can be useful for troubleshooting and 
            understanding the data source.";
@@ -496,24 +501,24 @@ module ietf-power-and-energy {
   
   grouping energy-values {
     description
-      "A set of energy measurement values that are associated with an 
+      "A set of Energy measurement values that are associated with an 
        Energy Object. 
        This grouping is defined so that the controller-side YANG module
        can import and reuse the same leaf definitions when collecting 
-       and aggregating energy data from devices, instead of
+       and aggregating Energy data from devices, instead of
        redefining them locally.";
     container energy {
       description
-        "Container for energy measurement attributes.";
+        "Container for Energy measurement attributes.";
       
       leaf total-energy-consumed {
         type uint64;
         units "Watt-hours";
         description
-         "The total cumulative energy consumed by the energy 
-          object since the last reset. This value is specified as 
+         "The total cumulative Energy consumed by the Energy 
+          Object since the last reset. This value is specified as 
           milliwatt-hours (mWh). This value is useful for tracking 
-          overall energy usage over time for billing, reporting, 
+          overall Energy usage over time for billing, reporting, 
           or optimization purposes.";
       }
       
@@ -521,12 +526,12 @@ module ietf-power-and-energy {
         type uint64;
         units "Watt-hours";
         description
-         "The total cumulative energy delivered by the energy 
-          object since the last reset. This value is specified as 
-          milliwatt-hours (mWh). This value is relevant for energy 
-          objects capable of generating power, such as those with 
+         "The total cumulative Energy delivered by the Energy 
+          Object since the last reset. This value is specified as 
+          milliwatt-hours (mWh). This value is relevant for Energy 
+          Objects capable of generating Power, such as those with 
           renewable energy sources or battery backup systems, or 
-          capable of providing energy to other energy objects 
+          capable of providing Energy to other Energy Objects 
           (e.g., PoE switches).";
       }
       leaf data-source-accuracy {
@@ -535,23 +540,23 @@ module ietf-power-and-energy {
         }
         default accuracy-like-parent;
         description
-          "The accuracy of the energy data source. Indicates 
+          "The accuracy of the Energy data source. Indicates 
            whether the data source is a direct measurement, 
            an estimate, or unavailable and also the accuracy 
            level of the data source. 
            By default, the accuracy is inherited from the parent 
-           energy object, facilitating hierarchical accuracy 
+           Energy Object, facilitating hierarchical accuracy 
            definitions without the need to specify accuracy at 
            every level. This metadata is crucial for network 
            management applications to assess the reliability and 
-           accuracy of the energy data.";
+           accuracy of the Energy data.";
       }
       leaf measurement-local {
         type boolean;
         description
-          "Indicates whether the energy measurement is local 
+          "Indicates whether the Energy measurement is local 
            (true) or remote (false). A local measurement is taken 
-           directly at the energy object, while a remote 
+           directly at the Energy Object, while a remote 
            measurement is collected from an external source. 
            This information can be useful for troubleshooting and 
            understanding the data source.";
@@ -561,8 +566,8 @@ module ietf-power-and-energy {
           base ianaeo:certification-type;
         }
         description
-          "List of certifications applicable to this energy object. 
-           If this list is empty, the energy object has no 
+          "List of certifications applicable to this Energy Object. 
+           If this list is empty, the Energy Object has no 
            certifications.";
       }    
     }
@@ -585,7 +590,7 @@ module ietf-power-and-energy {
       key "type";
       config false;
       description 
-        "Relationships for this energy object.";
+        "Relationships for this Energy Object.";
               
       leaf type {
         type identityref {
@@ -593,7 +598,7 @@ module ietf-power-and-energy {
           // powered-by, powering, metered-by, metering, etc.
         }
         description
-          "The type of relationship this energy object has with 
+          "The type of relationship this Energy Object has with 
            peer objects.";
       }
       
@@ -607,7 +612,7 @@ module ietf-power-and-energy {
           description 
             "This id specifies the Universally Unique Identifier 
              (UUID) of the peer (other) Energy Object that this 
-             energy object is 
+             Energy Object is 
              powering/powered-by/metering/metered-by, etc. 
              If the network level UUID is not known,some other 
              locally unique identifier MAY be used, in conjunction 
@@ -627,20 +632,20 @@ module ietf-power-and-energy {
   container energy-objects {
     config false;
     description
-      "Energy objects container for power and energy attributes.";
+      "Energy Objects container for Power and Energy attributes.";
     
     list energy-object {
       key "id";
       description
-        "Power and energy entry for an energy object, indexed by 
-         energy object id. Each entry contains the complete set of 
-         power and energy attributes for a specific physical 
+        "Power and Energy entry for an Energy Object, indexed by 
+         Energy Object id. Each entry contains the complete set of 
+         Power and Energy attributes for a specific physical 
          component.";
         
       leaf id {
         type string;
         description
-          "An identifier that uniquely identifies the energy object";
+          "An identifier that uniquely identifies the Energy Object";
       }
       
       leaf source-component-id {
@@ -650,7 +655,7 @@ module ietf-power-and-energy {
         description
           "Reference to the component name in the ietf-hardware 
            model. This leaf creates a direct semantic link between 
-           the power/energy attributes and the physical component 
+           the Power/Energy attributes and the physical component 
            they describe.";
         reference
           "RFC 8348: A YANG Data Model for Hardware Management";
@@ -661,7 +666,7 @@ module ietf-power-and-energy {
 
       container power-state {
         description
-          "Container for Power state monitoring.";
+          "Container for Power State monitoring.";
         leaf oper {
           type identityref {
             base power-state;
@@ -688,11 +693,11 @@ module ietf-power-and-energy {
     container energy-objects {
       description
         "Configuration container for the list of administratively 
-         provisioned energy objects.";
+         provisioned Energy Objects.";
       list energy-object {
         key "id";
         description
-          "Control entry for a specific energy object.";
+          "Control entry for a specific Energy Object.";
         
         leaf id {
           type leafref {
@@ -700,12 +705,12 @@ module ietf-power-and-energy {
           require-instance false;
         }
           description 
-            "An identifier that uniquely identifies the energy 
-             object.";
+            "An identifier that uniquely identifies the Energy 
+             Object.";
         }
         container power-state {
           description
-            "Container for Power state management.";
+            "Container for Power State management.";
           
           leaf admin {
             type identityref {
@@ -716,7 +721,7 @@ module ietf-power-and-energy {
                Component. This leaf represents the management system 
                intended Power State. When the 'admin' and the 
                respective 'oper' YANG leaf values differ, a 
-               transition toward the 'admin' power state is in 
+               transition toward the 'admin' Power State is in 
                progress. Absence of a configured value indicates that 
                the Component operates at its default Power State.";
           }
@@ -729,7 +734,7 @@ module ietf-power-and-energy {
             description
               "The current operational Power State of this Component, 
                as reported by the device. 
-               References the corresponding operational energy object 
+               References the corresponding operational Energy Object 
                instance in the monitoring tree.";
           }
         }

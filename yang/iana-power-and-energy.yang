@@ -54,8 +54,8 @@ module iana-power-and-energy {
 
   identity certification-type {
     description
-      "Base identity for certification types applicable to energy
-       objects. This identity serves as the root for a hierarchy of
+      "Base identity for certification types applicable to Energy
+       Objects. This identity serves as the root for a hierarchy of
        certification types, allowing for extensibility.";
 
     reference
