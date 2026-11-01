@@ -25,11 +25,11 @@ pi: [toc, sortrefs, symrefs, docmapping]
 
 author:
 
-- ins: C. Benoit
+- ins: B. Claise
   fullname: Benoit Claise
   org: Everything OPS & Arrcus
   email: benoit@everything-ops.net
-- ins: C. Gen
+- ins: G. Chen
   fullname: Gen Chen
   org: Huawei
   email: chengen@huawei.com
