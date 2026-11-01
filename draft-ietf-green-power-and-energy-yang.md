@@ -27,7 +27,7 @@ author:
 
 - ins: C. Benoit
   fullname: Benoit Claise
-  org: Everything OPS
+  org: Everything OPS & Arrcus
   email: benoit@everything-ops.net
 - ins: C. Gen
   fullname: Gen Chen
@@ -69,10 +69,10 @@ normative:
     date: 2006-01
     target: https://datatracker.ietf.org/doc/html/rfc4252
 
-   RFC8446:
+   RFC9846:
     title: The Transport Layer Security (TLS) Protocol Version 1.3
-    date: 2018-08
-    target: https://datatracker.ietf.org/doc/html/rfc8446
+    date: 2026-07
+    target: https://datatracker.ietf.org/doc/html/rfc9846
 
    RFC9000:
     title: QUIC - A UDP-Based Multiplexed and Secure Transport
@@ -83,6 +83,21 @@ normative:
     title: Network Configuration Access Control Model
     date: 2018-03
     target: https://datatracker.ietf.org/doc/html/rfc8341
+
+   RFC3688:
+    title: The IETF XML Registry
+    date: 2004-01
+    target: https://datatracker.ietf.org/doc/html/rfc3688
+
+   RFC6020:
+    title: YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)
+    date: 2010-10
+    target: https://datatracker.ietf.org/doc/html/rfc6020
+
+   RFC9890:
+    title: An Update to YANG Module Names Registration
+    date: 2025-10
+    target: https://datatracker.ietf.org/doc/html/rfc9890
 
 informative:
 
@@ -104,7 +119,7 @@ monitoring of devices within or connected to communication networks.
 This document defines a YANG data model for Power and Energy
 Monitoring and control of devices within or connected to communication
 networks, for the use cases document in
-{{?I-D.ietf-green-use-cases-01}}.
+{{?I-D.ietf-green-use-cases}}.
 
 The data model includes both the monitoring and control of Energy
 Objects for networked devices.
@@ -134,16 +149,16 @@ Processing Unit (MPU).
 This document makes use of the terms defined in
 {{!I-D.ietf-green-terminology}}:
 
-    - Power
-    - Energy
-    - Energy Object
-    - Energy Management
-    - Energy Monitoring
-    - Energy Control
-    - Energy Efficiency/Energy Efficiency Ratio
-    - Device Level Energy Efficiency (DLEE)
-    - Component Level Energy Efficiency (CLEE)
-    - Service Level Energy Efficiency (SLEE)
+- Power
+- Nameplate Power
+- Power State
+- Energy
+- Energy Object
+- Component
+- Energy Monitoring
+- Device Level Energy Efficiency (DLEE)
+- Component Level Energy Efficiency (CLEE)
+- Service Level Energy Efficiency (SLEE)
 
 The terms reused from {{!I-D.ietf-green-terminology}} and
 {{?I-D.ietf-green-framework}} are capitalized in this
@@ -227,7 +242,7 @@ with human-readable details captured in the `details` leaf, otherwise.
 Regarding relationships among Energy Objects, this document does not
 provide a mechanism to configure relationships on the device (i.e.,
 there is no relationship list under /energy-control); the
-relationship list under /energy-objects/energy-entry is read-only
+relationship list under /energy-objects/energy-object is read-only
 operational data (config false).
 
 For relationships between components within the same device (e.g.,
@@ -278,8 +293,8 @@ systems independent of device-local naming conventions.
 
 The mapping between energy-object entries in this YANG Module and the
 hardware-components in ietf-hardware YANG module {{!RFC8348}} is
-designed to be 1:1, architecturally aligning each energy-entry with
-exactly one physical hardware component via source-component-id.
+designed to be 1:1, architecturally aligning each energy-object entry
+with exactly one physical hardware component via source-component-id.
 
 There are also cases where the controllers also generate their own set
 of UUIDs for the hardware (components). In such a case, it might be
@@ -309,7 +324,7 @@ vendors.
 The Power and Energy data model defined in this specification uses the
 Monitoring and Control MIB for Power and Energy {{!RFC7460}} as a
 starting point to discuss the solution to the different use cases in
-{{?I-D.ietf-green-use-cases-01}}.
+{{?I-D.ietf-green-use-cases}}.
 
 However, it has not been the goal to simply map the MIB module to a
 YANG module. The changes compared to the EMAN MIB modules are mainly
@@ -326,7 +341,7 @@ of network devices and the components on these devices.
 ~~~~ yang
 {::include yang/ietf-power-and-energy.yang}
 ~~~~
-{: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy@2026-07-02.yang"}
+{: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy@2026-11-01.yang"}
 
 The IANA-requested identities for power and energy class are separately
 described below.
@@ -334,7 +349,7 @@ described below.
 ~~~~ yang
 {::include yang/iana-power-and-energy.yang}
 ~~~~
-{: sourcecode-markers="true" sourcecode-name="iana-power-and-energy@2026-07-02.yang"}
+{: sourcecode-markers="true" sourcecode-name="iana-power-and-energy@2026-11-01.yang"}
 
 # Operational Considerations
 
@@ -518,7 +533,7 @@ The Power and Energy YANG module defines a data model that is designed
 to be accessed via YANG-based management protocols, such as NETCONF
 [RFC6241] and RESTCONF [RFC8040]. These YANG-based management
 protocols (1) have to use a secure transport layer (e.g., SSH
-[RFC4252], TLS [RFC8446], and QUIC [RFC9000]) and (2) have to use
+[RFC4252], TLS [RFC9846], and QUIC [RFC9000]) and (2) have to use
 mutual authentication.
 
 The Network Configuration Access Control Model (NACM) [RFC8341]
@@ -531,7 +546,7 @@ be considered sensitive or vulnerable in some network environments.
 Write operations (e.g., edit-config) to this data node without proper
 protection can have a negative effect on network operations:
 
-- /energy-control/energy-entry/power-state/admin:
+- /energy-control/energy-objects/energy-object/power-state/admin:
   Unauthorized write access to this leaf allows an attacker to change
   the administratively requested power state of an Energy Object.
   Depending on the target device or component, this could be used to
@@ -547,8 +562,8 @@ important to control read access (e.g., via get, get-config, or
 notification) to these data nodes. Specifically, the following
 subtrees and data nodes have particular sensitivities:
 
-- /energy-objects/energy-entry/power and
-  /energy-objects/energy-entry/energy: These subtrees expose
+- /energy-objects/energy-object/power and
+  /energy-objects/energy-object/energy: These subtrees expose
   real-time and cumulative power and energy consumption for
   individual hardware components. Fine-grained, time-correlated
   power/energy telemetry can reveal operational patterns, such as
@@ -558,7 +573,7 @@ subtrees and data nodes have particular sensitivities:
   sensitive operational or business information (e.g., data center
   utilization, capacity, or customer activity patterns).
 
-- /energy-objects/energy-entry/relationship: This list exposes
+- /energy-objects/energy-object/relationship: This list exposes
   relationships (e.g., powered-by, powering, metered-by) and UUIDs
   between Energy Objects, which can reveal the physical and logical
   power topology of a site. Disclosure of this information could
@@ -586,7 +601,7 @@ Registry" [RFC3688].
 {: title="IETF URI Registry"}
 
 IANA is also requested to register the following YANG module in the
-"YANG Module Names" registry [RFC6020] [RFC9890] within the "YANG
+"YANG Module Names" registry {{RFC6020}} {{RFC9890}} within the "YANG
 Parameters" registry group.
 
 | Field               | Value                                   |

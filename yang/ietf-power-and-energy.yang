@@ -50,7 +50,7 @@ module ietf-power-and-energy {
      (https://www.rfc-editor.org/info/rfcXXX); see the RFC itself
      for full legal notices.";
 
-  revision 2026-07-02 {
+  revision 2026-11-01 {
     description
       "Initial revision";
     reference
@@ -444,11 +444,15 @@ module ietf-power-and-energy {
         type uint32;
         units "Watts";
         description
-          "The nameplate power rating of an energy object. This is 
-           the maximum power that the energy object is designed to 
-           consume or produce, as specified by the manufacturer. 
-           Essential for power budget calculations and capacity 
-           planning.";
+          "The Nameplate Power of the energy object: the maximum
+           continuous power the energy object is designed to consume
+           or deliver, as specified by the manufacturer. It is a
+           rated design value, not an expected operating value or an
+           observed maximum, and does not change during operation.
+           Used for power budget calculations and capacity planning.";
+        reference
+          "I-D.ietf-green-terminology: Terminology for Energy
+           Efficiency Network Management";
       }
       
       leaf data-source-accuracy {

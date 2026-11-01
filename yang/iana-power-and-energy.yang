@@ -43,7 +43,7 @@ module iana-power-and-energy {
   reference
     "https://www.iana.org/assignments/yang-parameters";
 
-  revision 2026-07-02 {
+  revision 2026-11-01 {
     description
       "Initial revision.";
     reference
