@@ -167,9 +167,9 @@ specification.
 This document uses the terms Power and Energy in accordance with
 {{!I-D.ietf-green-terminology}}. Power refers to the instantaneous
 rate at which a device consumes or produces electrical energy
-(typically expressed in Watts). Energy, by contrast, represents the
+(typically expressed in watts). Energy, by contrast, represents the
 cumulative amount of work performed over time (typically expressed in
-Joules or Watt-hours). Both concepts are required within this YANG
+joules or watt-hours). Both concepts are required within this YANG
 module. Power enables real-time monitoring, control, and optimization
 of device operation, while Energy provides a time-integrated view
 necessary for accounting, reporting, and even for sustainability

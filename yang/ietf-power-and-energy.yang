@@ -433,7 +433,7 @@ module ietf-power-and-energy {
       
       leaf instantaneous-power {
         type int64;
-        units "mWatts";
+        units "milliwatts";
         mandatory false;
         description
          "The Power usage measurement for the Energy Object right 
@@ -447,7 +447,7 @@ module ietf-power-and-energy {
       
       leaf nameplate-power {
         type uint32;
-        units "Watts";
+        units "watts";
         description
           "The Nameplate Power of the Energy Object: the maximum
            continuous Power the Energy Object is designed to consume
@@ -514,7 +514,7 @@ module ietf-power-and-energy {
       
       leaf total-energy-consumed {
         type uint64;
-        units "Watt-hours";
+        units "milliwatt-hours";
         description
          "The total cumulative Energy consumed by the Energy 
           Object since the last reset. This value is specified as 
@@ -525,7 +525,7 @@ module ietf-power-and-energy {
       
       leaf total-energy-delivered {
         type uint64;
-        units "Watt-hours";
+        units "milliwatt-hours";
         description
          "The total cumulative Energy delivered by the Energy 
           Object since the last reset. This value is specified as 
