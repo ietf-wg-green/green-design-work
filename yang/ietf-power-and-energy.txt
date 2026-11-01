@@ -28,4 +28,4 @@ module: ietf-power-and-energy
            +--rw id             -> /energy-objects/energy-object/id
            +--rw power-state
               +--rw admin?   identityref
-              +--rw oper?    -> /energy-objects/energy-object/power-state/oper
+              +--rw oper?    leafref

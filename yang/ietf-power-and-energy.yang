@@ -74,26 +74,26 @@ module ietf-power-and-energy {
        accuracy base- and sub-types as needed.
 
        data-source-accuracy
-        ├── accuracy-like-parent
-        ├── accuracy-unknown
-        │    └── accuracy-unavailable
-        ├── accuracy-estimated
-        │    ├── accuracy-static
-        │    ├── accuracy-historic
-        │    └── accuracy-learned
-        └── accuracy-measured
-             ├── accuracy-measured-bronze
-             │    ├── accuracy-measured-bronze-1
-             │    ├── accuracy-measured-bronze-10
-             │    ├── accuracy-measured-bronze-100
-             │    └── accuracy-measured-bronze-1000
-             ├── accuracy-measured-silver
-             │    └── accuracy-measured-silver-...
-             ├── accuracy-measured-gold
-             │    └── accuracy-measured-gold-...
-             ├── accuracy-measured-red
-             │    └── accuracy-measured-red-...
-             └── accuracy-measured-ones
+        +-- accuracy-like-parent
+        +-- accuracy-unknown
+        |    +-- accuracy-unavailable
+        +-- accuracy-estimated
+        |    +-- accuracy-static
+        |    +-- accuracy-historic
+        |    +-- accuracy-learned
+        +-- accuracy-measured
+             +-- accuracy-measured-bronze
+             |    +-- accuracy-measured-bronze-1
+             |    +-- accuracy-measured-bronze-10
+             |    +-- accuracy-measured-bronze-100
+             |    +-- accuracy-measured-bronze-1000
+             +-- accuracy-measured-silver
+             |    +-- accuracy-measured-silver-...
+             +-- accuracy-measured-gold
+             |    +-- accuracy-measured-gold-...
+             +-- accuracy-measured-red
+             |    +-- accuracy-measured-red-...
+             +-- accuracy-measured-ones
 
        The accuracy levels under accuracy-measured are based on
        percent-wise accuracy classes:
@@ -362,21 +362,21 @@ module ietf-power-and-energy {
     description "full power on.";
     reference
       "IANA: Power State Set Registry (ieee1621-power-state-set):
-       https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
+       https://www.iana.org/assignments/power-state-sets/";
   }
   identity power-state-off {
     base power-state;
     description "power off.";
     reference
       "IANA: Power State Set Registry (ieee1621-power-state-set):
-       https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
+       https://www.iana.org/assignments/power-state-sets/";
   }
   identity power-state-sleep {
     base power-state;
     description "low-power state.";
     reference
       "IANA: Power State Set Registry (ieee1621-power-state-set):
-       https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
+       https://www.iana.org/assignments/power-state-sets/";
   }
   identity energy-relationship-type {
     description "Base identity for Energy Object relationships";
