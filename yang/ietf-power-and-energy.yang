@@ -617,13 +617,12 @@ module ietf-power-and-energy {
         leaf id {
           type string;
           description 
-            "This id specifies the Universally Unique Identifier 
-             (UUID) of the peer (other) Energy Object that this 
-             Energy Object is 
-             powering/powered-by/metering/metered-by, etc. 
-             If the network level UUID is not known,some other 
-             locally unique identifier MAY be used, in conjunction 
-             with human readable details.";
+            "The identifier of the peer Energy Object that this
+             Energy Object is powering/powered-by/metering/
+             metered-by, etc., preferably its Universally Unique
+             Identifier (UUID). If the UUID is not known, another
+             identifier MAY be used, together with human-readable
+             details in the 'details' leaf.";
           reference
             "RFC 9562: Universally Unique IDentifiers (UUIDs)";
         }
