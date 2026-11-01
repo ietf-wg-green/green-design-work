@@ -14,7 +14,7 @@ module: ietf-power-and-energy
   |     |  +--ro total-energy-delivered?   uint64
   |     |  +--ro data-source-accuracy?     identityref
   |     |  +--ro measurement-local?        boolean
-  |     |  +--ro certifications*           identityref
+  |     +--ro certifications*        identityref
   |     +--ro power-state
   |     |  +--ro oper?   identityref
   |     +--ro relationship* [type]
