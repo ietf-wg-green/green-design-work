@@ -596,7 +596,6 @@ module ietf-power-and-energy {
        devices, instead of redefining it locally.";
     list relationship {
       key "type";
-      config false;
       description 
         "Relationships for this Energy Object.";
               
