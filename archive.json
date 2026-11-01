@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-10-29T03:08:37.582346+00:00",
+  "timestamp": "2026-11-01T02:52:01.261514+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -2953,7 +2953,7 @@
       "labels": [],
       "body": "Resolving #78 ",
       "createdAt": "2026-10-20T07:35:05Z",
-      "updatedAt": "2026-10-20T07:35:05Z",
+      "updatedAt": "2026-10-31T02:56:48Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "390871df504c9a36f9f7202d0da552f11a00a824",
@@ -2964,8 +2964,104 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "If someone wants the combined form, it can still exist on top:\r\n\r\n  grouping power-values {\r\n    container power { ... }\r\n  }\r\n\r\n  grouping energy-values {\r\n    container energy { ... }\r\n  }\r\n\r\n  ...\r\n\r\n\r\n  grouping power-and-energy-values {\r\n    uses power-values;\r\n    uses energy-values;\r\n  }",
+          "createdAt": "2026-10-30T19:29:20Z",
+          "updatedAt": "2026-10-30T19:29:20Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVMzJ3g",
+          "commit": {
+            "abbreviatedOid": "861445d"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I believe gwo groupings is the better design, one for power and one energy.\nI don't believe many routers will report energy, hence  this part of the grouping will not be reused by the controller YANG module",
+          "createdAt": "2026-10-30T19:28:22Z",
+          "updatedAt": "2026-10-30T19:28:22Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVPjpFw",
+          "commit": {
+            "abbreviatedOid": "861445d"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "grouping power values and grouping energy values are seperated.",
+          "createdAt": "2026-10-31T02:22:43Z",
+          "updatedAt": "2026-10-31T02:56:09Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\n  grouping power-values {\n```",
+              "createdAt": "2026-10-31T02:22:43Z",
+              "updatedAt": "2026-10-31T02:56:09Z"
+            },
+            {
+              "originalPosition": 5,
+              "body": "Split power and energy groupings.",
+              "createdAt": "2026-10-31T02:27:20Z",
+              "updatedAt": "2026-10-31T02:56:09Z"
+            },
+            {
+              "originalPosition": 15,
+              "body": "```suggestion\n      \"A set of power measurement values that are associated with an \n       Energy Object. \n       This grouping is defined so that the controller-side YANG module\n       can import and reuse the same leaf definitions when collecting \n       and aggregating power data from devices, instead of\n       redefining them locally.\";\n```",
+              "createdAt": "2026-10-31T02:33:02Z",
+              "updatedAt": "2026-10-31T02:56:09Z"
+            },
+            {
+              "originalPosition": 82,
+              "body": "```suggestion\n  }\n  \n  grouping energy-values {\n    description\n      \"A set of energy measurement values that are associated with an \n       Energy Object. \n       This grouping is defined so that the controller-side YANG module\n       can import and reuse the same leaf definitions when collecting \n       and aggregating energy data from devices, instead of\n       redefining them locally.\";\n    container energy {\n```",
+              "createdAt": "2026-10-31T02:38:59Z",
+              "updatedAt": "2026-10-31T02:56:09Z"
+            },
+            {
+              "originalPosition": 82,
+              "body": "Adding a seperate grouping for energy values.",
+              "createdAt": "2026-10-31T02:39:46Z",
+              "updatedAt": "2026-10-31T02:56:09Z"
+            },
+            {
+              "originalPosition": 148,
+              "body": "```suggestion\n  grouping energy-relationships {\n```",
+              "createdAt": "2026-10-31T02:49:04Z",
+              "updatedAt": "2026-10-31T02:56:09Z"
+            },
+            {
+              "originalPosition": 148,
+              "body": "```suggestion\n  grouping relationships {\n```",
+              "createdAt": "2026-10-31T02:51:46Z",
+              "updatedAt": "2026-10-31T02:56:09Z"
+            },
+            {
+              "originalPosition": 148,
+              "body": "remove power and energy prefix to avoid misunderstandings",
+              "createdAt": "2026-10-31T02:53:06Z",
+              "updatedAt": "2026-10-31T02:56:09Z"
+            },
+            {
+              "originalPosition": 266,
+              "body": "```suggestion\n      uses power-values;\n      uses energy-values;\n```",
+              "createdAt": "2026-10-31T02:54:32Z",
+              "updatedAt": "2026-10-31T02:56:09Z"
+            },
+            {
+              "originalPosition": 395,
+              "body": "```suggestion\n      uses relationships;\n```",
+              "createdAt": "2026-10-31T02:55:10Z",
+              "updatedAt": "2026-10-31T02:56:09Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
