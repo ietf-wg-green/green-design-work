@@ -135,7 +135,7 @@ module ietf-power-and-energy {
        At another time, the same sensor might report a value
        of 150 milliwatts, under accuracy-measured-gold-10. This 
        indicates that the actual Power value is between 140 and 160 
-       milliwatts, since 5% of 150 milliwatts is only 7.5 millwatts, 
+       milliwatts, since 5% of 150 milliwatts is only 7.5 milliwatts,
        which is less than the absolute threshold of 10 milliwatts.";
   }
   identity accuracy-unknown {
