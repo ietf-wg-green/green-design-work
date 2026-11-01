@@ -423,10 +423,10 @@ module ietf-power-and-energy {
     description
       "A set of Power measurement values that are associated with an 
        Energy Object. 
-       This grouping is defined so that the controller-side YANG
-       module can import and reuse the same leaf definitions when
-       collecting and aggregating Power data from devices, instead
-       of redefining them locally.";
+       This grouping is defined so that other modules, for example
+       a controller-side module collecting and aggregating Power
+       data from devices, can reuse the same leaf definitions
+       instead of redefining them.";
     container power {
       description
         "Container for Power measurement attributes.";
@@ -504,10 +504,10 @@ module ietf-power-and-energy {
     description
       "A set of Energy measurement values that are associated with an 
        Energy Object. 
-       This grouping is defined so that the controller-side YANG
-       module can import and reuse the same leaf definitions when
-       collecting and aggregating Energy data from devices, instead
-       of redefining them locally.";
+       This grouping is defined so that other modules, for example
+       a controller-side module collecting and aggregating Energy
+       data from devices, can reuse the same leaf definitions
+       instead of redefining them.";
     container energy {
       description
         "Container for Energy measurement attributes.";
@@ -590,10 +590,10 @@ module ietf-power-and-energy {
        aggregated-by, enabling and enabled-by.  A controller uses 
        this grouping to represent the relationships collected from 
        devices. 
-       This grouping is defined so that the controller-side YANG 
-       module can import and reuse the same relationship structure 
-       when collecting and aggregating relationship information from 
-       devices, instead of redefining it locally.";
+       This grouping is defined so that other modules, for example
+       a controller-side module collecting relationships from
+       devices, can reuse the same relationship structure instead
+       of redefining it.";
     list relationship {
       key "type";
       description 
