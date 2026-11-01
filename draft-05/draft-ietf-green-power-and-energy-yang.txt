@@ -142,9 +142,9 @@ Table of Contents
    This document uses the terms Power and Energy in accordance with
    [I-D.ietf-green-terminology].  Power refers to the instantaneous rate
    at which a device consumes or produces electrical energy (typically
-   expressed in Watts).  Energy, by contrast, represents the cumulative
-   amount of work performed over time (typically expressed in Joules or
-   Watt-hours).  Both concepts are required within this YANG module.
+   expressed in watts).  Energy, by contrast, represents the cumulative
+   amount of work performed over time (typically expressed in joules or
+   watt-hours).  Both concepts are required within this YANG module.
    Power enables real-time monitoring, control, and optimization of
    device operation, while Energy provides a time-integrated view
    necessary for accounting, reporting, and even for sustainability
@@ -250,7 +250,7 @@ Table of Contents
      |     |  +--ro total-energy-delivered?   uint64
      |     |  +--ro data-source-accuracy?     identityref
      |     |  +--ro measurement-local?        boolean
-     |     |  +--ro certifications*           identityref
+     |     +--ro certifications*        identityref
      |     +--ro power-state
      |     |  +--ro oper?   identityref
      |     +--ro relationship* [type]
@@ -264,7 +264,7 @@ Table of Contents
               +--rw id             -> /energy-objects/energy-object/id
               +--rw power-state
                  +--rw admin?   identityref
-                 +--rw oper?    -> /energy-objects/energy-object/power-state/oper
+                 +--rw oper?    leafref
 
 4.  Relationship to the Hardware YANG Data Model
 
@@ -415,26 +415,26 @@ Table of Contents
           accuracy base- and sub-types as needed.
 
           data-source-accuracy
-           ├── accuracy-like-parent
-           ├── accuracy-unknown
-           │    └── accuracy-unavailable
-           ├── accuracy-estimated
-           │    ├── accuracy-static
-           │    ├── accuracy-historic
-           │    └── accuracy-learned
-           └── accuracy-measured
-                ├── accuracy-measured-bronze
-                │    ├── accuracy-measured-bronze-1
-                │    ├── accuracy-measured-bronze-10
-                │    ├── accuracy-measured-bronze-100
-                │    └── accuracy-measured-bronze-1000
-                ├── accuracy-measured-silver
-                │    └── accuracy-measured-silver-...
-                ├── accuracy-measured-gold
-                │    └── accuracy-measured-gold-...
-                ├── accuracy-measured-red
-                │    └── accuracy-measured-red-...
-                └── accuracy-measured-ones
+           +-- accuracy-like-parent
+           +-- accuracy-unknown
+           |    +-- accuracy-unavailable
+           +-- accuracy-estimated
+           |    +-- accuracy-static
+           |    +-- accuracy-historic
+           |    +-- accuracy-learned
+           +-- accuracy-measured
+                +-- accuracy-measured-bronze
+                |    +-- accuracy-measured-bronze-1
+                |    +-- accuracy-measured-bronze-10
+                |    +-- accuracy-measured-bronze-100
+                |    +-- accuracy-measured-bronze-1000
+                +-- accuracy-measured-silver
+                |    +-- accuracy-measured-silver-...
+                +-- accuracy-measured-gold
+                |    +-- accuracy-measured-gold-...
+                +-- accuracy-measured-red
+                |    +-- accuracy-measured-red-...
+                +-- accuracy-measured-ones
 
           The accuracy levels under accuracy-measured are based on
           percent-wise accuracy classes:
@@ -476,7 +476,7 @@ Table of Contents
           At another time, the same sensor might report a value
           of 150 milliwatts, under accuracy-measured-gold-10. This
           indicates that the actual Power value is between 140 and 160
-          milliwatts, since 5% of 150 milliwatts is only 7.5 millwatts,
+          milliwatts, since 5% of 150 milliwatts is only 7.5 milliwatts,
           which is less than the absolute threshold of 10 milliwatts.";
      }
      identity accuracy-unknown {
@@ -703,21 +703,21 @@ Table of Contents
        description "full power on.";
        reference
          "IANA: Power State Set Registry (ieee1621-power-state-set):
-          https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
+          https://www.iana.org/assignments/power-state-sets/";
      }
      identity power-state-off {
        base power-state;
        description "power off.";
        reference
          "IANA: Power State Set Registry (ieee1621-power-state-set):
-          https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
+          https://www.iana.org/assignments/power-state-sets/";
      }
      identity power-state-sleep {
        base power-state;
        description "low-power state.";
        reference
          "IANA: Power State Set Registry (ieee1621-power-state-set):
-          https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
+          https://www.iana.org/assignments/power-state-sets/";
      }
      identity energy-relationship-type {
        description "Base identity for Energy Object relationships";
@@ -774,7 +774,7 @@ Table of Contents
 
          leaf instantaneous-power {
            type int64;
-           units "mWatts";
+           units "milliwatts";
            mandatory false;
            description
             "The Power usage measurement for the Energy Object right
@@ -788,7 +788,7 @@ Table of Contents
 
          leaf nameplate-power {
            type uint32;
-           units "Watts";
+           units "watts";
            description
              "The Nameplate Power of the Energy Object: the maximum
               continuous Power the Energy Object is designed to consume
@@ -855,7 +855,7 @@ Table of Contents
 
          leaf total-energy-consumed {
            type uint64;
-           units "Watt-hours";
+           units "milliwatt-hours";
            description
             "The total cumulative Energy consumed by the Energy
              Object since the last reset. This value is specified as
@@ -866,7 +866,7 @@ Table of Contents
 
          leaf total-energy-delivered {
            type uint64;
-           units "Watt-hours";
+           units "milliwatt-hours";
            description
             "The total cumulative Energy delivered by the Energy
              Object since the last reset. This value is specified as
@@ -903,15 +903,22 @@ Table of Contents
               This information can be useful for troubleshooting and
               understanding the data source.";
          }
-         leaf-list certifications {
-           type identityref {
-             base ianaeo:certification-type;
-           }
-           description
-             "List of certifications applicable to this Energy Object.
-              If this list is empty, the Energy Object has no
-              certifications.";
+       }
+     }
+
+     grouping certifications {
+       description
+         "The certifications that apply to an Energy Object. Defined
+          as a separate grouping so that it can be reused independently
+          of the Power and Energy values.";
+       leaf-list certifications {
+         type identityref {
+           base ianaeo:certification-type;
          }
+         description
+           "List of certifications applicable to this Energy Object.
+            If this list is empty, the Energy Object has no
+            certifications.";
        }
      }
 
@@ -930,7 +937,6 @@ Table of Contents
           devices, instead of redefining it locally.";
        list relationship {
          key "type";
-         config false;
          description
            "Relationships for this Energy Object.";
 
@@ -1005,6 +1011,7 @@ Table of Contents
 
          uses power-values;
          uses energy-values;
+         uses certifications;
 
          container power-state {
            description

@@ -1296,9 +1296,9 @@ specification.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
 <p id="section-1.1-4">This document uses the terms Power and Energy in accordance with
 <span>[<a href="#I-D.ietf-green-terminology" class="cite xref">I-D.ietf-green-terminology</a>]</span>. Power refers to the instantaneous
 rate at which a device consumes or produces electrical energy
-(typically expressed in Watts). Energy, by contrast, represents the
+(typically expressed in watts). Energy, by contrast, represents the
 cumulative amount of work performed over time (typically expressed in
-Joules or Watt-hours). Both concepts are required within this YANG
+joules or watt-hours). Both concepts are required within this YANG
 module. Power enables real-time monitoring, control, and optimization
 of device operation, while Energy provides a time-integrated view
 necessary for accounting, reporting, and even for sustainability
@@ -1406,7 +1406,7 @@ module: ietf-power-and-energy
   |     |  +--ro total-energy-delivered?   uint64
   |     |  +--ro data-source-accuracy?     identityref
   |     |  +--ro measurement-local?        boolean
-  |     |  +--ro certifications*           identityref
+  |     +--ro certifications*        identityref
   |     +--ro power-state
   |     |  +--ro oper?   identityref
   |     +--ro relationship* [type]
@@ -1420,7 +1420,7 @@ module: ietf-power-and-energy
            +--rw id             -&gt; /energy-objects/energy-object/id
            +--rw power-state
               +--rw admin?   identityref
-              +--rw oper?    -&gt; /energy-objects/energy-object/power-state/oper
+              +--rw oper?    leafref
 </pre><a href="#section-3-9" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1579,26 +1579,26 @@ module ietf-power-and-energy {
        accuracy base- and sub-types as needed.
 
        data-source-accuracy
-        ├── accuracy-like-parent
-        ├── accuracy-unknown
-        │    └── accuracy-unavailable
-        ├── accuracy-estimated
-        │    ├── accuracy-static
-        │    ├── accuracy-historic
-        │    └── accuracy-learned
-        └── accuracy-measured
-             ├── accuracy-measured-bronze
-             │    ├── accuracy-measured-bronze-1
-             │    ├── accuracy-measured-bronze-10
-             │    ├── accuracy-measured-bronze-100
-             │    └── accuracy-measured-bronze-1000
-             ├── accuracy-measured-silver
-             │    └── accuracy-measured-silver-...
-             ├── accuracy-measured-gold
-             │    └── accuracy-measured-gold-...
-             ├── accuracy-measured-red
-             │    └── accuracy-measured-red-...
-             └── accuracy-measured-ones
+        +-- accuracy-like-parent
+        +-- accuracy-unknown
+        |    +-- accuracy-unavailable
+        +-- accuracy-estimated
+        |    +-- accuracy-static
+        |    +-- accuracy-historic
+        |    +-- accuracy-learned
+        +-- accuracy-measured
+             +-- accuracy-measured-bronze
+             |    +-- accuracy-measured-bronze-1
+             |    +-- accuracy-measured-bronze-10
+             |    +-- accuracy-measured-bronze-100
+             |    +-- accuracy-measured-bronze-1000
+             +-- accuracy-measured-silver
+             |    +-- accuracy-measured-silver-...
+             +-- accuracy-measured-gold
+             |    +-- accuracy-measured-gold-...
+             +-- accuracy-measured-red
+             |    +-- accuracy-measured-red-...
+             +-- accuracy-measured-ones
 
        The accuracy levels under accuracy-measured are based on
        percent-wise accuracy classes:
@@ -1640,7 +1640,7 @@ module ietf-power-and-energy {
        At another time, the same sensor might report a value
        of 150 milliwatts, under accuracy-measured-gold-10. This
        indicates that the actual Power value is between 140 and 160
-       milliwatts, since 5% of 150 milliwatts is only 7.5 millwatts,
+       milliwatts, since 5% of 150 milliwatts is only 7.5 milliwatts,
        which is less than the absolute threshold of 10 milliwatts.";
   }
   identity accuracy-unknown {
@@ -1867,21 +1867,21 @@ module ietf-power-and-energy {
     description "full power on.";
     reference
       "IANA: Power State Set Registry (ieee1621-power-state-set):
-       https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
+       https://www.iana.org/assignments/power-state-sets/";
   }
   identity power-state-off {
     base power-state;
     description "power off.";
     reference
       "IANA: Power State Set Registry (ieee1621-power-state-set):
-       https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
+       https://www.iana.org/assignments/power-state-sets/";
   }
   identity power-state-sleep {
     base power-state;
     description "low-power state.";
     reference
       "IANA: Power State Set Registry (ieee1621-power-state-set):
-       https://www.iana.org/assignments/power-state-sets/power-state-sets.xhtml#ieee1621";
+       https://www.iana.org/assignments/power-state-sets/";
   }
   identity energy-relationship-type {
     description "Base identity for Energy Object relationships";
@@ -1938,7 +1938,7 @@ module ietf-power-and-energy {
 
       leaf instantaneous-power {
         type int64;
-        units "mWatts";
+        units "milliwatts";
         mandatory false;
         description
          "The Power usage measurement for the Energy Object right
@@ -1952,7 +1952,7 @@ module ietf-power-and-energy {
 
       leaf nameplate-power {
         type uint32;
-        units "Watts";
+        units "watts";
         description
           "The Nameplate Power of the Energy Object: the maximum
            continuous Power the Energy Object is designed to consume
@@ -2019,7 +2019,7 @@ module ietf-power-and-energy {
 
       leaf total-energy-consumed {
         type uint64;
-        units "Watt-hours";
+        units "milliwatt-hours";
         description
          "The total cumulative Energy consumed by the Energy
           Object since the last reset. This value is specified as
@@ -2030,7 +2030,7 @@ module ietf-power-and-energy {
 
       leaf total-energy-delivered {
         type uint64;
-        units "Watt-hours";
+        units "milliwatt-hours";
         description
          "The total cumulative Energy delivered by the Energy
           Object since the last reset. This value is specified as
@@ -2067,15 +2067,22 @@ module ietf-power-and-energy {
            This information can be useful for troubleshooting and
            understanding the data source.";
       }
-      leaf-list certifications {
-        type identityref {
-          base ianaeo:certification-type;
-        }
-        description
-          "List of certifications applicable to this Energy Object.
-           If this list is empty, the Energy Object has no
-           certifications.";
+    }
+  }
+
+  grouping certifications {
+    description
+      "The certifications that apply to an Energy Object. Defined
+       as a separate grouping so that it can be reused independently
+       of the Power and Energy values.";
+    leaf-list certifications {
+      type identityref {
+        base ianaeo:certification-type;
       }
+      description
+        "List of certifications applicable to this Energy Object.
+         If this list is empty, the Energy Object has no
+         certifications.";
     }
   }
 
@@ -2094,7 +2101,6 @@ module ietf-power-and-energy {
        devices, instead of redefining it locally.";
     list relationship {
       key "type";
-      config false;
       description
         "Relationships for this Energy Object.";
 
@@ -2169,6 +2175,7 @@ module ietf-power-and-energy {
 
       uses power-values;
       uses energy-values;
+      uses certifications;
 
       container power-state {
         description
