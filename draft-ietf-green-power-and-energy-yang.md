@@ -107,8 +107,9 @@ informative:
 
 --- abstract
 
-This document defines the YANG data model for Power and Energy
-monitoring of devices within or connected to communication networks.
+This document defines a YANG data model for Power and Energy
+monitoring and control of devices within or connected to communication
+networks.
 
 --- middle
 
@@ -156,6 +157,7 @@ This document makes use of the terms defined in
 - Energy Object
 - Component
 - Energy Monitoring
+- Energy Efficiency
 - Device Level Energy Efficiency (DLEE)
 - Component Level Energy Efficiency (CLEE)
 - Service Level Energy Efficiency (SLEE)
@@ -193,9 +195,11 @@ requirements, please refer to "GREEN reference model" in section 4 in
 
 # Power and Energy Data Model
 
-The Power and Energy Data Model reports the Power and Energy
-consumption of each Energy Object as well as the units, sign,
-measurement accuracy, etc.
+The Power and Energy Data Model reports the Power and Energy of each
+Energy Object, in fixed units per leaf (for example, milliwatts for
+instantaneous Power and milliwatt-hours for Energy), together with the
+sign of the Power (consumption or generation), the measurement
+accuracy, etc.
 
 A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
@@ -216,7 +220,7 @@ reference the /energy-objects/energy-object/id using a leafref with
 require-instance false. This allows an administrator or controller to
 correlate a configured Power State intent with the Energy Object being
 monitored. The require-instance false statement allows the
-configuration to remain after an energy-object has disappeared from the
+configuration to remain after an Energy Object has disappeared from the
 system, or before it has been introduced. If the referred Energy Object
 does not currently exist, the configuration item for it has no effect.
 
@@ -235,9 +239,9 @@ These relationship categories, including their use for power/metering
 topology discovery and for preventing double-counting of Energy values,
 are defined in {{?I-D.ietf-green-framework}}. For each relationship
 type, one or more peer Energy Objects can be identified via the `id`
-leaf within the `peer` list, a string value that is typically the
-peer's UUID when known, or another locally unique identifier, together
-with human-readable details captured in the `details` leaf, otherwise.
+leaf within the `peer` list, a string value that is preferably the
+peer's UUID; if the UUID is not known, another identifier can be used,
+together with human-readable details captured in the `details` leaf.
 
 Regarding relationships among Energy Objects, this document does not
 provide a mechanism to configure relationships on the device (i.e.,
