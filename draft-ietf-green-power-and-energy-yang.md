@@ -645,6 +645,7 @@ as follows.
 | epeat | Electronic Product Environmental Assessment Tool ratings | RFC XXX |
 | eu-energy-level |	EU Energy Label: European efficiency ratings   | RFC XXX |
 | cn-energy-level | CN Energy Label: China efficiency ratings      | RFC XXX |
+| cqc             | China Quality Certification for energy efficiency | RFC XXX |
 {: title="Initial Registries"}
 
 Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.
