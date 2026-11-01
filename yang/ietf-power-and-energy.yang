@@ -423,10 +423,10 @@ module ietf-power-and-energy {
     description
       "A set of Power measurement values that are associated with an 
        Energy Object. 
-       This grouping is defined so that the controller-side YANG module
-       can import and reuse the same leaf definitions when collecting 
-       and aggregating Power data from devices, instead of
-       redefining them locally.";
+       This grouping is defined so that the controller-side YANG
+       module can import and reuse the same leaf definitions when
+       collecting and aggregating Power data from devices, instead
+       of redefining them locally.";
     container power {
       description
         "Container for Power measurement attributes.";
@@ -454,7 +454,8 @@ module ietf-power-and-energy {
            or deliver, as specified by the manufacturer. It is a
            rated design value, not an expected operating value or an
            observed maximum, and does not change during operation.
-           Used for power budget calculations and capacity planning.";
+           Used for power budget calculations and capacity
+           planning.";
         reference
           "I-D.ietf-green-terminology: Terminology for Energy
            Efficiency Network Management";
@@ -503,10 +504,10 @@ module ietf-power-and-energy {
     description
       "A set of Energy measurement values that are associated with an 
        Energy Object. 
-       This grouping is defined so that the controller-side YANG module
-       can import and reuse the same leaf definitions when collecting 
-       and aggregating Energy data from devices, instead of
-       redefining them locally.";
+       This grouping is defined so that the controller-side YANG
+       module can import and reuse the same leaf definitions when
+       collecting and aggregating Energy data from devices, instead
+       of redefining them locally.";
     container energy {
       description
         "Container for Energy measurement attributes.";
