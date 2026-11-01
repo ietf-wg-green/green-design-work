@@ -10,8 +10,9 @@
 <meta content="Marisol Palmero" name="author">
 <meta content="Jan Lindblad" name="author">
 <meta content="
-       This document defines the YANG data model for Power and Energy
-monitoring of devices within or connected to communication networks. 
+       This document defines a YANG data model for Power and Energy
+monitoring and control of devices within or connected to communication
+networks. 
     " name="description">
 <meta content="xml2rfc 3.34.1" name="generator">
 <meta content="Internet-Draft" name="keyword">
@@ -1096,8 +1097,9 @@ svg {
 <h1 id="title">Power and Energy YANG Module</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document defines the YANG data model for Power and Energy
-monitoring of devices within or connected to communication networks.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines a YANG data model for Power and Energy
+monitoring and control of devices within or connected to communication
+networks.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
 <section id="section-boilerplate.1">
@@ -1281,13 +1283,16 @@ Processing Unit (MPU).<a href="#section-1-6" class="pilcrow">¶</a></p>
             <p id="section-1.1-2.7.1">Energy Monitoring<a href="#section-1.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.8">
-            <p id="section-1.1-2.8.1">Device Level Energy Efficiency (DLEE)<a href="#section-1.1-2.8.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.8.1">Energy Efficiency<a href="#section-1.1-2.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.9">
-            <p id="section-1.1-2.9.1">Component Level Energy Efficiency (CLEE)<a href="#section-1.1-2.9.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.9.1">Device Level Energy Efficiency (DLEE)<a href="#section-1.1-2.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.10">
-            <p id="section-1.1-2.10.1">Service Level Energy Efficiency (SLEE)<a href="#section-1.1-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.10.1">Component Level Energy Efficiency (CLEE)<a href="#section-1.1-2.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.1-2.11">
+            <p id="section-1.1-2.11.1">Service Level Energy Efficiency (SLEE)<a href="#section-1.1-2.11.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-1.1-3">The terms reused from <span>[<a href="#I-D.ietf-green-terminology" class="cite xref">I-D.ietf-green-terminology</a>]</span> and
@@ -1330,9 +1335,11 @@ requirements, please refer to "GREEN reference model" in section 4 in
       <h2 id="name-power-and-energy-data-model">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-power-and-energy-data-model" class="section-name selfRef">Power and Energy Data Model</a>
       </h2>
-<p id="section-3-1">The Power and Energy Data Model reports the Power and Energy
-consumption of each Energy Object as well as the units, sign,
-measurement accuracy, etc.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">The Power and Energy Data Model reports the Power and Energy of each
+Energy Object, in fixed units per leaf (for example, milliwatts for
+instantaneous Power and milliwatt-hours for Energy), together with the
+sign of the Power (consumption or generation), the measurement
+accuracy, etc.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
 container to represent the intended (administrative) and operational
@@ -1351,7 +1358,7 @@ reference the /energy-objects/energy-object/id using a leafref with
 require-instance false. This allows an administrator or controller to
 correlate a configured Power State intent with the Energy Object being
 monitored. The require-instance false statement allows the
-configuration to remain after an energy-object has disappeared from the
+configuration to remain after an Energy Object has disappeared from the
 system, or before it has been introduced. If the referred Energy Object
 does not currently exist, the configuration item for it has no effect.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">The relationship list models the relationship between an Energy
@@ -1368,9 +1375,9 @@ These relationship categories, including their use for power/metering
 topology discovery and for preventing double-counting of Energy values,
 are defined in <span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.ietf-green-framework</a>]</span>. For each relationship
 type, one or more peer Energy Objects can be identified via the <code>id</code>
-leaf within the <code>peer</code> list, a string value that is typically the
-peer's UUID when known, or another locally unique identifier, together
-with human-readable details captured in the <code>details</code> leaf, otherwise.<a href="#section-3-5" class="pilcrow">¶</a></p>
+leaf within the <code>peer</code> list, a string value that is preferably the
+peer's UUID; if the UUID is not known, another identifier can be used,
+together with human-readable details captured in the <code>details</code> leaf.<a href="#section-3-5" class="pilcrow">¶</a></p>
 <p id="section-3-6">Regarding relationships among Energy Objects, this document does not
 provide a mechanism to configure relationships on the device (i.e.,
 there is no relationship list under /energy-control); the
@@ -2260,8 +2267,8 @@ module ietf-power-and-energy {
 
 &lt;CODE ENDS&gt;</pre><a href="#section-6-2" class="pilcrow">¶</a>
 </div>
-<p id="section-6-3">The IANA-requested identities for power and energy class are separately
-described below.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-3">The IANA-maintained identities for certification types are defined in
+the following module.<a href="#section-6-3" class="pilcrow">¶</a></p>
 <div class="breakable lang-yang sourcecode" id="section-6-4">
 <pre>&lt;CODE BEGINS&gt; file "iana-power-and-energy@2026-11-01.yang"
 
@@ -2490,38 +2497,42 @@ consumption from workload patterns (UC 15: AI Training)<a href="#section-7.2-3.2
           <li class="normal" id="section-7.2-3.3">
             <p id="section-7.2-3.3.1">Measured Data: Direct, real-time sensor measurements with quantified
 precision:<a href="#section-7.2-3.3.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-7.2-3.3.2.1">
+                <p id="section-7.2-3.3.2.1.1">Bronze: +/-30% accuracy for typical values.<a href="#section-7.2-3.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-3.4">
-            <p id="section-7.2-3.4.1">Bronze: +/-30% accuracy for typical values.<a href="#section-7.2-3.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-7.2-3.3.2.2">
+                <p id="section-7.2-3.3.2.2.1">Silver: +/-10% accuracy for typical values.<a href="#section-7.2-3.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-3.5">
-            <p id="section-7.2-3.5.1">Silver: +/-10% accuracy for typical values.<a href="#section-7.2-3.5.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-7.2-3.3.2.3">
+                <p id="section-7.2-3.3.2.3.1">Gold: +/-5% accuracy for typical values.<a href="#section-7.2-3.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-3.6">
-            <p id="section-7.2-3.6.1">Gold: +/-5% accuracy for typical values.<a href="#section-7.2-3.6.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-7.2-3.3.2.4">
+                <p id="section-7.2-3.3.2.4.1">Red: +/-2% accuracy for typical values.<a href="#section-7.2-3.3.2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-3.7">
-            <p id="section-7.2-3.7.1">Red: +/-2% accuracy for typical values.<a href="#section-7.2-3.7.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-7.2-3.3.2.5">
+                <p id="section-7.2-3.3.2.5.1">Ones: All digits are valid, except trailing zeros.<a href="#section-7.2-3.3.2.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.2-3.8">
-            <p id="section-7.2-3.8.1">Ones: All non-zero digits are significant/valid.<a href="#section-7.2-3.8.1" class="pilcrow">¶</a></p>
+            </ul>
 </li>
         </ul>
 <p id="section-7.2-4">Percentage-based accuracy fails for small values. For example, +/-5% of
 100 mW is only 5 mW, which may be smaller than sensor noise. Industry
 standards (IEC 62053, IEC 61850-7-4) address this by specifying:
 Accuracy = MAX(percentage_error, absolute_threshold)<a href="#section-7.2-4" class="pilcrow">¶</a></p>
-<p id="section-7.2-5">The absolute threshold suffixes (<code>-1</code>, <code>-10</code>, <code>-100</code>, <code>-1000</code>) refer
-to milliwatts. <code>-10</code> means +/-10 milliwatts.<a href="#section-7.2-5" class="pilcrow">¶</a></p>
+<p id="section-7.2-5">The absolute threshold suffixes (<code>-1</code>, <code>-10</code>, <code>-100</code>, <code>-1000</code>) are
+expressed in the unit of the qualified value: milliwatts for Power,
+and milliwatt-hours for Energy. For example, <code>-10</code> means +/-10
+milliwatts for a Power value.<a href="#section-7.2-5" class="pilcrow">¶</a></p>
 <p id="section-7.2-6">Example - A sensor with <code>accuracy-measured-gold-10</code> reports:<a href="#section-7.2-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.2-7.1">
-            <p id="section-7.2-7.1.1">16.25W -&gt; actual value between 16.2375W and 16.2625W
-(5% = 0.8125W &gt; 0.010W threshold)<a href="#section-7.2-7.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-7.1.1">16.25 W -&gt; actual value between 15.4375 W and 17.0625 W
+(5% = 0.8125 W &gt; 0.010 W threshold)<a href="#section-7.2-7.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-7.2">
-            <p id="section-7.2-7.2.1">0.15W -&gt; actual value between 0.140W and 0.160W
-(5% = 0.0075W &lt; 0.010W threshold, so +/-10mW applies)<a href="#section-7.2-7.2.1" class="pilcrow">¶</a></p>
+            <p id="section-7.2-7.2.1">0.15 W -&gt; actual value between 0.140 W and 0.160 W
+(5% = 0.0075 W &lt; 0.010 W threshold, so +/-10 mW applies)<a href="#section-7.2-7.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.2-8">Explicit accuracy reporting enables:<a href="#section-7.2-8" class="pilcrow">¶</a></p>
@@ -2642,7 +2653,7 @@ how precisely they can monitor its actual performance.<a href="#section-7.3-12" 
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
 <p id="section-8-1">This section is modeled after the template described in Section 3.7.1
-of <span>[<a href="#rfc8407bis" class="cite xref">rfc8407bis</a>]</span>.<a href="#section-8-1" class="pilcrow">¶</a></p>
+of <span>[<a href="#RFC9907" class="cite xref">RFC9907</a>]</span>.<a href="#section-8-1" class="pilcrow">¶</a></p>
 <p id="section-8-2">The Power and Energy YANG module defines a data model that is designed
 to be accessed via YANG-based management protocols, such as NETCONF
 <span>[<a href="#RFC6241" class="cite xref">RFC6241</a>]</span> and RESTCONF <span>[<a href="#RFC8040" class="cite xref">RFC8040</a>]</span>. These YANG-based management
@@ -2713,12 +2724,38 @@ notifications.<a href="#section-8-8" class="pilcrow">¶</a></p>
         <h3 id="name-yang-module-name-and-uri-re">
 <a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-yang-module-name-and-uri-re" class="section-name selfRef">YANG Module Name and URI Registry</a>
         </h3>
-<p id="section-9.1-1">IANA is requested to register the following URI in the "IETF XML
+<p id="section-9.1-1">IANA is requested to register the following URIs in the "IETF XML
 Registry" <span>[<a href="#RFC3688" class="cite xref">RFC3688</a>]</span>.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
-<span id="name-ietf-uri-registry"></span><table class="center" id="table-1">
+<span id="name-ietf-uri-registry-ietf-powe"></span><table class="center" id="table-1">
           <caption>
 <a href="#table-1" class="selfRef">Table 1</a>:
-<a href="#name-ietf-uri-registry" class="selfRef">IETF URI Registry</a>
+<a href="#name-ietf-uri-registry-ietf-powe" class="selfRef">IETF URI Registry: ietf-power-and-energy</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Field</th>
+              <th class="text-left" rowspan="1" colspan="1">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">URI</td>
+              <td class="text-left" rowspan="1" colspan="1">urn:ietf:params:xml:ns:yang:ietf-power-and-energy</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Registrant Contact</td>
+              <td class="text-left" rowspan="1" colspan="1">The IESG</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">XML</td>
+              <td class="text-left" rowspan="1" colspan="1">N/A; the requested URI is an XML namespace.</td>
+            </tr>
+          </tbody>
+        </table>
+<span id="name-ietf-uri-registry-iana-powe"></span><table class="center" id="table-2">
+          <caption>
+<a href="#table-2" class="selfRef">Table 2</a>:
+<a href="#name-ietf-uri-registry-iana-powe" class="selfRef">IETF URI Registry: iana-power-and-energy</a>
           </caption>
 <thead>
             <tr>
@@ -2741,13 +2778,47 @@ Registry" <span>[<a href="#RFC3688" class="cite xref">RFC3688</a>]</span>.<a hre
             </tr>
           </tbody>
         </table>
-<p id="section-9.1-3">IANA is also requested to register the following YANG module in the
+<p id="section-9.1-4">IANA is also requested to register the following YANG modules in the
 "YANG Module Names" registry <span>[<a href="#RFC6020" class="cite xref">RFC6020</a>]</span> <span>[<a href="#RFC9890" class="cite xref">RFC9890</a>]</span> within the "YANG
-Parameters" registry group.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
-<span id="name-ietf-yang-module-name-regis"></span><table class="center" id="table-2">
+Parameters" registry group.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
+<span id="name-ietf-yang-module-name-regis"></span><table class="center" id="table-3">
           <caption>
-<a href="#table-2" class="selfRef">Table 2</a>:
-<a href="#name-ietf-yang-module-name-regis" class="selfRef">IETF YANG Module Name Registry</a>
+<a href="#table-3" class="selfRef">Table 3</a>:
+<a href="#name-ietf-yang-module-name-regis" class="selfRef">IETF YANG Module Name Registry: ietf-power-and-energy</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Field</th>
+              <th class="text-left" rowspan="1" colspan="1">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Name</td>
+              <td class="text-left" rowspan="1" colspan="1">ietf-power-and-energy</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Maintained by IANA?</td>
+              <td class="text-left" rowspan="1" colspan="1">N</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Namespace</td>
+              <td class="text-left" rowspan="1" colspan="1">urn:ietf:params:xml:ns:yang:ietf-power-and-energy</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Prefix</td>
+              <td class="text-left" rowspan="1" colspan="1">eo</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Reference</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+            </tr>
+          </tbody>
+        </table>
+<span id="name-ietf-yang-module-name-regist"></span><table class="center" id="table-4">
+          <caption>
+<a href="#table-4" class="selfRef">Table 4</a>:
+<a href="#name-ietf-yang-module-name-regist" class="selfRef">IETF YANG Module Name Registry: iana-power-and-energy</a>
           </caption>
 <thead>
             <tr>
@@ -2778,7 +2849,7 @@ Parameters" registry group.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
             </tr>
           </tbody>
         </table>
-<p id="section-9.1-5">Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.<a href="#section-9.1-5" class="pilcrow">¶</a></p>
+<p id="section-9.1-7">Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.<a href="#section-9.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="power-and-energy-certification-types-registry">
@@ -2797,9 +2868,9 @@ efficiency certification types, for use as identityref values in
 unqualified identity name (e.g., energy-star, c80-plus, etc). No
 numeric code points are assigned by this registry. Registry Template is
 as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
-<span id="name-ietf-power-and-energy-certi"></span><table class="center" id="table-3">
+<span id="name-ietf-power-and-energy-certi"></span><table class="center" id="table-5">
           <caption>
-<a href="#table-3" class="selfRef">Table 3</a>:
+<a href="#table-5" class="selfRef">Table 5</a>:
 <a href="#name-ietf-power-and-energy-certi" class="selfRef">IETF Power and Energy Certification Types Registry</a>
           </caption>
 <thead>
@@ -2828,9 +2899,9 @@ as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
             </tr>
           </tbody>
         </table>
-<span id="name-initial-registries"></span><table class="center" id="table-4">
+<span id="name-initial-registries"></span><table class="center" id="table-6">
           <caption>
-<a href="#table-4" class="selfRef">Table 4</a>:
+<a href="#table-6" class="selfRef">Table 6</a>:
 <a href="#name-initial-registries" class="selfRef">Initial Registries</a>
           </caption>
 <thead>
@@ -2936,8 +3007,8 @@ defined in RFC XXX.<a href="#section-9.2-13" class="pilcrow">¶</a></p>
 <p id="section-10-1">This work has benefited from the regular discussions on the GREEN
 Design Meetings. The authors wish to thank the WG chairs, Rob Wilton
 and Diego Lopez, for organizing the recurring calls and progressing
-the work. The authors also wish to thank the following individuals,
-who provided helpful comments and reviews to this document.<a href="#section-10-1" class="pilcrow">¶</a></p>
+the work. The authors also wish to thank Rob Wilton, Diego Lopez,
+and Tony Li for their helpful comments and reviews of this document.<a href="#section-10-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-combined-references">
@@ -3048,9 +3119,9 @@ who provided helpful comments and reviews to this document.<a href="#section-10-
         <dd>
 <span class="refAuthor">Bjorklund, M.</span>, <span class="refAuthor">Schoenwaelder, J.</span>, <span class="refAuthor">Shafer, P.</span>, <span class="refAuthor">Watsen, K.</span>, and <span class="refAuthor">R. Wilton</span>, <span class="refTitle">"Network Management Datastore Architecture (NMDA)"</span>, <span class="seriesInfo">RFC 8342</span>, <span class="seriesInfo">DOI 10.17487/RFC8342</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8342">https://www.rfc-editor.org/rfc/rfc8342</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="rfc8407bis">[rfc8407bis]</dt>
+<dt id="RFC9907">[RFC9907]</dt>
       <dd>
-<span class="refAuthor">Bierman, A.</span>, <span class="refAuthor">Boucadair, M.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Guidelines for Authors and Reviewers of Documents Containing YANG Data Models"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-netmod-rfc8407bis-28</span>, <time datetime="2025-06-05" class="refDate">5 June 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-netmod-rfc8407bis-28">https://datatracker.ietf.org/doc/html/draft-ietf-netmod-rfc8407bis-28</a>&gt;</span>. </dd>
+<span class="refTitle">"Guidelines for Authors and Reviewers of Documents Containing YANG Data Models"</span>, <time datetime="2026-03" class="refDate">March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc9907">https://datatracker.ietf.org/doc/html/rfc9907</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>

@@ -18,8 +18,9 @@ Expires: 5 May 2027                                               Huawei
 
 Abstract
 
-   This document defines the YANG data model for Power and Energy
-   monitoring of devices within or connected to communication networks.
+   This document defines a YANG data model for Power and Energy
+   monitoring and control of devices within or connected to
+   communication networks.
 
 Status of This Memo
 
@@ -130,6 +131,8 @@ Table of Contents
 
    *  Energy Monitoring
 
+   *  Energy Efficiency
+
    *  Device Level Energy Efficiency (DLEE)
 
    *  Component Level Energy Efficiency (CLEE)
@@ -167,9 +170,11 @@ Table of Contents
 
 3.  Power and Energy Data Model
 
-   The Power and Energy Data Model reports the Power and Energy
-   consumption of each Energy Object as well as the units, sign,
-   measurement accuracy, etc.
+   The Power and Energy Data Model reports the Power and Energy of each
+   Energy Object, in fixed units per leaf (for example, milliwatts for
+   instantaneous Power and milliwatt-hours for Energy), together with
+   the sign of the Power (consumption or generation), the measurement
+   accuracy, etc.
 
    A containment tree view of the Power and Energy Monitoring is
    presented.  The model uses the admin and oper leaves within the
@@ -190,7 +195,7 @@ Table of Contents
    require-instance false.  This allows an administrator or controller
    to correlate a configured Power State intent with the Energy Object
    being monitored.  The require-instance false statement allows the
-   configuration to remain after an energy-object has disappeared from
+   configuration to remain after an Energy Object has disappeared from
    the system, or before it has been introduced.  If the referred Energy
    Object does not currently exist, the configuration item for it has no
    effect.
@@ -210,9 +215,9 @@ Table of Contents
    Energy values, are defined in [I-D.ietf-green-framework].  For each
    relationship type, one or more peer Energy Objects can be identified
    via the id leaf within the peer list, a string value that is
-   typically the peer's UUID when known, or another locally unique
-   identifier, together with human-readable details captured in the
-   details leaf, otherwise.
+   preferably the peer's UUID; if the UUID is not known, another
+   identifier can be used, together with human-readable details captured
+   in the details leaf.
 
    Regarding relationships among Energy Objects, this document does not
    provide a mechanism to configure relationships on the device (i.e.,
@@ -1094,8 +1099,8 @@ Table of Contents
    }
    <CODE ENDS>
 
-   The IANA-requested identities for power and energy class are
-   separately described below.
+   The IANA-maintained identities for certification types are defined in
+   the following module.
 
    <CODE BEGINS> file "iana-power-and-energy@2026-11-01.yang"
    module iana-power-and-energy {
@@ -1300,31 +1305,33 @@ Table of Contents
    *  Measured Data: Direct, real-time sensor measurements with
       quantified precision:
 
-   *  Bronze: +/-30% accuracy for typical values.
+      -  Bronze: +/-30% accuracy for typical values.
 
-   *  Silver: +/-10% accuracy for typical values.
+      -  Silver: +/-10% accuracy for typical values.
 
-   *  Gold: +/-5% accuracy for typical values.
+      -  Gold: +/-5% accuracy for typical values.
 
-   *  Red: +/-2% accuracy for typical values.
+      -  Red: +/-2% accuracy for typical values.
 
-   *  Ones: All non-zero digits are significant/valid.
+      -  Ones: All digits are valid, except trailing zeros.
 
    Percentage-based accuracy fails for small values.  For example, +/-5%
    of 100 mW is only 5 mW, which may be smaller than sensor noise.
    Industry standards (IEC 62053, IEC 61850-7-4) address this by
    specifying: Accuracy = MAX(percentage_error, absolute_threshold)
 
-   The absolute threshold suffixes (-1, -10, -100, -1000) refer to
-   milliwatts. -10 means +/-10 milliwatts.
+   The absolute threshold suffixes (-1, -10, -100, -1000) are expressed
+   in the unit of the qualified value: milliwatts for Power, and
+   milliwatt-hours for Energy.  For example, -10 means +/-10 milliwatts
+   for a Power value.
 
    Example - A sensor with accuracy-measured-gold-10 reports:
 
-   *  16.25W -> actual value between 16.2375W and 16.2625W (5% = 0.8125W
-      > 0.010W threshold)
+   *  16.25 W -> actual value between 15.4375 W and 17.0625 W (5% =
+      0.8125 W > 0.010 W threshold)
 
-   *  0.15W -> actual value between 0.140W and 0.160W (5% = 0.0075W <
-      0.010W threshold, so +/-10mW applies)
+   *  0.15 W -> actual value between 0.140 W and 0.160 W (5% = 0.0075 W
+      < 0.010 W threshold, so +/-10 mW applies)
 
    Explicit accuracy reporting enables:
 
@@ -1420,7 +1427,7 @@ Table of Contents
 8.  Security Considerations
 
    This section is modeled after the template described in Section 3.7.1
-   of [rfc8407bis].
+   of [RFC9907].
 
    The Power and Energy YANG module defines a data model that is
    designed to be accessed via YANG-based management protocols, such as
@@ -1483,8 +1490,21 @@ Table of Contents
 
 9.1.  YANG Module Name and URI Registry
 
-   IANA is requested to register the following URI in the "IETF XML
+   IANA is requested to register the following URIs in the "IETF XML
    Registry" [RFC3688].
+
+    +============+===================================================+
+    | Field      | Value                                             |
+    +============+===================================================+
+    | URI        | urn:ietf:params:xml:ns:yang:ietf-power-and-energy |
+    +------------+---------------------------------------------------+
+    | Registrant | The IESG                                          |
+    | Contact    |                                                   |
+    +------------+---------------------------------------------------+
+    | XML        | N/A; the requested URI is an XML namespace.       |
+    +------------+---------------------------------------------------+
+
+            Table 1: IETF URI Registry: ietf-power-and-energy
 
     +============+===================================================+
     | Field      | Value                                             |
@@ -1497,11 +1517,28 @@ Table of Contents
     | XML        | N/A; the requested URI is an XML namespace.       |
     +------------+---------------------------------------------------+
 
-                        Table 1: IETF URI Registry
+            Table 2: IETF URI Registry: iana-power-and-energy
 
-   IANA is also requested to register the following YANG module in the
+   IANA is also requested to register the following YANG modules in the
    "YANG Module Names" registry [RFC6020] [RFC9890] within the "YANG
    Parameters" registry group.
+
+    +============+===================================================+
+    | Field      | Value                                             |
+    +============+===================================================+
+    | Name       | ietf-power-and-energy                             |
+    +------------+---------------------------------------------------+
+    | Maintained | N                                                 |
+    | by IANA?   |                                                   |
+    +------------+---------------------------------------------------+
+    | Namespace  | urn:ietf:params:xml:ns:yang:ietf-power-and-energy |
+    +------------+---------------------------------------------------+
+    | Prefix     | eo                                                |
+    +------------+---------------------------------------------------+
+    | Reference  | RFC XXX                                           |
+    +------------+---------------------------------------------------+
+
+      Table 3: IETF YANG Module Name Registry: ietf-power-and-energy
 
     +============+===================================================+
     | Field      | Value                                             |
@@ -1518,7 +1555,7 @@ Table of Contents
     | Reference  | RFC XXX                                           |
     +------------+---------------------------------------------------+
 
-                 Table 2: IETF YANG Module Name Registry
+      Table 4: IETF YANG Module Name Registry: iana-power-and-energy
 
    Note to IANA: RFC XXX must be replaced by the newly assigned RFC
    number.
@@ -1549,7 +1586,7 @@ Table of Contents
     | Available Values       | Unqualified identity names as strings |
     +------------------------+---------------------------------------+
 
-       Table 3: IETF Power and Energy Certification Types Registry
+       Table 5: IETF Power and Energy Certification Types Registry
 
    +=================+====================================+===========+
    | Identity Name   | Description                        | Reference |
@@ -1571,7 +1608,7 @@ Table of Contents
    |                 | energy efficiency                  |           |
    +-----------------+------------------------------------+-----------+
 
-                       Table 4: Initial Registries
+                       Table 6: Initial Registries
 
    Note to IANA: RFC XXX must be replaced by the newly assigned RFC
    number.
@@ -1627,8 +1664,8 @@ Table of Contents
    This work has benefited from the regular discussions on the GREEN
    Design Meetings.  The authors wish to thank the WG chairs, Rob Wilton
    and Diego Lopez, for organizing the recurring calls and progressing
-   the work.  The authors also wish to thank the following individuals,
-   who provided helpful comments and reviews to this document.
+   the work.  The authors also wish to thank Rob Wilton, Diego Lopez,
+   and Tony Li for their helpful comments and reviews of this document.
 
 11.  References
 
@@ -1733,13 +1770,9 @@ Table of Contents
               (NMDA)", RFC 8342, DOI 10.17487/RFC8342, March 2018,
               <https://www.rfc-editor.org/rfc/rfc8342>.
 
-   [rfc8407bis]
-              Bierman, A., Boucadair, M., and Q. Wu, "Guidelines for
-              Authors and Reviewers of Documents Containing YANG Data
-              Models", Work in Progress, Internet-Draft, draft-ietf-
-              netmod-rfc8407bis-28, 5 June 2025,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-netmod-
-              rfc8407bis-28>.
+   [RFC9907]  "Guidelines for Authors and Reviewers of Documents
+              Containing YANG Data Models", March 2026,
+              <https://datatracker.ietf.org/doc/html/rfc9907>.
 
 Authors' Addresses
 
