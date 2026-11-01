@@ -269,7 +269,9 @@ Table of Contents
               +--rw id             -> /energy-objects/energy-object/id
               +--rw power-state
                  +--rw admin?   identityref
-                 +--rw oper?    leafref
+                 +--rw oper?
+                         -> /energy-objects/energy-object
+                            /power-state/oper
 
 4.  Relationship to the Hardware YANG Data Model
 

@@ -1427,7 +1427,9 @@ module: ietf-power-and-energy
            +--rw id             -&gt; /energy-objects/energy-object/id
            +--rw power-state
               +--rw admin?   identityref
-              +--rw oper?    leafref
+              +--rw oper?
+                      -&gt; /energy-objects/energy-object
+                         /power-state/oper
 </pre><a href="#section-3-9" class="pilcrow">¶</a>
 </div>
 </section>
