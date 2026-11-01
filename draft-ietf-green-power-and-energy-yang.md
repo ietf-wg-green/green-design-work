@@ -600,19 +600,35 @@ This document requests IANA to perform the following actions.
 
 ## YANG Module Name and URI Registry
 
-IANA is requested to register the following URI in the "IETF XML
+IANA is requested to register the following URIs in the "IETF XML
 Registry" [RFC3688].
+
+| Field | Value                                                 |
+|-------|-------------------------------------------------------|
+| URI   | urn:ietf:params:xml:ns:yang:ietf-power-and-energy     |
+| Registrant Contact | The IESG                                 |
+| XML   | N/A; the requested URI is an XML namespace.           |
+{: title="IETF URI Registry: ietf-power-and-energy"}
 
 | Field | Value                                                 |
 |-------|-------------------------------------------------------|
 | URI   | urn:ietf:params:xml:ns:yang:iana-power-and-energy     |
 | Registrant Contact | The IESG                                 |
 | XML   | N/A; the requested URI is an XML namespace.           |
-{: title="IETF URI Registry"}
+{: title="IETF URI Registry: iana-power-and-energy"}
 
-IANA is also requested to register the following YANG module in the
+IANA is also requested to register the following YANG modules in the
 "YANG Module Names" registry {{RFC6020}} {{RFC9890}} within the "YANG
 Parameters" registry group.
+
+| Field               | Value                                   |
+|---------------------|-----------------------------------------|
+| Name                | ietf-power-and-energy                   |
+| Maintained by IANA? | N                                       |
+| Namespace | urn:ietf:params:xml:ns:yang:ietf-power-and-energy |
+| Prefix    | eo                                                |
+| Reference | RFC XXX                                           |
+{: title="IETF YANG Module Name Registry: ietf-power-and-energy"}
 
 | Field               | Value                                   |
 |---------------------|-----------------------------------------|
@@ -621,7 +637,7 @@ Parameters" registry group.
 | Namespace | urn:ietf:params:xml:ns:yang:iana-power-and-energy |
 | Prefix    | ianaeo                                            |
 | Reference | RFC XXX                                           |
-{: title="IETF YANG Module Name Registry"}
+{: title="IETF YANG Module Name Registry: iana-power-and-energy"}
 
 Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.
 
