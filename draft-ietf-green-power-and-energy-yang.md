@@ -282,9 +282,9 @@ a single device, but carries no uniqueness guarantee across
 different devices or management systems.  The 'physical-index'
 leaf optionally matches entPhysicalIndex in the Entity MIB
 [RFC6933] when the entity-mib feature is supported.  The 'uuid'
-leaf is a Universally Unique Identifier [RFC9562] that is
-globally unique and therefore suitable for stable identification
-of a component across management systems.
+leaf is a Universally Unique Identifier [RFC9562], intended to
+be unique across space and time, and therefore suitable for
+stable identification of a component across management systems.
 
 The GREEN YANG module imports the ietf-hardware module [RFC8348]
 and uses the 'uuid' leaf as the value of 'source-component-id',
@@ -381,7 +381,8 @@ device.
 The GREEN YANG module relies on the ietf-hardware module {{!RFC8348}}
 for hardware component identification.  Among the three identifiers
 that ietf-hardware provides for each component: 'name',
-'physical-index', and 'uuid', only `uuid` is globally unique.
+'physical-index', and 'uuid', only `uuid` is intended to be
+unique beyond a single device.
 The 'name' leaf, while serving as the list key within a device,
 is meaningful only in the context of that specific device.  The
 'physical-index' leaf, where present, provides a mapping to the
