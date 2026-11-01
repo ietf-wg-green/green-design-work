@@ -1052,7 +1052,7 @@ svg {
 <td class="right">November 2026</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Benoit, et al.</td>
+<td class="left">Claise, et al.</td>
 <td class="center">Expires 5 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
@@ -1075,11 +1075,11 @@ svg {
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
-      <div class="author-name">C. Benoit</div>
+      <div class="author-name">B. Claise</div>
 <div class="org">Everything OPS &amp; Arrcus</div>
 </div>
 <div class="author">
-      <div class="author-name">C. Gen</div>
+      <div class="author-name">G. Chen</div>
 <div class="org">Huawei</div>
 </div>
 <div class="author">
@@ -1518,7 +1518,7 @@ module ietf-power-and-energy {
   import iana-power-and-energy {
     prefix ianaeo;
     reference
-      "IANA-defined identities for power and energy class";
+      "RFC XXX: Power and Energy YANG Module";
   }
 
   organization
@@ -1531,9 +1531,9 @@ module ietf-power-and-energy {
 
 
   description
-    "This YANG module specifies for Power and Energy monitoring and
-     control of devices within or connected to communication
-     networks.
+    "This YANG module defines a data model for Power and Energy
+     monitoring and control of devices within or connected to
+     communication networks.
 
      The capitalized terms used in this module (for example,
      Power, Energy, Energy Object, Component, Power State, and
@@ -1564,7 +1564,7 @@ module ietf-power-and-energy {
     description
       "Initial revision";
     reference
-      "RFC XXX: Energy Object YANG Data Model";
+      "RFC XXX: Power and Energy YANG Module";
   }
 
   identity data-source-accuracy {
@@ -2273,10 +2273,14 @@ module iana-power-and-energy {
              United States of America
 
      Tel:    +1 310 301 5800
-     E-Mail: iana@iana.org&gt;";
+     E-Mail: iana@iana.org";
 
   description
-    "IANA-defined identities for power and energy class.
+    "IANA-defined identities for certification types of Energy
+     Objects.
+
+     The capitalized terms used in this module are defined in
+     I-D.ietf-green-terminology.
 
      The latest revision of this YANG module can be obtained from
      the IANA website.
@@ -2307,9 +2311,7 @@ module iana-power-and-energy {
     description
       "Initial revision.";
     reference
-      "RFC XXX: A YANG Data Model for Power and Energy monitoring and
-       control of devices within or connected to communication
-       networks";
+      "RFC XXX: Power and Energy YANG Module";
   }
 
   identity certification-type {

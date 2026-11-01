@@ -2,9 +2,9 @@
 
 
 
-GREEN                                                          C. Benoit
+GREEN                                                          B. Claise
 Internet-Draft                                   Everything OPS & Arrcus
-Intended status: Standards Track                                  C. Gen
+Intended status: Standards Track                                 G. Chen
 Expires: 5 May 2027                                               Huawei
                                                               M. Palmero
                                                               Individual
@@ -354,7 +354,7 @@ Table of Contents
      import iana-power-and-energy {
        prefix ianaeo;
        reference
-         "IANA-defined identities for power and energy class";
+         "RFC XXX: Power and Energy YANG Module";
      }
 
      organization
@@ -367,9 +367,9 @@ Table of Contents
 
 
      description
-       "This YANG module specifies for Power and Energy monitoring and
-        control of devices within or connected to communication
-        networks.
+       "This YANG module defines a data model for Power and Energy
+        monitoring and control of devices within or connected to
+        communication networks.
 
         The capitalized terms used in this module (for example,
         Power, Energy, Energy Object, Component, Power State, and
@@ -400,7 +400,7 @@ Table of Contents
        description
          "Initial revision";
        reference
-         "RFC XXX: Energy Object YANG Data Model";
+         "RFC XXX: Power and Energy YANG Module";
      }
 
      identity data-source-accuracy {
@@ -1105,10 +1105,14 @@ Table of Contents
                 United States of America
 
         Tel:    +1 310 301 5800
-        E-Mail: iana@iana.org>";
+        E-Mail: iana@iana.org";
 
      description
-       "IANA-defined identities for power and energy class.
+       "IANA-defined identities for certification types of Energy
+        Objects.
+
+        The capitalized terms used in this module are defined in
+        I-D.ietf-green-terminology.
 
         The latest revision of this YANG module can be obtained from
         the IANA website.
@@ -1139,9 +1143,7 @@ Table of Contents
        description
          "Initial revision.";
        reference
-         "RFC XXX: A YANG Data Model for Power and Energy monitoring and
-          control of devices within or connected to communication
-          networks";
+         "RFC XXX: Power and Energy YANG Module";
      }
 
      identity certification-type {
