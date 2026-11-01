@@ -643,8 +643,8 @@ as follows.
 | c80-plus      | 80 PLUS Power Supply Certification | RFC XXX   |
 | energy-star	  | ENERGY STAR certification          | RFC XXX   |
 | epeat | Electronic Product Environmental Assessment Tool ratings | RFC XXX |
-| eu-energy-level |	EU Energy Label: European efficiency ratings   | RFC XXX |
-| cn-energy-level | CN Energy Label: China efficiency ratings      | RFC XXX |
+| eu-energy-label |	EU Energy Label: European efficiency ratings   | RFC XXX |
+| cn-energy-label | CN Energy Label: China efficiency ratings      | RFC XXX |
 | cqc             | China Quality Certification for energy efficiency | RFC XXX |
 {: title="Initial Registries"}
 
