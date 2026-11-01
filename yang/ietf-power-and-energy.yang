@@ -174,13 +174,13 @@ module ietf-power-and-energy {
   identity accuracy-historic {
     base accuracy-estimated;
     description
-      "The Power or Energy data is based on an historic measurement
+      "The Power or Energy data is based on historical measurement
        data for this specific system and usage pattern.";
   }
   identity accuracy-learned {
     base accuracy-estimated;
     description
-      "The Power or Energy data is based on an machine learning model
+      "The Power or Energy data is based on a machine learning model
        prediction.";
   }
   identity accuracy-measured {
