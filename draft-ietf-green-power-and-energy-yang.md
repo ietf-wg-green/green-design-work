@@ -101,7 +101,10 @@ normative:
 
 informative:
 
-   rfc8407bis: I-D.draft-ietf-netmod-rfc8407bis
+   RFC9907:
+    title: Guidelines for Authors and Reviewers of Documents Containing YANG Data Models
+    date: 2026-03
+    target: https://datatracker.ietf.org/doc/html/rfc9907
 
 
 
@@ -347,8 +350,8 @@ of network devices and the Components on these devices.
 ~~~~
 {: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy@2026-11-01.yang"}
 
-The IANA-requested identities for power and energy class are separately
-described below.
+The IANA-maintained identities for certification types are defined in
+the following module.
 
 ~~~~ yang
 {::include yang/iana-power-and-energy.yang}
@@ -431,26 +434,28 @@ identities:
 
 - Measured Data: Direct, real-time sensor measurements with quantified
   precision:
-- Bronze: +/-30% accuracy for typical values.
-- Silver: +/-10% accuracy for typical values.
-- Gold: +/-5% accuracy for typical values.
-- Red: +/-2% accuracy for typical values.
-- Ones: All non-zero digits are significant/valid.
+  - Bronze: +/-30% accuracy for typical values.
+  - Silver: +/-10% accuracy for typical values.
+  - Gold: +/-5% accuracy for typical values.
+  - Red: +/-2% accuracy for typical values.
+  - Ones: All digits are valid, except trailing zeros.
 
 Percentage-based accuracy fails for small values. For example, +/-5% of
 100 mW is only 5 mW, which may be smaller than sensor noise. Industry
 standards (IEC 62053, IEC 61850-7-4) address this by specifying:
 Accuracy = MAX(percentage_error, absolute_threshold)
 
-The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) refer
-to milliwatts. `-10` means +/-10 milliwatts.
+The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) are
+expressed in the unit of the qualified value: milliwatts for Power,
+and milliwatt-hours for Energy. For example, `-10` means +/-10
+milliwatts for a Power value.
 
 Example - A sensor with `accuracy-measured-gold-10` reports:
 
-- 16.25W -> actual value between 16.2375W and 16.2625W
-  (5% = 0.8125W > 0.010W threshold)
-- 0.15W -> actual value between 0.140W and 0.160W
-  (5% = 0.0075W < 0.010W threshold, so +/-10mW applies)
+- 16.25 W -> actual value between 15.4375 W and 17.0625 W
+  (5% = 0.8125 W > 0.010 W threshold)
+- 0.15 W -> actual value between 0.140 W and 0.160 W
+  (5% = 0.0075 W < 0.010 W threshold, so +/-10 mW applies)
 
 Explicit accuracy reporting enables:
 
@@ -532,7 +537,7 @@ how precisely they can monitor its actual performance.
 # Security Considerations
 
 This section is modeled after the template described in Section 3.7.1
-of {{rfc8407bis}}.
+of {{RFC9907}}.
 
 The Power and Energy YANG module defines a data model that is designed
 to be accessed via YANG-based management protocols, such as NETCONF
@@ -700,5 +705,5 @@ defined in RFC XXX.
 This work has benefited from the regular discussions on the GREEN
 Design Meetings. The authors wish to thank the WG chairs, Rob Wilton
 and Diego Lopez, for organizing the recurring calls and progressing
-the work. The authors also wish to thank the following individuals,
-who provided helpful comments and reviews to this document.
+the work. The authors also wish to thank Rob Wilton, Diego Lopez,
+and Tony Li for their helpful comments and reviews of this document.
