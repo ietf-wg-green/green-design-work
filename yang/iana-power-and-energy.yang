@@ -13,10 +13,11 @@ module iana-power-and-energy {
              United States of America
 
      Tel:    +1 310 301 5800
-     E-Mail: iana@iana.org>";
+     E-Mail: iana@iana.org";
 
   description
-    "IANA-defined identities for power and energy class.
+    "IANA-defined identities for certification types of Energy
+     Objects.
 
      The latest revision of this YANG module can be obtained from
      the IANA website.
@@ -47,9 +48,7 @@ module iana-power-and-energy {
     description
       "Initial revision.";
     reference
-      "RFC XXX: A YANG Data Model for Power and Energy monitoring and 
-       control of devices within or connected to communication 
-       networks";
+      "RFC XXX: Power and Energy YANG Module";
   }
 
   identity certification-type {

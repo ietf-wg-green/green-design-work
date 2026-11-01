@@ -13,7 +13,7 @@ module ietf-power-and-energy {
   import iana-power-and-energy {
     prefix ianaeo;
     reference
-      "IANA-defined identities for power and energy class";
+      "RFC XXX: Power and Energy YANG Module";
   }
 
   organization
@@ -26,9 +26,9 @@ module ietf-power-and-energy {
      
   
   description
-    "This YANG module specifies for Power and Energy monitoring and 
-     control of devices within or connected to communication 
-     networks.
+    "This YANG module defines a data model for Power and Energy
+     monitoring and control of devices within or connected to
+     communication networks.
 
      The capitalized terms used in this module (for example,
      Power, Energy, Energy Object, Component, Power State, and
@@ -59,7 +59,7 @@ module ietf-power-and-energy {
     description
       "Initial revision";
     reference
-      "RFC XXX: Energy Object YANG Data Model";
+      "RFC XXX: Power and Energy YANG Module";
   }
   
   identity data-source-accuracy {
