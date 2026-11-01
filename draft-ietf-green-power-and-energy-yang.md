@@ -640,7 +640,7 @@ as follows.
 
 | Identity Name |	Description	                       | Reference |
 |---------------|------------------------------------|-----------|
-| 80plus	      | 80 PLUS Power Supply Certification | RFC XXX   |
+| c80-plus      | 80 PLUS Power Supply Certification | RFC XXX   |
 | energy-star	  | ENERGY STAR certification          | RFC XXX   |
 | epeat | Electronic Product Environmental Assessment Tool ratings | RFC XXX |
 | eu-energy-level |	EU Energy Label: European efficiency ratings   | RFC XXX |
