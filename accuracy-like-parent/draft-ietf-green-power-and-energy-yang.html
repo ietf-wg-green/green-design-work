@@ -1218,7 +1218,10 @@ networks.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-example-modeling-a-750-w-po" class="internal xref">Example: Modeling a 750 W Power Supply</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -2074,7 +2077,9 @@ module ietf-power-and-energy {
         description
           "The Nameplate Power of the Energy Object: the maximum
            continuous Power the Energy Object is designed to consume
-           or deliver, as specified by the manufacturer. It is a
+           or deliver, as specified by the manufacturer. For an
+           Energy Object that provides Power, such as a power
+           supply, it is the rated provided Power. It is a
            rated design value, not an expected operating value or an
            observed maximum, and does not change during operation.
            Used for power budget calculations and capacity
@@ -3347,6 +3352,10 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Chandramouli, M.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Schoening, B.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">T. Dietz</span>, <span class="refTitle">"Monitoring and Control MIB for Power and Energy"</span>, <span class="seriesInfo">RFC 7460</span>, <span class="seriesInfo">DOI 10.17487/RFC7460</span>, <time datetime="2015-03" class="refDate">March 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7460">https://www.rfc-editor.org/rfc/rfc7460</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7951">[RFC7951]</dt>
+        <dd>
+<span class="refAuthor">Lhotka, L.</span>, <span class="refTitle">"JSON Encoding of Data Modeled with YANG"</span>, <span class="seriesInfo">RFC 7951</span>, <span class="seriesInfo">DOI 10.17487/RFC7951</span>, <time datetime="2016-08" class="refDate">August 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7951">https://www.rfc-editor.org/rfc/rfc7951</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8342">[RFC8342]</dt>
         <dd>
 <span class="refAuthor">Bjorklund, M.</span>, <span class="refAuthor">Schoenwaelder, J.</span>, <span class="refAuthor">Shafer, P.</span>, <span class="refAuthor">Watsen, K.</span>, and <span class="refAuthor">R. Wilton</span>, <span class="refTitle">"Network Management Datastore Architecture (NMDA)"</span>, <span class="seriesInfo">RFC 8342</span>, <span class="seriesInfo">DOI 10.17487/RFC8342</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8342">https://www.rfc-editor.org/rfc/rfc8342</a>&gt;</span>. </dd>
@@ -3360,8 +3369,93 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
 </div>
 </section>
 </div>
-<div id="authors-addresses">
+<div id="psu-example">
 <section id="appendix-A">
+      <h2 id="name-example-modeling-a-750-w-po">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-example-modeling-a-750-w-po" class="section-name selfRef">Example: Modeling a 750 W Power Supply</a>
+      </h2>
+<p id="appendix-A-1">This appendix shows how a 750 W power supply is modeled. The power
+supply, psu-1, is fed by outlet 7 of a PDU and powers the chassis of
+the device. Both are Components in the ietf-hardware module
+<span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span>, and psu-1 is contained in the chassis. The values are
+illustrative: the power supply receives 400 W from the PDU and
+provides 376 W to the chassis, an efficiency of 94% at about half its
+Nameplate Power, and the Energy counters cover 30 days at that load.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-2">The following instance data is encoded in JSON <span>[<a href="#RFC7951" class="cite xref">RFC7951</a>]</span>. Power is
+in milliwatts and Energy in milliwatt-hours, and the uint64 values are
+encoded as JSON strings.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="appendix-A-3">
+<pre>
+{
+  "ietf-power-and-energy:energy-objects": {
+    "energy-object": [
+      {
+        "id": "psu-1",
+        "source-component-id": "psu-1",
+        "power": {
+          "instantaneous-power-received": "400000",
+          "instantaneous-power-provided": "376000",
+          "nameplate-power": 750,
+          "data-source-accuracy": "accuracy-measured-gold",
+          "power-factor": 98
+        },
+        "energy": {
+          "total-energy-received": "288000000",
+          "total-energy-provided": "270720000"
+        },
+        "certifications": [ "iana-power-and-energy:c80-plus" ],
+        "relationship": [
+          { "type": "powered-by",
+            "peer": [ { "id": "pdu-a-outlet-7",
+                        "details": "PDU A, outlet 7" } ] },
+          { "type": "powering",
+            "peer": [ { "id": "chassis" } ] }
+        ]
+      },
+      {
+        "id": "chassis",
+        "source-component-id": "chassis",
+        "power": {
+          "instantaneous-power-received": "376000",
+          "instantaneous-power-provided": "0"
+        },
+        "energy": {
+          "total-energy-received": "270720000",
+          "total-energy-provided": "0"
+        },
+        "relationship": [
+          { "type": "powered-by",
+            "peer": [ { "id": "psu-1" } ] }
+        ]
+      }
+    ]
+  }
+}
+</pre><a href="#appendix-A-3" class="pilcrow">¶</a>
+</div>
+<p id="appendix-A-4">From these values, a management system derives:<a href="#appendix-A-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="appendix-A-5.1">
+          <p id="appendix-A-5.1.1">the loss of the power supply: 400 W - 376 W = 24 W;<a href="#appendix-A-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-5.2">
+          <p id="appendix-A-5.2.1">its efficiency: 376 W / 400 W = 94%, which the Energy counters
+confirm over the period (270,720 Wh / 288,000 Wh);<a href="#appendix-A-5.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="appendix-A-5.3">
+          <p id="appendix-A-5.3.1">the Power drawn from the PDU, by summing the net Power of the Energy
+Objects: 24 W for the power supply plus 376 W for the chassis, that
+is 400 W, without counting twice the Power passed from the power
+supply to the chassis.<a href="#appendix-A-5.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="appendix-A-6">A battery is modeled in the same way: it reports received Power and
+Energy while charging, and provided Power and Energy while
+discharging.<a href="#appendix-A-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-B">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
