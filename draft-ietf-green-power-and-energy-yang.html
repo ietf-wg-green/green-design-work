@@ -1196,7 +1196,10 @@ networks.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-yang-module-name-and-uri-re" class="internal xref">YANG Module Name and URI Registry</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-power-and-energy-certificat" class="internal xref">Power and Energy Certification Types Registry</a></p>
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-accelerator-hardware-class" class="internal xref">Accelerator Hardware Class</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
+                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-power-and-energy-certificat" class="internal xref">Power and Energy Certification Types Registry</a></p>
 </li>
             </ul>
 </li>
@@ -1242,16 +1245,16 @@ Objects for networked devices.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-5">Power and Energy Monitoring and Control can be applied to devices in
 communication networks. All identifiable devices with measurable or
 representable Power and Energy characteristics fall within the scope
-of this specification. Target devices include (but are not limited to)
-routers, switches, Power over Ethernet (PoE) endpoints, smart PDU,
-storage and compute servers, etc.<a href="#section-1-5" class="pilcrow">¶</a></p>
+of this specification. Target devices include, but are not limited to,
+routers, switches, Power over Ethernet (PoE) endpoints, smart Power
+Distribution Units (PDUs), and storage and compute servers.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">Where applicable, device monitoring extends to the Components of the
-device as well as software and service running on the device. As a
+device as well as software and services running on the device. As a
 result, the metrics to be monitored include Device Level Energy
-Efficiency (DLEE), Component Level Energy Efficiency (CLEE) and
-potential Service Level Energy Efficiency (SLEE) at the
-orchestrator-level, etc. For example, a router can contain Components
-such as Line Processing Unit (LPU), Switch Fabric Unit (SFU), Main
+Efficiency (DLEE), Component Level Energy Efficiency (CLEE), and
+potential Service Level Energy Efficiency (SLEE) at the orchestrator
+level. For example, a router can contain Components such as a Line
+Processing Unit (LPU), a Switch Fabric Unit (SFU), and a Main
 Processing Unit (MPU).<a href="#section-1-6" class="pilcrow">¶</a></p>
 <div id="terminology">
 <section id="section-1.1">
@@ -1298,7 +1301,19 @@ Processing Unit (MPU).<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1.1-3">The terms reused from <span>[<a href="#I-D.ietf-green-terminology" class="cite xref">I-D.ietf-green-terminology</a>]</span> and
 <span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.ietf-green-framework</a>]</span> are capitalized in this
 specification.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
-<p id="section-1.1-4">This document uses the terms Power and Energy in accordance with
+<p id="section-1.1-4">This document defines the following term, which is also capitalized:<a href="#section-1.1-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-1.1-5">
+          <dt id="section-1.1-5.1">Power Cap:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.1-5.2">
+            <p id="section-1.1-5.2.1">An upper limit on the Power of an Energy Object, set by an
+administrator or a controller and enforced by the device, for
+example by reducing the clock frequency of a Component. Unlike the
+Nameplate Power, which is a fixed design value, a Power Cap can
+change during operation.<a href="#section-1.1-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-1.1-6">This document uses the terms Power and Energy in accordance with
 <span>[<a href="#I-D.ietf-green-terminology" class="cite xref">I-D.ietf-green-terminology</a>]</span>. Power refers to the instantaneous
 rate at which a device consumes or produces electrical energy
 (typically expressed in watts). Energy, by contrast, represents the
@@ -1308,10 +1323,10 @@ module. Power enables real-time monitoring, control, and optimization
 of device operation, while Energy provides a time-integrated view
 necessary for accounting, reporting, and even for sustainability
 analysis. This specification includes both Power and Energy
-attributes.<a href="#section-1.1-4" class="pilcrow">¶</a></p>
-<p id="section-1.1-5">The terminology for describing YANG modules is defined in <span>[<a href="#RFC7950" class="cite xref">RFC7950</a>]</span>.
+attributes.<a href="#section-1.1-6" class="pilcrow">¶</a></p>
+<p id="section-1.1-7">The terminology for describing YANG modules is defined in <span>[<a href="#RFC7950" class="cite xref">RFC7950</a>]</span>.
 The meanings of the symbols in the YANG tree diagrams are defined in
-<span>[<a href="#RFC8340" class="cite xref">RFC8340</a>]</span>.<a href="#section-1.1-5" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC8340" class="cite xref">RFC8340</a>]</span>.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1326,7 +1341,7 @@ covers monitoring and controlling devices and Components where
 monitoring includes measuring Power, Energy, demand and attributes of
 Power.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">For the whole picture of the monitoring interfaces and the relevant
-requirements, please refer to "GREEN reference model" in section 4 in
+requirements, please refer to the "GREEN reference model" in
 <span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.ietf-green-framework</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1353,22 +1368,49 @@ view of the intent. For this reason, although an NMDA
 (Network Management Datastore Architecture) design with a single
 "state" leaf (per <span>[<a href="#RFC8342" class="cite xref">RFC8342</a>]</span>) was considered, it is not adopted in
 this document.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">Entries in /energy-control/energy-objects/energy-object <span class="bcp14">SHOULD</span>
-reference the /energy-objects/energy-object/id using a leafref with
-require-instance false. This allows an administrator or controller to
-correlate a configured Power State intent with the Energy Object being
-monitored. The require-instance false statement allows the
-configuration to remain after an Energy Object has disappeared from the
-system, or before it has been introduced. If the referred Energy Object
-does not currently exist, the configuration item for it has no effect.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">The relationship list models the relationship between an Energy
+<p id="section-3-3">The model also allows an administrator or controller to request a
+Power Cap on an Energy Object, for example to cap the Power of a GPU
+in a cluster. The requested limit is
+configured in the power-cap container in /energy-control. The device
+enforces the requested limit, or the closest value that the Energy
+Object supports, and reports the limit in effect in the power-cap
+container of the Power attributes in /energy-objects. Discovering the
+range of limits that an Energy Object supports is out of scope of this
+document.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">The existence of a Power Cap and its effect are reported separately. The
+power-cap container in /energy-objects is present only while a cap is
+enforced, and the Energy Object then does not draw more Power than the
+enforced limit. The limiting leaf indicates whether the cap is
+constraining the Energy Object at this time, that is, whether the
+Energy Object would draw more Power without the cap, so that its
+operation is reduced to stay within the limit. For example, with a cap
+of 300 W, a GPU that would draw 80 W when idle, or 200 W with a light
+workload, is not constrained (limiting is false), whereas a GPU that
+would draw 450 W during a training job is held at 300 W and runs more
+slowly (limiting is true).<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">A management system cannot reliably derive the limiting indication by
+comparing the instantaneous Power with the enforced limit: the Power
+that the Energy Object would draw without the cap is not observable,
+caps are typically enforced as an average over a time window, and the
+measurement accuracy blurs the comparison. The device, which applies
+the cap, knows whether it is constraining the Energy Object.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-6">The id of an entry in /energy-control/energy-objects/energy-object
+<span class="bcp14">SHOULD</span> be the id of an existing or anticipated entry in
+/energy-objects/energy-object. This allows an administrator or
+controller to correlate a configured Power State intent with the Energy
+Object being monitored. The id is a leafref with require-instance
+false, so that the configuration can be created before the Energy
+Object is introduced and remains after it has disappeared from the
+system. If the referred Energy Object does not currently exist, the
+configuration item for it has no effect.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">The relationship list models the relationship between an Energy
 Object and its peer Energy Objects, using the
 <code>energy-relationship-type</code> identities: <code>powered-by</code> and <code>powering</code>
 (Power Source Relationship), <code>metered-by</code> and <code>metering</code> (Metering
 Relationship), <code>aggregated-by</code> and <code>aggregating</code> (Aggregation
 Relationship), and <code>enabled-by</code> and <code>enabling</code> (Functional Enablement
-Relationship).<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">Each pair of identities expresses the same relationship from the
+Relationship).<a href="#section-3-7" class="pilcrow">¶</a></p>
+<p id="section-3-8">Each pair of identities expresses the same relationship from the
 perspective of each participant (e.g., if Energy Object A is powered-by
 Energy Object B, then Energy Object B is powering Energy Object A).
 These relationship categories, including their use for power/metering
@@ -1377,25 +1419,25 @@ are defined in <span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.
 type, one or more peer Energy Objects can be identified via the <code>id</code>
 leaf within the <code>peer</code> list, a string value that is preferably the
 peer's UUID; if the UUID is not known, another identifier can be used,
-together with human-readable details captured in the <code>details</code> leaf.<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">Regarding relationships among Energy Objects, this document does not
+together with human-readable details captured in the <code>details</code> leaf.<a href="#section-3-8" class="pilcrow">¶</a></p>
+<p id="section-3-9">Regarding relationships among Energy Objects, this document does not
 provide a mechanism to configure relationships on the device (i.e.,
 there is no relationship list under /energy-control); the
 relationship list under /energy-objects/energy-object is read-only
-operational data (config false).<a href="#section-3-6" class="pilcrow">¶</a></p>
-<p id="section-3-7">For relationships between Components within the same device (e.g.,
+operational data (config false).<a href="#section-3-9" class="pilcrow">¶</a></p>
+<p id="section-3-10">For relationships between Components within the same device (e.g.,
 between a Line Processing Unit (LPU) and a Switch Fabric Unit (SFU)),
 the device can typically determine and populate this data directly,
-without requiring external configuration.<a href="#section-3-7" class="pilcrow">¶</a></p>
-<p id="section-3-8">Relationships between Energy Objects located on different devices are
+without requiring external configuration.<a href="#section-3-10" class="pilcrow">¶</a></p>
+<p id="section-3-11">Relationships between Energy Objects located on different devices are
 generally established and maintained at the controller or Energy
 Management System (EnMS) level, which has visibility into the
 broader network topology, as discussed in
 <span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.ietf-green-framework</a>]</span>. A device may still report a known
 inter-device relationship (e.g., using the peer's network-level UUID)
 when it has been made aware of it, but this module does not provide a
-mechanism to configure such relationships on the device itself.<a href="#section-3-8" class="pilcrow">¶</a></p>
-<div class="lang-yangtree sourcecode" id="section-3-9">
+mechanism to configure such relationships on the device itself.<a href="#section-3-11" class="pilcrow">¶</a></p>
+<div class="lang-yangtree sourcecode" id="section-3-12">
 <pre>
 module: ietf-power-and-energy
   +--ro energy-objects
@@ -1408,6 +1450,9 @@ module: ietf-power-and-energy
   |     |  +--ro data-source-accuracy?   identityref
   |     |  +--ro power-factor?           power-factor
   |     |  +--ro measurement-local?      boolean
+  |     |  +--ro power-cap!
+  |     |     +--ro limit       uint64
+  |     |     +--ro limiting?   boolean
   |     +--ro energy
   |     |  +--ro total-energy-consumed?    uint64
   |     |  +--ro total-energy-delivered?   uint64
@@ -1426,11 +1471,13 @@ module: ietf-power-and-energy
         +--rw energy-object* [id]
            +--rw id             -&gt; /energy-objects/energy-object/id
            +--rw power-state
-              +--rw admin?   identityref
-              +--rw oper?
-                      -&gt; /energy-objects/energy-object
-                         /power-state/oper
-</pre><a href="#section-3-9" class="pilcrow">¶</a>
+           |  +--rw admin?   identityref
+           |  +--rw oper?
+           |          -&gt; /energy-objects/energy-object
+           |             /power-state/oper
+           +--rw power-cap
+              +--rw limit?   uint64
+</pre><a href="#section-3-12" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -1463,13 +1510,15 @@ systems independent of device-local naming conventions.<a href="#section-4-4" cl
 <p id="section-4-5">The mapping between energy-object entries in this YANG Module and the
 hardware-components in ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> is
 designed to be 1:1, architecturally aligning each energy-object entry
-with exactly one physical hardware component via source-component-id.<a href="#section-4-5" class="pilcrow">¶</a></p>
-<p id="section-4-6">There are also cases where the controllers also generate their own set
-of UUIDs for the hardware (components). In such a case, it might be
-necessary to document the mappings between the UUIDs generated on the
-hardware side and the UUIDs on the controller side. Basically, the
-devices (such as routers) generate the UUID and the controller can
-query it.<a href="#section-4-6" class="pilcrow">¶</a></p>
+with exactly one physical hardware component via source-component-id.
+As no hardware class exists for hardware accelerators such as GPUs,
+this document requests a new "accelerator" hardware class (see
+<a href="#accelerator-class" class="auto internal xref">Section 9.2</a>).<a href="#section-4-5" class="pilcrow">¶</a></p>
+<p id="section-4-6">There are also cases where controllers generate their own set of UUIDs
+for the hardware components. In such a case, it might be necessary to
+document the mappings between the UUIDs generated on the hardware side
+and the UUIDs on the controller side. In general, the devices (such as
+routers) generate the UUID, and the controller can query it.<a href="#section-4-6" class="pilcrow">¶</a></p>
 <p id="section-4-7">The ietf-hardware YANG module <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span> allows discovering all the
 device components, including the containment tree, and the parent/child
 relationship, which is important for Energy/Power aggregation (see the
@@ -1483,7 +1532,7 @@ contains-child relationship in RFC 8348).<a href="#section-4-7" class="pilcrow">
       </h2>
 <p id="section-5-1">The EMAN IETF Working Group
 (https://datatracker.ietf.org/wg/eman/about/) is a concluded Working
-Group that produced a couple of RFCs in the domain of Power and
+Group that produced several RFCs in the domain of Power and
 Energy. The Working Group produced MIB modules for monitoring and
 control for Power and Energy, for the context information, for battery
 monitoring, and an extension to the ENTITY-MIB to add the UUID
@@ -1498,8 +1547,8 @@ starting point to discuss the solution to the different use cases in
 YANG module. The changes compared to the EMAN MIB modules are mainly
 due to the alignment with the up-to-date requirements of the network
 carriers on Energy Efficiency. Compared to the MIB modules, some
-definitions and types are optimized, some new Energy Objects are added
-and some legacy Energy Objects are removed accordingly.<a href="#section-5-4" class="pilcrow">¶</a></p>
+definitions and types are optimized, some new data nodes are added,
+and some legacy MIB objects are removed accordingly.<a href="#section-5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="power-and-energy-yang-module">
@@ -1507,9 +1556,13 @@ and some legacy Energy Objects are removed accordingly.<a href="#section-5-4" cl
       <h2 id="name-power-and-energy-yang-modul">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-power-and-energy-yang-modul" class="section-name selfRef">Power and Energy YANG Module</a>
       </h2>
-<p id="section-6-1">This YANG Module is used to monitor and control Power and Energy usage
-of network devices and the Components on these devices.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<div class="breakable lang-yang sourcecode" id="section-6-2">
+<p id="section-6-1">Note to the RFC Editor: Please replace all occurrences of "XXXX" in
+this document with the RFC number assigned to this document, and the
+revision date of both YANG modules with the date of publication of
+this document. Please remove this note before publication.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">This YANG Module is used to monitor and control Power and Energy usage
+of network devices and the Components on these devices.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<div class="breakable lang-yang sourcecode" id="section-6-3">
 <pre>&lt;CODE BEGINS&gt; file "ietf-power-and-energy@2026-11-01.yang"
 
 module ietf-power-and-energy {
@@ -1527,15 +1580,24 @@ module ietf-power-and-energy {
   import iana-power-and-energy {
     prefix ianaeo;
     reference
-      "RFC XXX: Power and Energy YANG Module";
+      "RFC XXXX: Power and Energy YANG Module";
   }
 
   organization
     "IETF GREEN Working Group";
 
   contact
-    "WG Web: &lt;https://datatracker.ietf.org/wg/green/&gt;
-     WG List: &lt;mailto:green@ietf.org&gt;";
+    "WG Web:  &lt;https://datatracker.ietf.org/wg/green/&gt;
+     WG List: &lt;mailto:green@ietf.org&gt;
+
+     Author:  Benoit Claise
+              &lt;mailto:benoit@everything-ops.net&gt;
+     Author:  Gen Chen
+              &lt;mailto:chengen@huawei.com&gt;
+     Author:  Marisol Palmero
+              &lt;mailto:marisol.ietf@gmail.com&gt;
+     Author:  Jan Lindblad
+              &lt;mailto:jan.lindblad@for.eco&gt;";
 
 
 
@@ -1565,15 +1627,15 @@ module ietf-power-and-energy {
      Relating to IETF Documents
      (https://trustee.ietf.org/license-info).
 
-     This version of this YANG module is part of RFC XXX
-     (https://www.rfc-editor.org/info/rfcXXX); see the RFC itself
+     This version of this YANG module is part of RFC XXXX
+     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
      for full legal notices.";
 
   revision 2026-11-01 {
     description
       "Initial revision";
     reference
-      "RFC XXX: Power and Energy YANG Module";
+      "RFC XXXX: Power and Energy YANG Module";
   }
 
   identity data-source-accuracy {
@@ -2012,6 +2074,40 @@ module ietf-power-and-energy {
            This information can be useful for troubleshooting and
            understanding the data source.";
       }
+      container power-cap {
+        presence
+          "A Power Cap is enforced for this Energy Object. When this
+           container is absent, no cap is enforced and the Nameplate
+           Power is the upper limit.";
+        description
+          "Container for the Power Cap in effect for this Energy
+           Object.";
+        leaf limit {
+          type uint64;
+          units "milliwatts";
+          mandatory true;
+          description
+            "The upper limit on the Power of this Energy Object that
+             is currently enforced: the Energy Object does not draw
+             more Power than this limit, whether or not the cap is
+             constraining it at this time (see 'limiting'). It
+             differs from the requested limit when the requested
+             limit is outside the range that the Energy Object
+             supports.";
+        }
+        leaf limiting {
+          type boolean;
+          description
+            "True if the cap is currently constraining the Energy
+             Object: without the cap, it would draw more Power than
+             the limit, so its operation (for example, its clock
+             frequency) is reduced to stay within the limit. False
+             if the Energy Object would not draw more Power than the
+             limit even without the cap, so the cap has no effect
+             at this time. Absent if the device cannot determine
+             whether the cap is constraining the Energy Object.";
+        }
+      }
     }
   }
 
@@ -2260,6 +2356,26 @@ module ietf-power-and-energy {
                instance in the monitoring tree.";
           }
         }
+
+        container power-cap {
+          description
+            "Container for the Power Cap of this Energy Object.";
+          leaf limit {
+            type uint64;
+            units "milliwatts";
+            description
+              "The administratively requested upper limit on the
+               Power that this Energy Object may consume. The device
+               enforces it by adjusting the operation of the Energy
+               Object, for example by lowering its clock frequency.
+               Absence of a configured value means that no cap is
+               requested. If the requested limit is outside the
+               range that the Energy Object supports, the device
+               enforces the closest supported value, which is
+               reported in the power-cap container in
+               /energy-objects.";
+          }
+        }
       }
     }
   }
@@ -2267,11 +2383,11 @@ module ietf-power-and-energy {
 
 
 
-&lt;CODE ENDS&gt;</pre><a href="#section-6-2" class="pilcrow">¶</a>
+&lt;CODE ENDS&gt;</pre><a href="#section-6-3" class="pilcrow">¶</a>
 </div>
-<p id="section-6-3">The IANA-maintained identities for certification types are defined in
-the following module.<a href="#section-6-3" class="pilcrow">¶</a></p>
-<div class="breakable lang-yang sourcecode" id="section-6-4">
+<p id="section-6-4">The IANA-maintained identities for certification types are defined in
+the following module.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<div class="breakable lang-yang sourcecode" id="section-6-5">
 <pre>&lt;CODE BEGINS&gt; file "iana-power-and-energy@2026-11-01.yang"
 
 module iana-power-and-energy {
@@ -2327,7 +2443,7 @@ module iana-power-and-energy {
     description
       "Initial revision.";
     reference
-      "RFC XXX: Power and Energy YANG Module";
+      "RFC XXXX: Power and Energy YANG Module";
   }
 
   identity certification-type {
@@ -2391,7 +2507,7 @@ module iana-power-and-energy {
 
 }
 
-&lt;CODE ENDS&gt;</pre><a href="#section-6-4" class="pilcrow">¶</a>
+&lt;CODE ENDS&gt;</pre><a href="#section-6-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2407,13 +2523,13 @@ weight data reliability carefully before aggregating Power
 (instantaneous-power) and Energy (total-energy-consumed and/or
 total-energy-delivered) values to avoid skewing Device Level Energy
 Efficiency (DLEE) metrics.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">Operators might not always be interested in getting the individual
-Component accuracy. What counts is the device level or domain level,
-identity accuracy-like-parent is introduced to meet their demands.
-From an implementation point of view, to facilitate data collection and
-aggregation on runtime and avoid post-aggregation data confidence
-interval issues, operators and implementers should use as much as
-possible this accuracy-like-parent identity.<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-2">Operators might not always be interested in the accuracy of individual
+Components; what matters is the accuracy at the device or domain
+level. The accuracy-like-parent identity is introduced for this
+purpose. From an implementation point of view, to facilitate data
+collection and aggregation at runtime and to avoid post-aggregation
+data confidence interval issues, operators and implementers should use
+the accuracy-like-parent identity as much as possible.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <p id="section-7-3">YANG Push support eliminates device-side bucket storage by streaming
 Energy telemetry directly to controller-side via subscriptions.
 Operators must verify the 'yang-push' bundle is enabled and validate
@@ -2469,7 +2585,9 @@ other operational constraints.<a href="#section-7.2-3.1.1" class="pilcrow">¶</a
 <ul class="normal">
 <li class="normal" id="section-7.2-3.2.2.1">
                 <p id="section-7.2-3.2.2.1.1">Static estimates: From manufacturer datasheets, nameplate ratings
-(critical for UC 1: Incremental Deployment with legacy devices)<a href="#section-7.2-3.2.2.1.1" class="pilcrow">¶</a></p>
+(critical for legacy devices, as described in the "Incremental
+Application of the GREEN Framework" use case in
+<span>[<a href="#I-D.ietf-green-use-cases" class="cite xref">I-D.ietf-green-use-cases</a>]</span>)<a href="#section-7.2-3.2.2.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.2-3.2.2.1.2.1">
                     <p id="section-7.2-3.2.2.1.2.1.1">Identity: <code>accuracy-static</code><a href="#section-7.2-3.2.2.1.2.1.1" class="pilcrow">¶</a></p>
@@ -2487,7 +2605,9 @@ system under similar conditions<a href="#section-7.2-3.2.2.2.1" class="pilcrow">
 </li>
               <li class="normal" id="section-7.2-3.2.2.3">
                 <p id="section-7.2-3.2.2.3.1">Learned estimates: Generated by machine learning models predicting
-consumption from workload patterns (UC 15: AI Training)<a href="#section-7.2-3.2.2.3.1" class="pilcrow">¶</a></p>
+consumption from workload patterns (see the "Energy-Efficient
+Management of Distributed AI Training Workloads" use case in
+<span>[<a href="#I-D.ietf-green-use-cases" class="cite xref">I-D.ietf-green-use-cases</a>]</span>)<a href="#section-7.2-3.2.2.3.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.2-3.2.2.3.2.1">
                     <p id="section-7.2-3.2.2.3.2.1.1">Identity: <code>accuracy-learned</code><a href="#section-7.2-3.2.2.3.2.1.1" class="pilcrow">¶</a></p>
@@ -2554,11 +2674,14 @@ thresholds requiring specific measurement precision<a href="#section-7.2-9.3.1" 
           <li class="normal" id="section-7.2-9.4">
             <p id="section-7.2-9.4.1">Double-accounting prevention: Understand when PDU-level measurements
 (+/-2%) should override device estimates (+/-30%) to avoid counting
-the same Energy twice (UC 13)<a href="#section-7.2-9.4.1" class="pilcrow">¶</a></p>
+the same Energy twice (see the "Double Accounting" use case in
+<span>[<a href="#I-D.ietf-green-use-cases" class="cite xref">I-D.ietf-green-use-cases</a>]</span>)<a href="#section-7.2-9.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.2-9.5">
             <p id="section-7.2-9.5.1">Cross-domain correlation: Map accuracy expectations when integrating
-with external systems like 3GPP energy KPIs (UC 6)<a href="#section-7.2-9.5.1" class="pilcrow">¶</a></p>
+with external systems like 3GPP energy KPIs (see the "Consideration
+of other domains for obtention of end-to-end metrics" use case in
+<span>[<a href="#I-D.ietf-green-use-cases" class="cite xref">I-D.ietf-green-use-cases</a>]</span>)<a href="#section-7.2-9.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-7.2-10">The accuracy hierarchy uses YANG identities for extensibility, allowing
@@ -2571,7 +2694,7 @@ maintaining interoperability through standardized base types.<a href="#section-7
         <h3 id="name-industry-standard-certifica">
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-industry-standard-certifica" class="section-name selfRef">Industry-Standard Certifications</a>
         </h3>
-<p id="section-7.3-1">Energy efficiency certifications issued by recognized testing
+<p id="section-7.3-1">Energy Efficiency certifications issued by recognized testing
 organizations provide standardized benchmarks for the expected
 performance of equipment and Components. These certifications are
 typically based on controlled laboratory measurements and formal
@@ -2584,7 +2707,7 @@ such certifications in order to complement operational measurement data.<a href=
 tiers based on efficiency at 20%/50%/100% load<a href="#section-7.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-3.2">
-            <p id="section-7.3-3.2.1">Energy Star: Government-backed program certifying energy-efficient
+            <p id="section-7.3-3.2.1">ENERGY STAR: Government-backed program certifying energy-efficient
 products<a href="#section-7.3-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-3.3">
@@ -2642,9 +2765,10 @@ Energy Object.<a href="#section-7.3-9" class="pilcrow">¶</a></p>
 (+/-10% sensor precision on real-time Power readings)<a href="#section-7.3-11.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.3-12">The certification tells operators the Energy Object, for example,
-a PSU, is designed to be efficient; the measurement accuracy tells them
-how precisely they can monitor its actual performance.<a href="#section-7.3-12" class="pilcrow">¶</a></p>
+<p id="section-7.3-12">The certification tells operators that the Energy Object (for example,
+a power supply unit) is designed to be efficient; the measurement
+accuracy tells them how precisely they can monitor its actual
+performance.<a href="#section-7.3-12" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2666,9 +2790,9 @@ mutual authentication.<a href="#section-8-2" class="pilcrow">¶</a></p>
 provides the means to restrict access for particular NETCONF or
 RESTCONF users to a preconfigured subset of all available NETCONF or
 RESTCONF protocol operations and content.<a href="#section-8-3" class="pilcrow">¶</a></p>
-<p id="section-8-4">There is one writable data node defined in this YANG module that may
-be considered sensitive or vulnerable in some network environments.
-Write operations (e.g., edit-config) to this data node without proper
+<p id="section-8-4">There are two writable data nodes defined in this YANG module that
+may be considered sensitive or vulnerable in some network environments.
+Write operations (e.g., edit-config) to these data nodes without proper
 protection can have a negative effect on network operations:<a href="#section-8-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8-5.1">
@@ -2681,6 +2805,14 @@ service), force a Component into a state that damages hardware, or
 mask an ongoing attack by cycling Power States to disrupt
 monitoring. Access to this data node <span class="bcp14">SHOULD</span> be limited to
 authorized administrators via NACM.<a href="#section-8-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-8-5.2">
+          <p id="section-8-5.2.1">/energy-control/energy-objects/energy-object/power-cap/limit:
+Unauthorized write access to this leaf allows an attacker to set a
+very low Power Cap on an Energy Object, degrading or disrupting its
+operation (resulting in denial of service), or to remove a cap that
+protects the power budget of a site. Access to this data node <span class="bcp14">SHOULD</span>
+be limited to authorized administrators via NACM.<a href="#section-8-5.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-8-6">Some of the readable data nodes in this YANG module may be considered
@@ -2813,7 +2945,7 @@ Parameters" registry group.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">Reference</td>
-              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
             </tr>
           </tbody>
         </table>
@@ -2847,29 +2979,62 @@ Parameters" registry group.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">Reference</td>
-              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
             </tr>
           </tbody>
         </table>
-<p id="section-9.1-7">Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.<a href="#section-9.1-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="accelerator-class">
+<section id="section-9.2">
+        <h3 id="name-accelerator-hardware-class">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-accelerator-hardware-class" class="section-name selfRef">Accelerator Hardware Class</a>
+        </h3>
+<p id="section-9.2-1">IANA is requested to add the following enumeration to the
+IANAPhysicalClass textual convention in the IANA-maintained
+IANA-ENTITY-MIB module <span>[<a href="#RFC6933" class="cite xref">RFC6933</a>]</span>:<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-9.2-2">
+<pre>
+   accelerator(TBD1)   -- e.g., GPU, TPU, NPU, or FPGA card
+</pre><a href="#section-9.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-9.2-3">As the iana-hardware YANG module reflects IANA-ENTITY-MIB <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span>,
+IANA is also requested to add the following identity to the
+iana-hardware YANG module, with a new revision statement:<a href="#section-9.2-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-9.2-4">
+<pre>
+   identity accelerator {
+     base hardware-class;
+     description
+       "This identity is applicable if the hardware class is some
+        sort of hardware accelerator, such as a Graphics Processing
+        Unit (GPU), a Tensor Processing Unit (TPU), a Neural
+        Processing Unit (NPU), or an FPGA-based accelerator card.";
+     reference
+       "RFC XXXX: Power and Energy YANG Module";
+   }
+</pre><a href="#section-9.2-4" class="pilcrow">¶</a>
+</div>
+<p id="section-9.2-5">Note to IANA: the value 16, the next unassigned IANAPhysicalClass
+value, is suggested for TBD1.<a href="#section-9.2-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="power-and-energy-certification-types-registry">
-<section id="section-9.2">
+<section id="section-9.3">
         <h3 id="name-power-and-energy-certificat">
-<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-power-and-energy-certificat" class="section-name selfRef">Power and Energy Certification Types Registry</a>
+<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-power-and-energy-certificat" class="section-name selfRef">Power and Energy Certification Types Registry</a>
         </h3>
-<p id="section-9.2-1">IANA is requested to create a new registry named
+<p id="section-9.3-1">IANA is requested to create a new registry named
 "Power and Energy Certification Types" within the "Power and Energy"
-registry group.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
-<p id="section-9.2-2">This document defines the initial version of the IANA-maintained
+registry group.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
+<p id="section-9.3-2">This document defines the initial version of the IANA-maintained
 <code>certification-type</code> identity in the <code>iana-power-and-energy</code> YANG
 module. The registry assigns string identity names for power and energy
 efficiency certification types, for use as identityref values in
 "ietf-power-and-energy" YANG module. The registered value is the
-unqualified identity name (e.g., energy-star, c80-plus, etc). No
+unqualified identity name (e.g., energy-star or c80-plus). No
 numeric code points are assigned by this registry. Registry Template is
-as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
+as follows.<a href="#section-9.3-2" class="pilcrow">¶</a></p>
 <span id="name-ietf-power-and-energy-certi"></span><table class="center" id="table-5">
           <caption>
 <a href="#table-5" class="selfRef">Table 5</a>:
@@ -2888,7 +3053,7 @@ as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">Reference</td>
-              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">Registration Procedure</td>
@@ -2917,86 +3082,85 @@ as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">c80-plus</td>
               <td class="text-left" rowspan="1" colspan="1">80 PLUS Power Supply Certification</td>
-              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">energy-star</td>
               <td class="text-left" rowspan="1" colspan="1">ENERGY STAR certification</td>
-              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">epeat</td>
               <td class="text-left" rowspan="1" colspan="1">Electronic Product Environmental Assessment Tool ratings</td>
-              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">eu-energy-label</td>
               <td class="text-left" rowspan="1" colspan="1">EU Energy Label: European efficiency ratings</td>
-              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">cn-energy-label</td>
               <td class="text-left" rowspan="1" colspan="1">CN Energy Label: China efficiency ratings</td>
-              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">cqc</td>
               <td class="text-left" rowspan="1" colspan="1">China Quality Certification for energy efficiency</td>
-              <td class="text-left" rowspan="1" colspan="1">RFC XXX</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
             </tr>
           </tbody>
         </table>
-<p id="section-9.2-5">Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.<a href="#section-9.2-5" class="pilcrow">¶</a></p>
-<p id="section-9.2-6">New entries to "Power and Energy Certification Types" registry require
-Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. The Designated Expert(s) should verify that:<a href="#section-9.2-6" class="pilcrow">¶</a></p>
+<p id="section-9.3-5">New entries to "Power and Energy Certification Types" registry require
+Expert Review <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>]</span>. The Designated Expert(s) should verify that:<a href="#section-9.3-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-9.2-7.1">
-            <p id="section-9.2-7.1.1">The certification is issued by a recognized and independent
+<li class="normal" id="section-9.3-6.1">
+            <p id="section-9.3-6.1.1">The certification is issued by a recognized and independent
 standards body, testing laboratory, regulatory authority, or
-equivalent organization.<a href="#section-9.2-7.1.1" class="pilcrow">¶</a></p>
+equivalent organization.<a href="#section-9.3-6.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.2-7.2">
-            <p id="section-9.2-7.2.1">The certification has a stable, publicly accessible reference.<a href="#section-9.2-7.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.3-6.2">
+            <p id="section-9.3-6.2.1">The certification has a stable, publicly accessible reference.<a href="#section-9.3-6.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.2-7.3">
-            <p id="section-9.2-7.3.1">The proposed identity name <span class="bcp14">SHOULD</span> be a short mnemonic derived
-from the official certification name.<a href="#section-9.2-7.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.3-6.3">
+            <p id="section-9.3-6.3.1">The proposed identity name <span class="bcp14">SHOULD</span> be a short mnemonic derived
+from the official certification name.<a href="#section-9.3-6.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.2-8">When a new certification type is added to the registry, a new
+<p id="section-9.3-7">When a new certification type is added to the registry, a new
 <code>identity</code> statement <span class="bcp14">MUST</span> be added to the <code>iana-power-and-energy</code> YANG
 module. The following substatements to the <code>identity</code> statement <span class="bcp14">MUST</span> be
-defined:<a href="#section-9.2-8" class="pilcrow">¶</a></p>
+defined:<a href="#section-9.3-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-9.2-9.1">
-            <p id="section-9.2-9.1.1"><code>base</code>: <span class="bcp14">MUST</span> contain the value <code>certification-type</code>.<a href="#section-9.2-9.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-9.3-8.1">
+            <p id="section-9.3-8.1.1"><code>base</code>: <span class="bcp14">MUST</span> contain the value <code>certification-type</code>.<a href="#section-9.3-8.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.2-9.2">
-            <p id="section-9.2-9.2.1"><code>status</code>: Include only if a registration has been deprecated (use the
-value <code>deprecated</code>) or obsoleted (use the value <code>obsolete</code>).<a href="#section-9.2-9.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.3-8.2">
+            <p id="section-9.3-8.2.1"><code>status</code>: Include only if a registration has been deprecated (use the
+value <code>deprecated</code>) or obsoleted (use the value <code>obsolete</code>).<a href="#section-9.3-8.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.2-9.3">
-            <p id="section-9.2-9.3.1"><code>description</code>: <span class="bcp14">MUST</span> include the full name of the certification
+          <li class="normal" id="section-9.3-8.3">
+            <p id="section-9.3-8.3.1"><code>description</code>: <span class="bcp14">MUST</span> include the full name of the certification
 program and a brief description of its energy efficiency scope.
-Lines <span class="bcp14">MUST NOT</span> exceed 72 characters.<a href="#section-9.2-9.3.1" class="pilcrow">¶</a></p>
+Lines <span class="bcp14">MUST NOT</span> exceed 72 characters.<a href="#section-9.3-8.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-9.2-9.4">
-            <p id="section-9.2-9.4.1"><code>reference</code>: <span class="bcp14">MUST</span> include a stable URI to the certification program's
-official documentation or registry.<a href="#section-9.2-9.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-9.3-8.4">
+            <p id="section-9.3-8.4.1"><code>reference</code>: <span class="bcp14">MUST</span> include a stable URI to the certification program's
+official documentation or registry.<a href="#section-9.3-8.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.2-10">Unassigned or reserved values <span class="bcp14">MUST NOT</span> be present in the module.<a href="#section-9.2-10" class="pilcrow">¶</a></p>
-<p id="section-9.2-11">When the "Power and Energy Certification Types" registry is updated
+<p id="section-9.3-9">Unassigned or reserved values <span class="bcp14">MUST NOT</span> be present in the module.<a href="#section-9.3-9" class="pilcrow">¶</a></p>
+<p id="section-9.3-10">When the "Power and Energy Certification Types" registry is updated
 with a new entry, a corresponding new <code>identity</code> statement <span class="bcp14">MUST</span> be
 added to the <code>iana-power-and-energy</code> YANG module, and a new revision
-statement <span class="bcp14">MUST</span> be added in front of the existing revision statements.<a href="#section-9.2-11" class="pilcrow">¶</a></p>
-<p id="section-9.2-12">IANA is requested to add the following note to the "Power and Energy
-Certification Types" registry:<a href="#section-9.2-12" class="pilcrow">¶</a></p>
-<p id="section-9.2-13">Certification types <span class="bcp14">MUST NOT</span> be directly added to the
+statement <span class="bcp14">MUST</span> be added in front of the existing revision statements.<a href="#section-9.3-10" class="pilcrow">¶</a></p>
+<p id="section-9.3-11">IANA is requested to add the following note to the "Power and Energy
+Certification Types" registry:<a href="#section-9.3-11" class="pilcrow">¶</a></p>
+<p id="section-9.3-12">Certification types <span class="bcp14">MUST NOT</span> be directly added to the
 iana-power-and-energy YANG module. They <span class="bcp14">MUST</span> instead be added to the
 "Power and Energy Certification Types" registry. When this registry is
 updated, the iana-power-and-energy YANG module <span class="bcp14">MUST</span> be updated as
-defined in RFC XXX.<a href="#section-9.2-13" class="pilcrow">¶</a></p>
+defined in RFC XXXX.<a href="#section-9.3-12" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3050,9 +3214,9 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refTitle">"Network Configuration Protocol (NETCONF)"</span>, <time datetime="2011-06" class="refDate">June 2011</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc6241">https://datatracker.ietf.org/doc/html/rfc6241</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC7460">[RFC7460]</dt>
+<dt id="RFC6933">[RFC6933]</dt>
         <dd>
-<span class="refAuthor">Chandramouli, M.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Schoening, B.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">T. Dietz</span>, <span class="refTitle">"Monitoring and Control MIB for Power and Energy"</span>, <span class="seriesInfo">RFC 7460</span>, <span class="seriesInfo">DOI 10.17487/RFC7460</span>, <time datetime="2015-03" class="refDate">March 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7460">https://www.rfc-editor.org/rfc/rfc7460</a>&gt;</span>. </dd>
+<span class="refAuthor">Bierman, A.</span>, <span class="refAuthor">Romascanu, D.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">M. Chandramouli</span>, <span class="refTitle">"Entity MIB (Version 4)"</span>, <span class="seriesInfo">RFC 6933</span>, <span class="seriesInfo">DOI 10.17487/RFC6933</span>, <time datetime="2013-05" class="refDate">May 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6933">https://www.rfc-editor.org/rfc/rfc6933</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7950">[RFC7950]</dt>
         <dd>
@@ -3115,9 +3279,9 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Stephan, E.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Bernardos, C. J.</span>, and <span class="refAuthor">X. Chen</span>, <span class="refTitle">"Use Cases for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-use-cases-02</span>, <time datetime="2026-08-07" class="refDate">7 August 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-02">https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC6933">[RFC6933]</dt>
+<dt id="RFC7460">[RFC7460]</dt>
         <dd>
-<span class="refAuthor">Bierman, A.</span>, <span class="refAuthor">Romascanu, D.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">M. Chandramouli</span>, <span class="refTitle">"Entity MIB (Version 4)"</span>, <span class="seriesInfo">RFC 6933</span>, <span class="seriesInfo">DOI 10.17487/RFC6933</span>, <time datetime="2013-05" class="refDate">May 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6933">https://www.rfc-editor.org/rfc/rfc6933</a>&gt;</span>. </dd>
+<span class="refAuthor">Chandramouli, M.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Schoening, B.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">T. Dietz</span>, <span class="refTitle">"Monitoring and Control MIB for Power and Energy"</span>, <span class="seriesInfo">RFC 7460</span>, <span class="seriesInfo">DOI 10.17487/RFC7460</span>, <time datetime="2015-03" class="refDate">March 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7460">https://www.rfc-editor.org/rfc/rfc7460</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8342">[RFC8342]</dt>
         <dd>

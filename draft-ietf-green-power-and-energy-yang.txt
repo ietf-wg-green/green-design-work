@@ -69,7 +69,8 @@ Table of Contents
    8.  Security Considerations
    9.  IANA Considerations
      9.1.  YANG Module Name and URI Registry
-     9.2.  Power and Energy Certification Types Registry
+     9.2.  Accelerator Hardware Class
+     9.3.  Power and Energy Certification Types Registry
    10. Acknowledgments
    11. References
      11.1.  Normative References
@@ -99,18 +100,18 @@ Table of Contents
    Power and Energy Monitoring and Control can be applied to devices in
    communication networks.  All identifiable devices with measurable or
    representable Power and Energy characteristics fall within the scope
-   of this specification.  Target devices include (but are not limited
-   to) routers, switches, Power over Ethernet (PoE) endpoints, smart
-   PDU, storage and compute servers, etc.
+   of this specification.  Target devices include, but are not limited
+   to, routers, switches, Power over Ethernet (PoE) endpoints, smart
+   Power Distribution Units (PDUs), and storage and compute servers.
 
    Where applicable, device monitoring extends to the Components of the
-   device as well as software and service running on the device.  As a
+   device as well as software and services running on the device.  As a
    result, the metrics to be monitored include Device Level Energy
-   Efficiency (DLEE), Component Level Energy Efficiency (CLEE) and
-   potential Service Level Energy Efficiency (SLEE) at the orchestrator-
-   level, etc.  For example, a router can contain Components such as
-   Line Processing Unit (LPU), Switch Fabric Unit (SFU), Main Processing
-   Unit (MPU).
+   Efficiency (DLEE), Component Level Energy Efficiency (CLEE), and
+   potential Service Level Energy Efficiency (SLEE) at the orchestrator
+   level.  For example, a router can contain Components such as a Line
+   Processing Unit (LPU), a Switch Fabric Unit (SFU), and a Main
+   Processing Unit (MPU).
 
 1.1.  Terminology
 
@@ -142,6 +143,14 @@ Table of Contents
    The terms reused from [I-D.ietf-green-terminology] and
    [I-D.ietf-green-framework] are capitalized in this specification.
 
+   This document defines the following term, which is also capitalized:
+
+   Power Cap:  An upper limit on the Power of an Energy Object, set by
+      an administrator or a controller and enforced by the device, for
+      example by reducing the clock frequency of a Component.  Unlike
+      the Nameplate Power, which is a fixed design value, a Power Cap
+      can change during operation.
+
    This document uses the terms Power and Energy in accordance with
    [I-D.ietf-green-terminology].  Power refers to the instantaneous rate
    at which a device consumes or produces electrical energy (typically
@@ -165,7 +174,7 @@ Table of Contents
    includes measuring Power, Energy, demand and attributes of Power.
 
    For the whole picture of the monitoring interfaces and the relevant
-   requirements, please refer to "GREEN reference model" in section 4 in
+   requirements, please refer to the "GREEN reference model" in
    [I-D.ietf-green-framework].
 
 3.  Power and Energy Data Model
@@ -190,15 +199,43 @@ Table of Contents
    "state" leaf (per [RFC8342]) was considered, it is not adopted in
    this document.
 
-   Entries in /energy-control/energy-objects/energy-object SHOULD
-   reference the /energy-objects/energy-object/id using a leafref with
-   require-instance false.  This allows an administrator or controller
-   to correlate a configured Power State intent with the Energy Object
-   being monitored.  The require-instance false statement allows the
-   configuration to remain after an Energy Object has disappeared from
-   the system, or before it has been introduced.  If the referred Energy
-   Object does not currently exist, the configuration item for it has no
-   effect.
+   The model also allows an administrator or controller to request a
+   Power Cap on an Energy Object, for example to cap the Power of a GPU
+   in a cluster.  The requested limit is configured in the power-cap
+   container in /energy-control.  The device enforces the requested
+   limit, or the closest value that the Energy Object supports, and
+   reports the limit in effect in the power-cap container of the Power
+   attributes in /energy-objects.  Discovering the range of limits that
+   an Energy Object supports is out of scope of this document.
+
+   The existence of a Power Cap and its effect are reported separately.
+   The power-cap container in /energy-objects is present only while a
+   cap is enforced, and the Energy Object then does not draw more Power
+   than the enforced limit.  The limiting leaf indicates whether the cap
+   is constraining the Energy Object at this time, that is, whether the
+   Energy Object would draw more Power without the cap, so that its
+   operation is reduced to stay within the limit.  For example, with a
+   cap of 300 W, a GPU that would draw 80 W when idle, or 200 W with a
+   light workload, is not constrained (limiting is false), whereas a GPU
+   that would draw 450 W during a training job is held at 300 W and runs
+   more slowly (limiting is true).
+
+   A management system cannot reliably derive the limiting indication by
+   comparing the instantaneous Power with the enforced limit: the Power
+   that the Energy Object would draw without the cap is not observable,
+   caps are typically enforced as an average over a time window, and the
+   measurement accuracy blurs the comparison.  The device, which applies
+   the cap, knows whether it is constraining the Energy Object.
+
+   The id of an entry in /energy-control/energy-objects/energy-object
+   SHOULD be the id of an existing or anticipated entry in /energy-
+   objects/energy-object.  This allows an administrator or controller to
+   correlate a configured Power State intent with the Energy Object
+   being monitored.  The id is a leafref with require-instance false, so
+   that the configuration can be created before the Energy Object is
+   introduced and remains after it has disappeared from the system.  If
+   the referred Energy Object does not currently exist, the
+   configuration item for it has no effect.
 
    The relationship list models the relationship between an Energy
    Object and its peer Energy Objects, using the energy-relationship-
@@ -250,6 +287,9 @@ Table of Contents
      |     |  +--ro data-source-accuracy?   identityref
      |     |  +--ro power-factor?           power-factor
      |     |  +--ro measurement-local?      boolean
+     |     |  +--ro power-cap!
+     |     |     +--ro limit       uint64
+     |     |     +--ro limiting?   boolean
      |     +--ro energy
      |     |  +--ro total-energy-consumed?    uint64
      |     |  +--ro total-energy-delivered?   uint64
@@ -268,10 +308,12 @@ Table of Contents
            +--rw energy-object* [id]
               +--rw id             -> /energy-objects/energy-object/id
               +--rw power-state
-                 +--rw admin?   identityref
-                 +--rw oper?
-                         -> /energy-objects/energy-object
-                            /power-state/oper
+              |  +--rw admin?   identityref
+              |  +--rw oper?
+              |          -> /energy-objects/energy-object
+              |             /power-state/oper
+              +--rw power-cap
+                 +--rw limit?   uint64
 
 4.  Relationship to the Hardware YANG Data Model
 
@@ -304,13 +346,16 @@ Table of Contents
    hardware-components in ietf-hardware YANG module [RFC8348] is
    designed to be 1:1, architecturally aligning each energy-object entry
    with exactly one physical hardware component via source-component-id.
+   As no hardware class exists for hardware accelerators such as GPUs,
+   this document requests a new "accelerator" hardware class (see
+   Section 9.2).
 
-   There are also cases where the controllers also generate their own
-   set of UUIDs for the hardware (components).  In such a case, it might
-   be necessary to document the mappings between the UUIDs generated on
-   the hardware side and the UUIDs on the controller side.  Basically,
-   the devices (such as routers) generate the UUID and the controller
-   can query it.
+   There are also cases where controllers generate their own set of
+   UUIDs for the hardware components.  In such a case, it might be
+   necessary to document the mappings between the UUIDs generated on the
+   hardware side and the UUIDs on the controller side.  In general, the
+   devices (such as routers) generate the UUID, and the controller can
+   query it.
 
    The ietf-hardware YANG module [RFC8348] allows discovering all the
    device components, including the containment tree, and the parent/
@@ -320,8 +365,8 @@ Table of Contents
 5.  Relationship to the EMAN Work
 
    The EMAN IETF Working Group (https://datatracker.ietf.org/wg/eman/
-   about/) is a concluded Working Group that produced a couple of RFCs
-   in the domain of Power and Energy.  The Working Group produced MIB
+   about/) is a concluded Working Group that produced several RFCs in
+   the domain of Power and Energy.  The Working Group produced MIB
    modules for monitoring and control for Power and Energy, for the
    context information, for battery monitoring, and an extension to the
    ENTITY-MIB to add the UUID definition [RFC6933].
@@ -338,10 +383,15 @@ Table of Contents
    YANG module.  The changes compared to the EMAN MIB modules are mainly
    due to the alignment with the up-to-date requirements of the network
    carriers on Energy Efficiency.  Compared to the MIB modules, some
-   definitions and types are optimized, some new Energy Objects are
-   added and some legacy Energy Objects are removed accordingly.
+   definitions and types are optimized, some new data nodes are added,
+   and some legacy MIB objects are removed accordingly.
 
 6.  Power and Energy YANG Module
+
+   Note to the RFC Editor: Please replace all occurrences of "XXXX" in
+   this document with the RFC number assigned to this document, and the
+   revision date of both YANG modules with the date of publication of
+   this document.  Please remove this note before publication.
 
    This YANG Module is used to monitor and control Power and Energy
    usage of network devices and the Components on these devices.
@@ -362,15 +412,24 @@ Table of Contents
      import iana-power-and-energy {
        prefix ianaeo;
        reference
-         "RFC XXX: Power and Energy YANG Module";
+         "RFC XXXX: Power and Energy YANG Module";
      }
 
      organization
        "IETF GREEN Working Group";
 
      contact
-       "WG Web: <https://datatracker.ietf.org/wg/green/>
-        WG List: <mailto:green@ietf.org>";
+       "WG Web:  <https://datatracker.ietf.org/wg/green/>
+        WG List: <mailto:green@ietf.org>
+
+        Author:  Benoit Claise
+                 <mailto:benoit@everything-ops.net>
+        Author:  Gen Chen
+                 <mailto:chengen@huawei.com>
+        Author:  Marisol Palmero
+                 <mailto:marisol.ietf@gmail.com>
+        Author:  Jan Lindblad
+                 <mailto:jan.lindblad@for.eco>";
 
 
 
@@ -400,15 +459,15 @@ Table of Contents
         Relating to IETF Documents
         (https://trustee.ietf.org/license-info).
 
-        This version of this YANG module is part of RFC XXX
-        (https://www.rfc-editor.org/info/rfcXXX); see the RFC itself
+        This version of this YANG module is part of RFC XXXX
+        (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
         for full legal notices.";
 
      revision 2026-11-01 {
        description
          "Initial revision";
        reference
-         "RFC XXX: Power and Energy YANG Module";
+         "RFC XXXX: Power and Energy YANG Module";
      }
 
      identity data-source-accuracy {
@@ -847,6 +906,40 @@ Table of Contents
               This information can be useful for troubleshooting and
               understanding the data source.";
          }
+         container power-cap {
+           presence
+             "A Power Cap is enforced for this Energy Object. When this
+              container is absent, no cap is enforced and the Nameplate
+              Power is the upper limit.";
+           description
+             "Container for the Power Cap in effect for this Energy
+              Object.";
+           leaf limit {
+             type uint64;
+             units "milliwatts";
+             mandatory true;
+             description
+               "The upper limit on the Power of this Energy Object that
+                is currently enforced: the Energy Object does not draw
+                more Power than this limit, whether or not the cap is
+                constraining it at this time (see 'limiting'). It
+                differs from the requested limit when the requested
+                limit is outside the range that the Energy Object
+                supports.";
+           }
+           leaf limiting {
+             type boolean;
+             description
+               "True if the cap is currently constraining the Energy
+                Object: without the cap, it would draw more Power than
+                the limit, so its operation (for example, its clock
+                frequency) is reduced to stay within the limit. False
+                if the Energy Object would not draw more Power than the
+                limit even without the cap, so the cap has no effect
+                at this time. Absent if the device cannot determine
+                whether the cap is constraining the Energy Object.";
+           }
+         }
        }
      }
 
@@ -1095,6 +1188,26 @@ Table of Contents
                   instance in the monitoring tree.";
              }
            }
+
+           container power-cap {
+             description
+               "Container for the Power Cap of this Energy Object.";
+             leaf limit {
+               type uint64;
+               units "milliwatts";
+               description
+                 "The administratively requested upper limit on the
+                  Power that this Energy Object may consume. The device
+                  enforces it by adjusting the operation of the Energy
+                  Object, for example by lowering its clock frequency.
+                  Absence of a configured value means that no cap is
+                  requested. If the requested limit is outside the
+                  range that the Energy Object supports, the device
+                  enforces the closest supported value, which is
+                  reported in the power-cap container in
+                  /energy-objects.";
+             }
+           }
          }
        }
      }
@@ -1158,7 +1271,7 @@ Table of Contents
        description
          "Initial revision.";
        reference
-         "RFC XXX: Power and Energy YANG Module";
+         "RFC XXXX: Power and Energy YANG Module";
      }
 
      identity certification-type {
@@ -1233,13 +1346,14 @@ Table of Contents
    energy-delivered) values to avoid skewing Device Level Energy
    Efficiency (DLEE) metrics.
 
-   Operators might not always be interested in getting the individual
-   Component accuracy.  What counts is the device level or domain level,
-   identity accuracy-like-parent is introduced to meet their demands.
-   From an implementation point of view, to facilitate data collection
-   and aggregation on runtime and avoid post-aggregation data confidence
-   interval issues, operators and implementers should use as much as
-   possible this accuracy-like-parent identity.
+   Operators might not always be interested in the accuracy of
+   individual Components; what matters is the accuracy at the device or
+   domain level.  The accuracy-like-parent identity is introduced for
+   this purpose.  From an implementation point of view, to facilitate
+   data collection and aggregation at runtime and to avoid post-
+   aggregation data confidence interval issues, operators and
+   implementers should use the accuracy-like-parent identity as much as
+   possible.
 
    YANG Push support eliminates device-side bucket storage by streaming
    Energy telemetry directly to controller-side via subscriptions.
@@ -1288,8 +1402,9 @@ Table of Contents
    *  Estimated Data: Values derived through indirect methods:
 
       -  Static estimates: From manufacturer datasheets, nameplate
-         ratings (critical for UC 1: Incremental Deployment with legacy
-         devices)
+         ratings (critical for legacy devices, as described in the
+         "Incremental Application of the GREEN Framework" use case in
+         [I-D.ietf-green-use-cases])
 
          o  Identity: accuracy-static
 
@@ -1299,8 +1414,9 @@ Table of Contents
          o  Identity: accuracy-historic
 
       -  Learned estimates: Generated by machine learning models
-         predicting consumption from workload patterns (UC 15: AI
-         Training)
+         predicting consumption from workload patterns (see the "Energy-
+         Efficient Management of Distributed AI Training Workloads" use
+         case in [I-D.ietf-green-use-cases])
 
          o  Identity: accuracy-learned
 
@@ -1349,10 +1465,13 @@ Table of Contents
 
    *  Double-accounting prevention: Understand when PDU-level
       measurements (+/-2%) should override device estimates (+/-30%) to
-      avoid counting the same Energy twice (UC 13)
+      avoid counting the same Energy twice (see the "Double Accounting"
+      use case in [I-D.ietf-green-use-cases])
 
    *  Cross-domain correlation: Map accuracy expectations when
-      integrating with external systems like 3GPP energy KPIs (UC 6)
+      integrating with external systems like 3GPP energy KPIs (see the
+      "Consideration of other domains for obtention of end-to-end
+      metrics" use case in [I-D.ietf-green-use-cases])
 
    The accuracy hierarchy uses YANG identities for extensibility,
    allowing vendors to define manufacturer-specific accuracy classes
@@ -1360,7 +1479,7 @@ Table of Contents
 
 7.3.  Industry-Standard Certifications
 
-   Energy efficiency certifications issued by recognized testing
+   Energy Efficiency certifications issued by recognized testing
    organizations provide standardized benchmarks for the expected
    performance of equipment and Components.  These certifications are
    typically based on controlled laboratory measurements and formal
@@ -1373,7 +1492,7 @@ Table of Contents
    *  80 PLUS (Power Supply Units): Bronze/Silver/Gold/Platinum/Titanium
       tiers based on efficiency at 20%/50%/100% load
 
-   *  Energy Star: Government-backed program certifying energy-efficient
+   *  ENERGY STAR: Government-backed program certifying energy-efficient
       products
 
    *  EPEAT: Electronic Product Environmental Assessment Tool ratings
@@ -1422,9 +1541,10 @@ Table of Contents
    *  Measurement Accuracy: accuracy-measured-silver (+/-10% sensor
       precision on real-time Power readings)
 
-   The certification tells operators the Energy Object, for example, a
-   PSU, is designed to be efficient; the measurement accuracy tells them
-   how precisely they can monitor its actual performance.
+   The certification tells operators that the Energy Object (for
+   example, a power supply unit) is designed to be efficient; the
+   measurement accuracy tells them how precisely they can monitor its
+   actual performance.
 
 8.  Security Considerations
 
@@ -1443,10 +1563,11 @@ Table of Contents
    RESTCONF users to a preconfigured subset of all available NETCONF or
    RESTCONF protocol operations and content.
 
-   There is one writable data node defined in this YANG module that may
-   be considered sensitive or vulnerable in some network environments.
-   Write operations (e.g., edit-config) to this data node without proper
-   protection can have a negative effect on network operations:
+   There are two writable data nodes defined in this YANG module that
+   may be considered sensitive or vulnerable in some network
+   environments.  Write operations (e.g., edit-config) to these data
+   nodes without proper protection can have a negative effect on network
+   operations:
 
    *  /energy-control/energy-objects/energy-object/power-state/admin:
       Unauthorized write access to this leaf allows an attacker to
@@ -1457,6 +1578,13 @@ Table of Contents
       hardware, or mask an ongoing attack by cycling Power States to
       disrupt monitoring.  Access to this data node SHOULD be limited to
       authorized administrators via NACM.
+
+   *  /energy-control/energy-objects/energy-object/power-cap/limit:
+      Unauthorized write access to this leaf allows an attacker to set a
+      very low Power Cap on an Energy Object, degrading or disrupting
+      its operation (resulting in denial of service), or to remove a cap
+      that protects the power budget of a site.  Access to this data
+      node SHOULD be limited to authorized administrators via NACM.
 
    Some of the readable data nodes in this YANG module may be considered
    sensitive or vulnerable in some network environments.  It is thus
@@ -1537,7 +1665,7 @@ Table of Contents
     +------------+---------------------------------------------------+
     | Prefix     | eo                                                |
     +------------+---------------------------------------------------+
-    | Reference  | RFC XXX                                           |
+    | Reference  | RFC XXXX                                          |
     +------------+---------------------------------------------------+
 
       Table 3: IETF YANG Module Name Registry: ietf-power-and-energy
@@ -1554,15 +1682,38 @@ Table of Contents
     +------------+---------------------------------------------------+
     | Prefix     | ianaeo                                            |
     +------------+---------------------------------------------------+
-    | Reference  | RFC XXX                                           |
+    | Reference  | RFC XXXX                                          |
     +------------+---------------------------------------------------+
 
       Table 4: IETF YANG Module Name Registry: iana-power-and-energy
 
-   Note to IANA: RFC XXX must be replaced by the newly assigned RFC
-   number.
+9.2.  Accelerator Hardware Class
 
-9.2.  Power and Energy Certification Types Registry
+   IANA is requested to add the following enumeration to the
+   IANAPhysicalClass textual convention in the IANA-maintained IANA-
+   ENTITY-MIB module [RFC6933]:
+
+      accelerator(TBD1)   -- e.g., GPU, TPU, NPU, or FPGA card
+
+   As the iana-hardware YANG module reflects IANA-ENTITY-MIB [RFC8348],
+   IANA is also requested to add the following identity to the iana-
+   hardware YANG module, with a new revision statement:
+
+      identity accelerator {
+        base hardware-class;
+        description
+          "This identity is applicable if the hardware class is some
+           sort of hardware accelerator, such as a Graphics Processing
+           Unit (GPU), a Tensor Processing Unit (TPU), a Neural
+           Processing Unit (NPU), or an FPGA-based accelerator card.";
+        reference
+          "RFC XXXX: Power and Energy YANG Module";
+      }
+
+   Note to IANA: the value 16, the next unassigned IANAPhysicalClass
+   value, is suggested for TBD1.
+
+9.3.  Power and Energy Certification Types Registry
 
    IANA is requested to create a new registry named "Power and Energy
    Certification Types" within the "Power and Energy" registry group.
@@ -1572,7 +1723,7 @@ Table of Contents
    The registry assigns string identity names for power and energy
    efficiency certification types, for use as identityref values in
    "ietf-power-and-energy" YANG module.  The registered value is the
-   unqualified identity name (e.g., energy-star, c80-plus, etc).  No
+   unqualified identity name (e.g., energy-star or c80-plus).  No
    numeric code points are assigned by this registry.  Registry Template
    is as follows.
 
@@ -1581,7 +1732,7 @@ Table of Contents
     +========================+=======================================+
     | Registry Name          | Power and Energy Certification Types  |
     +------------------------+---------------------------------------+
-    | Reference              | RFC XXX                               |
+    | Reference              | RFC XXXX                              |
     +------------------------+---------------------------------------+
     | Registration Procedure | Expert Review [RFC8126]               |
     +------------------------+---------------------------------------+
@@ -1593,27 +1744,24 @@ Table of Contents
    +=================+====================================+===========+
    | Identity Name   | Description                        | Reference |
    +=================+====================================+===========+
-   | c80-plus        | 80 PLUS Power Supply Certification | RFC XXX   |
+   | c80-plus        | 80 PLUS Power Supply Certification | RFC XXXX  |
    +-----------------+------------------------------------+-----------+
-   | energy-star     | ENERGY STAR certification          | RFC XXX   |
+   | energy-star     | ENERGY STAR certification          | RFC XXXX  |
    +-----------------+------------------------------------+-----------+
-   | epeat           | Electronic Product Environmental   | RFC XXX   |
+   | epeat           | Electronic Product Environmental   | RFC XXXX  |
    |                 | Assessment Tool ratings            |           |
    +-----------------+------------------------------------+-----------+
-   | eu-energy-label | EU Energy Label: European          | RFC XXX   |
+   | eu-energy-label | EU Energy Label: European          | RFC XXXX  |
    |                 | efficiency ratings                 |           |
    +-----------------+------------------------------------+-----------+
-   | cn-energy-label | CN Energy Label: China efficiency  | RFC XXX   |
+   | cn-energy-label | CN Energy Label: China efficiency  | RFC XXXX  |
    |                 | ratings                            |           |
    +-----------------+------------------------------------+-----------+
-   | cqc             | China Quality Certification for    | RFC XXX   |
+   | cqc             | China Quality Certification for    | RFC XXXX  |
    |                 | energy efficiency                  |           |
    +-----------------+------------------------------------+-----------+
 
                        Table 6: Initial Registries
-
-   Note to IANA: RFC XXX must be replaced by the newly assigned RFC
-   number.
 
    New entries to "Power and Energy Certification Types" registry
    require Expert Review [RFC8126].  The Designated Expert(s) should
@@ -1659,7 +1807,7 @@ Table of Contents
    energy YANG module.  They MUST instead be added to the "Power and
    Energy Certification Types" registry.  When this registry is updated,
    the iana-power-and-energy YANG module MUST be updated as defined in
-   RFC XXX.
+   RFC XXXX.
 
 10.  Acknowledgments
 
@@ -1701,10 +1849,10 @@ Table of Contents
    [RFC6241]  "Network Configuration Protocol (NETCONF)", June 2011,
               <https://datatracker.ietf.org/doc/html/rfc6241>.
 
-   [RFC7460]  Chandramouli, M., Claise, B., Schoening, B., Quittek, J.,
-              and T. Dietz, "Monitoring and Control MIB for Power and
-              Energy", RFC 7460, DOI 10.17487/RFC7460, March 2015,
-              <https://www.rfc-editor.org/rfc/rfc7460>.
+   [RFC6933]  Bierman, A., Romascanu, D., Quittek, J., and M.
+              Chandramouli, "Entity MIB (Version 4)", RFC 6933,
+              DOI 10.17487/RFC6933, May 2013,
+              <https://www.rfc-editor.org/rfc/rfc6933>.
 
    [RFC7950]  "The YANG 1.1 Data Modeling Language", August 2016,
               <https://datatracker.ietf.org/doc/html/rfc7950>.
@@ -1764,10 +1912,10 @@ Table of Contents
               2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
               green-use-cases-02>.
 
-   [RFC6933]  Bierman, A., Romascanu, D., Quittek, J., and M.
-              Chandramouli, "Entity MIB (Version 4)", RFC 6933,
-              DOI 10.17487/RFC6933, May 2013,
-              <https://www.rfc-editor.org/rfc/rfc6933>.
+   [RFC7460]  Chandramouli, M., Claise, B., Schoening, B., Quittek, J.,
+              and T. Dietz, "Monitoring and Control MIB for Power and
+              Energy", RFC 7460, DOI 10.17487/RFC7460, March 2015,
+              <https://www.rfc-editor.org/rfc/rfc7460>.
 
    [RFC8342]  Bjorklund, M., Schoenwaelder, J., Shafer, P., Watsen, K.,
               and R. Wilton, "Network Management Datastore Architecture
