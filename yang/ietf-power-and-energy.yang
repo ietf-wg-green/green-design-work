@@ -40,9 +40,10 @@ module ietf-power-and-energy {
      communication networks.
 
      The capitalized terms used in this module (for example,
-     Power, Energy, Energy Object, Component, Power State, and
-     Nameplate Power) are defined in
-     I-D.ietf-green-terminology.
+     Power, Energy, Energy Object, Component, Power State,
+     Nameplate Power, and Power Inlet) are defined in
+     I-D.ietf-green-terminology, except Power Cap, which is
+     defined in RFC XXXX.
      
      The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
      NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
@@ -161,10 +162,20 @@ module ietf-power-and-energy {
   identity accuracy-like-parent {
     base data-source-accuracy;
     description
-      "The accuracy of the Power/Energy data is the same as this 
-       Energy Object's parent object. This identity is useful for 
-       hierarchical Energy Objects where child objects inherit the 
-       accuracy characteristics.";
+      "The accuracy of the Power or Energy data is the same as the
+       accuracy of the same data for the parent Energy Object. The
+       parent Energy Object is found by following the 'parent' leaf
+       of ietf-hardware up the containment tree towards the root,
+       starting from the Component that this Energy Object
+       describes (see source-component-id): it is the Energy Object
+       of the first Component found that has one. This identity is
+       useful for hierarchical Energy Objects where child objects
+       inherit the accuracy characteristics. If there is no parent
+       Energy Object, the accuracy is unknown, as for
+       accuracy-unknown.";
+    reference
+      "RFC 8348: A YANG Data Model for Hardware Management
+       RFC 6933: Entity MIB (Version 4)";
   }
   identity accuracy-estimated {
     base data-source-accuracy;
@@ -441,18 +452,29 @@ module ietf-power-and-energy {
       description
         "Container for Power measurement attributes.";
       
-      leaf instantaneous-power {
-        type int64;
+      leaf instantaneous-power-received {
+        type uint64;
         units "milliwatts";
         mandatory false;
         description
-         "The Power usage measurement for the Energy Object right 
-          now. This value represents the instantaneous Power 
-          consumption of the Component. This value is 
-          specified in milliwatts (mW). Positive values 
-          indicate Power consumption, while negative values can 
-          indicate Power generation (e.g., for devices with 
-          battery backup or renewable energy sources).";
+          "The Power that the Energy Object receives right now,
+           summed over all its Power Inlets. It includes the Power
+           that the Energy Object uses itself and the Power that it
+           converts, passes on, or stores, for example in a power
+           supply or a charging battery.";
+      }
+
+      leaf instantaneous-power-provided {
+        type uint64;
+        units "milliwatts";
+        mandatory false;
+        description
+          "The Power that the Energy Object provides right now to
+           other Energy Objects, summed over all its Power Outlets,
+           for example the output of a power supply, Power over
+           Ethernet, or a discharging battery. The difference
+           between the received and the provided Power is the
+           Power that the Energy Object dissipates or stores.";
       }
       
       leaf nameplate-power {
@@ -461,7 +483,9 @@ module ietf-power-and-energy {
         description
           "The Nameplate Power of the Energy Object: the maximum
            continuous Power the Energy Object is designed to consume
-           or deliver, as specified by the manufacturer. It is a
+           or deliver, as specified by the manufacturer. For an
+           Energy Object that provides Power, such as a power
+           supply, it is the rated provided Power. It is a
            rated design value, not an expected operating value or an
            observed maximum, and does not change during operation.
            Used for power budget calculations and capacity
@@ -477,25 +501,33 @@ module ietf-power-and-energy {
         }
         default accuracy-like-parent;
         description
-          "The accuracy of the Power data source. Indicates 
-           whether the data source is a direct measurement, an 
-           estimate, or unavailable and also the accuracy level of 
-           the data source. By default, the accuracy is inherited 
-           from the parent Energy Object, facilitating 
-           hierarchical accuracy definitions without the need to 
-           specify accuracy at every level. This metadata is 
-           crucial for network management applications to assess 
-           the reliability and accuracy of the Power data.";
+          "The accuracy of the Power data source. Indicates
+           whether the data source is a direct measurement, an
+           estimate, or unavailable and also the accuracy level of
+           the data source. By default, the accuracy is inherited
+           from the parent Energy Object (see accuracy-like-parent),
+           facilitating hierarchical accuracy definitions without
+           the need to specify accuracy at every level. An Energy
+           Object without a parent Energy Object, such as the one
+           at the top of the containment tree, SHOULD report this
+           leaf explicitly. A module that reuses this grouping
+           outside a device can refine the default, for example to
+           accuracy-unknown. It applies to both the received and the
+           provided Power; when their accuracy differs, it reports
+           the accuracy of the less accurate of the two. This
+           metadata is crucial for network management applications
+           to assess the reliability and accuracy of the Power
+           data.";
       }
       
       leaf power-factor {
         type power-factor;
         description
-          "The percent value of the power factor measurement for 
-           the Energy Object. This information is important for 
-           understanding the electrical characteristics of the 
-           Energy Object and for correctly interpreting the Power 
-           data.";
+          "The percent value of the power factor measured at the
+           Power Inlets of the Energy Object. This information is
+           important for understanding the electrical
+           characteristics of the Energy Object and for correctly
+           interpreting the received Power data.";
       }
       leaf measurement-local {
         type boolean;
@@ -520,11 +552,11 @@ module ietf-power-and-energy {
           units "milliwatts";
           mandatory true;
           description
-            "The upper limit on the Power of this Energy Object that
-             is currently enforced: the Energy Object does not draw
-             more Power than this limit, whether or not the cap is
-             constraining it at this time (see 'limiting'). It
-             differs from the requested limit when the requested
+            "The upper limit on the Power that this Energy Object
+             receives, currently enforced: the Energy Object does
+             not draw more Power than this limit, whether or not the
+             cap is constraining it at this time (see 'limiting').
+             It differs from the requested limit when the requested
              limit is outside the range that the Energy Object
              supports.";
         }
@@ -556,28 +588,27 @@ module ietf-power-and-energy {
       description
         "Container for Energy measurement attributes.";
       
-      leaf total-energy-consumed {
+      leaf total-energy-received {
         type uint64;
         units "milliwatt-hours";
         description
-         "The total cumulative Energy consumed by the Energy 
-          Object since the last reset. This value is specified as 
-          milliwatt-hours (mWh). This value is useful for tracking 
-          overall Energy usage over time for billing, reporting, 
-          or optimization purposes.";
+          "The total cumulative Energy received by the Energy
+           Object since the last reset, in the same direction as
+           instantaneous-power-received. This value is useful for
+           tracking overall Energy usage over time for billing,
+           reporting, or optimization purposes.";
       }
-      
-      leaf total-energy-delivered {
+
+      leaf total-energy-provided {
         type uint64;
         units "milliwatt-hours";
         description
-         "The total cumulative Energy delivered by the Energy 
-          Object since the last reset. This value is specified as 
-          milliwatt-hours (mWh). This value is relevant for Energy 
-          Objects capable of generating Power, such as those with 
-          renewable energy sources or battery backup systems, or 
-          capable of providing Energy to other Energy Objects 
-          (e.g., PoE switches).";
+          "The total cumulative Energy provided by the Energy
+           Object to other Energy Objects since the last reset, in
+           the same direction as instantaneous-power-provided.
+           This value is relevant for Energy Objects that provide
+           Energy, such as power supplies, PoE switches,
+           batteries, or renewable energy sources.";
       }
       leaf data-source-accuracy {
         type identityref {
@@ -585,16 +616,23 @@ module ietf-power-and-energy {
         }
         default accuracy-like-parent;
         description
-          "The accuracy of the Energy data source. Indicates 
-           whether the data source is a direct measurement, 
-           an estimate, or unavailable and also the accuracy 
-           level of the data source. 
-           By default, the accuracy is inherited from the parent 
-           Energy Object, facilitating hierarchical accuracy 
-           definitions without the need to specify accuracy at 
-           every level. This metadata is crucial for network 
-           management applications to assess the reliability and 
-           accuracy of the Energy data.";
+          "The accuracy of the Energy data source. Indicates
+           whether the data source is a direct measurement, an
+           estimate, or unavailable and also the accuracy level of
+           the data source. By default, the accuracy is inherited
+           from the parent Energy Object (see accuracy-like-parent),
+           facilitating hierarchical accuracy definitions without
+           the need to specify accuracy at every level. An Energy
+           Object without a parent Energy Object, such as the one
+           at the top of the containment tree, SHOULD report this
+           leaf explicitly. A module that reuses this grouping
+           outside a device can refine the default, for example to
+           accuracy-unknown. It applies to both the received and the
+           provided Energy; when their accuracy differs, it reports
+           the accuracy of the less accurate of the two. This
+           metadata is crucial for network management applications
+           to assess the reliability and accuracy of the Energy
+           data.";
       }
       leaf measurement-local {
         type boolean;
@@ -798,7 +836,7 @@ module ietf-power-and-energy {
             units "milliwatts";
             description
               "The administratively requested upper limit on the
-               Power that this Energy Object may consume. The device
+               Power that this Energy Object may receive. The device
                enforces it by adjusting the operation of the Energy
                Object, for example by lowering its clock frequency.
                Absence of a configured value means that no cap is

@@ -156,6 +156,9 @@ This document makes use of the terms defined in
 - Power
 - Nameplate Power
 - Power State
+- Power Interface
+- Power Inlet
+- Power Outlet
 - Energy
 - Energy Object
 - Component
@@ -172,8 +175,8 @@ specification.
 This document defines the following term, which is also capitalized:
 
 Power Cap:
-: An upper limit on the Power of an Energy Object, set by an
-  administrator or a controller and enforced by the device, for
+: An upper limit on the Power that an Energy Object receives, set by
+  an administrator or a controller and enforced by the device, for
   example by reducing the clock frequency of a Component. Unlike the
   Nameplate Power, which is a fixed design value, a Power Cap can
   change during operation.
@@ -208,10 +211,23 @@ requirements, please refer to the "GREEN reference model" in
 # Power and Energy Data Model
 
 The Power and Energy Data Model reports the Power and Energy of each
-Energy Object, in fixed units per leaf (for example, milliwatts for
-instantaneous Power and milliwatt-hours for Energy), together with the
-sign of the Power (consumption or generation), the measurement
-accuracy, etc.
+Energy Object, in fixed units per leaf (milliwatts for instantaneous
+Power and the Power Cap, watts for the Nameplate Power, and
+milliwatt-hours for Energy), together with the measurement accuracy,
+etc.
+
+Power and Energy are reported per direction, as unsigned values.
+Received is the Power or Energy flowing into the Energy Object through
+its Power Inlets, and provided is the Power or Energy flowing out of
+it to other Energy Objects through its Power Outlets. Both can be
+non-zero at the same time: a power supply receives Power from its
+source and provides Power to the device, and the difference is its
+loss. The same Power Interface can act as a Power Inlet and a Power
+Outlet: a battery receives Power while charging and provides Power
+while discharging. The net Power of an Energy Object is its received
+Power minus its provided Power, so that Power passed from one Energy
+Object to another is not counted twice when the net Power of several
+Energy Objects is summed.
 
 A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
@@ -250,7 +266,7 @@ would draw 450 W during a training job is held at 300 W and runs more
 slowly (limiting is true).
 
 A management system cannot reliably derive the limiting indication by
-comparing the instantaneous Power with the enforced limit: the Power
+comparing the received Power with the enforced limit: the Power
 that the Energy Object would draw without the cap is not observable,
 caps are typically enforced as an average over a time window, and the
 measurement accuracy blurs the comparison. The device, which applies
@@ -380,6 +396,9 @@ due to the alignment with the up-to-date requirements of the network
 carriers on Energy Efficiency. Compared to the MIB modules, some
 definitions and types are optimized, some new data nodes are added,
 and some legacy MIB objects are removed accordingly.
+For example, the signed eoPower object of {{?RFC7460}} is replaced by
+the Power received and the Power provided, as unsigned values, in the
+same way as the Energy counters.
 
 # Power and Energy YANG Module
 
@@ -410,17 +429,47 @@ Heterogeneous sensor capabilities across Components complicate Power
 and Energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
 weight data reliability carefully before aggregating Power
-(instantaneous-power) and Energy (total-energy-consumed and/or
-total-energy-delivered) values to avoid skewing Device Level Energy
-Efficiency (DLEE) metrics.
+(instantaneous-power-received and instantaneous-power-provided) and
+Energy (total-energy-received and total-energy-provided) values to
+avoid skewing Device Level Energy Efficiency (DLEE) metrics.
+
+The device reports the Power and Energy that each Energy Object
+receives and provides, not a single consumption value. The consumption
+of an Energy Object is its net value, received minus provided, which a
+management system or a controller computes when needed. For a power
+supply, this net value is its loss (see {{psu-example}}).
+
+For implementers familiar with {{?RFC7460}}, the following table maps
+its Power and Energy objects to this module. The values in {{?RFC7460}}
+are scaled by a unit multiplier, while this module uses fixed units,
+and the Energy objects of {{?RFC7460}} cover a configured interval,
+while the Energy counters of this module are cumulative since the
+last reset.
+
+| RFC 7460 object  | This module |
+|------------------|-------------|
+| eoPower          | instantaneous-power-received minus instantaneous-power-provided |
+| eoEnergyConsumed | total-energy-received |
+| eoEnergyProvided | total-energy-provided |
+{: title="Mapping of RFC 7460 Power and Energy Objects"}
 
 Operators might not always be interested in the accuracy of individual
 Components; what matters is the accuracy at the device or domain
 level. The accuracy-like-parent identity is introduced for this
-purpose. From an implementation point of view, to facilitate data
-collection and aggregation at runtime and to avoid post-aggregation
-data confidence interval issues, operators and implementers should use
-the accuracy-like-parent identity as much as possible.
+purpose. The parent Energy Object is determined by the containment
+tree {{RFC6933}}, which ietf-hardware {{RFC8348}} represents with the
+parent leaf: starting from the Component of an Energy Object and
+following the parent leaf up the containment tree towards the root,
+the first Component that has an Energy Object provides the parent
+Energy Object. The Energy Object at the top of the containment tree
+has no parent, so its accuracy should be reported explicitly. A module
+that reuses the power-values or energy-values groupings outside a
+device, such as a controller-side module, can refine the default of
+data-source-accuracy, for example to accuracy-unknown. From an
+implementation point of view, to facilitate data collection and
+aggregation at runtime and to avoid post-aggregation data confidence
+interval issues, operators and implementers should use the
+accuracy-like-parent identity as much as possible.
 
 YANG Push support eliminates device-side bucket storage by streaming
 Energy telemetry directly to controller-side via subscriptions.
@@ -812,3 +861,81 @@ the work. The authors also wish to thank Rob Wilton, Diego Lopez,
 Tony Li, Per Andersson, Qin Wu, Chih-Tsung Huang, Alex Huang Feng,
 and Amanda Baber for their helpful comments and reviews of this
 document.
+
+--- back
+
+# Example: Modeling a 750 W Power Supply {#psu-example}
+
+This appendix shows how a 750 W power supply is modeled. The power
+supply, psu-1, is fed by outlet 7 of a PDU and powers the chassis of
+the device. Both are Components in the ietf-hardware module
+{{!RFC8348}}, and psu-1 is contained in the chassis. The values are
+illustrative: the power supply receives 400 W from the PDU and
+provides 376 W to the chassis, an efficiency of 94% at about half its
+Nameplate Power, and the Energy counters cover 30 days at that load.
+
+The following instance data is encoded in JSON {{?RFC7951}}. Power is
+in milliwatts and Energy in milliwatt-hours, and the uint64 values are
+encoded as JSON strings.
+
+~~~~ json
+{
+  "ietf-power-and-energy:energy-objects": {
+    "energy-object": [
+      {
+        "id": "psu-1",
+        "source-component-id": "psu-1",
+        "power": {
+          "instantaneous-power-received": "400000",
+          "instantaneous-power-provided": "376000",
+          "nameplate-power": 750,
+          "data-source-accuracy": "accuracy-measured-gold",
+          "power-factor": 98
+        },
+        "energy": {
+          "total-energy-received": "288000000",
+          "total-energy-provided": "270720000"
+        },
+        "certifications": [ "iana-power-and-energy:c80-plus" ],
+        "relationship": [
+          { "type": "powered-by",
+            "peer": [ { "id": "pdu-a-outlet-7",
+                        "details": "PDU A, outlet 7" } ] },
+          { "type": "powering",
+            "peer": [ { "id": "chassis" } ] }
+        ]
+      },
+      {
+        "id": "chassis",
+        "source-component-id": "chassis",
+        "power": {
+          "instantaneous-power-received": "376000",
+          "instantaneous-power-provided": "0"
+        },
+        "energy": {
+          "total-energy-received": "270720000",
+          "total-energy-provided": "0"
+        },
+        "relationship": [
+          { "type": "powered-by",
+            "peer": [ { "id": "psu-1" } ] }
+        ]
+      }
+    ]
+  }
+}
+~~~~
+
+From these values, a management system derives:
+
+- the loss of the power supply: 400 W - 376 W = 24 W;
+- its efficiency: 376 W / 400 W = 94%, which the Energy counters
+  confirm over the period (270,720 Wh / 288,000 Wh);
+- the Power drawn from the PDU, by summing the net Power of the Energy
+  Objects: 24 W for the power supply plus 376 W for the chassis, that
+  is 400 W, without counting twice the Power passed from the power
+  supply to the chassis.
+
+A battery is modeled in the same way: it reports received Power and
+Energy while charging, and provided Power and Energy while
+discharging.
