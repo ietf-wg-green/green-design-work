@@ -433,6 +433,26 @@ weight data reliability carefully before aggregating Power
 Energy (total-energy-received and total-energy-provided) values to
 avoid skewing Device Level Energy Efficiency (DLEE) metrics.
 
+The device reports the Power and Energy that each Energy Object
+receives and provides, not a single consumption value. The consumption
+of an Energy Object is its net value, received minus provided, which a
+management system or a controller computes when needed. For a power
+supply, this net value is its loss (see {{psu-example}}).
+
+For implementers familiar with {{?RFC7460}}, the following table maps
+its Power and Energy objects to this module. The values in {{?RFC7460}}
+are scaled by a unit multiplier, while this module uses fixed units,
+and the Energy objects of {{?RFC7460}} cover a configured interval,
+while the Energy counters of this module are cumulative since the
+last reset.
+
+| RFC 7460 object  | This module |
+|------------------|-------------|
+| eoPower          | instantaneous-power-received minus instantaneous-power-provided |
+| eoEnergyConsumed | total-energy-received |
+| eoEnergyProvided | total-energy-provided |
+{: title="Mapping of RFC 7460 Power and Energy Objects"}
+
 Operators might not always be interested in the accuracy of individual
 Components; what matters is the accuracy at the device or domain
 level. The accuracy-like-parent identity is introduced for this

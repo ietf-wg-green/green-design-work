@@ -467,6 +467,7 @@ module ietf-power-and-energy {
       leaf instantaneous-power-provided {
         type uint64;
         units "milliwatts";
+        mandatory false;
         description
           "The Power that the Energy Object provides right now to
            other Energy Objects, summed over all its Power Outlets,
@@ -511,9 +512,12 @@ module ietf-power-and-energy {
            at the top of the containment tree, SHOULD report this
            leaf explicitly. A module that reuses this grouping
            outside a device can refine the default, for example to
-           accuracy-unknown. This metadata is crucial for network
-           management applications to assess the reliability and
-           accuracy of the Power data.";
+           accuracy-unknown. It applies to both the received and the
+           provided Power; when their accuracy differs, it reports
+           the accuracy of the less accurate of the two. This
+           metadata is crucial for network management applications
+           to assess the reliability and accuracy of the Power
+           data.";
       }
       
       leaf power-factor {
@@ -623,9 +627,12 @@ module ietf-power-and-energy {
            at the top of the containment tree, SHOULD report this
            leaf explicitly. A module that reuses this grouping
            outside a device can refine the default, for example to
-           accuracy-unknown. This metadata is crucial for network
-           management applications to assess the reliability and
-           accuracy of the Energy data.";
+           accuracy-unknown. It applies to both the received and the
+           provided Energy; when their accuracy differs, it reports
+           the accuracy of the less accurate of the two. This
+           metadata is crucial for network management applications
+           to assess the reliability and accuracy of the Energy
+           data.";
       }
       leaf measurement-local {
         type boolean;
