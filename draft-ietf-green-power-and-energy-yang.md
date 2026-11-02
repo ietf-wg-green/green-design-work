@@ -841,3 +841,81 @@ the work. The authors also wish to thank Rob Wilton, Diego Lopez,
 Tony Li, Per Andersson, Qin Wu, Chih-Tsung Huang, Alex Huang Feng,
 and Amanda Baber for their helpful comments and reviews of this
 document.
+
+--- back
+
+# Example: Modeling a 750 W Power Supply {#psu-example}
+
+This appendix shows how a 750 W power supply is modeled. The power
+supply, psu-1, is fed by outlet 7 of a PDU and powers the chassis of
+the device. Both are Components in the ietf-hardware module
+{{!RFC8348}}, and psu-1 is contained in the chassis. The values are
+illustrative: the power supply receives 400 W from the PDU and
+provides 376 W to the chassis, an efficiency of 94% at about half its
+Nameplate Power, and the Energy counters cover 30 days at that load.
+
+The following instance data is encoded in JSON {{?RFC7951}}. Power is
+in milliwatts and Energy in milliwatt-hours, and the uint64 values are
+encoded as JSON strings.
+
+~~~~ json
+{
+  "ietf-power-and-energy:energy-objects": {
+    "energy-object": [
+      {
+        "id": "psu-1",
+        "source-component-id": "psu-1",
+        "power": {
+          "instantaneous-power-received": "400000",
+          "instantaneous-power-provided": "376000",
+          "nameplate-power": 750,
+          "data-source-accuracy": "accuracy-measured-gold",
+          "power-factor": 98
+        },
+        "energy": {
+          "total-energy-received": "288000000",
+          "total-energy-provided": "270720000"
+        },
+        "certifications": [ "iana-power-and-energy:c80-plus" ],
+        "relationship": [
+          { "type": "powered-by",
+            "peer": [ { "id": "pdu-a-outlet-7",
+                        "details": "PDU A, outlet 7" } ] },
+          { "type": "powering",
+            "peer": [ { "id": "chassis" } ] }
+        ]
+      },
+      {
+        "id": "chassis",
+        "source-component-id": "chassis",
+        "power": {
+          "instantaneous-power-received": "376000",
+          "instantaneous-power-provided": "0"
+        },
+        "energy": {
+          "total-energy-received": "270720000",
+          "total-energy-provided": "0"
+        },
+        "relationship": [
+          { "type": "powered-by",
+            "peer": [ { "id": "psu-1" } ] }
+        ]
+      }
+    ]
+  }
+}
+~~~~
+
+From these values, a management system derives:
+
+- the loss of the power supply: 400 W - 376 W = 24 W;
+- its efficiency: 376 W / 400 W = 94%, which the Energy counters
+  confirm over the period (270,720 Wh / 288,000 Wh);
+- the Power drawn from the PDU, by summing the net Power of the Energy
+  Objects: 24 W for the power supply plus 376 W for the chassis, that
+  is 400 W, without counting twice the Power passed from the power
+  supply to the chassis.
+
+A battery is modeled in the same way: it reports received Power and
+Energy while charging, and provided Power and Energy while
+discharging.

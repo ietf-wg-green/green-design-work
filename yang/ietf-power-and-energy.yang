@@ -482,7 +482,9 @@ module ietf-power-and-energy {
         description
           "The Nameplate Power of the Energy Object: the maximum
            continuous Power the Energy Object is designed to consume
-           or deliver, as specified by the manufacturer. It is a
+           or deliver, as specified by the manufacturer. For an
+           Energy Object that provides Power, such as a power
+           supply, it is the rated provided Power. It is a
            rated design value, not an expected operating value or an
            observed maximum, and does not change during operation.
            Used for power budget calculations and capacity
