@@ -156,6 +156,9 @@ This document makes use of the terms defined in
 - Power
 - Nameplate Power
 - Power State
+- Power Interface
+- Power Inlet
+- Power Outlet
 - Energy
 - Energy Object
 - Component
@@ -172,8 +175,8 @@ specification.
 This document defines the following term, which is also capitalized:
 
 Power Cap:
-: An upper limit on the Power of an Energy Object, set by an
-  administrator or a controller and enforced by the device, for
+: An upper limit on the Power that an Energy Object receives, set by
+  an administrator or a controller and enforced by the device, for
   example by reducing the clock frequency of a Component. Unlike the
   Nameplate Power, which is a fixed design value, a Power Cap can
   change during operation.
@@ -208,10 +211,23 @@ requirements, please refer to the "GREEN reference model" in
 # Power and Energy Data Model
 
 The Power and Energy Data Model reports the Power and Energy of each
-Energy Object, in fixed units per leaf (for example, milliwatts for
-instantaneous Power and milliwatt-hours for Energy), together with the
-sign of the Power (consumption or generation), the measurement
-accuracy, etc.
+Energy Object, in fixed units per leaf (milliwatts for instantaneous
+Power and the Power Cap, watts for the Nameplate Power, and
+milliwatt-hours for Energy), together with the measurement accuracy,
+etc.
+
+Power and Energy are reported per direction, as unsigned values.
+Received is the Power or Energy flowing into the Energy Object through
+its Power Inlets, and provided is the Power or Energy flowing out of
+it to other Energy Objects through its Power Outlets. Both can be
+non-zero at the same time: a power supply receives Power from its
+source and provides Power to the device, and the difference is its
+loss. The same Power Interface can act as a Power Inlet and a Power
+Outlet: a battery receives Power while charging and provides Power
+while discharging. The net Power of an Energy Object is its received
+Power minus its provided Power, so that Power passed from one Energy
+Object to another is not counted twice when the net Power of several
+Energy Objects is summed.
 
 A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
@@ -250,7 +266,7 @@ would draw 450 W during a training job is held at 300 W and runs more
 slowly (limiting is true).
 
 A management system cannot reliably derive the limiting indication by
-comparing the instantaneous Power with the enforced limit: the Power
+comparing the received Power with the enforced limit: the Power
 that the Energy Object would draw without the cap is not observable,
 caps are typically enforced as an average over a time window, and the
 measurement accuracy blurs the comparison. The device, which applies
@@ -380,6 +396,9 @@ due to the alignment with the up-to-date requirements of the network
 carriers on Energy Efficiency. Compared to the MIB modules, some
 definitions and types are optimized, some new data nodes are added,
 and some legacy MIB objects are removed accordingly.
+For example, the signed eoPower object of {{?RFC7460}} is replaced by
+the Power received and the Power provided, as unsigned values, in the
+same way as the Energy counters.
 
 # Power and Energy YANG Module
 
@@ -410,9 +429,9 @@ Heterogeneous sensor capabilities across Components complicate Power
 and Energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
 weight data reliability carefully before aggregating Power
-(instantaneous-power) and Energy (total-energy-consumed and/or
-total-energy-delivered) values to avoid skewing Device Level Energy
-Efficiency (DLEE) metrics.
+(instantaneous-power-received and instantaneous-power-provided) and
+Energy (total-energy-received and total-energy-provided) values to
+avoid skewing Device Level Energy Efficiency (DLEE) metrics.
 
 Operators might not always be interested in the accuracy of individual
 Components; what matters is the accuracy at the device or domain

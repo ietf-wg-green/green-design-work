@@ -4,19 +4,20 @@ module: ietf-power-and-energy
   |     +--ro id                     string
   |     +--ro source-component-id?   -> /hw:hardware/component/name
   |     +--ro power
-  |     |  +--ro instantaneous-power?    int64
-  |     |  +--ro nameplate-power?        uint32
-  |     |  +--ro data-source-accuracy?   identityref
-  |     |  +--ro power-factor?           power-factor
-  |     |  +--ro measurement-local?      boolean
+  |     |  +--ro instantaneous-power-received?   uint64
+  |     |  +--ro instantaneous-power-provided?   uint64
+  |     |  +--ro nameplate-power?                uint32
+  |     |  +--ro data-source-accuracy?           identityref
+  |     |  +--ro power-factor?                   power-factor
+  |     |  +--ro measurement-local?              boolean
   |     |  +--ro power-cap!
   |     |     +--ro limit       uint64
   |     |     +--ro limiting?   boolean
   |     +--ro energy
-  |     |  +--ro total-energy-consumed?    uint64
-  |     |  +--ro total-energy-delivered?   uint64
-  |     |  +--ro data-source-accuracy?     identityref
-  |     |  +--ro measurement-local?        boolean
+  |     |  +--ro total-energy-received?   uint64
+  |     |  +--ro total-energy-provided?   uint64
+  |     |  +--ro data-source-accuracy?    identityref
+  |     |  +--ro measurement-local?       boolean
   |     +--ro certifications*        identityref
   |     +--ro power-state
   |     |  +--ro oper?   identityref
