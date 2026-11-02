@@ -200,10 +200,17 @@ Table of Contents
    its source and provides Power to the device, and the difference is
    its loss.  The same Power Interface can act as a Power Inlet and a
    Power Outlet: a battery receives Power while charging and provides
-   Power while discharging.  The net Power of an Energy Object is its
-   received Power minus its provided Power, so that Power passed from
-   one Energy Object to another is not counted twice when the net Power
-   of several Energy Objects is summed.
+   Power while discharging.  The state of a battery, such as its charge
+   and capacity, is out of scope of this document; it is covered by the
+   Battery MIB [RFC7577].  For Power over Ethernet, the Power provided
+   by a switch is measured at its PoE ports, and the Power received by a
+   powered device at its own Power Inlet; the difference is dissipated
+   mainly in the cable and connectors.
+
+   The net Power of an Energy Object is its received Power minus its
+   provided Power, so that Power passed from one Energy Object to
+   another is not counted twice when the net Power of several Energy
+   Objects is summed.  An example is given in Appendix A.
 
    A containment tree view of the Power and Energy Monitoring is
    presented.  The model uses the admin and oper leaves within the
@@ -389,8 +396,8 @@ Table of Contents
    about/) is a concluded Working Group that produced several RFCs in
    the domain of Power and Energy.  The Working Group produced MIB
    modules for monitoring and control for Power and Energy, for the
-   context information, for battery monitoring, and an extension to the
-   ENTITY-MIB to add the UUID definition [RFC6933].
+   context information, for battery monitoring [RFC7577], and an
+   extension to the ENTITY-MIB to add the UUID definition [RFC6933].
 
    For various reasons, those MIB modules were not implemented by
    vendors.
@@ -884,7 +891,8 @@ Table of Contents
               summed over all its Power Inlets. It includes the Power
               that the Energy Object uses itself and the Power that it
               converts, passes on, or stores, for example in a power
-              supply or a charging battery.";
+              supply or a charging battery. If the device can measure
+              this value, it MUST report it.";
          }
 
          leaf instantaneous-power-provided {
@@ -897,7 +905,10 @@ Table of Contents
               for example the output of a power supply, Power over
               Ethernet, or a discharging battery. The difference
               between the received and the provided Power is the
-              Power that the Energy Object dissipates or stores.";
+              Power that the Energy Object dissipates or stores. An
+              Energy Object without Power Outlets does not report this
+              leaf; otherwise, if the device can measure this value,
+              it MUST report it.";
          }
 
          leaf nameplate-power {
@@ -1019,7 +1030,8 @@ Table of Contents
               Object since the last reset, in the same direction as
               instantaneous-power-received. This value is useful for
               tracking overall Energy usage over time for billing,
-              reporting, or optimization purposes.";
+              reporting, or optimization purposes. If the device can
+              measure this value, it MUST report it.";
          }
 
          leaf total-energy-provided {
@@ -1031,7 +1043,10 @@ Table of Contents
               the same direction as instantaneous-power-provided.
               This value is relevant for Energy Objects that provide
               Energy, such as power supplies, PoE switches,
-              batteries, or renewable energy sources.";
+              batteries, or renewable energy sources. An Energy Object
+              without Power Outlets does not report this leaf;
+              otherwise, if the device can measure this value, it MUST
+              report it.";
          }
          leaf data-source-accuracy {
            type identityref {
@@ -1633,8 +1648,9 @@ Table of Contents
 
    Example: A power supply might have:
 
-   *  Certification: c80-PLUS-Platinum (>=92% efficient at 50% load,
-      independently verified)
+   *  Certification: c80-plus (80 PLUS certified; at the Platinum level,
+      >=92% efficient at 50% load, independently verified.  The identity
+      does not convey the level.)
 
    *  Measurement Accuracy: accuracy-measured-silver (+/-10% sensor
       precision on real-time Power readings)
@@ -2015,6 +2031,11 @@ Table of Contents
               Energy", RFC 7460, DOI 10.17487/RFC7460, March 2015,
               <https://www.rfc-editor.org/rfc/rfc7460>.
 
+   [RFC7577]  Quittek, J., Winter, R., and T. Dietz, "Definition of
+              Managed Objects for Battery Monitoring", RFC 7577,
+              DOI 10.17487/RFC7577, July 2015,
+              <https://www.rfc-editor.org/rfc/rfc7577>.
+
    [RFC7951]  Lhotka, L., "JSON Encoding of Data Modeled with YANG",
               RFC 7951, DOI 10.17487/RFC7951, August 2016,
               <https://www.rfc-editor.org/rfc/rfc7951>.
@@ -2072,12 +2093,10 @@ Appendix A.  Example: Modeling a 750 W Power Supply
            "id": "chassis",
            "source-component-id": "chassis",
            "power": {
-             "instantaneous-power-received": "376000",
-             "instantaneous-power-provided": "0"
+             "instantaneous-power-received": "376000"
            },
            "energy": {
-             "total-energy-received": "270720000",
-             "total-energy-provided": "0"
+             "total-energy-received": "270720000"
            },
            "relationship": [
              { "type": "powered-by",

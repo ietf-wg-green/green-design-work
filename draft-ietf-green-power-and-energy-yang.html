@@ -1375,11 +1375,17 @@ non-zero at the same time: a power supply receives Power from its
 source and provides Power to the device, and the difference is its
 loss. The same Power Interface can act as a Power Inlet and a Power
 Outlet: a battery receives Power while charging and provides Power
-while discharging. The net Power of an Energy Object is its received
-Power minus its provided Power, so that Power passed from one Energy
-Object to another is not counted twice when the net Power of several
-Energy Objects is summed.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">A containment tree view of the Power and Energy Monitoring is presented.
+while discharging. The state of a battery, such as its charge and
+capacity, is out of scope of this document; it is covered by the
+Battery MIB <span>[<a href="#RFC7577" class="cite xref">RFC7577</a>]</span>. For Power over Ethernet, the Power provided
+by a switch is measured at its PoE ports, and the Power received by a
+powered device at its own Power Inlet; the difference is dissipated
+mainly in the cable and connectors.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">The net Power of an Energy Object is its received Power
+minus its provided Power, so that Power passed from one Energy Object
+to another is not counted twice when the net Power of several Energy
+Objects is summed. An example is given in <a href="#psu-example" class="auto internal xref">Appendix A</a>.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
 container to represent the intended (administrative) and operational
 (actual) Power States respectively. The two leaves together form the
@@ -1391,8 +1397,8 @@ to explicitly provisioned entries, provides a compact self-contained
 view of the intent. For this reason, although an NMDA
 (Network Management Datastore Architecture) design with a single
 "state" leaf (per <span>[<a href="#RFC8342" class="cite xref">RFC8342</a>]</span>) was considered, it is not adopted in
-this document.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">The model also allows an administrator or controller to request a
+this document.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">The model also allows an administrator or controller to request a
 Power Cap on an Energy Object, for example to cap the Power of a GPU
 in a cluster. The requested limit is
 configured in the power-cap container in /energy-control. The device
@@ -1400,8 +1406,8 @@ enforces the requested limit, or the closest value that the Energy
 Object supports, and reports the limit in effect in the power-cap
 container of the Power attributes in /energy-objects. Discovering the
 range of limits that an Energy Object supports is out of scope of this
-document.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">The existence of a Power Cap and its effect are reported separately. The
+document.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-6">The existence of a Power Cap and its effect are reported separately. The
 power-cap container in /energy-objects is present only while a cap is
 enforced, and the Energy Object then does not draw more Power than the
 enforced limit. The limiting leaf indicates whether the cap is
@@ -1411,14 +1417,14 @@ operation is reduced to stay within the limit. For example, with a cap
 of 300 W, a GPU that would draw 80 W when idle, or 200 W with a light
 workload, is not constrained (limiting is false), whereas a GPU that
 would draw 450 W during a training job is held at 300 W and runs more
-slowly (limiting is true).<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">A management system cannot reliably derive the limiting indication by
+slowly (limiting is true).<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">A management system cannot reliably derive the limiting indication by
 comparing the received Power with the enforced limit: the Power
 that the Energy Object would draw without the cap is not observable,
 caps are typically enforced as an average over a time window, and the
 measurement accuracy blurs the comparison. The device, which applies
-the cap, knows whether it is constraining the Energy Object.<a href="#section-3-6" class="pilcrow">¶</a></p>
-<p id="section-3-7">The id of an entry in /energy-control/energy-objects/energy-object
+the cap, knows whether it is constraining the Energy Object.<a href="#section-3-7" class="pilcrow">¶</a></p>
+<p id="section-3-8">The id of an entry in /energy-control/energy-objects/energy-object
 <span class="bcp14">SHOULD</span> be the id of an existing or anticipated entry in
 /energy-objects/energy-object. This allows an administrator or
 controller to correlate a configured Power State intent with the Energy
@@ -1426,15 +1432,15 @@ Object being monitored. The id is a leafref with require-instance
 false, so that the configuration can be created before the Energy
 Object is introduced and remains after it has disappeared from the
 system. If the referred Energy Object does not currently exist, the
-configuration item for it has no effect.<a href="#section-3-7" class="pilcrow">¶</a></p>
-<p id="section-3-8">The relationship list models the relationship between an Energy
+configuration item for it has no effect.<a href="#section-3-8" class="pilcrow">¶</a></p>
+<p id="section-3-9">The relationship list models the relationship between an Energy
 Object and its peer Energy Objects, using the
 <code>energy-relationship-type</code> identities: <code>powered-by</code> and <code>powering</code>
 (Power Source Relationship), <code>metered-by</code> and <code>metering</code> (Metering
 Relationship), <code>aggregated-by</code> and <code>aggregating</code> (Aggregation
 Relationship), and <code>enabled-by</code> and <code>enabling</code> (Functional Enablement
-Relationship).<a href="#section-3-8" class="pilcrow">¶</a></p>
-<p id="section-3-9">Each pair of identities expresses the same relationship from the
+Relationship).<a href="#section-3-9" class="pilcrow">¶</a></p>
+<p id="section-3-10">Each pair of identities expresses the same relationship from the
 perspective of each participant (e.g., if Energy Object A is powered-by
 Energy Object B, then Energy Object B is powering Energy Object A).
 These relationship categories, including their use for power/metering
@@ -1443,25 +1449,25 @@ are defined in <span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.
 type, one or more peer Energy Objects can be identified via the <code>id</code>
 leaf within the <code>peer</code> list, a string value that is preferably the
 peer's UUID; if the UUID is not known, another identifier can be used,
-together with human-readable details captured in the <code>details</code> leaf.<a href="#section-3-9" class="pilcrow">¶</a></p>
-<p id="section-3-10">Regarding relationships among Energy Objects, this document does not
+together with human-readable details captured in the <code>details</code> leaf.<a href="#section-3-10" class="pilcrow">¶</a></p>
+<p id="section-3-11">Regarding relationships among Energy Objects, this document does not
 provide a mechanism to configure relationships on the device (i.e.,
 there is no relationship list under /energy-control); the
 relationship list under /energy-objects/energy-object is read-only
-operational data (config false).<a href="#section-3-10" class="pilcrow">¶</a></p>
-<p id="section-3-11">For relationships between Components within the same device (e.g.,
+operational data (config false).<a href="#section-3-11" class="pilcrow">¶</a></p>
+<p id="section-3-12">For relationships between Components within the same device (e.g.,
 between a Line Processing Unit (LPU) and a Switch Fabric Unit (SFU)),
 the device can typically determine and populate this data directly,
-without requiring external configuration.<a href="#section-3-11" class="pilcrow">¶</a></p>
-<p id="section-3-12">Relationships between Energy Objects located on different devices are
+without requiring external configuration.<a href="#section-3-12" class="pilcrow">¶</a></p>
+<p id="section-3-13">Relationships between Energy Objects located on different devices are
 generally established and maintained at the controller or Energy
 Management System (EnMS) level, which has visibility into the
 broader network topology, as discussed in
 <span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.ietf-green-framework</a>]</span>. A device may still report a known
 inter-device relationship (e.g., using the peer's network-level UUID)
 when it has been made aware of it, but this module does not provide a
-mechanism to configure such relationships on the device itself.<a href="#section-3-12" class="pilcrow">¶</a></p>
-<div class="lang-yangtree sourcecode" id="section-3-13">
+mechanism to configure such relationships on the device itself.<a href="#section-3-13" class="pilcrow">¶</a></p>
+<div class="lang-yangtree sourcecode" id="section-3-14">
 <pre>
 module: ietf-power-and-energy
   +--ro energy-objects
@@ -1502,7 +1508,7 @@ module: ietf-power-and-energy
            |             /power-state/oper
            +--rw power-cap
               +--rw limit?   uint64
-</pre><a href="#section-3-13" class="pilcrow">¶</a>
+</pre><a href="#section-3-14" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -1560,8 +1566,8 @@ contains-child relationship in RFC 8348).<a href="#section-4-7" class="pilcrow">
 Group that produced several RFCs in the domain of Power and
 Energy. The Working Group produced MIB modules for monitoring and
 control for Power and Energy, for the context information, for battery
-monitoring, and an extension to the ENTITY-MIB to add the UUID
-definition <span>[<a href="#RFC6933" class="cite xref">RFC6933</a>]</span>.<a href="#section-5-1" class="pilcrow">¶</a></p>
+monitoring <span>[<a href="#RFC7577" class="cite xref">RFC7577</a>]</span>, and an extension to the ENTITY-MIB to add the
+UUID definition <span>[<a href="#RFC6933" class="cite xref">RFC6933</a>]</span>.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">For various reasons, those MIB modules were not implemented by
 vendors.<a href="#section-5-2" class="pilcrow">¶</a></p>
 <p id="section-5-3">The Power and Energy data model defined in this specification uses the
@@ -2056,7 +2062,8 @@ module ietf-power-and-energy {
            summed over all its Power Inlets. It includes the Power
            that the Energy Object uses itself and the Power that it
            converts, passes on, or stores, for example in a power
-           supply or a charging battery.";
+           supply or a charging battery. If the device can measure
+           this value, it MUST report it.";
       }
 
       leaf instantaneous-power-provided {
@@ -2069,7 +2076,10 @@ module ietf-power-and-energy {
            for example the output of a power supply, Power over
            Ethernet, or a discharging battery. The difference
            between the received and the provided Power is the
-           Power that the Energy Object dissipates or stores.";
+           Power that the Energy Object dissipates or stores. An
+           Energy Object without Power Outlets does not report this
+           leaf; otherwise, if the device can measure this value,
+           it MUST report it.";
       }
 
       leaf nameplate-power {
@@ -2191,7 +2201,8 @@ module ietf-power-and-energy {
            Object since the last reset, in the same direction as
            instantaneous-power-received. This value is useful for
            tracking overall Energy usage over time for billing,
-           reporting, or optimization purposes.";
+           reporting, or optimization purposes. If the device can
+           measure this value, it MUST report it.";
       }
 
       leaf total-energy-provided {
@@ -2203,7 +2214,10 @@ module ietf-power-and-energy {
            the same direction as instantaneous-power-provided.
            This value is relevant for Energy Objects that provide
            Energy, such as power supplies, PoE switches,
-           batteries, or renewable energy sources.";
+           batteries, or renewable energy sources. An Energy Object
+           without Power Outlets does not report this leaf;
+           otherwise, if the device can measure this value, it MUST
+           report it.";
       }
       leaf data-source-accuracy {
         type identityref {
@@ -2870,8 +2884,10 @@ Energy Object.<a href="#section-7.3-9" class="pilcrow">¶</a></p>
 <p id="section-7.3-10">Example: A power supply might have:<a href="#section-7.3-10" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-11.1">
-            <p id="section-7.3-11.1.1">Certification: <code>c80-PLUS-Platinum</code>
-(&gt;=92% efficient at 50% load, independently verified)<a href="#section-7.3-11.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-11.1.1">Certification: <code>c80-plus</code>
+(80 PLUS certified; at the Platinum level, &gt;=92% efficient at 50%
+load, independently verified. The identity does not convey the
+level.)<a href="#section-7.3-11.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-11.2">
             <p id="section-7.3-11.2.1">Measurement Accuracy: <code>accuracy-measured-silver</code>
@@ -3396,6 +3412,10 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Chandramouli, M.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Schoening, B.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">T. Dietz</span>, <span class="refTitle">"Monitoring and Control MIB for Power and Energy"</span>, <span class="seriesInfo">RFC 7460</span>, <span class="seriesInfo">DOI 10.17487/RFC7460</span>, <time datetime="2015-03" class="refDate">March 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7460">https://www.rfc-editor.org/rfc/rfc7460</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7577">[RFC7577]</dt>
+        <dd>
+<span class="refAuthor">Quittek, J.</span>, <span class="refAuthor">Winter, R.</span>, and <span class="refAuthor">T. Dietz</span>, <span class="refTitle">"Definition of Managed Objects for Battery Monitoring"</span>, <span class="seriesInfo">RFC 7577</span>, <span class="seriesInfo">DOI 10.17487/RFC7577</span>, <time datetime="2015-07" class="refDate">July 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7577">https://www.rfc-editor.org/rfc/rfc7577</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7951">[RFC7951]</dt>
         <dd>
 <span class="refAuthor">Lhotka, L.</span>, <span class="refTitle">"JSON Encoding of Data Modeled with YANG"</span>, <span class="seriesInfo">RFC 7951</span>, <span class="seriesInfo">DOI 10.17487/RFC7951</span>, <time datetime="2016-08" class="refDate">August 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7951">https://www.rfc-editor.org/rfc/rfc7951</a>&gt;</span>. </dd>
@@ -3460,12 +3480,10 @@ encoded as JSON strings.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
         "id": "chassis",
         "source-component-id": "chassis",
         "power": {
-          "instantaneous-power-received": "376000",
-          "instantaneous-power-provided": "0"
+          "instantaneous-power-received": "376000"
         },
         "energy": {
-          "total-energy-received": "270720000",
-          "total-energy-provided": "0"
+          "total-energy-received": "270720000"
         },
         "relationship": [
           { "type": "powered-by",
