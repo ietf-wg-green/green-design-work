@@ -25,11 +25,11 @@ pi: [toc, sortrefs, symrefs, docmapping]
 
 author:
 
-- ins: C. Benoit
+- ins: B. Claise
   fullname: Benoit Claise
-  org: Everything OPS
+  org: Everything OPS & Arrcus
   email: benoit@everything-ops.net
-- ins: C. Gen
+- ins: G. Chen
   fullname: Gen Chen
   org: Huawei
   email: chengen@huawei.com
@@ -69,10 +69,10 @@ normative:
     date: 2006-01
     target: https://datatracker.ietf.org/doc/html/rfc4252
 
-   RFC8446:
+   RFC9846:
     title: The Transport Layer Security (TLS) Protocol Version 1.3
-    date: 2018-08
-    target: https://datatracker.ietf.org/doc/html/rfc8446
+    date: 2026-07
+    target: https://datatracker.ietf.org/doc/html/rfc9846
 
    RFC9000:
     title: QUIC - A UDP-Based Multiplexed and Secure Transport
@@ -84,16 +84,35 @@ normative:
     date: 2018-03
     target: https://datatracker.ietf.org/doc/html/rfc8341
 
+   RFC3688:
+    title: The IETF XML Registry
+    date: 2004-01
+    target: https://datatracker.ietf.org/doc/html/rfc3688
+
+   RFC6020:
+    title: YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)
+    date: 2010-10
+    target: https://datatracker.ietf.org/doc/html/rfc6020
+
+   RFC9890:
+    title: An Update to YANG Module Names Registration
+    date: 2025-10
+    target: https://datatracker.ietf.org/doc/html/rfc9890
+
 informative:
 
-   rfc8407bis: I-D.draft-ietf-netmod-rfc8407bis
+   RFC9907:
+    title: Guidelines for Authors and Reviewers of Documents Containing YANG Data Models
+    date: 2026-03
+    target: https://datatracker.ietf.org/doc/html/rfc9907
 
 
 
 --- abstract
 
-This document defines the YANG data model for Power and Energy
-monitoring of devices within or connected to communication networks.
+This document defines a YANG data model for Power and Energy
+monitoring and control of devices within or connected to communication
+networks.
 
 --- middle
 
@@ -104,7 +123,7 @@ monitoring of devices within or connected to communication networks.
 This document defines a YANG data model for Power and Energy
 Monitoring and control of devices within or connected to communication
 networks, for the use cases document in
-{{?I-D.ietf-green-use-cases-01}}.
+{{?I-D.ietf-green-use-cases}}.
 
 The data model includes both the monitoring and control of Energy
 Objects for networked devices.
@@ -120,12 +139,12 @@ of this specification. Target devices include (but are not limited to)
 routers, switches, Power over Ethernet (PoE) endpoints, smart PDU,
 storage and compute servers, etc.
 
-Where applicable, device monitoring extends to the components of the
+Where applicable, device monitoring extends to the Components of the
 device as well as software and service running on the device. As a
 result, the metrics to be monitored include Device Level Energy
 Efficiency (DLEE), Component Level Energy Efficiency (CLEE) and
 potential Service Level Energy Efficiency (SLEE) at the
-orchestrator-level, etc. For example, a router can contain components
+orchestrator-level, etc. For example, a router can contain Components
 such as Line Processing Unit (LPU), Switch Fabric Unit (SFU), Main
 Processing Unit (MPU).
 
@@ -134,16 +153,17 @@ Processing Unit (MPU).
 This document makes use of the terms defined in
 {{!I-D.ietf-green-terminology}}:
 
-    - Power
-    - Energy
-    - Energy Object
-    - Energy Management
-    - Energy Monitoring
-    - Energy Control
-    - Energy Efficiency/Energy Efficiency Ratio
-    - Device Level Energy Efficiency (DLEE)
-    - Component Level Energy Efficiency (CLEE)
-    - Service Level Energy Efficiency (SLEE)
+- Power
+- Nameplate Power
+- Power State
+- Energy
+- Energy Object
+- Component
+- Energy Monitoring
+- Energy Efficiency
+- Device Level Energy Efficiency (DLEE)
+- Component Level Energy Efficiency (CLEE)
+- Service Level Energy Efficiency (SLEE)
 
 The terms reused from {{!I-D.ietf-green-terminology}} and
 {{?I-D.ietf-green-framework}} are capitalized in this
@@ -152,9 +172,9 @@ specification.
 This document uses the terms Power and Energy in accordance with
 {{!I-D.ietf-green-terminology}}. Power refers to the instantaneous
 rate at which a device consumes or produces electrical energy
-(typically expressed in Watts). Energy, by contrast, represents the
+(typically expressed in watts). Energy, by contrast, represents the
 cumulative amount of work performed over time (typically expressed in
-Joules or Watt-hours). Both concepts are required within this YANG
+joules or watt-hours). Both concepts are required within this YANG
 module. Power enables real-time monitoring, control, and optimization
 of device operation, while Energy provides a time-integrated view
 necessary for accounting, reporting, and even for sustainability
@@ -168,7 +188,7 @@ The meanings of the symbols in the YANG tree diagrams are defined in
 # The GREEN Framework
 
 The "GREEN framework" described in {{?I-D.ietf-green-framework}}
-covers monitoring and controlling devices and components where
+covers monitoring and controlling devices and Components where
 monitoring includes measuring Power, Energy, demand and attributes of
 Power.
 
@@ -178,15 +198,17 @@ requirements, please refer to "GREEN reference model" in section 4 in
 
 # Power and Energy Data Model
 
-The Power and Energy Data Model reports the Power and Energy
-consumption of each Energy Object as well as the units, sign,
-measurement accuracy, etc.
+The Power and Energy Data Model reports the Power and Energy of each
+Energy Object, in fixed units per leaf (for example, milliwatts for
+instantaneous Power and milliwatt-hours for Energy), together with the
+sign of the Power (consumption or generation), the measurement
+accuracy, etc.
 
 A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
 container to represent the intended (administrative) and operational
-(actual) power states respectively. The two leaves together form the
-complete power state management interface. The operational tree
+(actual) Power States respectively. The two leaves together form the
+complete Power State management interface. The operational tree
 ('container energy-objects') will typically contain a significantly
 larger number of instances than the configuration tree
 ('container energy-control'). The configuration tree, which is limited
@@ -199,9 +221,9 @@ this document.
 Entries in /energy-control/energy-objects/energy-object SHOULD
 reference the /energy-objects/energy-object/id using a leafref with
 require-instance false. This allows an administrator or controller to
-correlate a configured power state intent with the Energy Object being
+correlate a configured Power State intent with the Energy Object being
 monitored. The require-instance false statement allows the
-configuration to remain after an energy-object has disappeared from the
+configuration to remain after an Energy Object has disappeared from the
 system, or before it has been introduced. If the referred Energy Object
 does not currently exist, the configuration item for it has no effect.
 
@@ -220,17 +242,17 @@ These relationship categories, including their use for power/metering
 topology discovery and for preventing double-counting of Energy values,
 are defined in {{?I-D.ietf-green-framework}}. For each relationship
 type, one or more peer Energy Objects can be identified via the `id`
-leaf within the `peer` list, a string value that is typically the
-peer's UUID when known, or another locally unique identifier, together
-with human-readable details captured in the `details` leaf, otherwise.
+leaf within the `peer` list, a string value that is preferably the
+peer's UUID; if the UUID is not known, another identifier can be used,
+together with human-readable details captured in the `details` leaf.
 
 Regarding relationships among Energy Objects, this document does not
 provide a mechanism to configure relationships on the device (i.e.,
 there is no relationship list under /energy-control); the
-relationship list under /energy-objects/energy-entry is read-only
+relationship list under /energy-objects/energy-object is read-only
 operational data (config false).
 
-For relationships between components within the same device (e.g.,
+For relationships between Components within the same device (e.g.,
 between a Line Processing Unit (LPU) and a Switch Fabric Unit (SFU)),
 the device can typically determine and populate this data directly,
 without requiring external configuration.
@@ -267,9 +289,9 @@ a single device, but carries no uniqueness guarantee across
 different devices or management systems.  The 'physical-index'
 leaf optionally matches entPhysicalIndex in the Entity MIB
 [RFC6933] when the entity-mib feature is supported.  The 'uuid'
-leaf is a Universally Unique Identifier [RFC9562] that is
-globally unique and therefore suitable for stable identification
-of a component across management systems.
+leaf is a Universally Unique Identifier [RFC9562], intended to
+be unique across space and time, and therefore suitable for
+stable identification of a component across management systems.
 
 The GREEN YANG module imports the ietf-hardware module [RFC8348]
 and uses the 'uuid' leaf as the value of 'source-component-id',
@@ -278,8 +300,8 @@ systems independent of device-local naming conventions.
 
 The mapping between energy-object entries in this YANG Module and the
 hardware-components in ietf-hardware YANG module {{!RFC8348}} is
-designed to be 1:1, architecturally aligning each energy-entry with
-exactly one physical hardware component via source-component-id.
+designed to be 1:1, architecturally aligning each energy-object entry
+with exactly one physical hardware component via source-component-id.
 
 There are also cases where the controllers also generate their own set
 of UUIDs for the hardware (components). In such a case, it might be
@@ -290,7 +312,7 @@ query it.
 
 The ietf-hardware YANG module {{!RFC8348}} allows discovering all the
 device components, including the containment tree, and the parent/child
-relationship, which is important for energy/power aggregation (see the
+relationship, which is important for Energy/Power aggregation (see the
 contains-child relationship in RFC 8348).
 
 # Relationship to the EMAN Work
@@ -299,7 +321,7 @@ The EMAN IETF Working Group
 (https://datatracker.ietf.org/wg/eman/about/) is a concluded Working
 Group that produced a couple of RFCs in the domain of Power and
 Energy. The Working Group produced MIB modules for monitoring and
-control for power and energy, for the context information, for battery
+control for Power and Energy, for the context information, for battery
 monitoring, and an extension to the ENTITY-MIB to add the UUID
 definition {{?RFC6933}}.
 
@@ -309,7 +331,7 @@ vendors.
 The Power and Energy data model defined in this specification uses the
 Monitoring and Control MIB for Power and Energy {{!RFC7460}} as a
 starting point to discuss the solution to the different use cases in
-{{?I-D.ietf-green-use-cases-01}}.
+{{?I-D.ietf-green-use-cases}}.
 
 However, it has not been the goal to simply map the MIB module to a
 YANG module. The changes compared to the EMAN MIB modules are mainly
@@ -321,25 +343,25 @@ and some legacy Energy Objects are removed accordingly.
 # Power and Energy YANG Module
 
 This YANG Module is used to monitor and control Power and Energy usage
-of network devices and the components on these devices.
+of network devices and the Components on these devices.
 
 ~~~~ yang
 {::include yang/ietf-power-and-energy.yang}
 ~~~~
-{: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy@2026-07-02.yang"}
+{: sourcecode-markers="true" sourcecode-name="ietf-power-and-energy@2026-11-01.yang"}
 
-The IANA-requested identities for power and energy class are separately
-described below.
+The IANA-maintained identities for certification types are defined in
+the following module.
 
 ~~~~ yang
 {::include yang/iana-power-and-energy.yang}
 ~~~~
-{: sourcecode-markers="true" sourcecode-name="iana-power-and-energy@2026-07-02.yang"}
+{: sourcecode-markers="true" sourcecode-name="iana-power-and-energy@2026-11-01.yang"}
 
 # Operational Considerations
 
-Heterogeneous sensor capabilities across components complicate power
-and energy aggregation. Operators must use the data-source-accuracy
+Heterogeneous sensor capabilities across Components complicate Power
+and Energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
 weight data reliability carefully before aggregating Power
 (instantaneous-power) and Energy (total-energy-consumed and/or
@@ -347,7 +369,7 @@ total-energy-delivered) values to avoid skewing Device Level Energy
 Efficiency (DLEE) metrics.
 
 Operators might not always be interested in getting the individual
-component accuracy. What counts is the device level or domain level,
+Component accuracy. What counts is the device level or domain level,
 identity accuracy-like-parent is introduced to meet their demands.
 From an implementation point of view, to facilitate data collection and
 aggregation on runtime and avoid post-aggregation data confidence
@@ -355,9 +377,9 @@ interval issues, operators and implementers should use as much as
 possible this accuracy-like-parent identity.
 
 YANG Push support eliminates device-side bucket storage by streaming
-energy telemetry directly to controller-side via subscriptions.
+Energy telemetry directly to controller-side via subscriptions.
 Operators must verify the 'yang-push' bundle is enabled and validate
-push-max-operational limits accommodate all component subscriptions,
+push-max-operational limits accommodate all Component subscriptions,
 preventing notification flooding while avoiding memory overhead on the
 device.
 
@@ -366,7 +388,8 @@ device.
 The GREEN YANG module relies on the ietf-hardware module {{!RFC8348}}
 for hardware component identification.  Among the three identifiers
 that ietf-hardware provides for each component: 'name',
-'physical-index', and 'uuid', only `uuid` is globally unique.
+'physical-index', and 'uuid', only `uuid` is intended to be
+unique beyond a single device.
 The 'name' leaf, while serving as the list key within a device,
 is meaningful only in the context of that specific device.  The
 'physical-index' leaf, where present, provides a mapping to the
@@ -382,20 +405,20 @@ relying on device-local naming conventions.
 
 ## Measurement Accuracy and Data Source Classification
 
-Power and energy metrics may originate from a wide range of sources and
+Power and Energy metrics may originate from a wide range of sources and
 estimation methods, each with different levels of reliability. These
 include direct sensor measurements, manufacturer-provided
 specifications, historical observations, and predictive models. Without
 explicit characterization of data quality, comparisons and aggregations
 may be misleading. The GREEN YANG data model therefore requires all
-power and energy values to be associated with an accuracy
+Power and Energy values to be associated with an accuracy
 classification.
 
 The model defines the following primary accuracy categories using YANG
 identities:
 
 - Unknown Accuracy: Data accuracy cannot be determined, or measurements
-  are unavailable due to sensor failures, powered-off components, or
+  are unavailable due to sensor failures, powered-off Components, or
   other operational constraints.
 
 - Estimated Data: Values derived through indirect methods:
@@ -411,38 +434,40 @@ identities:
 
 - Measured Data: Direct, real-time sensor measurements with quantified
   precision:
-- Bronze: +/-30% accuracy for typical values.
-- Silver: +/-10% accuracy for typical values.
-- Gold: +/-5% accuracy for typical values.
-- Red: +/-2% accuracy for typical values.
-- Ones: All non-zero digits are significant/valid.
+  - Bronze: +/-30% accuracy for typical values.
+  - Silver: +/-10% accuracy for typical values.
+  - Gold: +/-5% accuracy for typical values.
+  - Red: +/-2% accuracy for typical values.
+  - Ones: All digits are valid, except trailing zeros.
 
 Percentage-based accuracy fails for small values. For example, +/-5% of
 100 mW is only 5 mW, which may be smaller than sensor noise. Industry
 standards (IEC 62053, IEC 61850-7-4) address this by specifying:
 Accuracy = MAX(percentage_error, absolute_threshold)
 
-The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) refer
-to milliwatts. `-10` means +/-10 milliwatts.
+The absolute threshold suffixes (`-1`, `-10`, `-100`, `-1000`) are
+expressed in the unit of the qualified value: milliwatts for Power,
+and milliwatt-hours for Energy. For example, `-10` means +/-10
+milliwatts for a Power value.
 
 Example - A sensor with `accuracy-measured-gold-10` reports:
 
-- 16.25W -> actual value between 16.2375W and 16.2625W
-  (5% = 0.8125W > 0.010W threshold)
-- 0.15W -> actual value between 0.140W and 0.160W
-  (5% = 0.0075W < 0.010W threshold, so +/-10mW applies)
+- 16.25 W -> actual value between 15.4375 W and 17.0625 W
+  (5% = 0.8125 W > 0.010 W threshold)
+- 0.15 W -> actual value between 0.140 W and 0.160 W
+  (5% = 0.0075 W < 0.010 W threshold, so +/-10 mW applies)
 
 Explicit accuracy reporting enables:
 
 - Weighted aggregation: High-precision measurements carry appropriate
-  weight when calculating network-wide energy consumption
+  weight when calculating network-wide Energy consumption
 - Upgrade prioritization: Identify devices with low-accuracy reporting
   for sensor upgrades or replacement
 - Compliance validation: Automated verification against regulatory
   thresholds requiring specific measurement precision
 - Double-accounting prevention: Understand when PDU-level measurements
   (+/-2%) should override device estimates (+/-30%) to avoid counting
-  the same energy twice (UC 13)
+  the same Energy twice (UC 13)
 - Cross-domain correlation: Map accuracy expectations when integrating
   with external systems like 3GPP energy KPIs (UC 6)
 
@@ -454,7 +479,7 @@ maintaining interoperability through standardized base types.
 
 Energy efficiency certifications issued by recognized testing
 organizations provide standardized benchmarks for the expected
-performance of equipment and components. These certifications are
+performance of equipment and Components. These certifications are
 typically based on controlled laboratory measurements and formal
 evaluation procedures. The GREEN YANG data model supports reporting of
 such certifications in order to complement operational measurement data.
@@ -478,7 +503,7 @@ Certification data and measurement accuracy serve complementary
 functions within the model.
 
 Certification information describes the verified design-time efficiency
-characteristics of a device or component, as established through
+characteristics of a device or Component, as established through
 independent testing. Measurement accuracy describes the precision and
 reliability of reported operational data obtained from sensors or
 estimation mechanisms.
@@ -489,9 +514,9 @@ Key differences include:
   stable throughout the product lifecycle.
 - Measurement accuracy may vary over time due to calibration,
   environmental conditions, or sensor degradation.
-- Certification is generally associated with discrete components,
+- Certification is generally associated with discrete Components,
   such as power supply units.
-- Measurement accuracy applies to individual metrics at component,
+- Measurement accuracy applies to individual metrics at Component,
   subsystem, or system level.
 
 Both types of information may be reported simultaneously for the same
@@ -502,7 +527,7 @@ Example: A power supply might have:
 - Certification: `c80-PLUS-Platinum`
   (>=92% efficient at 50% load, independently verified)
 - Measurement Accuracy: `accuracy-measured-silver`
-  (+/-10% sensor precision on real-time power readings)
+  (+/-10% sensor precision on real-time Power readings)
 
 The certification tells operators the Energy Object, for example,
 a PSU, is designed to be efficient; the measurement accuracy tells them
@@ -512,13 +537,13 @@ how precisely they can monitor its actual performance.
 # Security Considerations
 
 This section is modeled after the template described in Section 3.7.1
-of {{rfc8407bis}}.
+of {{RFC9907}}.
 
 The Power and Energy YANG module defines a data model that is designed
 to be accessed via YANG-based management protocols, such as NETCONF
 [RFC6241] and RESTCONF [RFC8040]. These YANG-based management
 protocols (1) have to use a secure transport layer (e.g., SSH
-[RFC4252], TLS [RFC8446], and QUIC [RFC9000]) and (2) have to use
+[RFC4252], TLS [RFC9846], and QUIC [RFC9000]) and (2) have to use
 mutual authentication.
 
 The Network Configuration Access Control Model (NACM) [RFC8341]
@@ -531,13 +556,13 @@ be considered sensitive or vulnerable in some network environments.
 Write operations (e.g., edit-config) to this data node without proper
 protection can have a negative effect on network operations:
 
-- /energy-control/energy-entry/power-state/admin:
+- /energy-control/energy-objects/energy-object/power-state/admin:
   Unauthorized write access to this leaf allows an attacker to change
-  the administratively requested power state of an Energy Object.
-  Depending on the target device or component, this could be used to
+  the administratively requested Power State of an Energy Object.
+  Depending on the target device or Component, this could be used to
   power down critical network infrastructure (resulting in denial of
-  service), force a component into a state that damages hardware, or
-  mask an ongoing attack by cycling power states to disrupt
+  service), force a Component into a state that damages hardware, or
+  mask an ongoing attack by cycling Power States to disrupt
   monitoring. Access to this data node SHOULD be limited to
   authorized administrators via NACM.
 
@@ -547,18 +572,18 @@ important to control read access (e.g., via get, get-config, or
 notification) to these data nodes. Specifically, the following
 subtrees and data nodes have particular sensitivities:
 
-- /energy-objects/energy-entry/power and
-  /energy-objects/energy-entry/energy: These subtrees expose
-  real-time and cumulative power and energy consumption for
+- /energy-objects/energy-object/power and
+  /energy-objects/energy-object/energy: These subtrees expose
+  real-time and cumulative Power and Energy consumption for
   individual hardware components. Fine-grained, time-correlated
-  power/energy telemetry can reveal operational patterns, such as
+  Power/Energy telemetry can reveal operational patterns, such as
   workload levels, traffic volume, or usage schedules, of a device
   or of the network behind it. In some environments, this
   information could be leveraged as a side channel to infer
   sensitive operational or business information (e.g., data center
   utilization, capacity, or customer activity patterns).
 
-- /energy-objects/energy-entry/relationship: This list exposes
+- /energy-objects/energy-object/relationship: This list exposes
   relationships (e.g., powered-by, powering, metered-by) and UUIDs
   between Energy Objects, which can reveal the physical and logical
   power topology of a site. Disclosure of this information could
@@ -575,19 +600,35 @@ This document requests IANA to perform the following actions.
 
 ## YANG Module Name and URI Registry
 
-IANA is requested to register the following URI in the "IETF XML
+IANA is requested to register the following URIs in the "IETF XML
 Registry" [RFC3688].
+
+| Field | Value                                                 |
+|-------|-------------------------------------------------------|
+| URI   | urn:ietf:params:xml:ns:yang:ietf-power-and-energy     |
+| Registrant Contact | The IESG                                 |
+| XML   | N/A; the requested URI is an XML namespace.           |
+{: title="IETF URI Registry: ietf-power-and-energy"}
 
 | Field | Value                                                 |
 |-------|-------------------------------------------------------|
 | URI   | urn:ietf:params:xml:ns:yang:iana-power-and-energy     |
 | Registrant Contact | The IESG                                 |
 | XML   | N/A; the requested URI is an XML namespace.           |
-{: title="IETF URI Registry"}
+{: title="IETF URI Registry: iana-power-and-energy"}
 
-IANA is also requested to register the following YANG module in the
-"YANG Module Names" registry [RFC6020] [RFC9890] within the "YANG
+IANA is also requested to register the following YANG modules in the
+"YANG Module Names" registry {{RFC6020}} {{RFC9890}} within the "YANG
 Parameters" registry group.
+
+| Field               | Value                                   |
+|---------------------|-----------------------------------------|
+| Name                | ietf-power-and-energy                   |
+| Maintained by IANA? | N                                       |
+| Namespace | urn:ietf:params:xml:ns:yang:ietf-power-and-energy |
+| Prefix    | eo                                                |
+| Reference | RFC XXX                                           |
+{: title="IETF YANG Module Name Registry: ietf-power-and-energy"}
 
 | Field               | Value                                   |
 |---------------------|-----------------------------------------|
@@ -596,7 +637,7 @@ Parameters" registry group.
 | Namespace | urn:ietf:params:xml:ns:yang:iana-power-and-energy |
 | Prefix    | ianaeo                                            |
 | Reference | RFC XXX                                           |
-{: title="IETF YANG Module Name Registry"}
+{: title="IETF YANG Module Name Registry: iana-power-and-energy"}
 
 Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.
 
@@ -625,11 +666,12 @@ as follows.
 
 | Identity Name |	Description	                       | Reference |
 |---------------|------------------------------------|-----------|
-| 80plus	      | 80 PLUS Power Supply Certification | RFC XXX   |
+| c80-plus      | 80 PLUS Power Supply Certification | RFC XXX   |
 | energy-star	  | ENERGY STAR certification          | RFC XXX   |
 | epeat | Electronic Product Environmental Assessment Tool ratings | RFC XXX |
-| eu-energy-level |	EU Energy Label: European efficiency ratings   | RFC XXX |
-| cn-energy-level | CN Energy Label: China efficiency ratings      | RFC XXX |
+| eu-energy-label |	EU Energy Label: European efficiency ratings   | RFC XXX |
+| cn-energy-label | CN Energy Label: China efficiency ratings      | RFC XXX |
+| cqc             | China Quality Certification for energy efficiency | RFC XXX |
 {: title="Initial Registries"}
 
 Note to IANA: RFC XXX must be replaced by the newly assigned RFC number.
@@ -679,5 +721,7 @@ defined in RFC XXX.
 This work has benefited from the regular discussions on the GREEN
 Design Meetings. The authors wish to thank the WG chairs, Rob Wilton
 and Diego Lopez, for organizing the recurring calls and progressing
-the work. The authors also wish to thank the following individuals,
-who provided helpful comments and reviews to this document.
+the work. The authors also wish to thank Rob Wilton, Diego Lopez,
+Tony Li, Per Andersson, Qin Wu, Chih-Tsung Huang, Alex Huang Feng,
+and Amanda Baber for their helpful comments and reviews of this
+document.
