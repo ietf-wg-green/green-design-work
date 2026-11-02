@@ -1301,7 +1301,19 @@ Processing Unit (MPU).<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1.1-3">The terms reused from <span>[<a href="#I-D.ietf-green-terminology" class="cite xref">I-D.ietf-green-terminology</a>]</span> and
 <span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.ietf-green-framework</a>]</span> are capitalized in this
 specification.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
-<p id="section-1.1-4">This document uses the terms Power and Energy in accordance with
+<p id="section-1.1-4">This document defines the following term, which is also capitalized:<a href="#section-1.1-4" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-1.1-5">
+          <dt id="section-1.1-5.1">Power Cap:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.1-5.2">
+            <p id="section-1.1-5.2.1">An upper limit on the Power of an Energy Object, set by an
+administrator or a controller and enforced by the device, for
+example by reducing the clock frequency of a Component. Unlike the
+Nameplate Power, which is a fixed design value, a Power Cap can
+change during operation.<a href="#section-1.1-5.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-1.1-6">This document uses the terms Power and Energy in accordance with
 <span>[<a href="#I-D.ietf-green-terminology" class="cite xref">I-D.ietf-green-terminology</a>]</span>. Power refers to the instantaneous
 rate at which a device consumes or produces electrical energy
 (typically expressed in watts). Energy, by contrast, represents the
@@ -1311,10 +1323,10 @@ module. Power enables real-time monitoring, control, and optimization
 of device operation, while Energy provides a time-integrated view
 necessary for accounting, reporting, and even for sustainability
 analysis. This specification includes both Power and Energy
-attributes.<a href="#section-1.1-4" class="pilcrow">¶</a></p>
-<p id="section-1.1-5">The terminology for describing YANG modules is defined in <span>[<a href="#RFC7950" class="cite xref">RFC7950</a>]</span>.
+attributes.<a href="#section-1.1-6" class="pilcrow">¶</a></p>
+<p id="section-1.1-7">The terminology for describing YANG modules is defined in <span>[<a href="#RFC7950" class="cite xref">RFC7950</a>]</span>.
 The meanings of the symbols in the YANG tree diagrams are defined in
-<span>[<a href="#RFC8340" class="cite xref">RFC8340</a>]</span>.<a href="#section-1.1-5" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC8340" class="cite xref">RFC8340</a>]</span>.<a href="#section-1.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1356,16 +1368,16 @@ view of the intent. For this reason, although an NMDA
 (Network Management Datastore Architecture) design with a single
 "state" leaf (per <span>[<a href="#RFC8342" class="cite xref">RFC8342</a>]</span>) was considered, it is not adopted in
 this document.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">The model also allows an administrator or controller to request an
-upper limit on the Power that an Energy Object may consume, for
-example to cap the Power of a GPU in a cluster. The requested limit is
+<p id="section-3-3">The model also allows an administrator or controller to request a
+Power Cap on an Energy Object, for example to cap the Power of a GPU
+in a cluster. The requested limit is
 configured in the power-cap container in /energy-control. The device
 enforces the requested limit, or the closest value that the Energy
 Object supports, and reports the limit in effect in the power-cap
 container of the Power attributes in /energy-objects. Discovering the
 range of limits that an Energy Object supports is out of scope of this
 document.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">The existence of a cap and its effect are reported separately. The
+<p id="section-3-4">The existence of a Power Cap and its effect are reported separately. The
 power-cap container in /energy-objects is present only while a cap is
 enforced, and the Energy Object then does not draw more Power than the
 enforced limit. The limiting leaf indicates whether the cap is
@@ -2064,11 +2076,11 @@ module ietf-power-and-energy {
       }
       container power-cap {
         presence
-          "A Power cap is enforced for this Energy Object. When this
+          "A Power Cap is enforced for this Energy Object. When this
            container is absent, no cap is enforced and the Nameplate
            Power is the upper limit.";
         description
-          "Container for the Power cap in effect for this Energy
+          "Container for the Power Cap in effect for this Energy
            Object.";
         leaf limit {
           type uint64;
@@ -2347,7 +2359,7 @@ module ietf-power-and-energy {
 
         container power-cap {
           description
-            "Container for the Power cap of this Energy Object.";
+            "Container for the Power Cap of this Energy Object.";
           leaf limit {
             type uint64;
             units "milliwatts";
@@ -2797,7 +2809,7 @@ authorized administrators via NACM.<a href="#section-8-5.1.1" class="pilcrow">¶
         <li class="normal" id="section-8-5.2">
           <p id="section-8-5.2.1">/energy-control/energy-objects/energy-object/power-cap/limit:
 Unauthorized write access to this leaf allows an attacker to set a
-very low Power cap on an Energy Object, degrading or disrupting its
+very low Power Cap on an Energy Object, degrading or disrupting its
 operation (resulting in denial of service), or to remove a cap that
 protects the power budget of a site. Access to this data node <span class="bcp14">SHOULD</span>
 be limited to authorized administrators via NACM.<a href="#section-8-5.2.1" class="pilcrow">¶</a></p>
