@@ -75,6 +75,7 @@ Table of Contents
    11. References
      11.1.  Normative References
      11.2.  Informative References
+   Appendix A.  Example: Modeling a 750 W Power Supply
    Authors' Addresses
 
 1.  Introduction
@@ -124,6 +125,12 @@ Table of Contents
 
    *  Power State
 
+   *  Power Interface
+
+   *  Power Inlet
+
+   *  Power Outlet
+
    *  Energy
 
    *  Energy Object
@@ -145,11 +152,11 @@ Table of Contents
 
    This document defines the following term, which is also capitalized:
 
-   Power Cap:  An upper limit on the Power of an Energy Object, set by
-      an administrator or a controller and enforced by the device, for
-      example by reducing the clock frequency of a Component.  Unlike
-      the Nameplate Power, which is a fixed design value, a Power Cap
-      can change during operation.
+   Power Cap:  An upper limit on the Power that an Energy Object
+      receives, set by an administrator or a controller and enforced by
+      the device, for example by reducing the clock frequency of a
+      Component.  Unlike the Nameplate Power, which is a fixed design
+      value, a Power Cap can change during operation.
 
    This document uses the terms Power and Energy in accordance with
    [I-D.ietf-green-terminology].  Power refers to the instantaneous rate
@@ -180,10 +187,23 @@ Table of Contents
 3.  Power and Energy Data Model
 
    The Power and Energy Data Model reports the Power and Energy of each
-   Energy Object, in fixed units per leaf (for example, milliwatts for
-   instantaneous Power and milliwatt-hours for Energy), together with
-   the sign of the Power (consumption or generation), the measurement
-   accuracy, etc.
+   Energy Object, in fixed units per leaf (milliwatts for instantaneous
+   Power and the Power Cap, watts for the Nameplate Power, and
+   milliwatt-hours for Energy), together with the measurement accuracy,
+   etc.
+
+   Power and Energy are reported per direction, as unsigned values.
+   Received is the Power or Energy flowing into the Energy Object
+   through its Power Inlets, and provided is the Power or Energy flowing
+   out of it to other Energy Objects through its Power Outlets.  Both
+   can be non-zero at the same time: a power supply receives Power from
+   its source and provides Power to the device, and the difference is
+   its loss.  The same Power Interface can act as a Power Inlet and a
+   Power Outlet: a battery receives Power while charging and provides
+   Power while discharging.  The net Power of an Energy Object is its
+   received Power minus its provided Power, so that Power passed from
+   one Energy Object to another is not counted twice when the net Power
+   of several Energy Objects is summed.
 
    A containment tree view of the Power and Energy Monitoring is
    presented.  The model uses the admin and oper leaves within the
@@ -221,9 +241,9 @@ Table of Contents
    more slowly (limiting is true).
 
    A management system cannot reliably derive the limiting indication by
-   comparing the instantaneous Power with the enforced limit: the Power
-   that the Energy Object would draw without the cap is not observable,
-   caps are typically enforced as an average over a time window, and the
+   comparing the received Power with the enforced limit: the Power that
+   the Energy Object would draw without the cap is not observable, caps
+   are typically enforced as an average over a time window, and the
    measurement accuracy blurs the comparison.  The device, which applies
    the cap, knows whether it is constraining the Energy Object.
 
@@ -282,19 +302,20 @@ Table of Contents
      |     +--ro id                     string
      |     +--ro source-component-id?   -> /hw:hardware/component/name
      |     +--ro power
-     |     |  +--ro instantaneous-power?    int64
-     |     |  +--ro nameplate-power?        uint32
-     |     |  +--ro data-source-accuracy?   identityref
-     |     |  +--ro power-factor?           power-factor
-     |     |  +--ro measurement-local?      boolean
+     |     |  +--ro instantaneous-power-received?   uint64
+     |     |  +--ro instantaneous-power-provided?   uint64
+     |     |  +--ro nameplate-power?                uint32
+     |     |  +--ro data-source-accuracy?           identityref
+     |     |  +--ro power-factor?                   power-factor
+     |     |  +--ro measurement-local?              boolean
      |     |  +--ro power-cap!
      |     |     +--ro limit       uint64
      |     |     +--ro limiting?   boolean
      |     +--ro energy
-     |     |  +--ro total-energy-consumed?    uint64
-     |     |  +--ro total-energy-delivered?   uint64
-     |     |  +--ro data-source-accuracy?     identityref
-     |     |  +--ro measurement-local?        boolean
+     |     |  +--ro total-energy-received?   uint64
+     |     |  +--ro total-energy-provided?   uint64
+     |     |  +--ro data-source-accuracy?    identityref
+     |     |  +--ro measurement-local?       boolean
      |     +--ro certifications*        identityref
      |     +--ro power-state
      |     |  +--ro oper?   identityref
@@ -384,7 +405,10 @@ Table of Contents
    due to the alignment with the up-to-date requirements of the network
    carriers on Energy Efficiency.  Compared to the MIB modules, some
    definitions and types are optimized, some new data nodes are added,
-   and some legacy MIB objects are removed accordingly.
+   and some legacy MIB objects are removed accordingly.  For example,
+   the signed eoPower object of [RFC7460] is replaced by the Power
+   received and the Power provided, as unsigned values, in the same way
+   as the Energy counters.
 
 6.  Power and Energy YANG Module
 
@@ -439,9 +463,10 @@ Table of Contents
         communication networks.
 
         The capitalized terms used in this module (for example,
-        Power, Energy, Energy Object, Component, Power State, and
-        Nameplate Power) are defined in
-        I-D.ietf-green-terminology.
+        Power, Energy, Energy Object, Component, Power State,
+        Nameplate Power, and Power Inlet) are defined in
+        I-D.ietf-green-terminology, except Power Cap, which is
+        defined in RFC XXXX.
 
         The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
         NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
@@ -560,10 +585,20 @@ Table of Contents
      identity accuracy-like-parent {
        base data-source-accuracy;
        description
-         "The accuracy of the Power/Energy data is the same as this
-          Energy Object's parent object. This identity is useful for
-          hierarchical Energy Objects where child objects inherit the
-          accuracy characteristics.";
+         "The accuracy of the Power or Energy data is the same as the
+          accuracy of the same data for the parent Energy Object. The
+          parent Energy Object is found by following the 'parent' leaf
+          of ietf-hardware up the containment tree towards the root,
+          starting from the Component that this Energy Object
+          describes (see source-component-id): it is the Energy Object
+          of the first Component found that has one. This identity is
+          useful for hierarchical Energy Objects where child objects
+          inherit the accuracy characteristics. If there is no parent
+          Energy Object, the accuracy is unknown, as for
+          accuracy-unknown.";
+       reference
+         "RFC 8348: A YANG Data Model for Hardware Management
+          RFC 6933: Entity MIB (Version 4)";
      }
      identity accuracy-estimated {
        base data-source-accuracy;
@@ -840,18 +875,29 @@ Table of Contents
          description
            "Container for Power measurement attributes.";
 
-         leaf instantaneous-power {
-           type int64;
+         leaf instantaneous-power-received {
+           type uint64;
            units "milliwatts";
            mandatory false;
            description
-            "The Power usage measurement for the Energy Object right
-             now. This value represents the instantaneous Power
-             consumption of the Component. This value is
-             specified in milliwatts (mW). Positive values
-             indicate Power consumption, while negative values can
-             indicate Power generation (e.g., for devices with
-             battery backup or renewable energy sources).";
+             "The Power that the Energy Object receives right now,
+              summed over all its Power Inlets. It includes the Power
+              that the Energy Object uses itself and the Power that it
+              converts, passes on, or stores, for example in a power
+              supply or a charging battery.";
+         }
+
+         leaf instantaneous-power-provided {
+           type uint64;
+           units "milliwatts";
+           mandatory false;
+           description
+             "The Power that the Energy Object provides right now to
+              other Energy Objects, summed over all its Power Outlets,
+              for example the output of a power supply, Power over
+              Ethernet, or a discharging battery. The difference
+              between the received and the provided Power is the
+              Power that the Energy Object dissipates or stores.";
          }
 
          leaf nameplate-power {
@@ -860,7 +906,9 @@ Table of Contents
            description
              "The Nameplate Power of the Energy Object: the maximum
               continuous Power the Energy Object is designed to consume
-              or deliver, as specified by the manufacturer. It is a
+              or deliver, as specified by the manufacturer. For an
+              Energy Object that provides Power, such as a power
+              supply, it is the rated provided Power. It is a
               rated design value, not an expected operating value or an
               observed maximum, and does not change during operation.
               Used for power budget calculations and capacity
@@ -880,21 +928,29 @@ Table of Contents
               whether the data source is a direct measurement, an
               estimate, or unavailable and also the accuracy level of
               the data source. By default, the accuracy is inherited
-              from the parent Energy Object, facilitating
-              hierarchical accuracy definitions without the need to
-              specify accuracy at every level. This metadata is
-              crucial for network management applications to assess
-              the reliability and accuracy of the Power data.";
+              from the parent Energy Object (see accuracy-like-parent),
+              facilitating hierarchical accuracy definitions without
+              the need to specify accuracy at every level. An Energy
+              Object without a parent Energy Object, such as the one
+              at the top of the containment tree, SHOULD report this
+              leaf explicitly. A module that reuses this grouping
+              outside a device can refine the default, for example to
+              accuracy-unknown. It applies to both the received and the
+              provided Power; when their accuracy differs, it reports
+              the accuracy of the less accurate of the two. This
+              metadata is crucial for network management applications
+              to assess the reliability and accuracy of the Power
+              data.";
          }
 
          leaf power-factor {
            type power-factor;
            description
-             "The percent value of the power factor measurement for
-              the Energy Object. This information is important for
-              understanding the electrical characteristics of the
-              Energy Object and for correctly interpreting the Power
-              data.";
+             "The percent value of the power factor measured at the
+              Power Inlets of the Energy Object. This information is
+              important for understanding the electrical
+              characteristics of the Energy Object and for correctly
+              interpreting the received Power data.";
          }
          leaf measurement-local {
            type boolean;
@@ -919,11 +975,11 @@ Table of Contents
              units "milliwatts";
              mandatory true;
              description
-               "The upper limit on the Power of this Energy Object that
-                is currently enforced: the Energy Object does not draw
-                more Power than this limit, whether or not the cap is
-                constraining it at this time (see 'limiting'). It
-                differs from the requested limit when the requested
+               "The upper limit on the Power that this Energy Object
+                receives, currently enforced: the Energy Object does
+                not draw more Power than this limit, whether or not the
+                cap is constraining it at this time (see 'limiting').
+                It differs from the requested limit when the requested
                 limit is outside the range that the Energy Object
                 supports.";
            }
@@ -955,28 +1011,27 @@ Table of Contents
          description
            "Container for Energy measurement attributes.";
 
-         leaf total-energy-consumed {
+         leaf total-energy-received {
            type uint64;
            units "milliwatt-hours";
            description
-            "The total cumulative Energy consumed by the Energy
-             Object since the last reset. This value is specified as
-             milliwatt-hours (mWh). This value is useful for tracking
-             overall Energy usage over time for billing, reporting,
-             or optimization purposes.";
+             "The total cumulative Energy received by the Energy
+              Object since the last reset, in the same direction as
+              instantaneous-power-received. This value is useful for
+              tracking overall Energy usage over time for billing,
+              reporting, or optimization purposes.";
          }
 
-         leaf total-energy-delivered {
+         leaf total-energy-provided {
            type uint64;
            units "milliwatt-hours";
            description
-            "The total cumulative Energy delivered by the Energy
-             Object since the last reset. This value is specified as
-             milliwatt-hours (mWh). This value is relevant for Energy
-             Objects capable of generating Power, such as those with
-             renewable energy sources or battery backup systems, or
-             capable of providing Energy to other Energy Objects
-             (e.g., PoE switches).";
+             "The total cumulative Energy provided by the Energy
+              Object to other Energy Objects since the last reset, in
+              the same direction as instantaneous-power-provided.
+              This value is relevant for Energy Objects that provide
+              Energy, such as power supplies, PoE switches,
+              batteries, or renewable energy sources.";
          }
          leaf data-source-accuracy {
            type identityref {
@@ -985,15 +1040,22 @@ Table of Contents
            default accuracy-like-parent;
            description
              "The accuracy of the Energy data source. Indicates
-              whether the data source is a direct measurement,
-              an estimate, or unavailable and also the accuracy
-              level of the data source.
-              By default, the accuracy is inherited from the parent
-              Energy Object, facilitating hierarchical accuracy
-              definitions without the need to specify accuracy at
-              every level. This metadata is crucial for network
-              management applications to assess the reliability and
-              accuracy of the Energy data.";
+              whether the data source is a direct measurement, an
+              estimate, or unavailable and also the accuracy level of
+              the data source. By default, the accuracy is inherited
+              from the parent Energy Object (see accuracy-like-parent),
+              facilitating hierarchical accuracy definitions without
+              the need to specify accuracy at every level. An Energy
+              Object without a parent Energy Object, such as the one
+              at the top of the containment tree, SHOULD report this
+              leaf explicitly. A module that reuses this grouping
+              outside a device can refine the default, for example to
+              accuracy-unknown. It applies to both the received and the
+              provided Energy; when their accuracy differs, it reports
+              the accuracy of the less accurate of the two. This
+              metadata is crucial for network management applications
+              to assess the reliability and accuracy of the Energy
+              data.";
          }
          leaf measurement-local {
            type boolean;
@@ -1197,7 +1259,7 @@ Table of Contents
                units "milliwatts";
                description
                  "The administratively requested upper limit on the
-                  Power that this Energy Object may consume. The device
+                  Power that this Energy Object may receive. The device
                   enforces it by adjusting the operation of the Energy
                   Object, for example by lowering its clock frequency.
                   Absence of a configured value means that no cap is
@@ -1342,18 +1404,54 @@ Table of Contents
    and Energy aggregation.  Operators must use the data-source-accuracy
    identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
    weight data reliability carefully before aggregating Power
-   (instantaneous-power) and Energy (total-energy-consumed and/or total-
-   energy-delivered) values to avoid skewing Device Level Energy
-   Efficiency (DLEE) metrics.
+   (instantaneous-power-received and instantaneous-power-provided) and
+   Energy (total-energy-received and total-energy-provided) values to
+   avoid skewing Device Level Energy Efficiency (DLEE) metrics.
+
+   The device reports the Power and Energy that each Energy Object
+   receives and provides, not a single consumption value.  The
+   consumption of an Energy Object is its net value, received minus
+   provided, which a management system or a controller computes when
+   needed.  For a power supply, this net value is its loss (see
+   Appendix A).
+
+   For implementers familiar with [RFC7460], the following table maps
+   its Power and Energy objects to this module.  The values in [RFC7460]
+   are scaled by a unit multiplier, while this module uses fixed units,
+   and the Energy objects of [RFC7460] cover a configured interval,
+   while the Energy counters of this module are cumulative since the
+   last reset.
+
+         +==================+====================================+
+         | RFC 7460 object  | This module                        |
+         +==================+====================================+
+         | eoPower          | instantaneous-power-received minus |
+         |                  | instantaneous-power-provided       |
+         +------------------+------------------------------------+
+         | eoEnergyConsumed | total-energy-received              |
+         +------------------+------------------------------------+
+         | eoEnergyProvided | total-energy-provided              |
+         +------------------+------------------------------------+
+
+           Table 1: Mapping of RFC 7460 Power and Energy Objects
 
    Operators might not always be interested in the accuracy of
    individual Components; what matters is the accuracy at the device or
    domain level.  The accuracy-like-parent identity is introduced for
-   this purpose.  From an implementation point of view, to facilitate
-   data collection and aggregation at runtime and to avoid post-
-   aggregation data confidence interval issues, operators and
-   implementers should use the accuracy-like-parent identity as much as
-   possible.
+   this purpose.  The parent Energy Object is determined by the
+   containment tree [RFC6933], which ietf-hardware [RFC8348] represents
+   with the parent leaf: starting from the Component of an Energy Object
+   and following the parent leaf up the containment tree towards the
+   root, the first Component that has an Energy Object provides the
+   parent Energy Object.  The Energy Object at the top of the
+   containment tree has no parent, so its accuracy should be reported
+   explicitly.  A module that reuses the power-values or energy-values
+   groupings outside a device, such as a controller-side module, can
+   refine the default of data-source-accuracy, for example to accuracy-
+   unknown.  From an implementation point of view, to facilitate data
+   collection and aggregation at runtime and to avoid post-aggregation
+   data confidence interval issues, operators and implementers should
+   use the accuracy-like-parent identity as much as possible.
 
    YANG Push support eliminates device-side bucket storage by streaming
    Energy telemetry directly to controller-side via subscriptions.
@@ -1634,7 +1732,7 @@ Table of Contents
     | XML        | N/A; the requested URI is an XML namespace.       |
     +------------+---------------------------------------------------+
 
-            Table 1: IETF URI Registry: ietf-power-and-energy
+            Table 2: IETF URI Registry: ietf-power-and-energy
 
     +============+===================================================+
     | Field      | Value                                             |
@@ -1647,7 +1745,7 @@ Table of Contents
     | XML        | N/A; the requested URI is an XML namespace.       |
     +------------+---------------------------------------------------+
 
-            Table 2: IETF URI Registry: iana-power-and-energy
+            Table 3: IETF URI Registry: iana-power-and-energy
 
    IANA is also requested to register the following YANG modules in the
    "YANG Module Names" registry [RFC6020] [RFC9890] within the "YANG
@@ -1668,7 +1766,7 @@ Table of Contents
     | Reference  | RFC XXXX                                          |
     +------------+---------------------------------------------------+
 
-      Table 3: IETF YANG Module Name Registry: ietf-power-and-energy
+      Table 4: IETF YANG Module Name Registry: ietf-power-and-energy
 
     +============+===================================================+
     | Field      | Value                                             |
@@ -1685,7 +1783,7 @@ Table of Contents
     | Reference  | RFC XXXX                                          |
     +------------+---------------------------------------------------+
 
-      Table 4: IETF YANG Module Name Registry: iana-power-and-energy
+      Table 5: IETF YANG Module Name Registry: iana-power-and-energy
 
 9.2.  Accelerator Hardware Class
 
@@ -1739,7 +1837,7 @@ Table of Contents
     | Available Values       | Unqualified identity names as strings |
     +------------------------+---------------------------------------+
 
-       Table 5: IETF Power and Energy Certification Types Registry
+       Table 6: IETF Power and Energy Certification Types Registry
 
    +=================+====================================+===========+
    | Identity Name   | Description                        | Reference |
@@ -1761,7 +1859,7 @@ Table of Contents
    |                 | energy efficiency                  |           |
    +-----------------+------------------------------------+-----------+
 
-                       Table 6: Initial Registries
+                       Table 7: Initial Registries
 
    New entries to "Power and Energy Certification Types" registry
    require Expert Review [RFC8126].  The Designated Expert(s) should
@@ -1917,6 +2015,10 @@ Table of Contents
               Energy", RFC 7460, DOI 10.17487/RFC7460, March 2015,
               <https://www.rfc-editor.org/rfc/rfc7460>.
 
+   [RFC7951]  Lhotka, L., "JSON Encoding of Data Modeled with YANG",
+              RFC 7951, DOI 10.17487/RFC7951, August 2016,
+              <https://www.rfc-editor.org/rfc/rfc7951>.
+
    [RFC8342]  Bjorklund, M., Schoenwaelder, J., Shafer, P., Watsen, K.,
               and R. Wilton, "Network Management Datastore Architecture
               (NMDA)", RFC 8342, DOI 10.17487/RFC8342, March 2018,
@@ -1925,6 +2027,82 @@ Table of Contents
    [RFC9907]  "Guidelines for Authors and Reviewers of Documents
               Containing YANG Data Models", March 2026,
               <https://datatracker.ietf.org/doc/html/rfc9907>.
+
+Appendix A.  Example: Modeling a 750 W Power Supply
+
+   This appendix shows how a 750 W power supply is modeled.  The power
+   supply, psu-1, is fed by outlet 7 of a PDU and powers the chassis of
+   the device.  Both are Components in the ietf-hardware module
+   [RFC8348], and psu-1 is contained in the chassis.  The values are
+   illustrative: the power supply receives 400 W from the PDU and
+   provides 376 W to the chassis, an efficiency of 94% at about half its
+   Nameplate Power, and the Energy counters cover 30 days at that load.
+
+   The following instance data is encoded in JSON [RFC7951].  Power is
+   in milliwatts and Energy in milliwatt-hours, and the uint64 values
+   are encoded as JSON strings.
+
+   {
+     "ietf-power-and-energy:energy-objects": {
+       "energy-object": [
+         {
+           "id": "psu-1",
+           "source-component-id": "psu-1",
+           "power": {
+             "instantaneous-power-received": "400000",
+             "instantaneous-power-provided": "376000",
+             "nameplate-power": 750,
+             "data-source-accuracy": "accuracy-measured-gold",
+             "power-factor": 98
+           },
+           "energy": {
+             "total-energy-received": "288000000",
+             "total-energy-provided": "270720000"
+           },
+           "certifications": [ "iana-power-and-energy:c80-plus" ],
+           "relationship": [
+             { "type": "powered-by",
+               "peer": [ { "id": "pdu-a-outlet-7",
+                           "details": "PDU A, outlet 7" } ] },
+             { "type": "powering",
+               "peer": [ { "id": "chassis" } ] }
+           ]
+         },
+         {
+           "id": "chassis",
+           "source-component-id": "chassis",
+           "power": {
+             "instantaneous-power-received": "376000",
+             "instantaneous-power-provided": "0"
+           },
+           "energy": {
+             "total-energy-received": "270720000",
+             "total-energy-provided": "0"
+           },
+           "relationship": [
+             { "type": "powered-by",
+               "peer": [ { "id": "psu-1" } ] }
+           ]
+         }
+       ]
+     }
+   }
+
+   From these values, a management system derives:
+
+   *  the loss of the power supply: 400 W - 376 W = 24 W;
+
+   *  its efficiency: 376 W / 400 W = 94%, which the Energy counters
+      confirm over the period (270,720 Wh / 288,000 Wh);
+
+   *  the Power drawn from the PDU, by summing the net Power of the
+      Energy Objects: 24 W for the power supply plus 376 W for the
+      chassis, that is 400 W, without counting twice the Power passed
+      from the power supply to the chassis.
+
+   A battery is modeled in the same way: it reports received Power and
+   Energy while charging, and provided Power and Energy while
+   discharging.
 
 Authors' Addresses
 
