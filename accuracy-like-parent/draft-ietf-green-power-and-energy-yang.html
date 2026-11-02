@@ -1274,28 +1274,37 @@ Processing Unit (MPU).<a href="#section-1-6" class="pilcrow">¶</a></p>
             <p id="section-1.1-2.3.1">Power State<a href="#section-1.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.4">
-            <p id="section-1.1-2.4.1">Energy<a href="#section-1.1-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.4.1">Power Interface<a href="#section-1.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.5">
-            <p id="section-1.1-2.5.1">Energy Object<a href="#section-1.1-2.5.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.5.1">Power Inlet<a href="#section-1.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.6">
-            <p id="section-1.1-2.6.1">Component<a href="#section-1.1-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.6.1">Power Outlet<a href="#section-1.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.7">
-            <p id="section-1.1-2.7.1">Energy Monitoring<a href="#section-1.1-2.7.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.7.1">Energy<a href="#section-1.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.8">
-            <p id="section-1.1-2.8.1">Energy Efficiency<a href="#section-1.1-2.8.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.8.1">Energy Object<a href="#section-1.1-2.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.9">
-            <p id="section-1.1-2.9.1">Device Level Energy Efficiency (DLEE)<a href="#section-1.1-2.9.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.9.1">Component<a href="#section-1.1-2.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.10">
-            <p id="section-1.1-2.10.1">Component Level Energy Efficiency (CLEE)<a href="#section-1.1-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.10.1">Energy Monitoring<a href="#section-1.1-2.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.11">
-            <p id="section-1.1-2.11.1">Service Level Energy Efficiency (SLEE)<a href="#section-1.1-2.11.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.11.1">Energy Efficiency<a href="#section-1.1-2.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.1-2.12">
+            <p id="section-1.1-2.12.1">Device Level Energy Efficiency (DLEE)<a href="#section-1.1-2.12.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.1-2.13">
+            <p id="section-1.1-2.13.1">Component Level Energy Efficiency (CLEE)<a href="#section-1.1-2.13.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.1-2.14">
+            <p id="section-1.1-2.14.1">Service Level Energy Efficiency (SLEE)<a href="#section-1.1-2.14.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-1.1-3">The terms reused from <span>[<a href="#I-D.ietf-green-terminology" class="cite xref">I-D.ietf-green-terminology</a>]</span> and
@@ -1305,8 +1314,8 @@ specification.<a href="#section-1.1-3" class="pilcrow">¶</a></p>
 <span class="break"></span><dl class="dlParallel" id="section-1.1-5">
           <dt id="section-1.1-5.1">Power Cap:</dt>
           <dd style="margin-left: 1.5em" id="section-1.1-5.2">
-            <p id="section-1.1-5.2.1">An upper limit on the Power of an Energy Object, set by an
-administrator or a controller and enforced by the device, for
+            <p id="section-1.1-5.2.1">An upper limit on the Power that an Energy Object receives, set by
+an administrator or a controller and enforced by the device, for
 example by reducing the clock frequency of a Component. Unlike the
 Nameplate Power, which is a fixed design value, a Power Cap can
 change during operation.<a href="#section-1.1-5.2.1" class="pilcrow">¶</a></p>
@@ -1351,11 +1360,23 @@ requirements, please refer to the "GREEN reference model" in
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-power-and-energy-data-model" class="section-name selfRef">Power and Energy Data Model</a>
       </h2>
 <p id="section-3-1">The Power and Energy Data Model reports the Power and Energy of each
-Energy Object, in fixed units per leaf (for example, milliwatts for
-instantaneous Power and milliwatt-hours for Energy), together with the
-sign of the Power (consumption or generation), the measurement
-accuracy, etc.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">A containment tree view of the Power and Energy Monitoring is presented.
+Energy Object, in fixed units per leaf (milliwatts for instantaneous
+Power and the Power Cap, watts for the Nameplate Power, and
+milliwatt-hours for Energy), together with the measurement accuracy,
+etc.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">Power and Energy are reported per direction, as unsigned values.
+Received is the Power or Energy flowing into the Energy Object through
+its Power Inlets, and provided is the Power or Energy flowing out of
+it to other Energy Objects through its Power Outlets. Both can be
+non-zero at the same time: a power supply receives Power from its
+source and provides Power to the device, and the difference is its
+loss. The same Power Interface can act as a Power Inlet and a Power
+Outlet: a battery receives Power while charging and provides Power
+while discharging. The net Power of an Energy Object is its received
+Power minus its provided Power, so that Power passed from one Energy
+Object to another is not counted twice when the net Power of several
+Energy Objects is summed.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
 container to represent the intended (administrative) and operational
 (actual) Power States respectively. The two leaves together form the
@@ -1367,8 +1388,8 @@ to explicitly provisioned entries, provides a compact self-contained
 view of the intent. For this reason, although an NMDA
 (Network Management Datastore Architecture) design with a single
 "state" leaf (per <span>[<a href="#RFC8342" class="cite xref">RFC8342</a>]</span>) was considered, it is not adopted in
-this document.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">The model also allows an administrator or controller to request a
+this document.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">The model also allows an administrator or controller to request a
 Power Cap on an Energy Object, for example to cap the Power of a GPU
 in a cluster. The requested limit is
 configured in the power-cap container in /energy-control. The device
@@ -1376,8 +1397,8 @@ enforces the requested limit, or the closest value that the Energy
 Object supports, and reports the limit in effect in the power-cap
 container of the Power attributes in /energy-objects. Discovering the
 range of limits that an Energy Object supports is out of scope of this
-document.<a href="#section-3-3" class="pilcrow">¶</a></p>
-<p id="section-3-4">The existence of a Power Cap and its effect are reported separately. The
+document.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">The existence of a Power Cap and its effect are reported separately. The
 power-cap container in /energy-objects is present only while a cap is
 enforced, and the Energy Object then does not draw more Power than the
 enforced limit. The limiting leaf indicates whether the cap is
@@ -1387,14 +1408,14 @@ operation is reduced to stay within the limit. For example, with a cap
 of 300 W, a GPU that would draw 80 W when idle, or 200 W with a light
 workload, is not constrained (limiting is false), whereas a GPU that
 would draw 450 W during a training job is held at 300 W and runs more
-slowly (limiting is true).<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">A management system cannot reliably derive the limiting indication by
-comparing the instantaneous Power with the enforced limit: the Power
+slowly (limiting is true).<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-6">A management system cannot reliably derive the limiting indication by
+comparing the received Power with the enforced limit: the Power
 that the Energy Object would draw without the cap is not observable,
 caps are typically enforced as an average over a time window, and the
 measurement accuracy blurs the comparison. The device, which applies
-the cap, knows whether it is constraining the Energy Object.<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">The id of an entry in /energy-control/energy-objects/energy-object
+the cap, knows whether it is constraining the Energy Object.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">The id of an entry in /energy-control/energy-objects/energy-object
 <span class="bcp14">SHOULD</span> be the id of an existing or anticipated entry in
 /energy-objects/energy-object. This allows an administrator or
 controller to correlate a configured Power State intent with the Energy
@@ -1402,15 +1423,15 @@ Object being monitored. The id is a leafref with require-instance
 false, so that the configuration can be created before the Energy
 Object is introduced and remains after it has disappeared from the
 system. If the referred Energy Object does not currently exist, the
-configuration item for it has no effect.<a href="#section-3-6" class="pilcrow">¶</a></p>
-<p id="section-3-7">The relationship list models the relationship between an Energy
+configuration item for it has no effect.<a href="#section-3-7" class="pilcrow">¶</a></p>
+<p id="section-3-8">The relationship list models the relationship between an Energy
 Object and its peer Energy Objects, using the
 <code>energy-relationship-type</code> identities: <code>powered-by</code> and <code>powering</code>
 (Power Source Relationship), <code>metered-by</code> and <code>metering</code> (Metering
 Relationship), <code>aggregated-by</code> and <code>aggregating</code> (Aggregation
 Relationship), and <code>enabled-by</code> and <code>enabling</code> (Functional Enablement
-Relationship).<a href="#section-3-7" class="pilcrow">¶</a></p>
-<p id="section-3-8">Each pair of identities expresses the same relationship from the
+Relationship).<a href="#section-3-8" class="pilcrow">¶</a></p>
+<p id="section-3-9">Each pair of identities expresses the same relationship from the
 perspective of each participant (e.g., if Energy Object A is powered-by
 Energy Object B, then Energy Object B is powering Energy Object A).
 These relationship categories, including their use for power/metering
@@ -1419,25 +1440,25 @@ are defined in <span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.
 type, one or more peer Energy Objects can be identified via the <code>id</code>
 leaf within the <code>peer</code> list, a string value that is preferably the
 peer's UUID; if the UUID is not known, another identifier can be used,
-together with human-readable details captured in the <code>details</code> leaf.<a href="#section-3-8" class="pilcrow">¶</a></p>
-<p id="section-3-9">Regarding relationships among Energy Objects, this document does not
+together with human-readable details captured in the <code>details</code> leaf.<a href="#section-3-9" class="pilcrow">¶</a></p>
+<p id="section-3-10">Regarding relationships among Energy Objects, this document does not
 provide a mechanism to configure relationships on the device (i.e.,
 there is no relationship list under /energy-control); the
 relationship list under /energy-objects/energy-object is read-only
-operational data (config false).<a href="#section-3-9" class="pilcrow">¶</a></p>
-<p id="section-3-10">For relationships between Components within the same device (e.g.,
+operational data (config false).<a href="#section-3-10" class="pilcrow">¶</a></p>
+<p id="section-3-11">For relationships between Components within the same device (e.g.,
 between a Line Processing Unit (LPU) and a Switch Fabric Unit (SFU)),
 the device can typically determine and populate this data directly,
-without requiring external configuration.<a href="#section-3-10" class="pilcrow">¶</a></p>
-<p id="section-3-11">Relationships between Energy Objects located on different devices are
+without requiring external configuration.<a href="#section-3-11" class="pilcrow">¶</a></p>
+<p id="section-3-12">Relationships between Energy Objects located on different devices are
 generally established and maintained at the controller or Energy
 Management System (EnMS) level, which has visibility into the
 broader network topology, as discussed in
 <span>[<a href="#I-D.ietf-green-framework" class="cite xref">I-D.ietf-green-framework</a>]</span>. A device may still report a known
 inter-device relationship (e.g., using the peer's network-level UUID)
 when it has been made aware of it, but this module does not provide a
-mechanism to configure such relationships on the device itself.<a href="#section-3-11" class="pilcrow">¶</a></p>
-<div class="lang-yangtree sourcecode" id="section-3-12">
+mechanism to configure such relationships on the device itself.<a href="#section-3-12" class="pilcrow">¶</a></p>
+<div class="lang-yangtree sourcecode" id="section-3-13">
 <pre>
 module: ietf-power-and-energy
   +--ro energy-objects
@@ -1445,19 +1466,20 @@ module: ietf-power-and-energy
   |     +--ro id                     string
   |     +--ro source-component-id?   -&gt; /hw:hardware/component/name
   |     +--ro power
-  |     |  +--ro instantaneous-power?    int64
-  |     |  +--ro nameplate-power?        uint32
-  |     |  +--ro data-source-accuracy?   identityref
-  |     |  +--ro power-factor?           power-factor
-  |     |  +--ro measurement-local?      boolean
+  |     |  +--ro instantaneous-power-received?   uint64
+  |     |  +--ro instantaneous-power-provided?   uint64
+  |     |  +--ro nameplate-power?                uint32
+  |     |  +--ro data-source-accuracy?           identityref
+  |     |  +--ro power-factor?                   power-factor
+  |     |  +--ro measurement-local?              boolean
   |     |  +--ro power-cap!
   |     |     +--ro limit       uint64
   |     |     +--ro limiting?   boolean
   |     +--ro energy
-  |     |  +--ro total-energy-consumed?    uint64
-  |     |  +--ro total-energy-delivered?   uint64
-  |     |  +--ro data-source-accuracy?     identityref
-  |     |  +--ro measurement-local?        boolean
+  |     |  +--ro total-energy-received?   uint64
+  |     |  +--ro total-energy-provided?   uint64
+  |     |  +--ro data-source-accuracy?    identityref
+  |     |  +--ro measurement-local?       boolean
   |     +--ro certifications*        identityref
   |     +--ro power-state
   |     |  +--ro oper?   identityref
@@ -1477,7 +1499,7 @@ module: ietf-power-and-energy
            |             /power-state/oper
            +--rw power-cap
               +--rw limit?   uint64
-</pre><a href="#section-3-12" class="pilcrow">¶</a>
+</pre><a href="#section-3-13" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -1548,7 +1570,10 @@ YANG module. The changes compared to the EMAN MIB modules are mainly
 due to the alignment with the up-to-date requirements of the network
 carriers on Energy Efficiency. Compared to the MIB modules, some
 definitions and types are optimized, some new data nodes are added,
-and some legacy MIB objects are removed accordingly.<a href="#section-5-4" class="pilcrow">¶</a></p>
+and some legacy MIB objects are removed accordingly.
+For example, the signed eoPower object of <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span> is replaced by
+the Power received and the Power provided, as unsigned values, in the
+same way as the Energy counters.<a href="#section-5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="power-and-energy-yang-module">
@@ -1607,9 +1632,10 @@ module ietf-power-and-energy {
      communication networks.
 
      The capitalized terms used in this module (for example,
-     Power, Energy, Energy Object, Component, Power State, and
-     Nameplate Power) are defined in
-     I-D.ietf-green-terminology.
+     Power, Energy, Energy Object, Component, Power State,
+     Nameplate Power, and Power Inlet) are defined in
+     I-D.ietf-green-terminology, except Power Cap, which is
+     defined in RFC XXXX.
 
      The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
      NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
@@ -2018,18 +2044,28 @@ module ietf-power-and-energy {
       description
         "Container for Power measurement attributes.";
 
-      leaf instantaneous-power {
-        type int64;
+      leaf instantaneous-power-received {
+        type uint64;
         units "milliwatts";
         mandatory false;
         description
-         "The Power usage measurement for the Energy Object right
-          now. This value represents the instantaneous Power
-          consumption of the Component. This value is
-          specified in milliwatts (mW). Positive values
-          indicate Power consumption, while negative values can
-          indicate Power generation (e.g., for devices with
-          battery backup or renewable energy sources).";
+          "The Power that the Energy Object receives right now,
+           summed over all its Power Inlets. It includes the Power
+           that the Energy Object uses itself and the Power that it
+           converts, passes on, or stores, for example in a power
+           supply or a charging battery.";
+      }
+
+      leaf instantaneous-power-provided {
+        type uint64;
+        units "milliwatts";
+        description
+          "The Power that the Energy Object provides right now to
+           other Energy Objects, summed over all its Power Outlets,
+           for example the output of a power supply, Power over
+           Ethernet, or a discharging battery. The difference
+           between the received and the provided Power is the
+           Power that the Energy Object dissipates or stores.";
       }
 
       leaf nameplate-power {
@@ -2073,11 +2109,11 @@ module ietf-power-and-energy {
       leaf power-factor {
         type power-factor;
         description
-          "The percent value of the power factor measurement for
-           the Energy Object. This information is important for
-           understanding the electrical characteristics of the
-           Energy Object and for correctly interpreting the Power
-           data.";
+          "The percent value of the power factor measured at the
+           Power Inlets of the Energy Object. This information is
+           important for understanding the electrical
+           characteristics of the Energy Object and for correctly
+           interpreting the received Power data.";
       }
       leaf measurement-local {
         type boolean;
@@ -2102,11 +2138,11 @@ module ietf-power-and-energy {
           units "milliwatts";
           mandatory true;
           description
-            "The upper limit on the Power of this Energy Object that
-             is currently enforced: the Energy Object does not draw
-             more Power than this limit, whether or not the cap is
-             constraining it at this time (see 'limiting'). It
-             differs from the requested limit when the requested
+            "The upper limit on the Power that this Energy Object
+             receives, currently enforced: the Energy Object does
+             not draw more Power than this limit, whether or not the
+             cap is constraining it at this time (see 'limiting').
+             It differs from the requested limit when the requested
              limit is outside the range that the Energy Object
              supports.";
         }
@@ -2138,28 +2174,27 @@ module ietf-power-and-energy {
       description
         "Container for Energy measurement attributes.";
 
-      leaf total-energy-consumed {
+      leaf total-energy-received {
         type uint64;
         units "milliwatt-hours";
         description
-         "The total cumulative Energy consumed by the Energy
-          Object since the last reset. This value is specified as
-          milliwatt-hours (mWh). This value is useful for tracking
-          overall Energy usage over time for billing, reporting,
-          or optimization purposes.";
+          "The total cumulative Energy received by the Energy
+           Object since the last reset, in the same direction as
+           instantaneous-power-received. This value is useful for
+           tracking overall Energy usage over time for billing,
+           reporting, or optimization purposes.";
       }
 
-      leaf total-energy-delivered {
+      leaf total-energy-provided {
         type uint64;
         units "milliwatt-hours";
         description
-         "The total cumulative Energy delivered by the Energy
-          Object since the last reset. This value is specified as
-          milliwatt-hours (mWh). This value is relevant for Energy
-          Objects capable of generating Power, such as those with
-          renewable energy sources or battery backup systems, or
-          capable of providing Energy to other Energy Objects
-          (e.g., PoE switches).";
+          "The total cumulative Energy provided by the Energy
+           Object to other Energy Objects since the last reset, in
+           the same direction as instantaneous-power-provided.
+           This value is relevant for Energy Objects that provide
+           Energy, such as power supplies, PoE switches,
+           batteries, or renewable energy sources.";
       }
       leaf data-source-accuracy {
         type identityref {
@@ -2384,7 +2419,7 @@ module ietf-power-and-energy {
             units "milliwatts";
             description
               "The administratively requested upper limit on the
-               Power that this Energy Object may consume. The device
+               Power that this Energy Object may receive. The device
                enforces it by adjusting the operation of the Energy
                Object, for example by lowering its clock frequency.
                Absence of a configured value means that no cap is
@@ -2539,9 +2574,9 @@ module iana-power-and-energy {
 and Energy aggregation. Operators must use the data-source-accuracy
 identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
 weight data reliability carefully before aggregating Power
-(instantaneous-power) and Energy (total-energy-consumed and/or
-total-energy-delivered) values to avoid skewing Device Level Energy
-Efficiency (DLEE) metrics.<a href="#section-7-1" class="pilcrow">¶</a></p>
+(instantaneous-power-received and instantaneous-power-provided) and
+Energy (total-energy-received and total-energy-provided) values to
+avoid skewing Device Level Energy Efficiency (DLEE) metrics.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <p id="section-7-2">Operators might not always be interested in the accuracy of individual
 Components; what matters is the accuracy at the device or domain
 level. The accuracy-like-parent identity is introduced for this

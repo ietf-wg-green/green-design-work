@@ -124,6 +124,12 @@ Table of Contents
 
    *  Power State
 
+   *  Power Interface
+
+   *  Power Inlet
+
+   *  Power Outlet
+
    *  Energy
 
    *  Energy Object
@@ -145,11 +151,11 @@ Table of Contents
 
    This document defines the following term, which is also capitalized:
 
-   Power Cap:  An upper limit on the Power of an Energy Object, set by
-      an administrator or a controller and enforced by the device, for
-      example by reducing the clock frequency of a Component.  Unlike
-      the Nameplate Power, which is a fixed design value, a Power Cap
-      can change during operation.
+   Power Cap:  An upper limit on the Power that an Energy Object
+      receives, set by an administrator or a controller and enforced by
+      the device, for example by reducing the clock frequency of a
+      Component.  Unlike the Nameplate Power, which is a fixed design
+      value, a Power Cap can change during operation.
 
    This document uses the terms Power and Energy in accordance with
    [I-D.ietf-green-terminology].  Power refers to the instantaneous rate
@@ -180,10 +186,23 @@ Table of Contents
 3.  Power and Energy Data Model
 
    The Power and Energy Data Model reports the Power and Energy of each
-   Energy Object, in fixed units per leaf (for example, milliwatts for
-   instantaneous Power and milliwatt-hours for Energy), together with
-   the sign of the Power (consumption or generation), the measurement
-   accuracy, etc.
+   Energy Object, in fixed units per leaf (milliwatts for instantaneous
+   Power and the Power Cap, watts for the Nameplate Power, and
+   milliwatt-hours for Energy), together with the measurement accuracy,
+   etc.
+
+   Power and Energy are reported per direction, as unsigned values.
+   Received is the Power or Energy flowing into the Energy Object
+   through its Power Inlets, and provided is the Power or Energy flowing
+   out of it to other Energy Objects through its Power Outlets.  Both
+   can be non-zero at the same time: a power supply receives Power from
+   its source and provides Power to the device, and the difference is
+   its loss.  The same Power Interface can act as a Power Inlet and a
+   Power Outlet: a battery receives Power while charging and provides
+   Power while discharging.  The net Power of an Energy Object is its
+   received Power minus its provided Power, so that Power passed from
+   one Energy Object to another is not counted twice when the net Power
+   of several Energy Objects is summed.
 
    A containment tree view of the Power and Energy Monitoring is
    presented.  The model uses the admin and oper leaves within the
@@ -221,9 +240,9 @@ Table of Contents
    more slowly (limiting is true).
 
    A management system cannot reliably derive the limiting indication by
-   comparing the instantaneous Power with the enforced limit: the Power
-   that the Energy Object would draw without the cap is not observable,
-   caps are typically enforced as an average over a time window, and the
+   comparing the received Power with the enforced limit: the Power that
+   the Energy Object would draw without the cap is not observable, caps
+   are typically enforced as an average over a time window, and the
    measurement accuracy blurs the comparison.  The device, which applies
    the cap, knows whether it is constraining the Energy Object.
 
@@ -282,19 +301,20 @@ Table of Contents
      |     +--ro id                     string
      |     +--ro source-component-id?   -> /hw:hardware/component/name
      |     +--ro power
-     |     |  +--ro instantaneous-power?    int64
-     |     |  +--ro nameplate-power?        uint32
-     |     |  +--ro data-source-accuracy?   identityref
-     |     |  +--ro power-factor?           power-factor
-     |     |  +--ro measurement-local?      boolean
+     |     |  +--ro instantaneous-power-received?   uint64
+     |     |  +--ro instantaneous-power-provided?   uint64
+     |     |  +--ro nameplate-power?                uint32
+     |     |  +--ro data-source-accuracy?           identityref
+     |     |  +--ro power-factor?                   power-factor
+     |     |  +--ro measurement-local?              boolean
      |     |  +--ro power-cap!
      |     |     +--ro limit       uint64
      |     |     +--ro limiting?   boolean
      |     +--ro energy
-     |     |  +--ro total-energy-consumed?    uint64
-     |     |  +--ro total-energy-delivered?   uint64
-     |     |  +--ro data-source-accuracy?     identityref
-     |     |  +--ro measurement-local?        boolean
+     |     |  +--ro total-energy-received?   uint64
+     |     |  +--ro total-energy-provided?   uint64
+     |     |  +--ro data-source-accuracy?    identityref
+     |     |  +--ro measurement-local?       boolean
      |     +--ro certifications*        identityref
      |     +--ro power-state
      |     |  +--ro oper?   identityref
@@ -384,7 +404,10 @@ Table of Contents
    due to the alignment with the up-to-date requirements of the network
    carriers on Energy Efficiency.  Compared to the MIB modules, some
    definitions and types are optimized, some new data nodes are added,
-   and some legacy MIB objects are removed accordingly.
+   and some legacy MIB objects are removed accordingly.  For example,
+   the signed eoPower object of [RFC7460] is replaced by the Power
+   received and the Power provided, as unsigned values, in the same way
+   as the Energy counters.
 
 6.  Power and Energy YANG Module
 
@@ -439,9 +462,10 @@ Table of Contents
         communication networks.
 
         The capitalized terms used in this module (for example,
-        Power, Energy, Energy Object, Component, Power State, and
-        Nameplate Power) are defined in
-        I-D.ietf-green-terminology.
+        Power, Energy, Energy Object, Component, Power State,
+        Nameplate Power, and Power Inlet) are defined in
+        I-D.ietf-green-terminology, except Power Cap, which is
+        defined in RFC XXXX.
 
         The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
         NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
@@ -850,18 +874,28 @@ Table of Contents
          description
            "Container for Power measurement attributes.";
 
-         leaf instantaneous-power {
-           type int64;
+         leaf instantaneous-power-received {
+           type uint64;
            units "milliwatts";
            mandatory false;
            description
-            "The Power usage measurement for the Energy Object right
-             now. This value represents the instantaneous Power
-             consumption of the Component. This value is
-             specified in milliwatts (mW). Positive values
-             indicate Power consumption, while negative values can
-             indicate Power generation (e.g., for devices with
-             battery backup or renewable energy sources).";
+             "The Power that the Energy Object receives right now,
+              summed over all its Power Inlets. It includes the Power
+              that the Energy Object uses itself and the Power that it
+              converts, passes on, or stores, for example in a power
+              supply or a charging battery.";
+         }
+
+         leaf instantaneous-power-provided {
+           type uint64;
+           units "milliwatts";
+           description
+             "The Power that the Energy Object provides right now to
+              other Energy Objects, summed over all its Power Outlets,
+              for example the output of a power supply, Power over
+              Ethernet, or a discharging battery. The difference
+              between the received and the provided Power is the
+              Power that the Energy Object dissipates or stores.";
          }
 
          leaf nameplate-power {
@@ -905,11 +939,11 @@ Table of Contents
          leaf power-factor {
            type power-factor;
            description
-             "The percent value of the power factor measurement for
-              the Energy Object. This information is important for
-              understanding the electrical characteristics of the
-              Energy Object and for correctly interpreting the Power
-              data.";
+             "The percent value of the power factor measured at the
+              Power Inlets of the Energy Object. This information is
+              important for understanding the electrical
+              characteristics of the Energy Object and for correctly
+              interpreting the received Power data.";
          }
          leaf measurement-local {
            type boolean;
@@ -934,11 +968,11 @@ Table of Contents
              units "milliwatts";
              mandatory true;
              description
-               "The upper limit on the Power of this Energy Object that
-                is currently enforced: the Energy Object does not draw
-                more Power than this limit, whether or not the cap is
-                constraining it at this time (see 'limiting'). It
-                differs from the requested limit when the requested
+               "The upper limit on the Power that this Energy Object
+                receives, currently enforced: the Energy Object does
+                not draw more Power than this limit, whether or not the
+                cap is constraining it at this time (see 'limiting').
+                It differs from the requested limit when the requested
                 limit is outside the range that the Energy Object
                 supports.";
            }
@@ -970,28 +1004,27 @@ Table of Contents
          description
            "Container for Energy measurement attributes.";
 
-         leaf total-energy-consumed {
+         leaf total-energy-received {
            type uint64;
            units "milliwatt-hours";
            description
-            "The total cumulative Energy consumed by the Energy
-             Object since the last reset. This value is specified as
-             milliwatt-hours (mWh). This value is useful for tracking
-             overall Energy usage over time for billing, reporting,
-             or optimization purposes.";
+             "The total cumulative Energy received by the Energy
+              Object since the last reset, in the same direction as
+              instantaneous-power-received. This value is useful for
+              tracking overall Energy usage over time for billing,
+              reporting, or optimization purposes.";
          }
 
-         leaf total-energy-delivered {
+         leaf total-energy-provided {
            type uint64;
            units "milliwatt-hours";
            description
-            "The total cumulative Energy delivered by the Energy
-             Object since the last reset. This value is specified as
-             milliwatt-hours (mWh). This value is relevant for Energy
-             Objects capable of generating Power, such as those with
-             renewable energy sources or battery backup systems, or
-             capable of providing Energy to other Energy Objects
-             (e.g., PoE switches).";
+             "The total cumulative Energy provided by the Energy
+              Object to other Energy Objects since the last reset, in
+              the same direction as instantaneous-power-provided.
+              This value is relevant for Energy Objects that provide
+              Energy, such as power supplies, PoE switches,
+              batteries, or renewable energy sources.";
          }
          leaf data-source-accuracy {
            type identityref {
@@ -1216,7 +1249,7 @@ Table of Contents
                units "milliwatts";
                description
                  "The administratively requested upper limit on the
-                  Power that this Energy Object may consume. The device
+                  Power that this Energy Object may receive. The device
                   enforces it by adjusting the operation of the Energy
                   Object, for example by lowering its clock frequency.
                   Absence of a configured value means that no cap is
@@ -1361,9 +1394,9 @@ Table of Contents
    and Energy aggregation.  Operators must use the data-source-accuracy
    identities (e.g., accuracy-measured-bronze vs. accuracy-estimated) to
    weight data reliability carefully before aggregating Power
-   (instantaneous-power) and Energy (total-energy-consumed and/or total-
-   energy-delivered) values to avoid skewing Device Level Energy
-   Efficiency (DLEE) metrics.
+   (instantaneous-power-received and instantaneous-power-provided) and
+   Energy (total-energy-received and total-energy-provided) values to
+   avoid skewing Device Level Energy Efficiency (DLEE) metrics.
 
    Operators might not always be interested in the accuracy of
    individual Components; what matters is the accuracy at the device or
