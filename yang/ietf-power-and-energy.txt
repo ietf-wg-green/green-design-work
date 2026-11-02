@@ -9,6 +9,9 @@ module: ietf-power-and-energy
   |     |  +--ro data-source-accuracy?   identityref
   |     |  +--ro power-factor?           power-factor
   |     |  +--ro measurement-local?      boolean
+  |     |  +--ro power-cap!
+  |     |     +--ro limit       uint64
+  |     |     +--ro limiting?   boolean
   |     +--ro energy
   |     |  +--ro total-energy-consumed?    uint64
   |     |  +--ro total-energy-delivered?   uint64
@@ -27,7 +30,9 @@ module: ietf-power-and-energy
         +--rw energy-object* [id]
            +--rw id             -> /energy-objects/energy-object/id
            +--rw power-state
-              +--rw admin?   identityref
-              +--rw oper?
-                      -> /energy-objects/energy-object
-                         /power-state/oper
+           |  +--rw admin?   identityref
+           |  +--rw oper?
+           |          -> /energy-objects/energy-object
+           |             /power-state/oper
+           +--rw power-cap
+              +--rw limit?   uint64
