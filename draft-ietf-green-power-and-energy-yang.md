@@ -228,11 +228,13 @@ while discharging. The state of a battery, such as its charge and
 capacity, is out of scope of this document; it is covered by the
 Battery MIB {{?RFC7577}}. For Power over Ethernet, the Power provided
 by a switch is measured at its PoE ports, and the Power received by a
-powered device at its own Power Inlet; the difference is the loss in
-the cable. The net Power of an Energy Object is its received
-Power minus its provided Power, so that Power passed from one Energy
-Object to another is not counted twice when the net Power of several
-Energy Objects is summed. An example is given in {{psu-example}}.
+powered device at its own Power Inlet; the difference is dissipated
+mainly in the cable and connectors.
+
+The net Power of an Energy Object is its received Power
+minus its provided Power, so that Power passed from one Energy Object
+to another is not counted twice when the net Power of several Energy
+Objects is summed. An example is given in {{psu-example}}.
 
 A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
