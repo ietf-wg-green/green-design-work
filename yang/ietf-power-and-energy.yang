@@ -461,7 +461,8 @@ module ietf-power-and-energy {
            summed over all its Power Inlets. It includes the Power
            that the Energy Object uses itself and the Power that it
            converts, passes on, or stores, for example in a power
-           supply or a charging battery.";
+           supply or a charging battery. If the device can measure
+           this value, it MUST report it.";
       }
 
       leaf instantaneous-power-provided {
@@ -474,7 +475,10 @@ module ietf-power-and-energy {
            for example the output of a power supply, Power over
            Ethernet, or a discharging battery. The difference
            between the received and the provided Power is the
-           Power that the Energy Object dissipates or stores.";
+           Power that the Energy Object dissipates or stores. An
+           Energy Object without Power Outlets does not report this
+           leaf; otherwise, if the device can measure this value,
+           it MUST report it.";
       }
       
       leaf nameplate-power {
@@ -596,7 +600,8 @@ module ietf-power-and-energy {
            Object since the last reset, in the same direction as
            instantaneous-power-received. This value is useful for
            tracking overall Energy usage over time for billing,
-           reporting, or optimization purposes.";
+           reporting, or optimization purposes. If the device can
+           measure this value, it MUST report it.";
       }
 
       leaf total-energy-provided {
@@ -608,7 +613,10 @@ module ietf-power-and-energy {
            the same direction as instantaneous-power-provided.
            This value is relevant for Energy Objects that provide
            Energy, such as power supplies, PoE switches,
-           batteries, or renewable energy sources.";
+           batteries, or renewable energy sources. An Energy Object
+           without Power Outlets does not report this leaf;
+           otherwise, if the device can measure this value, it MUST
+           report it.";
       }
       leaf data-source-accuracy {
         type identityref {
