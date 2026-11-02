@@ -417,10 +417,20 @@ Efficiency (DLEE) metrics.
 Operators might not always be interested in the accuracy of individual
 Components; what matters is the accuracy at the device or domain
 level. The accuracy-like-parent identity is introduced for this
-purpose. From an implementation point of view, to facilitate data
-collection and aggregation at runtime and to avoid post-aggregation
-data confidence interval issues, operators and implementers should use
-the accuracy-like-parent identity as much as possible.
+purpose. The parent Energy Object is determined by the containment
+tree {{RFC6933}}, which ietf-hardware {{RFC8348}} represents with the
+parent leaf: starting from the Component of an Energy Object and
+following the parent leaf up the containment tree towards the root,
+the first Component that has an Energy Object provides the parent
+Energy Object. The Energy Object at the top of the containment tree
+has no parent, so its accuracy should be reported explicitly. A module
+that reuses the power-values or energy-values groupings outside a
+device, such as a controller-side module, can refine the default of
+data-source-accuracy, for example to accuracy-unknown. From an
+implementation point of view, to facilitate data collection and
+aggregation at runtime and to avoid post-aggregation data confidence
+interval issues, operators and implementers should use the
+accuracy-like-parent identity as much as possible.
 
 YANG Push support eliminates device-side bucket storage by streaming
 Energy telemetry directly to controller-side via subscriptions.

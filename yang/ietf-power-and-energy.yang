@@ -161,10 +161,20 @@ module ietf-power-and-energy {
   identity accuracy-like-parent {
     base data-source-accuracy;
     description
-      "The accuracy of the Power/Energy data is the same as this 
-       Energy Object's parent object. This identity is useful for 
-       hierarchical Energy Objects where child objects inherit the 
-       accuracy characteristics.";
+      "The accuracy of the Power or Energy data is the same as the
+       accuracy of the same data for the parent Energy Object. The
+       parent Energy Object is found by following the 'parent' leaf
+       of ietf-hardware up the containment tree towards the root,
+       starting from the Component that this Energy Object
+       describes (see source-component-id): it is the Energy Object
+       of the first Component found that has one. This identity is
+       useful for hierarchical Energy Objects where child objects
+       inherit the accuracy characteristics. If there is no parent
+       Energy Object, the accuracy is unknown, as for
+       accuracy-unknown.";
+    reference
+      "RFC 8348: A YANG Data Model for Hardware Management
+       RFC 6933: Entity MIB (Version 4)";
   }
   identity accuracy-estimated {
     base data-source-accuracy;
@@ -477,15 +487,20 @@ module ietf-power-and-energy {
         }
         default accuracy-like-parent;
         description
-          "The accuracy of the Power data source. Indicates 
-           whether the data source is a direct measurement, an 
-           estimate, or unavailable and also the accuracy level of 
-           the data source. By default, the accuracy is inherited 
-           from the parent Energy Object, facilitating 
-           hierarchical accuracy definitions without the need to 
-           specify accuracy at every level. This metadata is 
-           crucial for network management applications to assess 
-           the reliability and accuracy of the Power data.";
+          "The accuracy of the Power data source. Indicates
+           whether the data source is a direct measurement, an
+           estimate, or unavailable and also the accuracy level of
+           the data source. By default, the accuracy is inherited
+           from the parent Energy Object (see accuracy-like-parent),
+           facilitating hierarchical accuracy definitions without
+           the need to specify accuracy at every level. An Energy
+           Object without a parent Energy Object, such as the one
+           at the top of the containment tree, SHOULD report this
+           leaf explicitly. A module that reuses this grouping
+           outside a device can refine the default, for example to
+           accuracy-unknown. This metadata is crucial for network
+           management applications to assess the reliability and
+           accuracy of the Power data.";
       }
       
       leaf power-factor {
@@ -585,15 +600,19 @@ module ietf-power-and-energy {
         }
         default accuracy-like-parent;
         description
-          "The accuracy of the Energy data source. Indicates 
-           whether the data source is a direct measurement, 
-           an estimate, or unavailable and also the accuracy 
-           level of the data source. 
-           By default, the accuracy is inherited from the parent 
-           Energy Object, facilitating hierarchical accuracy 
-           definitions without the need to specify accuracy at 
-           every level. This metadata is crucial for network 
-           management applications to assess the reliability and 
+          "The accuracy of the Energy data source. Indicates
+           whether the data source is a direct measurement, an
+           estimate, or unavailable and also the accuracy level of
+           the data source. By default, the accuracy is inherited
+           from the parent Energy Object (see accuracy-like-parent),
+           facilitating hierarchical accuracy definitions without
+           the need to specify accuracy at every level. An Energy
+           Object without a parent Energy Object, such as the one
+           at the top of the containment tree, SHOULD report this
+           leaf explicitly. A module that reuses this grouping
+           outside a device can refine the default, for example to
+           accuracy-unknown. This metadata is crucial for network
+           management applications to assess the reliability and
            accuracy of the Energy data.";
       }
       leaf measurement-local {
