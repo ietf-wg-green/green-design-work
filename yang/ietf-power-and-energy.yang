@@ -509,11 +509,11 @@ module ietf-power-and-energy {
       }
       container power-cap {
         presence
-          "A Power cap is enforced for this Energy Object. When this
+          "A Power Cap is enforced for this Energy Object. When this
            container is absent, no cap is enforced and the Nameplate
            Power is the upper limit.";
         description
-          "Container for the Power cap in effect for this Energy
+          "Container for the Power Cap in effect for this Energy
            Object.";
         leaf limit {
           type uint64;
@@ -792,7 +792,7 @@ module ietf-power-and-energy {
 
         container power-cap {
           description
-            "Container for the Power cap of this Energy Object.";
+            "Container for the Power Cap of this Energy Object.";
           leaf limit {
             type uint64;
             units "milliwatts";

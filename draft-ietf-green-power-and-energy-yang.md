@@ -169,6 +169,15 @@ The terms reused from {{!I-D.ietf-green-terminology}} and
 {{?I-D.ietf-green-framework}} are capitalized in this
 specification.
 
+This document defines the following term, which is also capitalized:
+
+Power Cap:
+: An upper limit on the Power of an Energy Object, set by an
+  administrator or a controller and enforced by the device, for
+  example by reducing the clock frequency of a Component. Unlike the
+  Nameplate Power, which is a fixed design value, a Power Cap can
+  change during operation.
+
 This document uses the terms Power and Energy in accordance with
 {{!I-D.ietf-green-terminology}}. Power refers to the instantaneous
 rate at which a device consumes or produces electrical energy
@@ -218,9 +227,9 @@ view of the intent. For this reason, although an NMDA
 "state" leaf (per {{?RFC8342}}) was considered, it is not adopted in
 this document.
 
-The model also allows an administrator or controller to request an
-upper limit on the Power that an Energy Object may consume, for
-example to cap the Power of a GPU in a cluster. The requested limit is
+The model also allows an administrator or controller to request a
+Power Cap on an Energy Object, for example to cap the Power of a GPU
+in a cluster. The requested limit is
 configured in the power-cap container in /energy-control. The device
 enforces the requested limit, or the closest value that the Energy
 Object supports, and reports the limit in effect in the power-cap
@@ -228,7 +237,7 @@ container of the Power attributes in /energy-objects. Discovering the
 range of limits that an Energy Object supports is out of scope of this
 document.
 
-The existence of a cap and its effect are reported separately. The
+The existence of a Power Cap and its effect are reported separately. The
 power-cap container in /energy-objects is present only while a cap is
 enforced, and the Energy Object then does not draw more Power than the
 enforced limit. The limiting leaf indicates whether the cap is
@@ -613,7 +622,7 @@ protection can have a negative effect on network operations:
 
 - /energy-control/energy-objects/energy-object/power-cap/limit:
   Unauthorized write access to this leaf allows an attacker to set a
-  very low Power cap on an Energy Object, degrading or disrupting its
+  very low Power Cap on an Energy Object, degrading or disrupting its
   operation (resulting in denial of service), or to remove a cap that
   protects the power budget of a site. Access to this data node SHOULD
   be limited to authorized administrators via NACM.
