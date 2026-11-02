@@ -13,15 +13,24 @@ module ietf-power-and-energy {
   import iana-power-and-energy {
     prefix ianaeo;
     reference
-      "RFC XXX: Power and Energy YANG Module";
+      "RFC XXXX: Power and Energy YANG Module";
   }
 
   organization
     "IETF GREEN Working Group";
   
   contact
-    "WG Web: <https://datatracker.ietf.org/wg/green/>
-     WG List: <mailto:green@ietf.org>";
+    "WG Web:  <https://datatracker.ietf.org/wg/green/>
+     WG List: <mailto:green@ietf.org>
+
+     Author:  Benoit Claise
+              <mailto:benoit@everything-ops.net>
+     Author:  Gen Chen
+              <mailto:chengen@huawei.com>
+     Author:  Marisol Palmero
+              <mailto:marisol.ietf@gmail.com>
+     Author:  Jan Lindblad
+              <mailto:jan.lindblad@for.eco>";
      
      
   
@@ -51,15 +60,15 @@ module ietf-power-and-energy {
      Relating to IETF Documents
      (https://trustee.ietf.org/license-info).
 
-     This version of this YANG module is part of RFC XXX
-     (https://www.rfc-editor.org/info/rfcXXX); see the RFC itself
+     This version of this YANG module is part of RFC XXXX
+     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
      for full legal notices.";
 
   revision 2026-11-01 {
     description
       "Initial revision";
     reference
-      "RFC XXX: Power and Energy YANG Module";
+      "RFC XXXX: Power and Energy YANG Module";
   }
   
   identity data-source-accuracy {
@@ -498,6 +507,40 @@ module ietf-power-and-energy {
            This information can be useful for troubleshooting and 
            understanding the data source.";
       }
+      container power-cap {
+        presence
+          "A Power cap is enforced for this Energy Object. When this
+           container is absent, no cap is enforced and the Nameplate
+           Power is the upper limit.";
+        description
+          "Container for the Power cap in effect for this Energy
+           Object.";
+        leaf limit {
+          type uint64;
+          units "milliwatts";
+          mandatory true;
+          description
+            "The upper limit on the Power of this Energy Object that
+             is currently enforced: the Energy Object does not draw
+             more Power than this limit, whether or not the cap is
+             constraining it at this time (see 'limiting'). It
+             differs from the requested limit when the requested
+             limit is outside the range that the Energy Object
+             supports.";
+        }
+        leaf limiting {
+          type boolean;
+          description
+            "True if the cap is currently constraining the Energy
+             Object: without the cap, it would draw more Power than
+             the limit, so its operation (for example, its clock
+             frequency) is reduced to stay within the limit. False
+             if the Energy Object would not draw more Power than the
+             limit even without the cap, so the cap has no effect
+             at this time. Absent if the device cannot determine
+             whether the cap is constraining the Energy Object.";
+        }
+      }
     }
   }
   
@@ -744,6 +787,26 @@ module ietf-power-and-energy {
                as reported by the device. 
                References the corresponding operational Energy Object 
                instance in the monitoring tree.";
+          }
+        }
+
+        container power-cap {
+          description
+            "Container for the Power cap of this Energy Object.";
+          leaf limit {
+            type uint64;
+            units "milliwatts";
+            description
+              "The administratively requested upper limit on the
+               Power that this Energy Object may consume. The device
+               enforces it by adjusting the operation of the Energy
+               Object, for example by lowering its clock frequency.
+               Absence of a configured value means that no cap is
+               requested. If the requested limit is outside the
+               range that the Energy Object supports, the device
+               enforces the closest supported value, which is
+               reported in the power-cap container in
+               /energy-objects.";
           }
         }
       }

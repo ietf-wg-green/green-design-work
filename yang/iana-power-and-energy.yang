@@ -51,7 +51,7 @@ module iana-power-and-energy {
     description
       "Initial revision.";
     reference
-      "RFC XXX: Power and Energy YANG Module";
+      "RFC XXXX: Power and Energy YANG Module";
   }
 
   identity certification-type {
