@@ -890,6 +890,7 @@ Table of Contents
          leaf instantaneous-power-provided {
            type uint64;
            units "milliwatts";
+           mandatory false;
            description
              "The Power that the Energy Object provides right now to
               other Energy Objects, summed over all its Power Outlets,
@@ -934,9 +935,12 @@ Table of Contents
               at the top of the containment tree, SHOULD report this
               leaf explicitly. A module that reuses this grouping
               outside a device can refine the default, for example to
-              accuracy-unknown. This metadata is crucial for network
-              management applications to assess the reliability and
-              accuracy of the Power data.";
+              accuracy-unknown. It applies to both the received and the
+              provided Power; when their accuracy differs, it reports
+              the accuracy of the less accurate of the two. This
+              metadata is crucial for network management applications
+              to assess the reliability and accuracy of the Power
+              data.";
          }
 
          leaf power-factor {
@@ -1046,9 +1050,12 @@ Table of Contents
               at the top of the containment tree, SHOULD report this
               leaf explicitly. A module that reuses this grouping
               outside a device can refine the default, for example to
-              accuracy-unknown. This metadata is crucial for network
-              management applications to assess the reliability and
-              accuracy of the Energy data.";
+              accuracy-unknown. It applies to both the received and the
+              provided Energy; when their accuracy differs, it reports
+              the accuracy of the less accurate of the two. This
+              metadata is crucial for network management applications
+              to assess the reliability and accuracy of the Energy
+              data.";
          }
          leaf measurement-local {
            type boolean;
@@ -1401,6 +1408,33 @@ Table of Contents
    Energy (total-energy-received and total-energy-provided) values to
    avoid skewing Device Level Energy Efficiency (DLEE) metrics.
 
+   The device reports the Power and Energy that each Energy Object
+   receives and provides, not a single consumption value.  The
+   consumption of an Energy Object is its net value, received minus
+   provided, which a management system or a controller computes when
+   needed.  For a power supply, this net value is its loss (see
+   Appendix A).
+
+   For implementers familiar with [RFC7460], the following table maps
+   its Power and Energy objects to this module.  The values in [RFC7460]
+   are scaled by a unit multiplier, while this module uses fixed units,
+   and the Energy objects of [RFC7460] cover a configured interval,
+   while the Energy counters of this module are cumulative since the
+   last reset.
+
+         +==================+====================================+
+         | RFC 7460 object  | This module                        |
+         +==================+====================================+
+         | eoPower          | instantaneous-power-received minus |
+         |                  | instantaneous-power-provided       |
+         +------------------+------------------------------------+
+         | eoEnergyConsumed | total-energy-received              |
+         +------------------+------------------------------------+
+         | eoEnergyProvided | total-energy-provided              |
+         +------------------+------------------------------------+
+
+           Table 1: Mapping of RFC 7460 Power and Energy Objects
+
    Operators might not always be interested in the accuracy of
    individual Components; what matters is the accuracy at the device or
    domain level.  The accuracy-like-parent identity is introduced for
@@ -1698,7 +1732,7 @@ Table of Contents
     | XML        | N/A; the requested URI is an XML namespace.       |
     +------------+---------------------------------------------------+
 
-            Table 1: IETF URI Registry: ietf-power-and-energy
+            Table 2: IETF URI Registry: ietf-power-and-energy
 
     +============+===================================================+
     | Field      | Value                                             |
@@ -1711,7 +1745,7 @@ Table of Contents
     | XML        | N/A; the requested URI is an XML namespace.       |
     +------------+---------------------------------------------------+
 
-            Table 2: IETF URI Registry: iana-power-and-energy
+            Table 3: IETF URI Registry: iana-power-and-energy
 
    IANA is also requested to register the following YANG modules in the
    "YANG Module Names" registry [RFC6020] [RFC9890] within the "YANG
@@ -1732,7 +1766,7 @@ Table of Contents
     | Reference  | RFC XXXX                                          |
     +------------+---------------------------------------------------+
 
-      Table 3: IETF YANG Module Name Registry: ietf-power-and-energy
+      Table 4: IETF YANG Module Name Registry: ietf-power-and-energy
 
     +============+===================================================+
     | Field      | Value                                             |
@@ -1749,7 +1783,7 @@ Table of Contents
     | Reference  | RFC XXXX                                          |
     +------------+---------------------------------------------------+
 
-      Table 4: IETF YANG Module Name Registry: iana-power-and-energy
+      Table 5: IETF YANG Module Name Registry: iana-power-and-energy
 
 9.2.  Accelerator Hardware Class
 
@@ -1803,7 +1837,7 @@ Table of Contents
     | Available Values       | Unqualified identity names as strings |
     +------------------------+---------------------------------------+
 
-       Table 5: IETF Power and Energy Certification Types Registry
+       Table 6: IETF Power and Energy Certification Types Registry
 
    +=================+====================================+===========+
    | Identity Name   | Description                        | Reference |
@@ -1825,7 +1859,7 @@ Table of Contents
    |                 | energy efficiency                  |           |
    +-----------------+------------------------------------+-----------+
 
-                       Table 6: Initial Registries
+                       Table 7: Initial Registries
 
    New entries to "Power and Energy Certification Types" registry
    require Expert Review [RFC8126].  The Designated Expert(s) should

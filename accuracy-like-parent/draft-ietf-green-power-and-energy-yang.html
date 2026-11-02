@@ -2062,6 +2062,7 @@ module ietf-power-and-energy {
       leaf instantaneous-power-provided {
         type uint64;
         units "milliwatts";
+        mandatory false;
         description
           "The Power that the Energy Object provides right now to
            other Energy Objects, summed over all its Power Outlets,
@@ -2106,9 +2107,12 @@ module ietf-power-and-energy {
            at the top of the containment tree, SHOULD report this
            leaf explicitly. A module that reuses this grouping
            outside a device can refine the default, for example to
-           accuracy-unknown. This metadata is crucial for network
-           management applications to assess the reliability and
-           accuracy of the Power data.";
+           accuracy-unknown. It applies to both the received and the
+           provided Power; when their accuracy differs, it reports
+           the accuracy of the less accurate of the two. This
+           metadata is crucial for network management applications
+           to assess the reliability and accuracy of the Power
+           data.";
       }
 
       leaf power-factor {
@@ -2218,9 +2222,12 @@ module ietf-power-and-energy {
            at the top of the containment tree, SHOULD report this
            leaf explicitly. A module that reuses this grouping
            outside a device can refine the default, for example to
-           accuracy-unknown. This metadata is crucial for network
-           management applications to assess the reliability and
-           accuracy of the Energy data.";
+           accuracy-unknown. It applies to both the received and the
+           provided Energy; when their accuracy differs, it reports
+           the accuracy of the less accurate of the two. This
+           metadata is crucial for network management applications
+           to assess the reliability and accuracy of the Energy
+           data.";
       }
       leaf measurement-local {
         type boolean;
@@ -2582,7 +2589,44 @@ weight data reliability carefully before aggregating Power
 (instantaneous-power-received and instantaneous-power-provided) and
 Energy (total-energy-received and total-energy-provided) values to
 avoid skewing Device Level Energy Efficiency (DLEE) metrics.<a href="#section-7-1" class="pilcrow">¶</a></p>
-<p id="section-7-2">Operators might not always be interested in the accuracy of individual
+<p id="section-7-2">The device reports the Power and Energy that each Energy Object
+receives and provides, not a single consumption value. The consumption
+of an Energy Object is its net value, received minus provided, which a
+management system or a controller computes when needed. For a power
+supply, this net value is its loss (see <a href="#psu-example" class="auto internal xref">Appendix A</a>).<a href="#section-7-2" class="pilcrow">¶</a></p>
+<p id="section-7-3">For implementers familiar with <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span>, the following table maps
+its Power and Energy objects to this module. The values in <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span>
+are scaled by a unit multiplier, while this module uses fixed units,
+and the Energy objects of <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span> cover a configured interval,
+while the Energy counters of this module are cumulative since the
+last reset.<a href="#section-7-3" class="pilcrow">¶</a></p>
+<span id="name-mapping-of-rfc-7460-power-a"></span><table class="center" id="table-1">
+        <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-mapping-of-rfc-7460-power-a" class="selfRef">Mapping of RFC 7460 Power and Energy Objects</a>
+        </caption>
+<thead>
+          <tr>
+            <th class="text-left" rowspan="1" colspan="1">RFC 7460 object</th>
+            <th class="text-left" rowspan="1" colspan="1">This module</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">eoPower</td>
+            <td class="text-left" rowspan="1" colspan="1">instantaneous-power-received minus instantaneous-power-provided</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">eoEnergyConsumed</td>
+            <td class="text-left" rowspan="1" colspan="1">total-energy-received</td>
+          </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">eoEnergyProvided</td>
+            <td class="text-left" rowspan="1" colspan="1">total-energy-provided</td>
+          </tr>
+        </tbody>
+      </table>
+<p id="section-7-5">Operators might not always be interested in the accuracy of individual
 Components; what matters is the accuracy at the device or domain
 level. The accuracy-like-parent identity is introduced for this
 purpose. The parent Energy Object is determined by the containment
@@ -2598,13 +2642,13 @@ data-source-accuracy, for example to accuracy-unknown. From an
 implementation point of view, to facilitate data collection and
 aggregation at runtime and to avoid post-aggregation data confidence
 interval issues, operators and implementers should use the
-accuracy-like-parent identity as much as possible.<a href="#section-7-2" class="pilcrow">¶</a></p>
-<p id="section-7-3">YANG Push support eliminates device-side bucket storage by streaming
+accuracy-like-parent identity as much as possible.<a href="#section-7-5" class="pilcrow">¶</a></p>
+<p id="section-7-6">YANG Push support eliminates device-side bucket storage by streaming
 Energy telemetry directly to controller-side via subscriptions.
 Operators must verify the 'yang-push' bundle is enabled and validate
 push-max-operational limits accommodate all Component subscriptions,
 preventing notification flooding while avoiding memory overhead on the
-device.<a href="#section-7-3" class="pilcrow">¶</a></p>
+device.<a href="#section-7-6" class="pilcrow">¶</a></p>
 <div id="hardware-component-identification">
 <section id="section-7.1">
         <h3 id="name-hardware-component-identifi">
@@ -2929,9 +2973,9 @@ notifications.<a href="#section-8-8" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-9.1-1">IANA is requested to register the following URIs in the "IETF XML
 Registry" <span>[<a href="#RFC3688" class="cite xref">RFC3688</a>]</span>.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
-<span id="name-ietf-uri-registry-ietf-powe"></span><table class="center" id="table-1">
+<span id="name-ietf-uri-registry-ietf-powe"></span><table class="center" id="table-2">
           <caption>
-<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#table-2" class="selfRef">Table 2</a>:
 <a href="#name-ietf-uri-registry-ietf-powe" class="selfRef">IETF URI Registry: ietf-power-and-energy</a>
           </caption>
 <thead>
@@ -2955,9 +2999,9 @@ Registry" <span>[<a href="#RFC3688" class="cite xref">RFC3688</a>]</span>.<a hre
             </tr>
           </tbody>
         </table>
-<span id="name-ietf-uri-registry-iana-powe"></span><table class="center" id="table-2">
+<span id="name-ietf-uri-registry-iana-powe"></span><table class="center" id="table-3">
           <caption>
-<a href="#table-2" class="selfRef">Table 2</a>:
+<a href="#table-3" class="selfRef">Table 3</a>:
 <a href="#name-ietf-uri-registry-iana-powe" class="selfRef">IETF URI Registry: iana-power-and-energy</a>
           </caption>
 <thead>
@@ -2984,9 +3028,9 @@ Registry" <span>[<a href="#RFC3688" class="cite xref">RFC3688</a>]</span>.<a hre
 <p id="section-9.1-4">IANA is also requested to register the following YANG modules in the
 "YANG Module Names" registry <span>[<a href="#RFC6020" class="cite xref">RFC6020</a>]</span> <span>[<a href="#RFC9890" class="cite xref">RFC9890</a>]</span> within the "YANG
 Parameters" registry group.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
-<span id="name-ietf-yang-module-name-regis"></span><table class="center" id="table-3">
+<span id="name-ietf-yang-module-name-regis"></span><table class="center" id="table-4">
           <caption>
-<a href="#table-3" class="selfRef">Table 3</a>:
+<a href="#table-4" class="selfRef">Table 4</a>:
 <a href="#name-ietf-yang-module-name-regis" class="selfRef">IETF YANG Module Name Registry: ietf-power-and-energy</a>
           </caption>
 <thead>
@@ -3018,9 +3062,9 @@ Parameters" registry group.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
             </tr>
           </tbody>
         </table>
-<span id="name-ietf-yang-module-name-regist"></span><table class="center" id="table-4">
+<span id="name-ietf-yang-module-name-regist"></span><table class="center" id="table-5">
           <caption>
-<a href="#table-4" class="selfRef">Table 4</a>:
+<a href="#table-5" class="selfRef">Table 5</a>:
 <a href="#name-ietf-yang-module-name-regist" class="selfRef">IETF YANG Module Name Registry: iana-power-and-energy</a>
           </caption>
 <thead>
@@ -3104,9 +3148,9 @@ efficiency certification types, for use as identityref values in
 unqualified identity name (e.g., energy-star or c80-plus). No
 numeric code points are assigned by this registry. Registry Template is
 as follows.<a href="#section-9.3-2" class="pilcrow">¶</a></p>
-<span id="name-ietf-power-and-energy-certi"></span><table class="center" id="table-5">
+<span id="name-ietf-power-and-energy-certi"></span><table class="center" id="table-6">
           <caption>
-<a href="#table-5" class="selfRef">Table 5</a>:
+<a href="#table-6" class="selfRef">Table 6</a>:
 <a href="#name-ietf-power-and-energy-certi" class="selfRef">IETF Power and Energy Certification Types Registry</a>
           </caption>
 <thead>
@@ -3135,9 +3179,9 @@ as follows.<a href="#section-9.3-2" class="pilcrow">¶</a></p>
             </tr>
           </tbody>
         </table>
-<span id="name-initial-registries"></span><table class="center" id="table-6">
+<span id="name-initial-registries"></span><table class="center" id="table-7">
           <caption>
-<a href="#table-6" class="selfRef">Table 6</a>:
+<a href="#table-7" class="selfRef">Table 7</a>:
 <a href="#name-initial-registries" class="selfRef">Initial Registries</a>
           </caption>
 <thead>
