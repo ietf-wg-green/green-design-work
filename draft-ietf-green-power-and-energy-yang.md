@@ -224,10 +224,17 @@ non-zero at the same time: a power supply receives Power from its
 source and provides Power to the device, and the difference is its
 loss. The same Power Interface can act as a Power Inlet and a Power
 Outlet: a battery receives Power while charging and provides Power
-while discharging. The net Power of an Energy Object is its received
-Power minus its provided Power, so that Power passed from one Energy
-Object to another is not counted twice when the net Power of several
-Energy Objects is summed.
+while discharging. The state of a battery, such as its charge and
+capacity, is out of scope of this document; it is covered by the
+Battery MIB {{?RFC7577}}. For Power over Ethernet, the Power provided
+by a switch is measured at its PoE ports, and the Power received by a
+powered device at its own Power Inlet; the difference is dissipated
+mainly in the cable and connectors.
+
+The net Power of an Energy Object is its received Power
+minus its provided Power, so that Power passed from one Energy Object
+to another is not counted twice when the net Power of several Energy
+Objects is summed. An example is given in {{psu-example}}.
 
 A containment tree view of the Power and Energy Monitoring is presented.
 The model uses the admin and oper leaves within the power-state
@@ -379,8 +386,8 @@ The EMAN IETF Working Group
 Group that produced several RFCs in the domain of Power and
 Energy. The Working Group produced MIB modules for monitoring and
 control for Power and Energy, for the context information, for battery
-monitoring, and an extension to the ENTITY-MIB to add the UUID
-definition {{!RFC6933}}.
+monitoring {{?RFC7577}}, and an extension to the ENTITY-MIB to add the
+UUID definition {{!RFC6933}}.
 
 For various reasons, those MIB modules were not implemented by
 vendors.
@@ -626,8 +633,10 @@ Energy Object.
 
 Example: A power supply might have:
 
-- Certification: `c80-PLUS-Platinum`
-  (>=92% efficient at 50% load, independently verified)
+- Certification: `c80-plus`
+  (80 PLUS certified; at the Platinum level, >=92% efficient at 50%
+  load, independently verified. The identity does not convey the
+  level.)
 - Measurement Accuracy: `accuracy-measured-silver`
   (+/-10% sensor precision on real-time Power readings)
 
@@ -909,12 +918,10 @@ encoded as JSON strings.
         "id": "chassis",
         "source-component-id": "chassis",
         "power": {
-          "instantaneous-power-received": "376000",
-          "instantaneous-power-provided": "0"
+          "instantaneous-power-received": "376000"
         },
         "energy": {
-          "total-energy-received": "270720000",
-          "total-energy-provided": "0"
+          "total-energy-received": "270720000"
         },
         "relationship": [
           { "type": "powered-by",
