@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-01T02:52:01.261514+00:00",
+  "timestamp": "2026-11-03T04:17:34.867097+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -472,15 +472,15 @@
       "id": "I_kwDOP9HHVc8AAAABHpbbRg",
       "title": "instantaneous power as mandatory or optional?",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/57",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "From Tony Li\n\n2) Right now, we have the instantaneous power as mandatory.  How are people supposed to comply with that?  Put an active power meter on each and every component?  Many manufacturers will refuse for cost and space reasons.  I can see nameplate power as mandatory, but not instantaneous power.",
       "createdAt": "2026-07-04T07:55:09Z",
-      "updatedAt": "2026-09-02T08:58:51Z",
-      "closedAt": null,
+      "updatedAt": "2026-11-01T11:35:18Z",
+      "closedAt": "2026-11-01T11:35:18Z",
       "comments": [
         {
           "author": "bclaise",
@@ -496,15 +496,15 @@
       "id": "I_kwDOP9HHVc8AAAABHpce3w",
       "title": "The unit-multiplier is for BOTH total-energy-consumed and total-energy-delivered: right or wrong?",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/58",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "       module: ietf-power-and-energy\n         +--ro energy-objects\n         |  +--ro energy-entry* [object-id]\n         |     +--ro object-id              string\n         |     +--ro source-component-id?   -> /hw:hardware/component/name\n         |     +--ro power\n         |     |  +--ro instantaneous-power     int32\n         |     |  +--ro nameplate-power?        uint32\n         |     |  +--ro unit-multiplier         identityref\n         |     |  +--ro data-source-accuracy?   identityref\n         |     |  +--ro power-factor?           power-factor\n         |     |  +--ro measurement-local?      boolean\n         |     +--ro energy\n         |     |  +--ro total-energy-consumed?    uint64\n         |     |  +--ro total-energy-delivered?   uint64\n         |     |  +--ro unit-multiplier?          identityref\n         |     |  +--ro data-source-accuracy?     identityref\n         |     |  +--ro measurement-local?        boolean\n         |     |  +--ro certifications*           identityref\n\nThinking about which default values to apply, I stumbled upon this potentially new issue\n\n           leaf total-energy-consumed {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy consumed by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is useful for tracking\n               overall energy usage over time for billing, reporting,\n               or optimization purposes.\";\n           }\n\n           leaf total-energy-delivered {\n             type uint64;\n             units \"Watt-hours\";\n             description\n               \"The total cumulative energy delivered by the energy object\n               since the last reset. This value is specified as\n               watt-hours with the magnitude of watt-hours (milliwatt-hours,\n               kilowatt-hours, etc.) indicated separately as unit-multiplier\n               in this container. This value is relevant for energy objects\n               capable of generating power, such as those with renewable\n               energy sources or battery backup systems, or capable of providing\n               energy to other energy objects (e.g., PoE switches).\";\n           }\n           leaf unit-multiplier {\n             type identityref {\n               base unit-multiplier;\n             }\n             description\n               \"This multiplier applies to both total-energy-consumed\n                and total-energy-delivered values. It determines the scale\n                of the energy measurements, allowing representation of\n                energy values from milliwatt-hours to gigawatt-hours\n                using integer arithmetic.\";\n           }\n\nThe unit-multiplier is for BOTH total-energy-consumed and total-energy-delivered.\nWhat if the scale between the two is completely different?\n\nRegards, Benoit ",
       "createdAt": "2026-07-04T08:01:04Z",
-      "updatedAt": "2026-09-04T10:30:36Z",
-      "closedAt": null,
+      "updatedAt": "2026-11-01T20:13:49Z",
+      "closedAt": "2026-11-01T20:13:48Z",
       "comments": [
         {
           "author": "bclaise",
@@ -526,6 +526,13 @@
           "body": "removing unit-multiplier, from energy and power leafs, as per  Rob's proposal: \nOn 07/08/2026 11:51, Rob Wilton (rwilton) wrote:\n> Hi Benoit,\n>\n> My instinct is that having just one unit-multiplier is sufficient, \n> cleaner and simpler.\n>\n> However, after thinking about this a bit more (and quizzing an LLM), \n> what granularity is really needed?  I.e., would a 1mWh resolution be \n> sufficient?  If so, might it not just be easier to just have a uint64 \n> with units defined as milliwatt-Hours.  Given that this is a unit64, \n> it would effectively be able to hold \"58% of one year of global \n> electricity generation\".  I.e., sufficient I think \ud83d\ude09.\n>\n> Similarly, we could probably avoid the unit-multiplier in the power \n> model (with a maximum granularity of 1mW), although that may also mean \n> that we would need to move from a uint32 to a uint64.\n>\n> If you end up carrying the unit-multiplier then I think that you would \n> have some more complexity when trying to aggregate values together, \n> since I suspect that you would need to normalise them first.\n>\n> Kind regards,\n> Rob\n>\n>\nimplies that YANG needs to change:\n  >>>>>   leaf instantaneous-power {\n          type int32;\n          units \"Watts\";\n          mandatory true;\n          description\n            \"The power usage measurement for the energy object right \n             now. This value represents the instantaneous power \n             consumption of the component. This value is specified \n             in SI units of watts with the magnitude of watts \n             (milliwatts, kilowatts, etc.) indicated separately as \n             unit-multiplier in this container. Positive values \n             indicate power consumption, while negative values can \n             indicate power generation (e.g., for devices with \n             battery backup or renewable energy sources).\";\n        }\n    and nameplate:    \n        leaf nameplate-power {\n          type uint32;\n          units \"Watts\";\n          description\n            \"The nameplate power rating of an energy object. This is \n             the maximum power that the energy object is designed to \n             consume or produce, as specified by the manufacturer. \n             Essential for power budget calculations and capacity \n             planning.\";\n        }\n\nare we ok with \"Watts\" being the units by default? as it is 64 counters, it should it be mWatts?",
           "createdAt": "2026-09-04T10:30:36Z",
           "updatedAt": "2026-09-04T10:30:36Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Overtaken by events: -04 removed the unit-multiplier altogether, following Rob\u2019s proposal, as Marisol\u2019s last comment notes. Every leaf now has a fixed unit, and PR #81 makes the counters \u201cmilliwatt-hours\u201d.",
+          "createdAt": "2026-11-01T20:13:49Z",
+          "updatedAt": "2026-11-01T20:13:49Z"
         }
       ]
     },
@@ -610,7 +617,7 @@
       "id": "I_kwDOP9HHVc8AAAABJeFm1w",
       "title": "instantaneous-power YANG leaf must be uint32, as opposed to int32",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/67",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "bclaise",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -619,8 +626,8 @@
       "labels": [],
       "body": "Feedback from IETF 126 GREEN meeting",
       "createdAt": "2026-07-20T15:34:54Z",
-      "updatedAt": "2026-09-02T09:32:37Z",
-      "closedAt": null,
+      "updatedAt": "2026-11-02T16:52:42Z",
+      "closedAt": "2026-11-02T16:52:42Z",
       "comments": [
         {
           "author": "marisolpalmero",
@@ -847,15 +854,15 @@
       "id": "I_kwDOP9HHVc8AAAABYetcPA",
       "title": "Need to insert groupings to enable reusage from the controller side",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/78",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "williamchern",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The groupings may includes at least \n- power and energy values\n- power and energy relationships ",
       "createdAt": "2026-10-20T07:33:16Z",
-      "updatedAt": "2026-10-20T07:33:16Z",
-      "closedAt": null,
+      "updatedAt": "2026-11-02T02:36:30Z",
+      "closedAt": "2026-11-02T02:36:30Z",
       "comments": []
     },
     {
@@ -863,15 +870,15 @@
       "id": "I_kwDOP9HHVc8AAAABakwnVg",
       "title": "units mismatch within the description",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/80",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "units statement on the energy leaves in -04 says \u201cWatt-hours\u201d but the descriptions say \u201cmilliwatt-hours\u201d. That inconsistency should be corrected to units \"mWh\" (or units \"milliwatt-hours\")\n\n\n           leaf total-energy-consumed {\n             type uint64;\n             units \"Watt-hours\";\n             description\n              \"The total cumulative energy consumed by the energy\n               object since the last reset. This value is specified as\n               milliwatt-hours (mWh). This value is useful for tracking\n               overall energy usage over time for billing, reporting,\n               or optimization purposes.\";\n           }\n\n           leaf total-energy-delivered {\n             type uint64;\n             units \"Watt-hours\";\n             description\n              \"The total cumulative energy delivered by the energy\n               object since the last reset. This value is specified as\n               milliwatt-hours (mWh). This value is relevant for energy\n               objects capable of generating power, such as those with\n               renewable energy sources or battery backup systems, or\n               capable of providing energy to other energy objects\n               (e.g., PoE switches).\";",
       "createdAt": "2026-10-28T11:50:33Z",
-      "updatedAt": "2026-10-28T11:50:33Z",
-      "closedAt": null,
+      "updatedAt": "2026-11-02T02:36:31Z",
+      "closedAt": "2026-11-02T02:36:31Z",
       "comments": []
     }
   ],
@@ -916,7 +923,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-12-11T11:20:30Z",
-      "updatedAt": "2025-12-20T08:59:57Z",
+      "updatedAt": "2026-11-02T11:49:55Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "48abe91204ee94d1f8f856c60c0aa79c58a6785e",
@@ -942,7 +949,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-12-11T11:27:20Z",
-      "updatedAt": "2025-12-20T08:59:57Z",
+      "updatedAt": "2026-11-02T11:49:13Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "48abe91204ee94d1f8f856c60c0aa79c58a6785e",
@@ -1050,7 +1057,7 @@
       "labels": [],
       "body": "nit",
       "createdAt": "2026-01-22T08:40:43Z",
-      "updatedAt": "2026-01-23T03:07:30Z",
+      "updatedAt": "2026-11-02T11:47:38Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "7985c3f3d0b191337e7a7e46d3e3f6d3005ecb11",
@@ -1092,7 +1099,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2026-01-22T08:55:43Z",
-      "updatedAt": "2026-01-23T03:06:54Z",
+      "updatedAt": "2026-11-02T11:47:38Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "7985c3f3d0b191337e7a7e46d3e3f6d3005ecb11",
@@ -1154,7 +1161,7 @@
       "labels": [],
       "body": "\u2026nutes: GREEN light design team, Jan 22th 2026\"\r\n\r\nSee the email \"Meeting minutes: GREEN light design team, Jan 22th 2026\"",
       "createdAt": "2026-01-24T09:05:16Z",
-      "updatedAt": "2026-01-25T06:32:02Z",
+      "updatedAt": "2026-11-02T11:47:39Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "f108baf6ea8dd738a98b7a7dd5396bbdd183283b",
@@ -1182,7 +1189,7 @@
       "labels": [],
       "body": "OLD:\r\nmodule: ietf-power-and-energy\r\n  +--ro energy-objects\r\n     +--ro energy-entry* [object-id]\r\n        +--ro object-id              string\r\n        +--ro source-component-id?   -> /hw:hardware/component/name\r\n        +--ro power\r\n        |  +--ro current-power?          int32\r\n        |  +--ro nameplate-power?        uint32\r\n        |  +--ro unit-multiplier?        identityref\r\n        |  +--ro data-source-accuracy?   identityref\r\n        |  +--ro power-factor?           power-factor\r\n        |  +--ro measurement-local?      boolean\r\n        +--ro energy\r\n           +--ro total-energy-consumed?   uint64\r\n           +--ro total-energy-produced?   uint64\r\n           +--ro unit-multiplier?         identityref\r\n           +--ro data-source-accuracy?    identityref\r\n           +--ro measurement-local?       boolean\r\n\r\n\r\nNEW:\r\nmodule: ietf-power-and-energy\r\n  +--ro energy-objects\r\n     +--ro energy-entry* [object-id]\r\n        +--ro object-id              string\r\n        +--ro source-component-id?   -> /hw:hardware/component/name\r\n        +--ro power\r\n        |  +--ro current-power          int32\r\n        |  +--ro nameplate-power?        uint32\r\n        |  +--ro unit-multiplier        identityref\r\n        |  +--ro data-source-accuracy?   identityref\r\n        |  +--ro power-factor?           power-factor\r\n        |  +--ro measurement-local?      boolean\r\n        +--ro energy\r\n           +--ro total-energy-consumed?   uint64\r\n           +--ro total-energy-produced?   uint64\r\n           +--ro unit-multiplier?         identityref\r\n           +--ro data-source-accuracy?    identityref\r\n           +--ro measurement-local?       boolean",
       "createdAt": "2026-01-24T09:18:24Z",
-      "updatedAt": "2026-01-25T06:32:38Z",
+      "updatedAt": "2026-11-02T11:47:39Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "f108baf6ea8dd738a98b7a7dd5396bbdd183283b",
@@ -1300,7 +1307,7 @@
       "labels": [],
       "body": "No change of text content, just a location change",
       "createdAt": "2026-01-30T08:25:59Z",
-      "updatedAt": "2026-01-30T08:57:04Z",
+      "updatedAt": "2026-11-02T11:47:39Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "c9f20f874c393a0d494ecb09d706045021af7322",
@@ -1970,7 +1977,7 @@
       "labels": [],
       "body": "Clarified the differentiation between power-state-admin and power-state-oper YANG leaves, and explained the structure of the operational and configuration trees.",
       "createdAt": "2026-05-25T09:36:57Z",
-      "updatedAt": "2026-05-25T10:41:14Z",
+      "updatedAt": "2026-11-02T11:47:39Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "e949d521b5826d1a3c49ad51eb862c3cb7d8f151",
@@ -2944,7 +2951,7 @@
       "id": "PR_kwDOP9HHVc8AAAABJgCbsQ",
       "title": "Insert groupings for values and relationships",
       "url": "https://github.com/ietf-wg-green/green-design-work/pull/79",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "williamchern",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2953,17 +2960,19 @@
       "labels": [],
       "body": "Resolving #78 ",
       "createdAt": "2026-10-20T07:35:05Z",
-      "updatedAt": "2026-10-31T02:56:48Z",
+      "updatedAt": "2026-11-01T11:44:02Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "390871df504c9a36f9f7202d0da552f11a00a824",
       "headRepository": "ietf-wg-green/green-design-work",
       "headRefName": "genchen-patch-2",
       "headRefOid": "861445d4d726bfe3bf5096596a83fdc6a01d965d",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2026-11-01T11:31:23Z",
+      "mergedAt": "2026-11-01T11:31:23Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "95793f21d377e570319258df23feb135a9ba07da"
+      },
       "comments": [
         {
           "author": "bclaise",
@@ -2971,6 +2980,13 @@
           "body": "If someone wants the combined form, it can still exist on top:\r\n\r\n  grouping power-values {\r\n    container power { ... }\r\n  }\r\n\r\n  grouping energy-values {\r\n    container energy { ... }\r\n  }\r\n\r\n  ...\r\n\r\n\r\n  grouping power-and-energy-values {\r\n    uses power-values;\r\n    uses energy-values;\r\n  }",
           "createdAt": "2026-10-30T19:29:20Z",
           "updatedAt": "2026-10-30T19:29:20Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "made a mistake to merge without \"commit suggestion\". My bad. Let me try to fix that",
+          "createdAt": "2026-11-01T11:44:02Z",
+          "updatedAt": "2026-11-01T11:44:02Z"
         }
       ],
       "reviews": [
@@ -3062,6 +3078,431 @@
           ]
         }
       ]
+    },
+    {
+      "number": 81,
+      "id": "PR_kwDOP9HHVc8AAAABMGm5AQ",
+      "title": "Changes for -05: grouping split from GenChen, fixes, capitalization",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/81",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "I made a mistake with #79, which I corrected here (wanted to apply the dual grouping proposal by GenChen). Fixes #78\r\nAlso:\r\n- Fixes: energy-entry paths, references (RFC 9846, 3688, 6020, 9890), Terminology list, nameplate-power description, affiliation, revision dates\r\n- Capitalize the terms defined in green-terminology, in the prose and in both modules\r\n- Wrap YANG lines to 72 columns\r\n- Fix author initials (B. Claise, G. Chen)\r\n- Editorial fixes in the YANG modules\r\n- Capitalization convention sentence in the iana module\r\n- Fix the long lines and non-ASCII characters reported by idnits\r\n- Fix typo: millwatts. Fixes #80\r\n- Energy counters: units \u201cmilliwatt-hours\u201d (was \u201cWatt-hours\u201d, contradicting the descriptions); unit names in lowercase\r\n- Move certifications to the energy-object level, in its own grouping (schema change: .../energy/certifications becomes .../certifications). Certifications such as 80 PLUS describe the Energy Object itself, not an Energy measurement, and inside container energy they were lost to any module reusing only power-values.\r\n- Remove config false from the relationships grouping (no schema change)\r\n- Grouping descriptions no longer name a non-existent \u201ccontroller-side YANG module\u201d\r\n- Clarify the peer id description: the UUID is preferred; if it is not known, another identifier MAY be used, together with the details leaf\r\n- IANA table: c80-plus instead of 80plus (80plus is not a valid YANG identifier)\r\n- IANA table: add the missing cqc entry\r\n- Rename eu-energy-level and cn-energy-level to eu-energy-label and cn-energy-label, in the module and the IANA table\r\nAccuracy identities: \u201cPower or Energy data\u201d, since they qualify both the power and the energy containers\r\n- UUID uniqueness: use the RFC 9562 wording instead of \u201cglobally unique\u201d\r\n- Fix grammar in two accuracy identity descriptions\r\n- Proofreading: Abstract covers monitoring and control; Section 3 no longer says the model reports units; peer identifier text aligned with the module; Energy Efficiency back in the Terminology list\r\n- Proofreading: fix the accuracy example (16.25 W at +/-5% is 15.4375 W to 17.0625 W), threshold units for Power and Energy, nested accuracy class list, rfc8407bis is now RFC 9907, Acknowledgments\r\n- IANA: register the ietf-power-and-energy module too (namespace and YANG Module Names)",
+      "createdAt": "2026-11-01T12:12:36Z",
+      "updatedAt": "2026-11-02T11:47:40Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "95793f21d377e570319258df23feb135a9ba07da",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "draft-05",
+      "headRefOid": "c8c5d41938fd7a76ef9ea49aca2096f9a8b0208d",
+      "closedAt": "2026-11-02T02:36:28Z",
+      "mergedAt": "2026-11-02T02:36:28Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "bb4aaac38a5154bfb546a7951e1e0e84bd272df3"
+      },
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "nice work @bclaise ! Im good with the changes! Not sure if @williamchern would like to review before merging! ",
+          "createdAt": "2026-11-01T22:09:43Z",
+          "updatedAt": "2026-11-01T22:09:43Z"
+        },
+        {
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "body": "All looks perfect to me. Thanks.",
+          "createdAt": "2026-11-02T02:36:20Z",
+          "updatedAt": "2026-11-02T02:36:20Z"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "number": 82,
+      "id": "PR_kwDOP9HHVc8AAAABMSiEKw",
+      "title": "Add a power cap, an accelerator hardware class, and editorial fixes",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/82",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Power cap: requested limit in /energy-control (rw), enforced limit in /energy-objects (presence container with limit and the optional limiting leaf); principles in Section 3; Section 8 lists the new writable node.\n- IANA: request a new \"accelerator\" hardware class (GPU, TPU, NPU, FPGA card); RFC 6933 cited.\n- Contact statement per RFC 9907; RFC XXXX placeholders and a Note to the RFC Editor; Note to IANA lines removed.\n- Editorial: proofreading fixes, RFC 7460 reference, use cases cited by title, energy-control id guidance (require-instance false).",
+      "createdAt": "2026-11-02T11:40:34Z",
+      "updatedAt": "2026-11-03T03:57:24Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "bb4aaac38a5154bfb546a7951e1e0e84bd272df3",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "power-cap",
+      "headRefOid": "c12d9c246fec82a1bf63e215cc20a549a3076f11",
+      "closedAt": "2026-11-02T13:30:09Z",
+      "mergedAt": "2026-11-02T13:30:09Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "4ff92e3e63ad9c906bfcf628c51f75f3df76fea7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVedihw",
+          "commit": {
+            "abbreviatedOid": "34254a8"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T11:59:10Z",
+          "updatedAt": "2026-11-02T11:59:10Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "it is a bit distracting using \"P\", capital for Power here... I would change to power, with small letter, when talking generally about power consumption from the energy object, without considering the call out to specific YANG model. for Power Cap, I would use both capital, or just replaced it as it is called out in the model... \"power-cap\" YANG attribute directly.",
+              "createdAt": "2026-11-02T11:59:10Z",
+              "updatedAt": "2026-11-02T11:59:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVelGig",
+          "commit": {
+            "abbreviatedOid": "34254a8"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "just one comment on my side, thanks @bclaise ",
+          "createdAt": "2026-11-02T12:08:58Z",
+          "updatedAt": "2026-11-02T12:08:58Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVe82wQ",
+          "commit": {
+            "abbreviatedOid": "34254a8"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T12:42:21Z",
+          "updatedAt": "2026-11-02T12:42:21Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "I propose:\n- Power stays capitalized\n- \"Power Cap\" is now a defined term\n",
+              "createdAt": "2026-11-02T12:42:21Z",
+              "updatedAt": "2026-11-02T12:42:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVo2WLA",
+          "commit": {
+            "abbreviatedOid": "c12d9c2"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "It looks good to me. Thanks. My understanding is that the execution of power-cap is grounded in power-state capabilities: an operator sets a component's power ceiling based on its advertised capabilities, with power-cap/limit representing management intent and the capability maximum (e.g., max-power) representing the feasible bound\u2014is this the intended interpretation?\nIf so, I suggest that future revisions of the power-and-energy YANG model consider a reference (e.g., leafref) from power-cap/limit to the corresponding capability maximum (e.g., max-power), to formalize this intent\u2013capability linkage.",
+          "createdAt": "2026-11-03T03:57:24Z",
+          "updatedAt": "2026-11-03T03:57:24Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 83,
+      "id": "PR_kwDOP9HHVc8AAAABMT7F4A",
+      "title": "accuracy-like-parent, and Power and Energy per direction (received and provided)",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/83",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "* accuracy-like-parent: define the parent Energy Object (follow the ietf-hardware 'parent' leaf up the containment tree towards the root, RFC 6933 / RFC 8348). No parent Energy Object: the accuracy is unknown; the top of the tree SHOULD report data-source-accuracy explicitly; a module reusing the groupings can refine the default. Section 6 explains the same.\r\n* Power and Energy per direction, unsigned: instantaneous-power is replaced by instantaneous-power-received and instantaneous-power-provided; total-energy-consumed/-delivered are renamed total-energy-received/-provided. The direction follows the Power Inlets and Power Outlets of green-terminology, so a power supply and a battery can both be modeled (Section 3, Terminology list, Section 6, tree).\r\n* Consistency: the Power Cap limits the received Power; Power Cap is defined in this document (module description); the power factor is measured at the Power Inlets; units per leaf listed exactly; the EMAN section notes the change from the signed eoPower.\r\n* Appendix A: example of a 750 W power supply (JSON, RFC 7951), showing received and provided Power and Energy, loss, efficiency, and summed net Power. Nameplate Power of an Energy Object that provides Power (e.g., a power supply) is its rated provided Power.\r\n\r\nPart of #67",
+      "createdAt": "2026-11-02T13:32:50Z",
+      "updatedAt": "2026-11-02T16:02:28Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "4ff92e3e63ad9c906bfcf628c51f75f3df76fea7",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "accuracy-like-parent",
+      "headRefOid": "7942809968af107788b5bfd55178f14911b12429",
+      "closedAt": "2026-11-02T16:02:28Z",
+      "mergedAt": "2026-11-02T16:02:28Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "ebdba71ab5a93158c8fcdac1404104cf96a2dfc1"
+      },
+      "comments": [
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Im good with all the changes! thanks Benoit",
+          "createdAt": "2026-11-02T15:29:23Z",
+          "updatedAt": "2026-11-02T15:29:23Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVgkTQA",
+          "commit": {
+            "abbreviatedOid": "dd7b765"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T14:51:57Z",
+          "updatedAt": "2026-11-02T14:51:57Z",
+          "comments": [
+            {
+              "originalPosition": 144,
+              "body": "As the model is not talking about \"consumed\". Should be added something under Operational Considerations:  device\u2019s energy consumption is now received minus provided, and the consumer or the controller SHOULD compute it. This is a difference for a migration table from RFC 7460 (eoPower \u2192 received/provided, consumed \u2192 received, delivered \u2192 provided), would help implementers.",
+              "createdAt": "2026-11-02T14:51:57Z",
+              "updatedAt": "2026-11-02T14:51:57Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVglD6g",
+          "commit": {
+            "abbreviatedOid": "dd7b765"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T14:52:51Z",
+          "updatedAt": "2026-11-02T14:52:52Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "Single accuracy leaf for both directions. data-source-accuracy sits once under power, but received and provided power can have different accuracy, for example a measured input and an estimated output. Either say it applies to both, or say what an implementer should do when they differ?",
+              "createdAt": "2026-11-02T14:52:51Z",
+              "updatedAt": "2026-11-02T14:52:52Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVgmIbg",
+          "commit": {
+            "abbreviatedOid": "dd7b765"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T14:54:08Z",
+          "updatedAt": "2026-11-02T14:54:09Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "instantaneous-power-received has mandatory false, and -provided has no mandatory statement. Should they both the same?",
+              "createdAt": "2026-11-02T14:54:08Z",
+              "updatedAt": "2026-11-02T14:54:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVg9hkQ",
+          "commit": {
+            "abbreviatedOid": "dd7b765"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T15:19:21Z",
+          "updatedAt": "2026-11-02T15:19:22Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "@marisolpalmero I addressed this one with https://github.com/ietf-wg-green/green-design-work/pull/83/commits/7942809968af107788b5bfd55178f14911b12429",
+              "createdAt": "2026-11-02T15:19:22Z",
+              "updatedAt": "2026-11-02T15:19:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVg9jZg",
+          "commit": {
+            "abbreviatedOid": "dd7b765"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T15:19:23Z",
+          "updatedAt": "2026-11-02T15:19:24Z",
+          "comments": [
+            {
+              "originalPosition": 144,
+              "body": "@marisolpalmero I addressed this one with https://github.com/ietf-wg-green/green-design-work/pull/83/commits/7942809968af107788b5bfd55178f14911b12429",
+              "createdAt": "2026-11-02T15:19:23Z",
+              "updatedAt": "2026-11-02T15:19:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVg9xZw",
+          "commit": {
+            "abbreviatedOid": "dd7b765"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T15:19:35Z",
+          "updatedAt": "2026-11-02T15:19:35Z",
+          "comments": [
+            {
+              "originalPosition": 48,
+              "body": "@marisolpalmero I addressed this one with https://github.com/ietf-wg-green/green-design-work/pull/83/commits/7942809968af107788b5bfd55178f14911b12429\r\nThanks",
+              "createdAt": "2026-11-02T15:19:35Z",
+              "updatedAt": "2026-11-02T15:19:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVhBlMw",
+          "commit": {
+            "abbreviatedOid": "7942809"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T15:23:31Z",
+          "updatedAt": "2026-11-02T15:23:32Z",
+          "comments": [
+            {
+              "originalPosition": 38,
+              "body": "thanks!",
+              "createdAt": "2026-11-02T15:23:32Z",
+              "updatedAt": "2026-11-02T15:23:32Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 84,
+      "id": "PR_kwDOP9HHVc8AAAABMVxCVQ",
+      "title": "Measurement scope: reporting rule, PoE, batteries, certification example",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/84",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- The four measured leaves: if the device can measure the value, it MUST report it; an Energy Object without Power Outlets does not report the provided leaves. Appendix A updated accordingly.\r\n- Section 3: for Power over Ethernet, the switch measures the provided Power at its PoE ports and the powered device the received Power at its Power Inlet; the difference is the loss in the cable.\r\n- Section 3: the state of a battery (charge, capacity) is out of scope, covered by the Battery MIB (RFC 7577), also cited in the EMAN section.\r\n- Section 3 points to Appendix A.\r\n- Certification example uses the existing c80-plus identity and says that the identity does not convey the level.\r\n\r\nFixes #67",
+      "createdAt": "2026-11-02T15:45:28Z",
+      "updatedAt": "2026-11-02T16:49:53Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "accuracy-like-parent",
+      "baseRefOid": "7942809968af107788b5bfd55178f14911b12429",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "measurement-scope",
+      "headRefOid": "482c2a6aea84b0118330364bc4a7aa8750e9d286",
+      "closedAt": "2026-11-02T16:49:52Z",
+      "mergedAt": "2026-11-02T16:49:52Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "97a54415b3bc69e85ef8af8849e119a7fa00425a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABViE8iw",
+          "commit": {
+            "abbreviatedOid": "cc207d8"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T16:43:09Z",
+          "updatedAt": "2026-11-02T16:43:09Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "Im not entirely sure that the difference is just the loss in the cable, it could be more factors, like any other possible dissipation on connectors, or even measurement tolerance ... I will change it as \"dissipated mainly in the cable and connectors\". We are talking about PoE and then the example is on PSU example. I will separate about the net Power of an Energy Object by another paragraph, as we are talking more specifically about double counting.",
+              "createdAt": "2026-11-02T16:43:09Z",
+              "updatedAt": "2026-11-02T16:43:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABViFr9g",
+          "commit": {
+            "abbreviatedOid": "cc207d8"
+          },
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "just reviewed @bclaise ",
+          "createdAt": "2026-11-02T16:44:05Z",
+          "updatedAt": "2026-11-02T16:44:05Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABViKOgg",
+          "commit": {
+            "abbreviatedOid": "cc207d8"
+          },
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-02T16:49:26Z",
+          "updatedAt": "2026-11-02T16:49:26Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "solved by https://github.com/ietf-wg-green/green-design-work/pull/84/changes/482c2a6aea84b0118330364bc4a7aa8750e9d286",
+              "createdAt": "2026-11-02T16:49:26Z",
+              "updatedAt": "2026-11-02T16:49:27Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 85,
+      "id": "PR_kwDOP9HHVc8AAAABMWqmhQ",
+      "title": "Accuracy like parent",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/85",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "#84 was merged into accuracy-like-parent instead of main; this brings it to main.\n\nFixes #67",
+      "createdAt": "2026-11-02T16:52:03Z",
+      "updatedAt": "2026-11-02T16:52:41Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "ebdba71ab5a93158c8fcdac1404104cf96a2dfc1",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "accuracy-like-parent",
+      "headRefOid": "97a54415b3bc69e85ef8af8849e119a7fa00425a",
+      "closedAt": "2026-11-02T16:52:41Z",
+      "mergedAt": "2026-11-02T16:52:40Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "709045277279b8c2ca9638fd94396152c5e784c3"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
