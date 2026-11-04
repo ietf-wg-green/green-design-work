@@ -159,6 +159,7 @@ This document makes use of the terms defined in
 - Power Interface
 - Power Inlet
 - Power Outlet
+- Power Factor
 - Energy
 - Energy Object
 - Component
@@ -883,12 +884,6 @@ illustrative: the power supply receives 400 W from the PDU and
 provides 376 W to the chassis, an efficiency of 94% at about half its
 Nameplate Power, and the Energy counters cover 30 days at that load.
 
-Note that Power Factor and efficiency are distinct metrics. Power
-Factor is the ratio of real to apparent power drawn for the
-Alternating Current (AC) and is treated as 100% for Direct Current
-(DC), whereas efficiency is the ratio of useful output power to
-input power. A high Power Factor does not imply a high efficiency.
-
 The following instance data is encoded in JSON {{?RFC7951}}. Power is
 in milliwatts and Energy in milliwatt-hours, and the uint64 values are
 encoded as JSON strings.
@@ -948,6 +943,15 @@ From these values, a management system derives:
   Objects: 24 W for the power supply plus 376 W for the chassis, that
   is 400 W, without counting twice the Power passed from the power
   supply to the chassis.
+
+The Power Factor and the efficiency are distinct metrics. The Power
+Factor is the ratio of real power to apparent power at an Alternating
+Current (AC) Power Inlet, and is considered to be 100% for Direct
+Current (DC). The efficiency of an Energy Object that provides Power,
+such as a power supply, is the ratio of the Power it provides to the
+Power it receives. A high Power Factor does not imply a high
+efficiency: in this example, the Power Factor is 98% and the
+efficiency is 94%.
 
 A battery is modeled in the same way: it reports received Power and
 Energy while charging, and provided Power and Energy while
