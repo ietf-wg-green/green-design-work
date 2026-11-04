@@ -1286,28 +1286,31 @@ Processing Unit (MPU).<a href="#section-1-6" class="pilcrow">¶</a></p>
             <p id="section-1.1-2.6.1">Power Outlet<a href="#section-1.1-2.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.7">
-            <p id="section-1.1-2.7.1">Energy<a href="#section-1.1-2.7.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.7.1">Power Factor<a href="#section-1.1-2.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.8">
-            <p id="section-1.1-2.8.1">Energy Object<a href="#section-1.1-2.8.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.8.1">Energy<a href="#section-1.1-2.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.9">
-            <p id="section-1.1-2.9.1">Component<a href="#section-1.1-2.9.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.9.1">Energy Object<a href="#section-1.1-2.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.10">
-            <p id="section-1.1-2.10.1">Energy Monitoring<a href="#section-1.1-2.10.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.10.1">Component<a href="#section-1.1-2.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.11">
-            <p id="section-1.1-2.11.1">Energy Efficiency<a href="#section-1.1-2.11.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.11.1">Energy Monitoring<a href="#section-1.1-2.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.12">
-            <p id="section-1.1-2.12.1">Device Level Energy Efficiency (DLEE)<a href="#section-1.1-2.12.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.12.1">Energy Efficiency<a href="#section-1.1-2.12.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.13">
-            <p id="section-1.1-2.13.1">Component Level Energy Efficiency (CLEE)<a href="#section-1.1-2.13.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.13.1">Device Level Energy Efficiency (DLEE)<a href="#section-1.1-2.13.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-2.14">
-            <p id="section-1.1-2.14.1">Service Level Energy Efficiency (SLEE)<a href="#section-1.1-2.14.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-2.14.1">Component Level Energy Efficiency (CLEE)<a href="#section-1.1-2.14.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-1.1-2.15">
+            <p id="section-1.1-2.15.1">Service Level Energy Efficiency (SLEE)<a href="#section-1.1-2.15.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-1.1-3">The terms reused from <span>[<a href="#I-D.ietf-green-terminology" class="cite xref">I-D.ietf-green-terminology</a>]</span> and
@@ -1965,7 +1968,7 @@ module ietf-power-and-energy {
     }
     default 100;
     description
-      "The percent value of the power factor measurement.
+      "The percent value of the Power Factor measurement.
        Leaf often omitted, implying 100%.";
   }
 
@@ -2128,7 +2131,7 @@ module ietf-power-and-energy {
       leaf power-factor {
         type power-factor;
         description
-          "The percent value of the power factor measured at the
+          "The percent value of the Power Factor measured at the
            Power Inlets of the Energy Object. This information is
            important for understanding the electrical
            characteristics of the Energy Object and for correctly
@@ -3445,15 +3448,10 @@ the device. Both are Components in the ietf-hardware module
 illustrative: the power supply receives 400 W from the PDU and
 provides 376 W to the chassis, an efficiency of 94% at about half its
 Nameplate Power, and the Energy counters cover 30 days at that load.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
-<p id="appendix-A-2">Note that Power Factor and efficiency are distinct metrics. Power
-Factor is the ratio of real to apparent power drawn for the
-Alternating Current (AC) and is treated as 100% for Direct Current
-(DC), whereas efficiency is the ratio of useful output power to
-input power. A high Power Factor does not imply a high efficiency.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
-<p id="appendix-A-3">The following instance data is encoded in JSON <span>[<a href="#RFC7951" class="cite xref">RFC7951</a>]</span>. Power is
+<p id="appendix-A-2">The following instance data is encoded in JSON <span>[<a href="#RFC7951" class="cite xref">RFC7951</a>]</span>. Power is
 in milliwatts and Energy in milliwatt-hours, and the uint64 values are
-encoded as JSON strings.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="appendix-A-4">
+encoded as JSON strings.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="appendix-A-3">
 <pre>
 {
   "ietf-power-and-energy:energy-objects": {
@@ -3498,24 +3496,32 @@ encoded as JSON strings.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
     ]
   }
 }
-</pre><a href="#appendix-A-4" class="pilcrow">¶</a>
+</pre><a href="#appendix-A-3" class="pilcrow">¶</a>
 </div>
-<p id="appendix-A-5">From these values, a management system derives:<a href="#appendix-A-5" class="pilcrow">¶</a></p>
+<p id="appendix-A-4">From these values, a management system derives:<a href="#appendix-A-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-A-6.1">
-          <p id="appendix-A-6.1.1">the loss of the power supply: 400 W - 376 W = 24 W;<a href="#appendix-A-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A-5.1">
+          <p id="appendix-A-5.1.1">the loss of the power supply: 400 W - 376 W = 24 W;<a href="#appendix-A-5.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-A-6.2">
-          <p id="appendix-A-6.2.1">its efficiency: 376 W / 400 W = 94%, which the Energy counters
-confirm over the period (270,720 Wh / 288,000 Wh);<a href="#appendix-A-6.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-A-5.2">
+          <p id="appendix-A-5.2.1">its efficiency: 376 W / 400 W = 94%, which the Energy counters
+confirm over the period (270,720 Wh / 288,000 Wh);<a href="#appendix-A-5.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-A-6.3">
-          <p id="appendix-A-6.3.1">the Power drawn from the PDU, by summing the net Power of the Energy
+        <li class="normal" id="appendix-A-5.3">
+          <p id="appendix-A-5.3.1">the Power drawn from the PDU, by summing the net Power of the Energy
 Objects: 24 W for the power supply plus 376 W for the chassis, that
 is 400 W, without counting twice the Power passed from the power
-supply to the chassis.<a href="#appendix-A-6.3.1" class="pilcrow">¶</a></p>
+supply to the chassis.<a href="#appendix-A-5.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
+<p id="appendix-A-6">The Power Factor and the efficiency are distinct metrics. The Power
+Factor is the ratio of real power to apparent power at an Alternating
+Current (AC) Power Inlet, and is considered to be 100% for Direct
+Current (DC). The efficiency of an Energy Object that provides Power,
+such as a power supply, is the ratio of the Power it provides to the
+Power it receives. A high Power Factor does not imply a high
+efficiency: in this example, the Power Factor is 98% and the
+efficiency is 94%.<a href="#appendix-A-6" class="pilcrow">¶</a></p>
 <p id="appendix-A-7">A battery is modeled in the same way: it reports received Power and
 Energy while charging, and provided Power and Energy while
 discharging.<a href="#appendix-A-7" class="pilcrow">¶</a></p>
