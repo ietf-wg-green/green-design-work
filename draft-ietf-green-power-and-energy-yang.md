@@ -883,6 +883,12 @@ illustrative: the power supply receives 400 W from the PDU and
 provides 376 W to the chassis, an efficiency of 94% at about half its
 Nameplate Power, and the Energy counters cover 30 days at that load.
 
+Note that Power Factor and efficiency are distinct metrics. Power
+Factor is the ratio of real to apparent power drawn for the
+Alternating Current (AC) and is treated as 100% for Direct Current
+(DC), whereas efficiency is the ratio of useful output power to
+input power. A high Power Factor does not imply a high efficiency.
+
 The following instance data is encoded in JSON {{?RFC7951}}. Power is
 in milliwatts and Energy in milliwatt-hours, and the uint64 values are
 encoded as JSON strings.
