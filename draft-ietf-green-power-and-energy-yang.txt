@@ -5,12 +5,12 @@
 GREEN                                                          B. Claise
 Internet-Draft                                   Everything OPS & Arrcus
 Intended status: Standards Track                                 G. Chen
-Expires: 6 May 2027                                               Huawei
+Expires: 8 May 2027                                               Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                         2 November 2026
+                                                         4 November 2026
 
 
                       Power and Energy YANG Module
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 May 2027.
+   This Internet-Draft will expire on 8 May 2027.
 
 Copyright Notice
 
@@ -2014,9 +2014,9 @@ Table of Contents
               Claise, B., Contreras, L. M., Lindblad, J., Palmero, M.
               P., Stephan, E., and Q. Wu, "Framework for Energy
               Efficiency Management", Work in Progress, Internet-Draft,
-              draft-ietf-green-framework-02, 5 July 2026,
+              draft-ietf-green-framework-03, 2 November 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-green-
-              framework-02>.
+              framework-03>.
 
    [I-D.ietf-green-use-cases]
               Stephan, E., Palmero, M. P., Claise, B., Wu, Q.,
@@ -2058,6 +2058,12 @@ Appendix A.  Example: Modeling a 750 W Power Supply
    illustrative: the power supply receives 400 W from the PDU and
    provides 376 W to the chassis, an efficiency of 94% at about half its
    Nameplate Power, and the Energy counters cover 30 days at that load.
+
+   Note that Power Factor and efficiency are distinct metrics.  Power
+   Factor is the ratio of real to apparent power drawn for the
+   Alternating Current (AC) and is treated as 100% for Direct Current
+   (DC), whereas efficiency is the ratio of useful output power to input
+   power.  A high Power Factor does not imply a high efficiency.
 
    The following instance data is encoded in JSON [RFC7951].  Power is
    in milliwatts and Energy in milliwatt-hours, and the uint64 values

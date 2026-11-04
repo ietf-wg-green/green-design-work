@@ -14,7 +14,7 @@
 monitoring and control of devices within or connected to communication
 networks. 
     " name="description">
-<meta content="xml2rfc 3.34.1" name="generator">
+<meta content="xml2rfc 3.35.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="GREEN" name="keyword">
 <meta content="YANG" name="keyword">
@@ -22,19 +22,19 @@ networks.
 <meta content="Energy" name="keyword">
 <meta content="draft-ietf-green-power-and-energy-yang-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.34.1
-    Python 3.14.8
-    ConfigArgParse 1.8.0
+  xml2rfc 3.35.0
+    Python 3.14.10
+    ConfigArgParse 1.9.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.13.4
+    platformdirs 4.14.3
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.9.2
+    wcwidth 0.9.4
 -->
 <link href="draft-ietf-green-power-and-energy-yang.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1054,7 +1054,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Claise, et al.</td>
-<td class="center">Expires 6 May 2027</td>
+<td class="center">Expires 8 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg {
 <dd class="internet-draft">draft-ietf-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-02" class="published">2 November 2026</time>
+<time datetime="2026-11-04" class="published">4 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-06">6 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-08">8 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1120,7 +1120,7 @@ networks.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 6 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -3402,7 +3402,7 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
 <dl class="references">
 <dt id="I-D.ietf-green-framework">[I-D.ietf-green-framework]</dt>
         <dd>
-<span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Lindblad, J.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Stephan, E.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Framework for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-framework-02</span>, <time datetime="2026-07-05" class="refDate">5 July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-framework-02">https://datatracker.ietf.org/doc/html/draft-ietf-green-framework-02</a>&gt;</span>. </dd>
+<span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Lindblad, J.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Stephan, E.</span>, and <span class="refAuthor">Q. Wu</span>, <span class="refTitle">"Framework for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-framework-03</span>, <time datetime="2026-11-02" class="refDate">2 November 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-framework-03">https://datatracker.ietf.org/doc/html/draft-ietf-green-framework-03</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-green-use-cases">[I-D.ietf-green-use-cases]</dt>
         <dd>
@@ -3445,10 +3445,15 @@ the device. Both are Components in the ietf-hardware module
 illustrative: the power supply receives 400 W from the PDU and
 provides 376 W to the chassis, an efficiency of 94% at about half its
 Nameplate Power, and the Energy counters cover 30 days at that load.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
-<p id="appendix-A-2">The following instance data is encoded in JSON <span>[<a href="#RFC7951" class="cite xref">RFC7951</a>]</span>. Power is
+<p id="appendix-A-2">Note that Power Factor and efficiency are distinct metrics. Power
+Factor is the ratio of real to apparent power drawn for the
+Alternating Current (AC) and is treated as 100% for Direct Current
+(DC), whereas efficiency is the ratio of useful output power to
+input power. A high Power Factor does not imply a high efficiency.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
+<p id="appendix-A-3">The following instance data is encoded in JSON <span>[<a href="#RFC7951" class="cite xref">RFC7951</a>]</span>. Power is
 in milliwatts and Energy in milliwatt-hours, and the uint64 values are
-encoded as JSON strings.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="appendix-A-3">
+encoded as JSON strings.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+<div class="lang-json sourcecode" id="appendix-A-4">
 <pre>
 {
   "ietf-power-and-energy:energy-objects": {
@@ -3493,27 +3498,27 @@ encoded as JSON strings.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
     ]
   }
 }
-</pre><a href="#appendix-A-3" class="pilcrow">¶</a>
+</pre><a href="#appendix-A-4" class="pilcrow">¶</a>
 </div>
-<p id="appendix-A-4">From these values, a management system derives:<a href="#appendix-A-4" class="pilcrow">¶</a></p>
+<p id="appendix-A-5">From these values, a management system derives:<a href="#appendix-A-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-A-5.1">
-          <p id="appendix-A-5.1.1">the loss of the power supply: 400 W - 376 W = 24 W;<a href="#appendix-A-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A-6.1">
+          <p id="appendix-A-6.1.1">the loss of the power supply: 400 W - 376 W = 24 W;<a href="#appendix-A-6.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-A-5.2">
-          <p id="appendix-A-5.2.1">its efficiency: 376 W / 400 W = 94%, which the Energy counters
-confirm over the period (270,720 Wh / 288,000 Wh);<a href="#appendix-A-5.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="appendix-A-6.2">
+          <p id="appendix-A-6.2.1">its efficiency: 376 W / 400 W = 94%, which the Energy counters
+confirm over the period (270,720 Wh / 288,000 Wh);<a href="#appendix-A-6.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="appendix-A-5.3">
-          <p id="appendix-A-5.3.1">the Power drawn from the PDU, by summing the net Power of the Energy
+        <li class="normal" id="appendix-A-6.3">
+          <p id="appendix-A-6.3.1">the Power drawn from the PDU, by summing the net Power of the Energy
 Objects: 24 W for the power supply plus 376 W for the chassis, that
 is 400 W, without counting twice the Power passed from the power
-supply to the chassis.<a href="#appendix-A-5.3.1" class="pilcrow">¶</a></p>
+supply to the chassis.<a href="#appendix-A-6.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="appendix-A-6">A battery is modeled in the same way: it reports received Power and
+<p id="appendix-A-7">A battery is modeled in the same way: it reports received Power and
 Energy while charging, and provided Power and Energy while
-discharging.<a href="#appendix-A-6" class="pilcrow">¶</a></p>
+discharging.<a href="#appendix-A-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">
