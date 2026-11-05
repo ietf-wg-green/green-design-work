@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-03T04:17:34.867097+00:00",
+  "timestamp": "2026-11-05T03:56:07.654997+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -3229,7 +3229,7 @@
       "labels": [],
       "body": "* accuracy-like-parent: define the parent Energy Object (follow the ietf-hardware 'parent' leaf up the containment tree towards the root, RFC 6933 / RFC 8348). No parent Energy Object: the accuracy is unknown; the top of the tree SHOULD report data-source-accuracy explicitly; a module reusing the groupings can refine the default. Section 6 explains the same.\r\n* Power and Energy per direction, unsigned: instantaneous-power is replaced by instantaneous-power-received and instantaneous-power-provided; total-energy-consumed/-delivered are renamed total-energy-received/-provided. The direction follows the Power Inlets and Power Outlets of green-terminology, so a power supply and a battery can both be modeled (Section 3, Terminology list, Section 6, tree).\r\n* Consistency: the Power Cap limits the received Power; Power Cap is defined in this document (module description); the power factor is measured at the Power Inlets; units per leaf listed exactly; the EMAN section notes the change from the signed eoPower.\r\n* Appendix A: example of a 750 W power supply (JSON, RFC 7951), showing received and provided Power and Energy, loss, efficiency, and summed net Power. Nameplate Power of an Energy Object that provides Power (e.g., a power supply) is its rated provided Power.\r\n\r\nPart of #67",
       "createdAt": "2026-11-02T13:32:50Z",
-      "updatedAt": "2026-11-02T16:02:28Z",
+      "updatedAt": "2026-11-03T07:14:19Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "4ff92e3e63ad9c906bfcf628c51f75f3df76fea7",
@@ -3391,6 +3391,19 @@
               "updatedAt": "2026-11-02T15:23:32Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVqG85A",
+          "commit": {
+            "abbreviatedOid": "7942809"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Here in the example both power factor of 98 and efficiency of 94 are mentioned, to avoid potential misunderstandings, it's suggested to add clarification that these 2 figures are metrics for different dimensions (such sa for DC, power factor is 100 and efficiency could be 94, etc.)",
+          "createdAt": "2026-11-03T07:14:19Z",
+          "updatedAt": "2026-11-03T07:14:19Z",
+          "comments": []
         }
       ]
     },
@@ -3406,7 +3419,7 @@
       "labels": [],
       "body": "- The four measured leaves: if the device can measure the value, it MUST report it; an Energy Object without Power Outlets does not report the provided leaves. Appendix A updated accordingly.\r\n- Section 3: for Power over Ethernet, the switch measures the provided Power at its PoE ports and the powered device the received Power at its Power Inlet; the difference is the loss in the cable.\r\n- Section 3: the state of a battery (charge, capacity) is out of scope, covered by the Battery MIB (RFC 7577), also cited in the EMAN section.\r\n- Section 3 points to Appendix A.\r\n- Certification example uses the existing c80-plus identity and says that the identity does not convey the level.\r\n\r\nFixes #67",
       "createdAt": "2026-11-02T15:45:28Z",
-      "updatedAt": "2026-11-02T16:49:53Z",
+      "updatedAt": "2026-11-03T07:44:34Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "accuracy-like-parent",
       "baseRefOid": "7942809968af107788b5bfd55178f14911b12429",
@@ -3473,6 +3486,19 @@
               "updatedAt": "2026-11-02T16:49:27Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVqXBLQ",
+          "commit": {
+            "abbreviatedOid": "482c2a6"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good to me. Thanks.",
+          "createdAt": "2026-11-03T07:44:33Z",
+          "updatedAt": "2026-11-03T07:44:33Z",
+          "comments": []
         }
       ]
     },
@@ -3488,7 +3514,7 @@
       "labels": [],
       "body": "#84 was merged into accuracy-like-parent instead of main; this brings it to main.\n\nFixes #67",
       "createdAt": "2026-11-02T16:52:03Z",
-      "updatedAt": "2026-11-02T16:52:41Z",
+      "updatedAt": "2026-11-03T07:45:53Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "ebdba71ab5a93158c8fcdac1404104cf96a2dfc1",
@@ -3500,6 +3526,149 @@
       "mergedBy": "bclaise",
       "mergeCommit": {
         "oid": "709045277279b8c2ca9638fd94396152c5e784c3"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABVqX1_Q",
+          "commit": {
+            "abbreviatedOid": "97a5441"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good to me, thanks.",
+          "createdAt": "2026-11-03T07:45:53Z",
+          "updatedAt": "2026-11-03T07:45:53Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 86,
+      "id": "PR_kwDOP9HHVc8AAAABMjgNYQ",
+      "title": "add clarification for power factor and efficiency",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/86",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-11-03T12:49:36Z",
+      "updatedAt": "2026-11-04T02:32:16Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "709045277279b8c2ca9638fd94396152c5e784c3",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "genchen-patch-3",
+      "headRefOid": "8f76f60a99f0e7ca47d3d16fe61c29e0642fbc9d",
+      "closedAt": "2026-11-04T02:32:16Z",
+      "mergedAt": "2026-11-04T02:32:16Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "95c2bbb1d6edee5bb9451951d58c4ea42cec7e54"
+      },
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The distinction is useful, especially with the 750 W example showing both values. A few suggestions:\r\n\r\nThanks Gen, the distinction is useful, especially with the 750 W example showing both values. A few suggestions:\r\n\r\n1. The paragraph splits the introduction of the example from its JSON. It fits better after the \"From these values, a management system derives:\" list, where the efficiency is computed, and just below the JSON showing a power-factor of 98.\r\n2. \"Useful output power to input power\" can be expressed with the terms of the model: the ratio of the provided Power to the received Power. It only applies to an Energy Object that provides Power, such as a power supply (a chassis has no efficiency in that sense).\r\n3. \"Drawn for the Alternating Current (AC)\" reads oddly; the power-factor leaf says it is measured at the Power Inlets, so \"at an AC Power Inlet\".\r\n4. \"Note that\" can go, and tying the sentence to the example makes the point concrete (98% vs 94%).\r\n\r\nProposed text, after the \"From these values\" list and before the battery paragraph:\r\n\r\n```\r\nThe Power Factor and the efficiency are distinct metrics. The Power Factor is the ratio of real power to apparent power at an Alternating Current (AC) Power Inlet, and is considered to be 100% for Direct Current (DC). The efficiency of an Energy Object that provides Power, such as a power supply, is the ratio of the Power it provides to the Power it receives. A high Power Factor does not imply a high efficiency: in this example, the Power Factor is 98% and the efficiency is 94%.\r\n```\r\n\r\nCapitalizing \"Power Factor\" is right, since it is defined in draft-ietf-green-terminology. For consistency, could you also:\r\n- add \"Power Factor\" to the Terminology list (the terms reused from draft-ietf-green-terminology), and\r\n- capitalize it in the module: the power-factor typedef and leaf descriptions still say \"power factor\" (commit 459097e lowercased it as a compound, which was wrong).\r\n\r\nSide note for draft-ietf-green-terminology: its Power Factor definition says it \"measures how effectively electrical power is being converted into useful work\", which describes efficiency, the very confusion this paragraph clears up. It also says \"percent value between 0 and 1\", mixing a percentage and a ratio (our module uses 0..100 percent). Worth raising.\r\n\r\n",
+          "createdAt": "2026-11-03T13:13:01Z",
+          "updatedAt": "2026-11-03T13:13:01Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABV3U2gA",
+          "commit": {
+            "abbreviatedOid": "8f76f60"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2026-11-04T02:13:30Z",
+          "updatedAt": "2026-11-04T02:13:30Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "```suggestion\n```",
+              "createdAt": "2026-11-04T02:13:30Z",
+              "updatedAt": "2026-11-04T02:13:30Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABV3VBgA",
+          "commit": {
+            "abbreviatedOid": "8f76f60"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "the md file has been modified as expected, the Power Factor in the module will be modified seperately in another merge request.",
+          "createdAt": "2026-11-04T02:13:55Z",
+          "updatedAt": "2026-11-04T02:31:43Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "Putting this to somewhere below.",
+              "createdAt": "2026-11-04T02:13:55Z",
+              "updatedAt": "2026-11-04T02:31:43Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n\nThe Power Factor and the efficiency are distinct metrics. The Power \nFactor is the ratio of real power to apparent power at an Alternating \nCurrent (AC) Power Inlet, and is considered to be 100% for Direct \nCurrent (DC). The efficiency of an Energy Object that provides Power, \nsuch as a power supply, is the ratio of the Power it provides to the \nPower it receives. A high Power Factor does not imply a high efficiency: \nin this example, the Power Factor is 98% and the efficiency is 94%.\n\n```",
+              "createdAt": "2026-11-04T02:18:40Z",
+              "updatedAt": "2026-11-04T02:31:43Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "Adding the clarification here as proposed by Benoit.",
+              "createdAt": "2026-11-04T02:19:52Z",
+              "updatedAt": "2026-11-04T02:31:43Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "```suggestion\n- Power Outlet\n- Power Factor\n```",
+              "createdAt": "2026-11-04T02:23:15Z",
+              "updatedAt": "2026-11-04T02:31:43Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "Adding \"Power factor\" in the terminology section",
+              "createdAt": "2026-11-04T02:24:32Z",
+              "updatedAt": "2026-11-04T02:31:43Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 87,
+      "id": "PR_kwDOP9HHVc8AAAABMtjZ3A",
+      "title": "Power Factor Capitalized both in md and module files",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/87",
+      "state": "MERGED",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2026-11-04T02:55:43Z",
+      "updatedAt": "2026-11-04T02:57:04Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "95c2bbb1d6edee5bb9451951d58c4ea42cec7e54",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "genchen-patch-3",
+      "headRefOid": "0b4e59b00d619839ab892a2832ec7a1c51d2360e",
+      "closedAt": "2026-11-04T02:57:04Z",
+      "mergedAt": "2026-11-04T02:57:04Z",
+      "mergedBy": "williamchern",
+      "mergeCommit": {
+        "oid": "c0556199c065c161725ea83543f1e4c124333a01"
       },
       "comments": [],
       "reviews": []
