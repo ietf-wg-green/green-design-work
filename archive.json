@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-05T03:56:07.654997+00:00",
+  "timestamp": "2026-11-10T04:56:56.464701+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -879,6 +879,26 @@
       "createdAt": "2026-10-28T11:50:33Z",
       "updatedAt": "2026-11-02T02:36:31Z",
       "closedAt": "2026-11-02T02:36:31Z",
+      "comments": []
+    },
+    {
+      "number": 88,
+      "id": "I_kwDOP9HHVc8AAAABdklPfQ",
+      "title": "Clarify whether estimated carries an accuracy level and how it relates to measured accuracy levels",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/88",
+      "state": "OPEN",
+      "author": "williamchern",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "bclaise",
+        "marisolpalmero",
+        "janlindblad"
+      ],
+      "labels": [],
+      "body": "The draft defines accuracy levels for measured values, but it does not state whether estimated values also carry an accuracy level, or whether estimated and measured values are meant to be comparable on the same accuracy scale.\n\nThis leaves the accuracy positioning of estimated unclear. Without clarification, applications may incorrectly assume an estimated value is comparable to a measured value of the same or similar accuracy, or may not know how to treat estimated values when comparing or aggregating data. This is a semantics question, not a request for fixed thresholds.",
+      "createdAt": "2026-11-09T03:41:12Z",
+      "updatedAt": "2026-11-09T03:41:12Z",
+      "closedAt": null,
       "comments": []
     }
   ],
