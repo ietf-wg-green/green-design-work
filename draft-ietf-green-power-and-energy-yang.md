@@ -449,17 +449,31 @@ supply, this net value is its loss (see {{psu-example}}).
 
 For implementers familiar with {{?RFC7460}}, the following table maps
 its Power and Energy objects to this module. The values in {{?RFC7460}}
-are scaled by a unit multiplier, while this module uses fixed units,
-and the Energy objects of {{?RFC7460}} cover a configured interval,
-while the Energy counters of this module are cumulative since the
-last reset.
+are scaled by a unit multiplier, while this module uses fixed units;
+the Energy objects of {{?RFC7460}} cover a configured interval, while
+the Energy counters of this module are cumulative; and the
+discontinuity time of {{?RFC7460}} is a sysUpTime value, while this
+module reports a date and time.
 
 | RFC 7460 object  | This module |
 |------------------|-------------|
 | eoPower          | instantaneous-power-received minus instantaneous-power-provided |
 | eoEnergyConsumed | total-energy-received |
 | eoEnergyProvided | total-energy-provided |
+| eoEnergyDiscontinuityTime | discontinuity-time |
 {: title="Mapping of RFC 7460 Power and Energy Objects"}
+
+The Energy counters are of type counter64 {{!RFC9911}}. With a unit
+of one milliwatt-hour, a counter64 wraps around only after about 18
+billion MWh, which does not happen in practice. The risk is rather a
+reset that goes unnoticed: an Energy counter can restart at times
+other than the re-initialization of the management system, for
+example when a power supply is hot-swapped, when a line card is
+reinserted, or when the Energy measurement is reset. A client that
+computes the Energy over a period from two readings of a counter
+therefore needs to check the discontinuity-time leaf: if it has
+changed between the two readings, the difference between them is not
+valid.
 
 Operators might not always be interested in the accuracy of individual
 Components; what matters is the accuracy at the device or domain
@@ -883,7 +897,8 @@ the device. Both are Components in the ietf-hardware module
 {{!RFC8348}}, and psu-1 is contained in the chassis. The values are
 illustrative: the power supply receives 400 W from the PDU and
 provides 376 W to the chassis, an efficiency of 94% at about half its
-Nameplate Power, and the Energy counters cover 30 days at that load.
+Nameplate Power, and the Energy counters cover the 30 days at that load
+since their last discontinuity, reported in discontinuity-time.
 
 The following instance data is encoded in JSON {{?RFC7951}}. Power is
 in milliwatts and Energy in milliwatt-hours, and the uint64 values are
@@ -905,7 +920,8 @@ encoded as JSON strings.
         },
         "energy": {
           "total-energy-received": "288000000",
-          "total-energy-provided": "270720000"
+          "total-energy-provided": "270720000",
+          "discontinuity-time": "2026-10-01T00:00:00Z"
         },
         "certifications": [ "iana-power-and-energy:c80-plus" ],
         "relationship": [
@@ -923,7 +939,8 @@ encoded as JSON strings.
           "instantaneous-power-received": "376000"
         },
         "energy": {
-          "total-energy-received": "270720000"
+          "total-energy-received": "270720000",
+          "discontinuity-time": "2026-10-01T00:00:00Z"
         },
         "relationship": [
           { "type": "powered-by",
@@ -976,7 +993,9 @@ publication.
 - Relationship to the Hardware YANG Data Model: explained the three
   ietf-hardware identifiers; added the Hardware Component
   Identification section.
-- Accuracy thresholds are expressed in milliwatts.
+- The absolute thresholds of the accuracy identities (suffixes -1, -10,
+  -100, -1000) are expressed in milliwatts instead of the
+  unit-multiplier scale.
 - IANA Considerations: addressed the IANA early review: registration
   in the IETF XML Registry and the YANG Module Names registry, and the
   template and initial entries of the Power and Energy Certification
@@ -1000,6 +1019,9 @@ publication.
 - Added the power-values, energy-values, relationships, and
   certifications groupings.
 - Defined the parent of accuracy-like-parent.
+- The absolute thresholds of the accuracy identities are expressed in
+  the unit of the qualified value: milliwatts for Power, and
+  milliwatt-hours for Energy.
 - Operational Considerations: consumption as the net Power, and the
   mapping of the RFC 7460 objects.
 - Added the reporting rule for measurable values, and text on Power
@@ -1020,3 +1042,6 @@ publication.
   Considerations: source-component-id is bound to the 'name' leaf of
   the hardware component; the device SHOULD also report the 'uuid'
   leaf.
+- Energy counters: yang:counter64 instead of uint64, and a
+  discontinuity-time leaf, mapped from eoEnergyDiscontinuityTime of
+  RFC 7460.
