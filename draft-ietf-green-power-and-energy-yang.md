@@ -993,7 +993,9 @@ publication.
 - Relationship to the Hardware YANG Data Model: explained the three
   ietf-hardware identifiers; added the Hardware Component
   Identification section.
-- Accuracy thresholds are expressed in milliwatts.
+- The absolute thresholds of the accuracy identities (suffixes -1, -10,
+  -100, -1000) are expressed in milliwatts instead of the
+  unit-multiplier scale.
 - IANA Considerations: addressed the IANA early review: registration
   in the IETF XML Registry and the YANG Module Names registry, and the
   template and initial entries of the Power and Energy Certification
@@ -1017,6 +1019,9 @@ publication.
 - Added the power-values, energy-values, relationships, and
   certifications groupings.
 - Defined the parent of accuracy-like-parent.
+- The absolute thresholds of the accuracy identities are expressed in
+  the unit of the qualified value: milliwatts for Power, and
+  milliwatt-hours for Energy.
 - Operational Considerations: consumption as the net Power, and the
   mapping of the RFC 7460 objects.
 - Added the reporting rule for measurable values, and text on Power
