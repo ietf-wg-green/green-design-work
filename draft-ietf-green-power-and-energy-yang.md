@@ -336,10 +336,8 @@ mechanism to configure such relationships on the device itself.
 
 # Relationship to the Hardware YANG Data Model
 
-To enable stable component identification across systems with the
-'uuid' YANG leaf from the ietf-hardware YANG Data Model for Hardware
-Management [RFC8348], the ietf-hardware YANG module [RFC8348] is
-required in connection with the 'source-component-id'.
+The ietf-hardware YANG Data Model for Hardware Management [RFC8348]
+is required in connection with the 'source-component-id' leaf.
 
 In the Power and Energy YANG Module defined in this specification,
 the leaf 'source-component-id' refers to a hardware component
@@ -357,9 +355,11 @@ be unique across space and time, and therefore suitable for
 stable identification of a component across management systems.
 
 The GREEN YANG module imports the ietf-hardware module [RFC8348]
-and uses the 'uuid' leaf as the value of 'source-component-id',
-enabling unambiguous component identification across management
-systems independent of device-local naming conventions.
+and uses the 'name' leaf as the value of 'source-component-id'. The
+'name' leaf is the list key of the hardware components and uniquely
+identifies a component within a single device. For component
+identification across devices and management systems, the device
+SHOULD also report the 'uuid' leaf of the referenced component.
 
 The mapping between energy-object entries in this YANG Module and the
 hardware-components in ietf-hardware YANG module {{!RFC8348}} is
@@ -491,7 +491,7 @@ device.
 The GREEN YANG module relies on the ietf-hardware module {{!RFC8348}}
 for hardware component identification.  Among the three identifiers
 that ietf-hardware provides for each component: 'name',
-'physical-index', and 'uuid', only `uuid` is intended to be
+'physical-index', and 'uuid', only 'uuid' is intended to be
 unique beyond a single device.
 The 'name' leaf, while serving as the list key within a device,
 is meaningful only in the context of that specific device.  The
@@ -499,12 +499,13 @@ is meaningful only in the context of that specific device.  The
 legacy Entity MIB {{!RFC6933}}, but its availability depends on
 whether the entity-mib feature is supported.
 
-For these reasons, the 'source-component-id' leaf in this module
-is bound to the 'uuid' leaf of the corresponding ietf-hardware
-component, as defined in {{!RFC9562}}.  This choice ensures that
-Energy Objects can be unambiguously referenced and correlated across
-devices, management systems, and administrative domains without
-relying on device-local naming conventions.
+The 'source-component-id' leaf in this module is bound to the 'name'
+leaf of the corresponding ietf-hardware component, since 'name' is
+the list key and always present, whereas 'uuid' is optional in
+{{!RFC8348}}. To correlate Energy Objects across devices, management
+systems, and administrative domains without relying on device-local
+naming conventions, a client uses the 'uuid' leaf {{!RFC9562}} of the
+referenced component.
 
 ## Measurement Accuracy and Data Source Classification
 

@@ -752,7 +752,9 @@ module ietf-power-and-energy {
           "Reference to the component name in the ietf-hardware 
            model. This leaf creates a direct semantic link between 
            the Power/Energy attributes and the physical component 
-           they describe.";
+           they describe. The name is unique only within a device;
+           for identification across devices, use the 'uuid' leaf
+           of the referenced component.";
         reference
           "RFC 8348: A YANG Data Model for Hardware Management";
       }
