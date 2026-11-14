@@ -5,12 +5,12 @@
 GREEN                                                          B. Claise
 Internet-Draft                                   Everything OPS & Arrcus
 Intended status: Standards Track                                 G. Chen
-Expires: 8 May 2027                                               Huawei
+Expires: 18 May 2027                                              Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                         4 November 2026
+                                                        14 November 2026
 
 
                       Power and Energy YANG Module
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 May 2027.
+   This Internet-Draft will expire on 18 May 2027.
 
 Copyright Notice
 
@@ -76,6 +76,10 @@ Table of Contents
      11.1.  Normative References
      11.2.  Informative References
    Appendix A.  Example: Modeling a 750 W Power Supply
+   Appendix B.  Changes
+     B.1.  Changes from 03 to 04
+     B.2.  Changes from 04 to 05
+     B.3.  Changes from 05 to 06
    Authors' Addresses
 
 1.  Introduction
@@ -2133,6 +2137,90 @@ Appendix A.  Example: Modeling a 750 W Power Supply
    A battery is modeled in the same way: it reports received Power and
    Energy while charging, and provided Power and Energy while
    discharging.
+
+Appendix B.  Changes
+
+   Note to the RFC Editor: please remove this appendix before
+   publication.
+
+B.1.  Changes from 03 to 04
+
+   *  Removed the unit-multiplier leaves: each leaf now has a fixed
+      unit; instantaneous-power is in milliwatts, int64, and optional.
+
+   *  Renamed energy-entry to energy-object, object-id to id, and power-
+      state-admin and power-state-oper to admin and oper.
+
+   *  Based the admin and oper leaves on the power-state identity, so
+      that both can take the Power State values.
+
+   *  /energy-control mirrors /energy-objects, and its id references the
+      Energy Object with require-instance false.
+
+   *  Relationship to the Hardware YANG Data Model: explained the three
+      ietf-hardware identifiers; added the Hardware Component
+      Identification section.
+
+   *  Accuracy thresholds are expressed in milliwatts.
+
+   *  IANA Considerations: addressed the IANA early review: registration
+      in the IETF XML Registry and the YANG Module Names registry, and
+      the template and initial entries of the Power and Energy
+      Certification Types registry.
+
+   *  Took the Energy Object term from draft-ietf-green-terminology, and
+      referenced the latest versions of draft-ietf-green-terminology and
+      draft-ietf-green-framework.
+
+   *  Editorial changes.
+
+B.2.  Changes from 04 to 05
+
+   *  Reported Power and Energy per direction, as unsigned values:
+      instantaneous-power is replaced by instantaneous-power-received
+      and instantaneous-power-provided; total-energy-consumed and total-
+      energy-delivered are renamed total-energy-received and total-
+      energy-provided.
+
+   *  Added the Power Cap: definition, requested limit in /energy-
+      control, and enforced limit in /energy-objects.
+
+   *  Moved certifications to the energy-object level.
+
+   *  Fixed the Energy units (milliwatt-hours).
+
+   *  Added the power-values, energy-values, relationships, and
+      certifications groupings.
+
+   *  Defined the parent of accuracy-like-parent.
+
+   *  Operational Considerations: consumption as the net Power, and the
+      mapping of the RFC 7460 objects.
+
+   *  Added the reporting rule for measurable values, and text on Power
+      over Ethernet and batteries.
+
+   *  Added Appendix A, an example of a 750 W power supply.
+
+   *  IANA Considerations: registered the ietf-power-and-energy module,
+      requested an "accelerator" hardware class, renamed eu-energy-level
+      and cn-energy-level to eu-energy-label and cn-energy-label, and
+      fixed the registry table (c80-plus, cqc).
+
+   *  Capitalized the terms defined in draft-ietf-green-terminology.
+
+   *  Updated references, and editorial changes.
+
+B.3.  Changes from 05 to 06
+
+   *  Added Power Factor to the Terminology.
+
+   *  Appendix A: distinguished the Power Factor from the efficiency.
+
+   *  Relationship to the Hardware YANG Data Model and Operational
+      Considerations: source-component-id is bound to the 'name' leaf of
+      the hardware component; the device SHOULD also report the 'uuid'
+      leaf.
 
 Authors' Addresses
 

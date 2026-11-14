@@ -1035,7 +1035,7 @@ svg {
   & :is([stroke="white"], [stroke^="#fff"]) {
     stroke: var(--background-color);
   }
-  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+  & :is([fill="black"], [fill^="#000"], :not([fill], [fill] *)) {
     fill: var(--text-color);
   }
   & :is([fill="white"], [fill^="#fff"]) {
@@ -1054,7 +1054,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Claise, et al.</td>
-<td class="center">Expires 8 May 2027</td>
+<td class="center">Expires 18 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg {
 <dd class="internet-draft">draft-ietf-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-04" class="published">4 November 2026</time>
+<time datetime="2026-11-14" class="published">14 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-08">8 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-18">18 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1120,7 +1120,7 @@ networks.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 18 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1221,7 +1221,21 @@ networks.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
             <p id="section-toc.1-1.12.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-example-modeling-a-750-w-po" class="internal xref">Example: Modeling a 750 W Power Supply</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
-            <p id="section-toc.1-1.13.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.13.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-changes" class="internal xref">Changes</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.1">
+                <p id="section-toc.1-1.13.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-changes-from-03-to-04" class="internal xref">Changes from 03 to 04</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.2">
+                <p id="section-toc.1-1.13.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-changes-from-04-to-05" class="internal xref">Changes from 04 to 05</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13.2.3">
+                <p id="section-toc.1-1.13.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-changes-from-05-to-06" class="internal xref">Changes from 05 to 06</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14">
+            <p id="section-toc.1-1.14.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -3527,8 +3541,141 @@ Energy while charging, and provided Power and Energy while
 discharging.<a href="#appendix-A-7" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="authors-addresses">
+<div id="changes">
 <section id="appendix-B">
+      <h2 id="name-changes">
+<a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-changes" class="section-name selfRef">Changes</a>
+      </h2>
+<p id="appendix-B-1">Note to the RFC Editor: please remove this appendix before
+publication.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
+<div id="changes-from-03-to-04">
+<section id="appendix-B.1">
+        <h3 id="name-changes-from-03-to-04">
+<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-changes-from-03-to-04" class="section-name selfRef">Changes from 03 to 04</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-B.1-1.1">
+            <p id="appendix-B.1-1.1.1">Removed the unit-multiplier leaves: each leaf now has a fixed unit;
+instantaneous-power is in milliwatts, int64, and optional.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.2">
+            <p id="appendix-B.1-1.2.1">Renamed energy-entry to energy-object, object-id to id, and
+power-state-admin and power-state-oper to admin and oper.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.3">
+            <p id="appendix-B.1-1.3.1">Based the admin and oper leaves on the power-state identity, so
+that both can take the Power State values.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.4">
+            <p id="appendix-B.1-1.4.1">/energy-control mirrors /energy-objects, and its id references the
+Energy Object with require-instance false.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.5">
+            <p id="appendix-B.1-1.5.1">Relationship to the Hardware YANG Data Model: explained the three
+ietf-hardware identifiers; added the Hardware Component
+Identification section.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.6">
+            <p id="appendix-B.1-1.6.1">Accuracy thresholds are expressed in milliwatts.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.7">
+            <p id="appendix-B.1-1.7.1">IANA Considerations: addressed the IANA early review: registration
+in the IETF XML Registry and the YANG Module Names registry, and the
+template and initial entries of the Power and Energy Certification
+Types registry.<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.8">
+            <p id="appendix-B.1-1.8.1">Took the Energy Object term from draft-ietf-green-terminology, and
+referenced the latest versions of draft-ietf-green-terminology and
+draft-ietf-green-framework.<a href="#appendix-B.1-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.9">
+            <p id="appendix-B.1-1.9.1">Editorial changes.<a href="#appendix-B.1-1.9.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="changes-from-04-to-05">
+<section id="appendix-B.2">
+        <h3 id="name-changes-from-04-to-05">
+<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-changes-from-04-to-05" class="section-name selfRef">Changes from 04 to 05</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-B.2-1.1">
+            <p id="appendix-B.2-1.1.1">Reported Power and Energy per direction, as unsigned values:
+instantaneous-power is replaced by instantaneous-power-received and
+instantaneous-power-provided; total-energy-consumed and
+total-energy-delivered are renamed total-energy-received and
+total-energy-provided.<a href="#appendix-B.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.2">
+            <p id="appendix-B.2-1.2.1">Added the Power Cap: definition, requested limit in /energy-control,
+and enforced limit in /energy-objects.<a href="#appendix-B.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.3">
+            <p id="appendix-B.2-1.3.1">Moved certifications to the energy-object level.<a href="#appendix-B.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.4">
+            <p id="appendix-B.2-1.4.1">Fixed the Energy units (milliwatt-hours).<a href="#appendix-B.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.5">
+            <p id="appendix-B.2-1.5.1">Added the power-values, energy-values, relationships, and
+certifications groupings.<a href="#appendix-B.2-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.6">
+            <p id="appendix-B.2-1.6.1">Defined the parent of accuracy-like-parent.<a href="#appendix-B.2-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.7">
+            <p id="appendix-B.2-1.7.1">Operational Considerations: consumption as the net Power, and the
+mapping of the RFC 7460 objects.<a href="#appendix-B.2-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.8">
+            <p id="appendix-B.2-1.8.1">Added the reporting rule for measurable values, and text on Power
+over Ethernet and batteries.<a href="#appendix-B.2-1.8.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.9">
+            <p id="appendix-B.2-1.9.1">Added Appendix A, an example of a 750 W power supply.<a href="#appendix-B.2-1.9.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.10">
+            <p id="appendix-B.2-1.10.1">IANA Considerations: registered the ietf-power-and-energy module,
+requested an "accelerator" hardware class, renamed eu-energy-level
+and cn-energy-level to eu-energy-label and cn-energy-label, and fixed
+the registry table (c80-plus, cqc).<a href="#appendix-B.2-1.10.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.11">
+            <p id="appendix-B.2-1.11.1">Capitalized the terms defined in draft-ietf-green-terminology.<a href="#appendix-B.2-1.11.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.12">
+            <p id="appendix-B.2-1.12.1">Updated references, and editorial changes.<a href="#appendix-B.2-1.12.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="changes-from-05-to-06">
+<section id="appendix-B.3">
+        <h3 id="name-changes-from-05-to-06">
+<a href="#appendix-B.3" class="section-number selfRef">B.3. </a><a href="#name-changes-from-05-to-06" class="section-name selfRef">Changes from 05 to 06</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-B.3-1.1">
+            <p id="appendix-B.3-1.1.1">Added Power Factor to the Terminology.<a href="#appendix-B.3-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.3-1.2">
+            <p id="appendix-B.3-1.2.1">Appendix A: distinguished the Power Factor from the efficiency.<a href="#appendix-B.3-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.3-1.3">
+            <p id="appendix-B.3-1.3.1">Relationship to the Hardware YANG Data Model and Operational
+Considerations: source-component-id is bound to the 'name' leaf of
+the hardware component; the device <span class="bcp14">SHOULD</span> also report the 'uuid'
+leaf.<a href="#appendix-B.3-1.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-C">
       <h2 id="name-authors-addresses">
 <a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
       </h2>
