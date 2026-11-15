@@ -5,12 +5,12 @@
 GREEN                                                          B. Claise
 Internet-Draft                                   Everything OPS & Arrcus
 Intended status: Standards Track                                 G. Chen
-Expires: 18 May 2027                                              Huawei
+Expires: 19 May 2027                                              Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                        14 November 2026
+                                                        15 November 2026
 
 
                       Power and Energy YANG Module
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 May 2027.
+   This Internet-Draft will expire on 19 May 2027.
 
 Copyright Notice
 
@@ -1081,7 +1081,7 @@ Table of Contents
               re-initialization of the local management subsystem,
               then this leaf contains the time the local management
               subsystem re-initialized itself. If the device reports
-              an Energy counter, it MUST report this leaf.";
+              an Energy counter, it SHOULD report this leaf.";
          }
          leaf data-source-accuracy {
            type identityref {
@@ -1500,7 +1500,13 @@ Table of Contents
    computes the Energy over a period from two readings of a counter
    therefore needs to check the discontinuity-time leaf: if it has
    changed between the two readings, the difference between them is not
-   valid.
+   valid.  If the device does not report discontinuity-time, a decrease
+   between two consecutive readings reveals most resets and locates them
+   between the times at which the two readings were measured; with YANG-
+   Push [RFC8641], these times are given by the observation timestamp
+   defined in [I-D.ietf-netconf-notif-envelope].  A reset after which
+   the counter exceeds its previous value before the next reading still
+   goes unnoticed.
 
    Operators might not always be interested in the accuracy of
    individual Components; what matters is the accuracy at the device or
@@ -2083,6 +2089,14 @@ Table of Contents
               2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
               green-use-cases-02>.
 
+   [I-D.ietf-netconf-notif-envelope]
+              Feng, A. H., Francois, P., Graf, T., and B. Claise,
+              "Extensible YANG Model for YANG-Push Notifications", Work
+              in Progress, Internet-Draft, draft-ietf-netconf-notif-
+              envelope-07, 31 October 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-netconf-
+              notif-envelope-07>.
+
    [RFC7460]  Chandramouli, M., Claise, B., Schoening, B., Quittek, J.,
               and T. Dietz, "Monitoring and Control MIB for Power and
               Energy", RFC 7460, DOI 10.17487/RFC7460, March 2015,
@@ -2101,6 +2115,10 @@ Table of Contents
               and R. Wilton, "Network Management Datastore Architecture
               (NMDA)", RFC 8342, DOI 10.17487/RFC8342, March 2018,
               <https://www.rfc-editor.org/rfc/rfc8342>.
+
+   [RFC8641]  Clemm, A. and E. Voit, "Subscription to YANG Notifications
+              for Datastore Updates", RFC 8641, DOI 10.17487/RFC8641,
+              September 2019, <https://www.rfc-editor.org/rfc/rfc8641>.
 
    [RFC9907]  "Guidelines for Authors and Reviewers of Documents
               Containing YANG Data Models", March 2026,

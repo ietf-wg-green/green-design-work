@@ -1054,7 +1054,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Claise, et al.</td>
-<td class="center">Expires 18 May 2027</td>
+<td class="center">Expires 19 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg {
 <dd class="internet-draft">draft-ietf-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-14" class="published">14 November 2026</time>
+<time datetime="2026-11-15" class="published">15 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-18">18 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-19">19 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1120,7 +1120,7 @@ networks.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 18 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2263,7 +2263,7 @@ module ietf-power-and-energy {
            re-initialization of the local management subsystem,
            then this leaf contains the time the local management
            subsystem re-initialized itself. If the device reports
-           an Energy counter, it MUST report this leaf.";
+           an Energy counter, it SHOULD report this leaf.";
       }
       leaf data-source-accuracy {
         type identityref {
@@ -2703,7 +2703,13 @@ reinserted, or when the Energy measurement is reset. A client that
 computes the Energy over a period from two readings of a counter
 therefore needs to check the discontinuity-time leaf: if it has
 changed between the two readings, the difference between them is not
-valid.<a href="#section-7-5" class="pilcrow">¶</a></p>
+valid. If the device does not report discontinuity-time, a decrease
+between two consecutive readings reveals most resets and locates them
+between the times at which the two readings were measured; with
+YANG-Push <span>[<a href="#RFC8641" class="cite xref">RFC8641</a>]</span>, these times are given by the observation
+timestamp defined in <span>[<a href="#I-D.ietf-netconf-notif-envelope" class="cite xref">I-D.ietf-netconf-notif-envelope</a>]</span>. A reset
+after which the counter exceeds its previous value before the next
+reading still goes unnoticed.<a href="#section-7-5" class="pilcrow">¶</a></p>
 <p id="section-7-6">Operators might not always be interested in the accuracy of individual
 Components; what matters is the accuracy at the device or domain
 level. The accuracy-like-parent identity is introduced for this
@@ -3477,6 +3483,10 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Stephan, E.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Bernardos, C. J.</span>, and <span class="refAuthor">X. Chen</span>, <span class="refTitle">"Use Cases for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-use-cases-02</span>, <time datetime="2026-08-07" class="refDate">7 August 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-02">https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.ietf-netconf-notif-envelope">[I-D.ietf-netconf-notif-envelope]</dt>
+        <dd>
+<span class="refAuthor">Feng, A. H.</span>, <span class="refAuthor">Francois, P.</span>, <span class="refAuthor">Graf, T.</span>, and <span class="refAuthor">B. Claise</span>, <span class="refTitle">"Extensible YANG Model for YANG-Push Notifications"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-netconf-notif-envelope-07</span>, <time datetime="2026-10-31" class="refDate">31 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-netconf-notif-envelope-07">https://datatracker.ietf.org/doc/html/draft-ietf-netconf-notif-envelope-07</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7460">[RFC7460]</dt>
         <dd>
 <span class="refAuthor">Chandramouli, M.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Schoening, B.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">T. Dietz</span>, <span class="refTitle">"Monitoring and Control MIB for Power and Energy"</span>, <span class="seriesInfo">RFC 7460</span>, <span class="seriesInfo">DOI 10.17487/RFC7460</span>, <time datetime="2015-03" class="refDate">March 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7460">https://www.rfc-editor.org/rfc/rfc7460</a>&gt;</span>. </dd>
@@ -3492,6 +3502,10 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
 <dt id="RFC8342">[RFC8342]</dt>
         <dd>
 <span class="refAuthor">Bjorklund, M.</span>, <span class="refAuthor">Schoenwaelder, J.</span>, <span class="refAuthor">Shafer, P.</span>, <span class="refAuthor">Watsen, K.</span>, and <span class="refAuthor">R. Wilton</span>, <span class="refTitle">"Network Management Datastore Architecture (NMDA)"</span>, <span class="seriesInfo">RFC 8342</span>, <span class="seriesInfo">DOI 10.17487/RFC8342</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8342">https://www.rfc-editor.org/rfc/rfc8342</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8641">[RFC8641]</dt>
+        <dd>
+<span class="refAuthor">Clemm, A.</span> and <span class="refAuthor">E. Voit</span>, <span class="refTitle">"Subscription to YANG Notifications for Datastore Updates"</span>, <span class="seriesInfo">RFC 8641</span>, <span class="seriesInfo">DOI 10.17487/RFC8641</span>, <time datetime="2019-09" class="refDate">September 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8641">https://www.rfc-editor.org/rfc/rfc8641</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9907">[RFC9907]</dt>
       <dd>
