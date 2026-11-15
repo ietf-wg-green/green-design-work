@@ -14,8 +14,9 @@ module: ietf-power-and-energy
   |     |     +--ro limit       uint64
   |     |     +--ro limiting?   boolean
   |     +--ro energy
-  |     |  +--ro total-energy-received?   uint64
-  |     |  +--ro total-energy-provided?   uint64
+  |     |  +--ro total-energy-received?   yang:counter64
+  |     |  +--ro total-energy-provided?   yang:counter64
+  |     |  +--ro discontinuity-time?      yang:date-and-time
   |     |  +--ro data-source-accuracy?    identityref
   |     |  +--ro measurement-local?       boolean
   |     +--ro certifications*        identityref
