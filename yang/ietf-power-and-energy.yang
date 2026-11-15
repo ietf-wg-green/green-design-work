@@ -644,7 +644,7 @@ module ietf-power-and-energy {
            re-initialization of the local management subsystem,
            then this leaf contains the time the local management
            subsystem re-initialized itself. If the device reports
-           an Energy counter, it MUST report this leaf.";
+           an Energy counter, it SHOULD report this leaf.";
       }
       leaf data-source-accuracy {
         type identityref {

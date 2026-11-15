@@ -473,7 +473,13 @@ reinserted, or when the Energy measurement is reset. A client that
 computes the Energy over a period from two readings of a counter
 therefore needs to check the discontinuity-time leaf: if it has
 changed between the two readings, the difference between them is not
-valid.
+valid. If the device does not report discontinuity-time, a decrease
+between two consecutive readings reveals most resets and locates them
+between the times at which the two readings were measured; with
+YANG-Push {{?RFC8641}}, these times are given by the observation
+timestamp defined in {{?I-D.ietf-netconf-notif-envelope}}. A reset
+after which the counter exceeds its previous value before the next
+reading still goes unnoticed.
 
 Operators might not always be interested in the accuracy of individual
 Components; what matters is the accuracy at the device or domain
