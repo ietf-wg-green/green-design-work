@@ -1054,7 +1054,7 @@ svg {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Claise, et al.</td>
-<td class="center">Expires 18 May 2027</td>
+<td class="center">Expires 19 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1067,12 @@ svg {
 <dd class="internet-draft">draft-ietf-green-power-and-energy-yang-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-11-14" class="published">14 November 2026</time>
+<time datetime="2026-11-15" class="published">15 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-05-18">18 May 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-19">19 May 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1120,7 +1120,7 @@ networks.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 18 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 19 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1502,8 +1502,9 @@ module: ietf-power-and-energy
   |     |     +--ro limit       uint64
   |     |     +--ro limiting?   boolean
   |     +--ro energy
-  |     |  +--ro total-energy-received?   uint64
-  |     |  +--ro total-energy-provided?   uint64
+  |     |  +--ro total-energy-received?   yang:counter64
+  |     |  +--ro total-energy-provided?   yang:counter64
+  |     |  +--ro discontinuity-time?      yang:date-and-time
   |     |  +--ro data-source-accuracy?    identityref
   |     |  +--ro measurement-local?       boolean
   |     +--ro certifications*        identityref
@@ -1626,6 +1627,12 @@ module ietf-power-and-energy {
     prefix hw;
     reference
       "RFC 8348: A YANG Data Model for Hardware Management";
+  }
+
+  import ietf-yang-types {
+    prefix yang;
+    reference
+      "RFC 9911: Common YANG Data Types";
   }
 
   import iana-power-and-energy {
@@ -2211,30 +2218,52 @@ module ietf-power-and-energy {
         "Container for Energy measurement attributes.";
 
       leaf total-energy-received {
-        type uint64;
+        type yang:counter64;
         units "milliwatt-hours";
         description
           "The total cumulative Energy received by the Energy
-           Object since the last reset, in the same direction as
+           Object, in the same direction as
            instantaneous-power-received. This value is useful for
            tracking overall Energy usage over time for billing,
            reporting, or optimization purposes. If the device can
-           measure this value, it MUST report it.";
+           measure this value, it MUST report it.
+           Discontinuities in the value of this counter can occur
+           at re-initialization of the management system and at
+           other times as indicated by the value of
+           discontinuity-time.";
       }
 
       leaf total-energy-provided {
-        type uint64;
+        type yang:counter64;
         units "milliwatt-hours";
         description
           "The total cumulative Energy provided by the Energy
-           Object to other Energy Objects since the last reset, in
-           the same direction as instantaneous-power-provided.
+           Object to other Energy Objects, in the same direction
+           as instantaneous-power-provided.
            This value is relevant for Energy Objects that provide
            Energy, such as power supplies, PoE switches,
            batteries, or renewable energy sources. An Energy Object
            without Power Outlets does not report this leaf;
            otherwise, if the device can measure this value, it MUST
-           report it.";
+           report it. Discontinuities in the value of this
+           counter can occur at re-initialization of the
+           management system and at other times as indicated by
+           the value of discontinuity-time.";
+      }
+
+      leaf discontinuity-time {
+        type yang:date-and-time;
+        description
+          "The time on the most recent occasion at which one or more
+           of the Energy counters of this Energy Object
+           (total-energy-received and total-energy-provided)
+           suffered a discontinuity, for example when the Energy
+           Object was created or its Energy measurement was reset.
+           If no such discontinuity has occurred since the last
+           re-initialization of the local management subsystem,
+           then this leaf contains the time the local management
+           subsystem re-initialized itself. If the device reports
+           an Energy counter, it SHOULD report this leaf.";
       }
       leaf data-source-accuracy {
         type identityref {
@@ -2629,10 +2658,11 @@ management system or a controller computes when needed. For a power
 supply, this net value is its loss (see <a href="#psu-example" class="auto internal xref">Appendix A</a>).<a href="#section-7-2" class="pilcrow">¶</a></p>
 <p id="section-7-3">For implementers familiar with <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span>, the following table maps
 its Power and Energy objects to this module. The values in <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span>
-are scaled by a unit multiplier, while this module uses fixed units,
-and the Energy objects of <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span> cover a configured interval,
-while the Energy counters of this module are cumulative since the
-last reset.<a href="#section-7-3" class="pilcrow">¶</a></p>
+are scaled by a unit multiplier, while this module uses fixed units;
+the Energy objects of <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span> cover a configured interval, while
+the Energy counters of this module are cumulative; and the
+discontinuity time of <span>[<a href="#RFC7460" class="cite xref">RFC7460</a>]</span> is a sysUpTime value, while this
+module reports a date and time.<a href="#section-7-3" class="pilcrow">¶</a></p>
 <span id="name-mapping-of-rfc-7460-power-a"></span><table class="center" id="table-1">
         <caption>
 <a href="#table-1" class="selfRef">Table 1</a>:
@@ -2657,9 +2687,30 @@ last reset.<a href="#section-7-3" class="pilcrow">¶</a></p>
             <td class="text-left" rowspan="1" colspan="1">eoEnergyProvided</td>
             <td class="text-left" rowspan="1" colspan="1">total-energy-provided</td>
           </tr>
+          <tr>
+            <td class="text-left" rowspan="1" colspan="1">eoEnergyDiscontinuityTime</td>
+            <td class="text-left" rowspan="1" colspan="1">discontinuity-time</td>
+          </tr>
         </tbody>
       </table>
-<p id="section-7-5">Operators might not always be interested in the accuracy of individual
+<p id="section-7-5">The Energy counters are of type counter64 <span>[<a href="#RFC9911" class="cite xref">RFC9911</a>]</span>. With a unit
+of one milliwatt-hour, a counter64 wraps around only after about 18
+billion MWh, which does not happen in practice. The risk is rather a
+reset that goes unnoticed: an Energy counter can restart at times
+other than the re-initialization of the management system, for
+example when a power supply is hot-swapped, when a line card is
+reinserted, or when the Energy measurement is reset. A client that
+computes the Energy over a period from two readings of a counter
+therefore needs to check the discontinuity-time leaf: if it has
+changed between the two readings, the difference between them is not
+valid. If the device does not report discontinuity-time, a decrease
+between two consecutive readings reveals most resets and locates them
+between the times at which the two readings were measured; with
+YANG-Push <span>[<a href="#RFC8641" class="cite xref">RFC8641</a>]</span>, these times are given by the observation
+timestamp defined in <span>[<a href="#I-D.ietf-netconf-notif-envelope" class="cite xref">I-D.ietf-netconf-notif-envelope</a>]</span>. A reset
+after which the counter exceeds its previous value before the next
+reading still goes unnoticed.<a href="#section-7-5" class="pilcrow">¶</a></p>
+<p id="section-7-6">Operators might not always be interested in the accuracy of individual
 Components; what matters is the accuracy at the device or domain
 level. The accuracy-like-parent identity is introduced for this
 purpose. The parent Energy Object is determined by the containment
@@ -2675,13 +2726,13 @@ data-source-accuracy, for example to accuracy-unknown. From an
 implementation point of view, to facilitate data collection and
 aggregation at runtime and to avoid post-aggregation data confidence
 interval issues, operators and implementers should use the
-accuracy-like-parent identity as much as possible.<a href="#section-7-5" class="pilcrow">¶</a></p>
-<p id="section-7-6">YANG Push support eliminates device-side bucket storage by streaming
+accuracy-like-parent identity as much as possible.<a href="#section-7-6" class="pilcrow">¶</a></p>
+<p id="section-7-7">YANG Push support eliminates device-side bucket storage by streaming
 Energy telemetry directly to controller-side via subscriptions.
 Operators must verify the 'yang-push' bundle is enabled and validate
 push-max-operational limits accommodate all Component subscriptions,
 preventing notification flooding while avoiding memory overhead on the
-device.<a href="#section-7-6" class="pilcrow">¶</a></p>
+device.<a href="#section-7-7" class="pilcrow">¶</a></p>
 <div id="hardware-component-identification">
 <section id="section-7.1">
         <h3 id="name-hardware-component-identifi">
@@ -3408,8 +3459,12 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
 <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc9846">https://datatracker.ietf.org/doc/html/rfc9846</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9890">[RFC9890]</dt>
-      <dd>
+        <dd>
 <span class="refTitle">"An Update to YANG Module Names Registration"</span>, <time datetime="2025-10" class="refDate">October 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc9890">https://datatracker.ietf.org/doc/html/rfc9890</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9911">[RFC9911]</dt>
+      <dd>
+<span class="refAuthor">Schönwälder, J., Ed.</span>, <span class="refTitle">"Common YANG Data Types"</span>, <span class="seriesInfo">RFC 9911</span>, <span class="seriesInfo">DOI 10.17487/RFC9911</span>, <time datetime="2025-12" class="refDate">December 2025</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9911">https://www.rfc-editor.org/rfc/rfc9911</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -3428,6 +3483,10 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Stephan, E.</span>, <span class="refAuthor">Palmero, M. P.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Wu, Q.</span>, <span class="refAuthor">Contreras, L. M.</span>, <span class="refAuthor">Bernardos, C. J.</span>, and <span class="refAuthor">X. Chen</span>, <span class="refTitle">"Use Cases for Energy Efficiency Management"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-green-use-cases-02</span>, <time datetime="2026-08-07" class="refDate">7 August 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-02">https://datatracker.ietf.org/doc/html/draft-ietf-green-use-cases-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.ietf-netconf-notif-envelope">[I-D.ietf-netconf-notif-envelope]</dt>
+        <dd>
+<span class="refAuthor">Feng, A. H.</span>, <span class="refAuthor">Francois, P.</span>, <span class="refAuthor">Graf, T.</span>, and <span class="refAuthor">B. Claise</span>, <span class="refTitle">"Extensible YANG Model for YANG-Push Notifications"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-netconf-notif-envelope-07</span>, <time datetime="2026-10-31" class="refDate">31 October 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-netconf-notif-envelope-07">https://datatracker.ietf.org/doc/html/draft-ietf-netconf-notif-envelope-07</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7460">[RFC7460]</dt>
         <dd>
 <span class="refAuthor">Chandramouli, M.</span>, <span class="refAuthor">Claise, B.</span>, <span class="refAuthor">Schoening, B.</span>, <span class="refAuthor">Quittek, J.</span>, and <span class="refAuthor">T. Dietz</span>, <span class="refTitle">"Monitoring and Control MIB for Power and Energy"</span>, <span class="seriesInfo">RFC 7460</span>, <span class="seriesInfo">DOI 10.17487/RFC7460</span>, <time datetime="2015-03" class="refDate">March 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7460">https://www.rfc-editor.org/rfc/rfc7460</a>&gt;</span>. </dd>
@@ -3443,6 +3502,10 @@ document.<a href="#section-10-1" class="pilcrow">¶</a></p>
 <dt id="RFC8342">[RFC8342]</dt>
         <dd>
 <span class="refAuthor">Bjorklund, M.</span>, <span class="refAuthor">Schoenwaelder, J.</span>, <span class="refAuthor">Shafer, P.</span>, <span class="refAuthor">Watsen, K.</span>, and <span class="refAuthor">R. Wilton</span>, <span class="refTitle">"Network Management Datastore Architecture (NMDA)"</span>, <span class="seriesInfo">RFC 8342</span>, <span class="seriesInfo">DOI 10.17487/RFC8342</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8342">https://www.rfc-editor.org/rfc/rfc8342</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8641">[RFC8641]</dt>
+        <dd>
+<span class="refAuthor">Clemm, A.</span> and <span class="refAuthor">E. Voit</span>, <span class="refTitle">"Subscription to YANG Notifications for Datastore Updates"</span>, <span class="seriesInfo">RFC 8641</span>, <span class="seriesInfo">DOI 10.17487/RFC8641</span>, <time datetime="2019-09" class="refDate">September 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8641">https://www.rfc-editor.org/rfc/rfc8641</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9907">[RFC9907]</dt>
       <dd>
@@ -3464,7 +3527,8 @@ the device. Both are Components in the ietf-hardware module
 <span>[<a href="#RFC8348" class="cite xref">RFC8348</a>]</span>, and psu-1 is contained in the chassis. The values are
 illustrative: the power supply receives 400 W from the PDU and
 provides 376 W to the chassis, an efficiency of 94% at about half its
-Nameplate Power, and the Energy counters cover 30 days at that load.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+Nameplate Power, and the Energy counters cover the 30 days at that load
+since their last discontinuity, reported in discontinuity-time.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <p id="appendix-A-2">The following instance data is encoded in JSON <span>[<a href="#RFC7951" class="cite xref">RFC7951</a>]</span>. Power is
 in milliwatts and Energy in milliwatt-hours, and the uint64 values are
 encoded as JSON strings.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
@@ -3485,7 +3549,8 @@ encoded as JSON strings.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
         },
         "energy": {
           "total-energy-received": "288000000",
-          "total-energy-provided": "270720000"
+          "total-energy-provided": "270720000",
+          "discontinuity-time": "2026-10-01T00:00:00Z"
         },
         "certifications": [ "iana-power-and-energy:c80-plus" ],
         "relationship": [
@@ -3503,7 +3568,8 @@ encoded as JSON strings.<a href="#appendix-A-2" class="pilcrow">¶</a></p>
           "instantaneous-power-received": "376000"
         },
         "energy": {
-          "total-energy-received": "270720000"
+          "total-energy-received": "270720000",
+          "discontinuity-time": "2026-10-01T00:00:00Z"
         },
         "relationship": [
           { "type": "powered-by",
@@ -3579,7 +3645,9 @@ ietf-hardware identifiers; added the Hardware Component
 Identification section.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.6">
-            <p id="appendix-B.1-1.6.1">Accuracy thresholds are expressed in milliwatts.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.6.1">The absolute thresholds of the accuracy identities (suffixes -1, -10,
+-100, -1000) are expressed in milliwatts instead of the
+unit-multiplier scale.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.7">
             <p id="appendix-B.1-1.7.1">IANA Considerations: addressed the IANA early review: registration
@@ -3629,27 +3697,32 @@ certifications groupings.<a href="#appendix-B.2-1.5.1" class="pilcrow">¶</a></p
             <p id="appendix-B.2-1.6.1">Defined the parent of accuracy-like-parent.<a href="#appendix-B.2-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.2-1.7">
-            <p id="appendix-B.2-1.7.1">Operational Considerations: consumption as the net Power, and the
-mapping of the RFC 7460 objects.<a href="#appendix-B.2-1.7.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.2-1.7.1">The absolute thresholds of the accuracy identities are expressed in
+the unit of the qualified value: milliwatts for Power, and
+milliwatt-hours for Energy.<a href="#appendix-B.2-1.7.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.2-1.8">
-            <p id="appendix-B.2-1.8.1">Added the reporting rule for measurable values, and text on Power
-over Ethernet and batteries.<a href="#appendix-B.2-1.8.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.2-1.8.1">Operational Considerations: consumption as the net Power, and the
+mapping of the RFC 7460 objects.<a href="#appendix-B.2-1.8.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.2-1.9">
-            <p id="appendix-B.2-1.9.1">Added Appendix A, an example of a 750 W power supply.<a href="#appendix-B.2-1.9.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.2-1.9.1">Added the reporting rule for measurable values, and text on Power
+over Ethernet and batteries.<a href="#appendix-B.2-1.9.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.2-1.10">
-            <p id="appendix-B.2-1.10.1">IANA Considerations: registered the ietf-power-and-energy module,
-requested an "accelerator" hardware class, renamed eu-energy-level
-and cn-energy-level to eu-energy-label and cn-energy-label, and fixed
-the registry table (c80-plus, cqc).<a href="#appendix-B.2-1.10.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.2-1.10.1">Added Appendix A, an example of a 750 W power supply.<a href="#appendix-B.2-1.10.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.2-1.11">
-            <p id="appendix-B.2-1.11.1">Capitalized the terms defined in draft-ietf-green-terminology.<a href="#appendix-B.2-1.11.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.2-1.11.1">IANA Considerations: registered the ietf-power-and-energy module,
+requested an "accelerator" hardware class, renamed eu-energy-level
+and cn-energy-level to eu-energy-label and cn-energy-label, and fixed
+the registry table (c80-plus, cqc).<a href="#appendix-B.2-1.11.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.2-1.12">
-            <p id="appendix-B.2-1.12.1">Updated references, and editorial changes.<a href="#appendix-B.2-1.12.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.2-1.12.1">Capitalized the terms defined in draft-ietf-green-terminology.<a href="#appendix-B.2-1.12.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.13">
+            <p id="appendix-B.2-1.13.1">Updated references, and editorial changes.<a href="#appendix-B.2-1.13.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -3671,6 +3744,11 @@ the registry table (c80-plus, cqc).<a href="#appendix-B.2-1.10.1" class="pilcrow
 Considerations: source-component-id is bound to the 'name' leaf of
 the hardware component; the device <span class="bcp14">SHOULD</span> also report the 'uuid'
 leaf.<a href="#appendix-B.3-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.3-1.4">
+            <p id="appendix-B.3-1.4.1">Energy counters: yang:counter64 instead of uint64, and a
+discontinuity-time leaf, mapped from eoEnergyDiscontinuityTime of
+RFC 7460.<a href="#appendix-B.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

@@ -5,12 +5,12 @@
 GREEN                                                          B. Claise
 Internet-Draft                                   Everything OPS & Arrcus
 Intended status: Standards Track                                 G. Chen
-Expires: 18 May 2027                                              Huawei
+Expires: 19 May 2027                                              Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                        14 November 2026
+                                                        15 November 2026
 
 
                       Power and Energy YANG Module
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 May 2027.
+   This Internet-Draft will expire on 19 May 2027.
 
 Copyright Notice
 
@@ -325,8 +325,9 @@ Table of Contents
      |     |     +--ro limit       uint64
      |     |     +--ro limiting?   boolean
      |     +--ro energy
-     |     |  +--ro total-energy-received?   uint64
-     |     |  +--ro total-energy-provided?   uint64
+     |     |  +--ro total-energy-received?   yang:counter64
+     |     |  +--ro total-energy-provided?   yang:counter64
+     |     |  +--ro discontinuity-time?      yang:date-and-time
      |     |  +--ro data-source-accuracy?    identityref
      |     |  +--ro measurement-local?       boolean
      |     +--ro certifications*        identityref
@@ -444,6 +445,12 @@ Table of Contents
        prefix hw;
        reference
          "RFC 8348: A YANG Data Model for Hardware Management";
+     }
+
+     import ietf-yang-types {
+       prefix yang;
+       reference
+         "RFC 9911: Common YANG Data Types";
      }
 
      import iana-power-and-energy {
@@ -1029,30 +1036,52 @@ Table of Contents
            "Container for Energy measurement attributes.";
 
          leaf total-energy-received {
-           type uint64;
+           type yang:counter64;
            units "milliwatt-hours";
            description
              "The total cumulative Energy received by the Energy
-              Object since the last reset, in the same direction as
+              Object, in the same direction as
               instantaneous-power-received. This value is useful for
               tracking overall Energy usage over time for billing,
               reporting, or optimization purposes. If the device can
-              measure this value, it MUST report it.";
+              measure this value, it MUST report it.
+              Discontinuities in the value of this counter can occur
+              at re-initialization of the management system and at
+              other times as indicated by the value of
+              discontinuity-time.";
          }
 
          leaf total-energy-provided {
-           type uint64;
+           type yang:counter64;
            units "milliwatt-hours";
            description
              "The total cumulative Energy provided by the Energy
-              Object to other Energy Objects since the last reset, in
-              the same direction as instantaneous-power-provided.
+              Object to other Energy Objects, in the same direction
+              as instantaneous-power-provided.
               This value is relevant for Energy Objects that provide
               Energy, such as power supplies, PoE switches,
               batteries, or renewable energy sources. An Energy Object
               without Power Outlets does not report this leaf;
               otherwise, if the device can measure this value, it MUST
-              report it.";
+              report it. Discontinuities in the value of this
+              counter can occur at re-initialization of the
+              management system and at other times as indicated by
+              the value of discontinuity-time.";
+         }
+
+         leaf discontinuity-time {
+           type yang:date-and-time;
+           description
+             "The time on the most recent occasion at which one or more
+              of the Energy counters of this Energy Object
+              (total-energy-received and total-energy-provided)
+              suffered a discontinuity, for example when the Energy
+              Object was created or its Energy measurement was reset.
+              If no such discontinuity has occurred since the last
+              re-initialization of the local management subsystem,
+              then this leaf contains the time the local management
+              subsystem re-initialized itself. If the device reports
+              an Energy counter, it SHOULD report this leaf.";
          }
          leaf data-source-accuracy {
            type identityref {
@@ -1440,23 +1469,44 @@ Table of Contents
 
    For implementers familiar with [RFC7460], the following table maps
    its Power and Energy objects to this module.  The values in [RFC7460]
-   are scaled by a unit multiplier, while this module uses fixed units,
-   and the Energy objects of [RFC7460] cover a configured interval,
-   while the Energy counters of this module are cumulative since the
-   last reset.
+   are scaled by a unit multiplier, while this module uses fixed units;
+   the Energy objects of [RFC7460] cover a configured interval, while
+   the Energy counters of this module are cumulative; and the
+   discontinuity time of [RFC7460] is a sysUpTime value, while this
+   module reports a date and time.
 
-         +==================+====================================+
-         | RFC 7460 object  | This module                        |
-         +==================+====================================+
-         | eoPower          | instantaneous-power-received minus |
-         |                  | instantaneous-power-provided       |
-         +------------------+------------------------------------+
-         | eoEnergyConsumed | total-energy-received              |
-         +------------------+------------------------------------+
-         | eoEnergyProvided | total-energy-provided              |
-         +------------------+------------------------------------+
+    +===========================+====================================+
+    | RFC 7460 object           | This module                        |
+    +===========================+====================================+
+    | eoPower                   | instantaneous-power-received minus |
+    |                           | instantaneous-power-provided       |
+    +---------------------------+------------------------------------+
+    | eoEnergyConsumed          | total-energy-received              |
+    +---------------------------+------------------------------------+
+    | eoEnergyProvided          | total-energy-provided              |
+    +---------------------------+------------------------------------+
+    | eoEnergyDiscontinuityTime | discontinuity-time                 |
+    +---------------------------+------------------------------------+
 
-           Table 1: Mapping of RFC 7460 Power and Energy Objects
+          Table 1: Mapping of RFC 7460 Power and Energy Objects
+
+   The Energy counters are of type counter64 [RFC9911].  With a unit of
+   one milliwatt-hour, a counter64 wraps around only after about 18
+   billion MWh, which does not happen in practice.  The risk is rather a
+   reset that goes unnoticed: an Energy counter can restart at times
+   other than the re-initialization of the management system, for
+   example when a power supply is hot-swapped, when a line card is
+   reinserted, or when the Energy measurement is reset.  A client that
+   computes the Energy over a period from two readings of a counter
+   therefore needs to check the discontinuity-time leaf: if it has
+   changed between the two readings, the difference between them is not
+   valid.  If the device does not report discontinuity-time, a decrease
+   between two consecutive readings reveals most resets and locates them
+   between the times at which the two readings were measured; with YANG-
+   Push [RFC8641], these times are given by the observation timestamp
+   defined in [I-D.ietf-netconf-notif-envelope].  A reset after which
+   the counter exceeds its previous value before the next reading still
+   goes unnoticed.
 
    Operators might not always be interested in the accuracy of
    individual Components; what matters is the accuracy at the device or
@@ -2017,6 +2067,10 @@ Table of Contents
    [RFC9890]  "An Update to YANG Module Names Registration", October
               2025, <https://datatracker.ietf.org/doc/html/rfc9890>.
 
+   [RFC9911]  Schönwälder, J., Ed., "Common YANG Data Types", RFC 9911,
+              DOI 10.17487/RFC9911, December 2025,
+              <https://www.rfc-editor.org/rfc/rfc9911>.
+
 11.2.  Informative References
 
    [I-D.ietf-green-framework]
@@ -2034,6 +2088,14 @@ Table of Contents
               Internet-Draft, draft-ietf-green-use-cases-02, 7 August
               2026, <https://datatracker.ietf.org/doc/html/draft-ietf-
               green-use-cases-02>.
+
+   [I-D.ietf-netconf-notif-envelope]
+              Feng, A. H., Francois, P., Graf, T., and B. Claise,
+              "Extensible YANG Model for YANG-Push Notifications", Work
+              in Progress, Internet-Draft, draft-ietf-netconf-notif-
+              envelope-07, 31 October 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-netconf-
+              notif-envelope-07>.
 
    [RFC7460]  Chandramouli, M., Claise, B., Schoening, B., Quittek, J.,
               and T. Dietz, "Monitoring and Control MIB for Power and
@@ -2054,6 +2116,10 @@ Table of Contents
               (NMDA)", RFC 8342, DOI 10.17487/RFC8342, March 2018,
               <https://www.rfc-editor.org/rfc/rfc8342>.
 
+   [RFC8641]  Clemm, A. and E. Voit, "Subscription to YANG Notifications
+              for Datastore Updates", RFC 8641, DOI 10.17487/RFC8641,
+              September 2019, <https://www.rfc-editor.org/rfc/rfc8641>.
+
    [RFC9907]  "Guidelines for Authors and Reviewers of Documents
               Containing YANG Data Models", March 2026,
               <https://datatracker.ietf.org/doc/html/rfc9907>.
@@ -2066,7 +2132,8 @@ Appendix A.  Example: Modeling a 750 W Power Supply
    [RFC8348], and psu-1 is contained in the chassis.  The values are
    illustrative: the power supply receives 400 W from the PDU and
    provides 376 W to the chassis, an efficiency of 94% at about half its
-   Nameplate Power, and the Energy counters cover 30 days at that load.
+   Nameplate Power, and the Energy counters cover the 30 days at that
+   load since their last discontinuity, reported in discontinuity-time.
 
    The following instance data is encoded in JSON [RFC7951].  Power is
    in milliwatts and Energy in milliwatt-hours, and the uint64 values
@@ -2087,7 +2154,8 @@ Appendix A.  Example: Modeling a 750 W Power Supply
            },
            "energy": {
              "total-energy-received": "288000000",
-             "total-energy-provided": "270720000"
+             "total-energy-provided": "270720000",
+             "discontinuity-time": "2026-10-01T00:00:00Z"
            },
            "certifications": [ "iana-power-and-energy:c80-plus" ],
            "relationship": [
@@ -2105,7 +2173,8 @@ Appendix A.  Example: Modeling a 750 W Power Supply
              "instantaneous-power-received": "376000"
            },
            "energy": {
-             "total-energy-received": "270720000"
+             "total-energy-received": "270720000",
+             "discontinuity-time": "2026-10-01T00:00:00Z"
            },
            "relationship": [
              { "type": "powered-by",
@@ -2164,7 +2233,9 @@ B.1.  Changes from 03 to 04
       ietf-hardware identifiers; added the Hardware Component
       Identification section.
 
-   *  Accuracy thresholds are expressed in milliwatts.
+   *  The absolute thresholds of the accuracy identities (suffixes -1,
+      -10, -100, -1000) are expressed in milliwatts instead of the unit-
+      multiplier scale.
 
    *  IANA Considerations: addressed the IANA early review: registration
       in the IETF XML Registry and the YANG Module Names registry, and
@@ -2197,6 +2268,10 @@ B.2.  Changes from 04 to 05
 
    *  Defined the parent of accuracy-like-parent.
 
+   *  The absolute thresholds of the accuracy identities are expressed
+      in the unit of the qualified value: milliwatts for Power, and
+      milliwatt-hours for Energy.
+
    *  Operational Considerations: consumption as the net Power, and the
       mapping of the RFC 7460 objects.
 
@@ -2224,6 +2299,10 @@ B.3.  Changes from 05 to 06
       Considerations: source-component-id is bound to the 'name' leaf of
       the hardware component; the device SHOULD also report the 'uuid'
       leaf.
+
+   *  Energy counters: yang:counter64 instead of uint64, and a
+      discontinuity-time leaf, mapped from eoEnergyDiscontinuityTime of
+      RFC 7460.
 
 Authors' Addresses
 
