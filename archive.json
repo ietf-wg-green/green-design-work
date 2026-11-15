@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-10T04:56:56.464701+00:00",
+  "timestamp": "2026-11-15T03:28:29.904734+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -626,7 +626,7 @@
       "labels": [],
       "body": "Feedback from IETF 126 GREEN meeting",
       "createdAt": "2026-07-20T15:34:54Z",
-      "updatedAt": "2026-11-02T16:52:42Z",
+      "updatedAt": "2026-11-14T15:06:16Z",
       "closedAt": "2026-11-02T16:52:42Z",
       "comments": [
         {
@@ -663,6 +663,13 @@
           "body": "Conclusion from the Sept 2nd call.\nLet's try to model a router, with line card, interface AND power supply with the current objects.\nAnd let's continue the discussion the mailing list",
           "createdAt": "2026-09-02T09:32:37Z",
           "updatedAt": "2026-09-02T09:32:37Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing comment:\nFixed by #83 and #84, in draft-ietf-green-power-and-energy-yang-05.\n\nThe signed instantaneous-power is replaced by Power per direction, as unsigned values, consistent with Energy:\n- instantaneous-power-received and instantaneous-power-provided (uint64, milliwatts)\n- total-energy-received and total-energy-provided (uint64, milliwatt-hours)\n\nThe direction follows the Power Inlets and Power Outlets of draft-ietf-green-terminology: received is the Power flowing into the Energy Object, provided is the Power flowing out of it to other Energy Objects. No sign is needed:\n- a power supply receives Power from its source and provides Power to the device; the difference is its loss\n- a battery receives Power while charging and provides Power while discharging\n- the net Power (received minus provided) is the consumption of the Energy Object, and summing it over Energy Objects does not count twice the Power passed between them\n\nAppendix A models a 750 W power supply, answering \"How do you model a 750W power supply?\" from the mailing list. The Operational Considerations map the RFC 7460 objects (eoPower, eoEnergyConsumed, eoEnergyProvided) to the new leaves.\n\n",
+          "createdAt": "2026-11-14T15:06:16Z",
+          "updatedAt": "2026-11-14T15:06:16Z"
         }
       ]
     },
@@ -898,6 +905,76 @@
       "body": "The draft defines accuracy levels for measured values, but it does not state whether estimated values also carry an accuracy level, or whether estimated and measured values are meant to be comparable on the same accuracy scale.\n\nThis leaves the accuracy positioning of estimated unclear. Without clarification, applications may incorrectly assume an estimated value is comparable to a measured value of the same or similar accuracy, or may not know how to treat estimated values when comparing or aggregating data. This is a semantics question, not a request for fixed thresholds.",
       "createdAt": "2026-11-09T03:41:12Z",
       "updatedAt": "2026-11-09T03:41:12Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 89,
+      "id": "I_kwDOP9HHVc8AAAABevDlgg",
+      "title": "uuid vs name: inconsistency on the text",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/89",
+      "state": "CLOSED",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "\nYANG leafref path | /hw:hardware/hw:component/hw:name\n\nYANG leaf description | \u201cReference to the component name in the ietf-hardware model.\u201d\n\n\nSection 4, should replace:\n\n\u201cuses the \u2018uuid\u2019 leaf as the value of \u2018source-component-id\u2019\u201d\n\nWith:\n\n\u201cuses the \u2018name\u2019 leaf as the value of \u2018source-component-id\u2019. The \u2018name\u2019 leaf is the list key of hw:component and uniquely identifies a component within a single managed device. Implementations that require globally unique component identification across devices SHOULD also populate the hw:uuid leaf on the referenced hw:component entry.\u201d\n\nSection 7.1, replace:\n\n\u201cthe \u2018source-component-id\u2019 leaf in this module is bound to the \u2018uuid\u2019 leaf of the corresponding ietf-hardware component\u201d\n\nWith:\n\n\u201cthe \u2018source-component-id\u2019 leaf in this module is bound to the \u2018name\u2019 leaf of the corresponding ietf-hardware component, which is the list key defined in RFC 8348. Note that \u2018name\u2019 is locally unique per device; for cross-device identification, implementers SHOULD additionally expose the hw:uuid leaf.\u201d",
+      "createdAt": "2026-11-12T19:36:33Z",
+      "updatedAt": "2026-11-14T14:54:28Z",
+      "closedAt": "2026-11-14T14:54:28Z",
+      "comments": []
+    },
+    {
+      "number": 90,
+      "id": "I_kwDOP9HHVc8AAAABevJfSA",
+      "title": "API alignement > Missing: measurement-timestamp leaf",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/90",
+      "state": "OPEN",
+      "author": "marisolpalmero",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "when looking at PETRA energy API towards the GREEN hackathon setup\non top of the GREEN power-and-energy YANG model (draft-ietf-green-power-and-energy-yang-04), I ran into a gap that I believe needs to be addressed in the GREEN YANG model itself before PETRA's time-window query variant and federated accuracy propagation can be fully implemented.\n\nThe current model defines data-source-accuracy as an identityref per energy object, which is the right mechanism. However, the model carries no leaf recording *when* a measurement was taken. This creates two problems:\n\n* Problem 1, time-window queries\n\nPETRA defines a time-window + data-transmitted input variant as an alternative to throughput-gbps. A controller implementing this variant needs to determine whether its current measurement falls within the requested window. Without a measurement timestamp in the data model, there is no standard way to make that determination. The controller is forced to use implementation-specific timestamps outside the YANG model, making interoperability impossible.\n\n* Problem 2, Federated accuracy propagation\n\nPETRA requires \"least-accurate-wins\" when aggregating energy data across nodes. The accuracy identity (e.g. eo:accuracy-measured-bronze) says *how* a measurement was taken, but not *when*. A reading tagged accuracy-measured-bronze could be 2 seconds old or 2 hours old, the model is silent on staleness. For federated deployments where controllers might aggregate results from downstream peers, the absence of a timestamp makes it impossible to flag a stale measurement as effectively lower accuracy without inventing a local convention.\n\nProposed fix:\n\nAdd the following leaf to the grouping used in both the power and energy containers:\n\n  leaf measurement-timestamp {\n    type yang:date-and-time;\n    config false;\n    description\n      \"The time at which the most recent measurement contributing\n       to this energy object's value was taken.\n       This leaf SHOULD be absent when data-source-accuracy is\n       eo:accuracy-static or eo:accuracy-estimated, since those\n       values are not based on a point-in-time sensor reading.\";\n  }\n\nBest regards",
+      "createdAt": "2026-11-12T19:42:36Z",
+      "updatedAt": "2026-11-14T10:40:40Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't believe we should be solving this issue.\nWe decided in the past that the power and energy information would be streamed. \nSo you can stream at the periodicity that you need.\nhttps://datatracker.ietf.org/doc/draft-ietf-netconf-notif-envelope/, for IETF YANG-Push supports \"an extension to the YANG-Push Notifications\nsupporting a timestamp characterizing the moment when the data was observed.\"\nIMO, this issue should be closed",
+          "createdAt": "2026-11-14T00:23:27Z",
+          "updatedAt": "2026-11-14T00:23:27Z"
+        },
+        {
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I agree with Benoit, that YANG-Push can carry a device-generated observation timestamp in each notification, enabling controllers to align measurements with requested time windows and assess data staleness without adding a timestamp leaf to the GREEN YANG data model.",
+          "createdAt": "2026-11-14T09:37:56Z",
+          "updatedAt": "2026-11-14T09:37:56Z"
+        },
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "And if polling is requested, we have the controller requested time (or the answered time, or the average of the two)\nOk, it's not ideal, and this has been an issue for decades (SNMP, NETCONF). Hence the preference for telemetry",
+          "createdAt": "2026-11-14T10:40:40Z",
+          "updatedAt": "2026-11-14T10:40:40Z"
+        }
+      ]
+    },
+    {
+      "number": 93,
+      "id": "I_kwDOP9HHVc8AAAABfP05xg",
+      "title": "Energy counters: no way to detect a counter reset (discontinuity)",
+      "url": "https://github.com/ietf-wg-green/green-design-work/issues/93",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "total-energy-received and total-energy-provided are cumulative counters, but the module has no way to signal that a counter restarted. A client that computes the Energy over a period from two readings cannot tell whether the counter was reset in between, for example when a power supply is hot-swapped, a line card is reinserted, or the Energy measurement is reset. If the counter climbs past its previous value before the next reading, the computed difference is silently wrong.\n\nWrap-around is not the issue: with a unit of one milliwatt-hour, a 64-bit counter wraps only after about 18 billion MWh.\n\nThe guidelines:\n\n    RFC 9907, Section 4.12: \"If an appropriate derived type exists in any standard module, such as [RFC9911], then it SHOULD be used instead of defining a new derived type.\" The counters use uint64 instead of yang:counter64.\n    RFC 9911, counter64: if discontinuities occur at times other than re-initialization, \"a corresponding schema node should be defined, with an appropriate type, to indicate the last discontinuity.\"\n\nPrecedents:\n\n    RFC 7460, which this module replaces, has eoEnergyDiscontinuityTime; the RFC 7460 mapping table in the Operational Considerations does not mention it.\n    ietf-interfaces (RFC 8343) has a discontinuity-time leaf next to its counters.\n\nProposal:\n\n    total-energy-received and total-energy-provided: type yang:counter64 (same value space and encoding as uint64)\n    add a discontinuity-time leaf (yang:date-and-time) in the energy container; a device that reports an Energy counter MUST report it\n    add eoEnergyDiscontinuityTime to the RFC 7460 mapping table, and explain wrap and reset in the Operational Considerations\n\n",
+      "createdAt": "2026-11-14T15:20:36Z",
+      "updatedAt": "2026-11-14T17:15:25Z",
       "closedAt": null,
       "comments": []
     }
@@ -3154,7 +3231,7 @@
       "labels": [],
       "body": "- Power cap: requested limit in /energy-control (rw), enforced limit in /energy-objects (presence container with limit and the optional limiting leaf); principles in Section 3; Section 8 lists the new writable node.\n- IANA: request a new \"accelerator\" hardware class (GPU, TPU, NPU, FPGA card); RFC 6933 cited.\n- Contact statement per RFC 9907; RFC XXXX placeholders and a Note to the RFC Editor; Note to IANA lines removed.\n- Editorial: proofreading fixes, RFC 7460 reference, use cases cited by title, energy-control id guidance (require-instance false).",
       "createdAt": "2026-11-02T11:40:34Z",
-      "updatedAt": "2026-11-03T03:57:24Z",
+      "updatedAt": "2026-11-14T15:04:26Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "bb4aaac38a5154bfb546a7951e1e0e84bd272df3",
@@ -3439,7 +3516,7 @@
       "labels": [],
       "body": "- The four measured leaves: if the device can measure the value, it MUST report it; an Energy Object without Power Outlets does not report the provided leaves. Appendix A updated accordingly.\r\n- Section 3: for Power over Ethernet, the switch measures the provided Power at its PoE ports and the powered device the received Power at its Power Inlet; the difference is the loss in the cable.\r\n- Section 3: the state of a battery (charge, capacity) is out of scope, covered by the Battery MIB (RFC 7577), also cited in the EMAN section.\r\n- Section 3 points to Appendix A.\r\n- Certification example uses the existing c80-plus identity and says that the identity does not convey the level.\r\n\r\nFixes #67",
       "createdAt": "2026-11-02T15:45:28Z",
-      "updatedAt": "2026-11-03T07:44:34Z",
+      "updatedAt": "2026-11-14T15:04:25Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "accuracy-like-parent",
       "baseRefOid": "7942809968af107788b5bfd55178f14911b12429",
@@ -3534,7 +3611,7 @@
       "labels": [],
       "body": "#84 was merged into accuracy-like-parent instead of main; this brings it to main.\n\nFixes #67",
       "createdAt": "2026-11-02T16:52:03Z",
-      "updatedAt": "2026-11-03T07:45:53Z",
+      "updatedAt": "2026-11-14T15:04:25Z",
       "baseRepository": "ietf-wg-green/green-design-work",
       "baseRefName": "main",
       "baseRefOid": "ebdba71ab5a93158c8fcdac1404104cf96a2dfc1",
@@ -3690,6 +3767,133 @@
       "mergeCommit": {
         "oid": "c0556199c065c161725ea83543f1e4c124333a01"
       },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 91,
+      "id": "PR_kwDOP9HHVc8AAAABPDVM-Q",
+      "title": "Bind source-component-id to the hardware name, not the uuid",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/91",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The leafref of source-component-id points to the ietf-hardware 'name' leaf, but Sections 4 and 7.1 said it was bound to the 'uuid' leaf. Align the text with the module:\n- Section 4: 'source-component-id' uses the 'name' leaf, the list key that identifies a component within a device; for identification across devices, the device SHOULD also report the 'uuid' leaf of the referenced component\n- Section 7.1: bound to 'name' (list key, always present; 'uuid' is optional in RFC 8348); a client uses the 'uuid' leaf to correlate Energy Objects across devices and management systems\n- source-component-id description: the name is unique only within a device; use the 'uuid' leaf for identification across devices The schema tree is unchanged.\n\nFixes #89",
+      "createdAt": "2026-11-14T00:29:59Z",
+      "updatedAt": "2026-11-14T15:04:26Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "c0556199c065c161725ea83543f1e4c124333a01",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "source-component-name",
+      "headRefOid": "1268bbe296fe906ca464fd07a5edb694041294f6",
+      "closedAt": "2026-11-14T14:54:26Z",
+      "mergedAt": "2026-11-14T14:54:26Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "c3883317dbb3d45fac11cdb50489ef4d78326164"
+      },
+      "comments": [
+        {
+          "author": "bclaise",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@marisolpalmero, this PR addresses your issue #89. Could you review it before we merge?\r\n\r\nIt follows your proposed text, with two small differences:\r\n- the device \"reports\" the 'uuid' leaf rather than \"populates\" it, since 'uuid' is config false in RFC 8348, so it is set by the device, not configured\r\n- the SHOULD is stated once, in Section 4; Section 7.1 explains the choice without repeating the requirement\r\n\r\nThe source-component-id description in the module also says that the name is unique only within a device, and that the 'uuid' leaf is the one to use across devices. The schema tree is unchanged.\r\n",
+          "createdAt": "2026-11-14T00:31:48Z",
+          "updatedAt": "2026-11-14T00:31:48Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks Benoit! I\u2019m good with the changes ",
+          "createdAt": "2026-11-14T14:52:09Z",
+          "updatedAt": "2026-11-14T14:52:09Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABX91Mcg",
+          "commit": {
+            "abbreviatedOid": "1268bbe"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks for correcting, all are good.",
+          "createdAt": "2026-11-14T08:56:43Z",
+          "updatedAt": "2026-11-14T08:56:43Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 92,
+      "id": "PR_kwDOP9HHVc8AAAABPDdzrA",
+      "title": "Add a change log appendix (03 to 06)",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/92",
+      "state": "MERGED",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Appendix B lists the changes between revisions, from 03 to 04, 04 to 05, and 05 to 06, with a note asking the RFC Editor to remove it before publication. The 05 to 06 entry includes the source-component-id change of PR #91 (issue #89).",
+      "createdAt": "2026-11-14T00:44:29Z",
+      "updatedAt": "2026-11-14T15:04:25Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "c0556199c065c161725ea83543f1e4c124333a01",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "changelog",
+      "headRefOid": "2aceedbecb87fa4c778df6d97903f7d9c8b41a9c",
+      "closedAt": "2026-11-14T10:38:51Z",
+      "mergedAt": "2026-11-14T10:38:51Z",
+      "mergedBy": "bclaise",
+      "mergeCommit": {
+        "oid": "0dfd9b660c49b1b61627232a40b2fcebe3e1b2a4"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOP9HHVc8AAAABX9z8bA",
+          "commit": {
+            "abbreviatedOid": "2aceedb"
+          },
+          "author": "williamchern",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good to me, thanks.",
+          "createdAt": "2026-11-14T08:51:00Z",
+          "updatedAt": "2026-11-14T08:51:00Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 94,
+      "id": "PR_kwDOP9HHVc8AAAABPKxeeg",
+      "title": "Energy counters: counter64 and a discontinuity-time leaf",
+      "url": "https://github.com/ietf-wg-green/green-design-work/pull/94",
+      "state": "OPEN",
+      "author": "bclaise",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "bclaise"
+      ],
+      "labels": [],
+      "body": "The Energy counters had no way to signal a reset: a client computing the Energy over a period from two readings could not tell that the counter restarted in between (a hot-swapped power supply, a reinserted line card, or a reset of the Energy measurement).\r\n\r\n- total-energy-received and total-energy-provided: type yang:counter64 (RFC 9911) instead of uint64, as RFC 9907 Section 4.12 asks for an existing standard type; same value space and encoding\r\n- new discontinuity-time leaf (yang:date-and-time) in the energy container, as recommended by the counter64 definition, following eoEnergyDiscontinuityTime of RFC 7460 and discontinuity-time of ietf-interfaces; a device that reports an Energy counter MUST report it\r\n- Operational Considerations: eoEnergyDiscontinuityTime added to the RFC 7460 mapping table, and a paragraph on counter wrap and reset\r\n- Appendix A: discontinuity-time added to the example (validated)\r\n- printed tree and change log updated\r\n\r\nFixes #93",
+      "createdAt": "2026-11-14T15:23:31Z",
+      "updatedAt": "2026-11-14T17:48:24Z",
+      "baseRepository": "ietf-wg-green/green-design-work",
+      "baseRefName": "main",
+      "baseRefOid": "c3883317dbb3d45fac11cdb50489ef4d78326164",
+      "headRepository": "ietf-wg-green/green-design-work",
+      "headRefName": "energy-discontinuity",
+      "headRefOid": "b801e4435bb8cb0a752cb7577f3a29e26feb73c5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
       "comments": [],
       "reviews": []
     }
