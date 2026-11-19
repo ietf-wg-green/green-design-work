@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2026-11-17T05:27:48.885311+00:00",
+  "timestamp": "2026-11-19T04:46:08.636413+00:00",
   "repo": "ietf-wg-green/green-design-work",
   "labels": [
     {
@@ -141,7 +141,7 @@
       "id": "I_kwDOP9HHVc7d4MLh",
       "title": "accuracy-measured-platinium instead of accuracy-measured-red",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/7",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -150,8 +150,8 @@
       "labels": [],
       "body": "Should we replace \"accuracy-measured-red\" by \"accuracy-measured-platinium\" to mantain the logic of the next level in tiered systems (e.g., loyalty programs, credit cards, medals)?\n        \u2514\u2500\u2500 accuracy-measured\n             \u251c\u2500\u2500 accuracy-measured-bronze\n             \u251c\u2500\u2500 accuracy-measured-silver\n             \u251c\u2500\u2500 accuracy-measured-gold\n             \u251c\u2500\u2500 accuracy-measured-red <<<<<<<<< to be replaced by accuracy-measured-platinium?",
       "createdAt": "2025-12-12T08:23:15Z",
-      "updatedAt": "2026-08-06T10:17:07Z",
-      "closedAt": null,
+      "updatedAt": "2026-11-18T19:56:05Z",
+      "closedAt": "2026-11-18T19:56:05Z",
       "comments": [
         {
           "author": "bclaise",
@@ -929,15 +929,15 @@
       "id": "I_kwDOP9HHVc8AAAABevJfSA",
       "title": "API alignement > Missing: measurement-timestamp leaf",
       "url": "https://github.com/ietf-wg-green/green-design-work/issues/90",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "marisolpalmero",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "when looking at PETRA energy API towards the GREEN hackathon setup\non top of the GREEN power-and-energy YANG model (draft-ietf-green-power-and-energy-yang-04), I ran into a gap that I believe needs to be addressed in the GREEN YANG model itself before PETRA's time-window query variant and federated accuracy propagation can be fully implemented.\n\nThe current model defines data-source-accuracy as an identityref per energy object, which is the right mechanism. However, the model carries no leaf recording *when* a measurement was taken. This creates two problems:\n\n* Problem 1, time-window queries\n\nPETRA defines a time-window + data-transmitted input variant as an alternative to throughput-gbps. A controller implementing this variant needs to determine whether its current measurement falls within the requested window. Without a measurement timestamp in the data model, there is no standard way to make that determination. The controller is forced to use implementation-specific timestamps outside the YANG model, making interoperability impossible.\n\n* Problem 2, Federated accuracy propagation\n\nPETRA requires \"least-accurate-wins\" when aggregating energy data across nodes. The accuracy identity (e.g. eo:accuracy-measured-bronze) says *how* a measurement was taken, but not *when*. A reading tagged accuracy-measured-bronze could be 2 seconds old or 2 hours old, the model is silent on staleness. For federated deployments where controllers might aggregate results from downstream peers, the absence of a timestamp makes it impossible to flag a stale measurement as effectively lower accuracy without inventing a local convention.\n\nProposed fix:\n\nAdd the following leaf to the grouping used in both the power and energy containers:\n\n  leaf measurement-timestamp {\n    type yang:date-and-time;\n    config false;\n    description\n      \"The time at which the most recent measurement contributing\n       to this energy object's value was taken.\n       This leaf SHOULD be absent when data-source-accuracy is\n       eo:accuracy-static or eo:accuracy-estimated, since those\n       values are not based on a point-in-time sensor reading.\";\n  }\n\nBest regards",
       "createdAt": "2026-11-12T19:42:36Z",
-      "updatedAt": "2026-11-14T10:40:40Z",
-      "closedAt": null,
+      "updatedAt": "2026-11-18T20:20:26Z",
+      "closedAt": "2026-11-18T20:20:25Z",
       "comments": [
         {
           "author": "bclaise",
@@ -959,6 +959,13 @@
           "body": "And if polling is requested, we have the controller requested time (or the answered time, or the average of the two)\nOk, it's not ideal, and this has been an issue for decades (SNMP, NETCONF). Hence the preference for telemetry",
           "createdAt": "2026-11-14T10:40:40Z",
           "updatedAt": "2026-11-14T10:40:40Z"
+        },
+        {
+          "author": "marisolpalmero",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ok with the discussing, proceeding to close the issue ",
+          "createdAt": "2026-11-18T20:20:26Z",
+          "updatedAt": "2026-11-18T20:20:26Z"
         }
       ]
     },
