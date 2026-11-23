@@ -5,12 +5,12 @@
 GREEN                                                          B. Claise
 Internet-Draft                                   Everything OPS & Arrcus
 Intended status: Standards Track                                 G. Chen
-Expires: 19 May 2027                                              Huawei
+Expires: 27 May 2027                                              Huawei
                                                               M. Palmero
                                                               Individual
                                                              J. Lindblad
                                                              All For Eco
-                                                        15 November 2026
+                                                        23 November 2026
 
 
                       Power and Energy YANG Module
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 May 2027.
+   This Internet-Draft will expire on 27 May 2027.
 
 Copyright Notice
 
@@ -66,15 +66,16 @@ Table of Contents
      7.1.  Hardware Component Identification
      7.2.  Measurement Accuracy and Data Source Classification
      7.3.  Industry-Standard Certifications
-   8.  Security Considerations
-   9.  IANA Considerations
-     9.1.  YANG Module Name and URI Registry
-     9.2.  Accelerator Hardware Class
-     9.3.  Power and Energy Certification Types Registry
-   10. Acknowledgments
-   11. References
-     11.1.  Normative References
-     11.2.  Informative References
+   8.  Implementation Status
+   9.  Security Considerations
+   10. IANA Considerations
+     10.1.  YANG Module Name and URI Registry
+     10.2.  Accelerator Hardware Class
+     10.3.  Power and Energy Certification Types Registry
+   11. Acknowledgments
+   12. References
+     12.1.  Normative References
+     12.2.  Informative References
    Appendix A.  Example: Modeling a 750 W Power Supply
    Appendix B.  Changes
      B.1.  Changes from 03 to 04
@@ -383,7 +384,7 @@ Table of Contents
    with exactly one physical hardware component via source-component-id.
    As no hardware class exists for hardware accelerators such as GPUs,
    this document requests a new "accelerator" hardware class (see
-   Section 9.2).
+   Section 10.2).
 
    There are also cases where controllers generate their own set of
    UUIDs for the hardware components.  In such a case, it might be
@@ -1719,7 +1720,17 @@ Table of Contents
    measurement accuracy tells them how precisely they can monitor its
    actual performance.
 
-8.  Security Considerations
+8.  Implementation Status
+
+   Note to the RFC Editor: please remove this section and the reference
+   to [RFC7942] before publication.
+
+   Arrcus implemented the Power-related YANG leaves of draft-ietf-green-
+   power-and-energy-yang-05 in its ArcOS software, exported with YANG-
+   Push over UDP-based Transport for Configured Subscriptions
+   [I-D.ietf-netconf-udp-notif].
+
+9.  Security Considerations
 
    This section is modeled after the template described in Section 3.7.1
    of [RFC9907].
@@ -1787,11 +1798,11 @@ Table of Contents
    This document does not define any RPC operations or YANG
    notifications.
 
-9.  IANA Considerations
+10.  IANA Considerations
 
    This document requests IANA to perform the following actions.
 
-9.1.  YANG Module Name and URI Registry
+10.1.  YANG Module Name and URI Registry
 
    IANA is requested to register the following URIs in the "IETF XML
    Registry" [RFC3688].
@@ -1860,7 +1871,7 @@ Table of Contents
 
       Table 5: IETF YANG Module Name Registry: iana-power-and-energy
 
-9.2.  Accelerator Hardware Class
+10.2.  Accelerator Hardware Class
 
    IANA is requested to add the following enumeration to the
    IANAPhysicalClass textual convention in the IANA-maintained IANA-
@@ -1886,7 +1897,7 @@ Table of Contents
    Note to IANA: the value 16, the next unassigned IANAPhysicalClass
    value, is suggested for TBD1.
 
-9.3.  Power and Energy Certification Types Registry
+10.3.  Power and Energy Certification Types Registry
 
    IANA is requested to create a new registry named "Power and Energy
    Certification Types" within the "Power and Energy" registry group.
@@ -1982,7 +1993,7 @@ Table of Contents
    the iana-power-and-energy YANG module MUST be updated as defined in
    RFC XXXX.
 
-10.  Acknowledgments
+11.  Acknowledgments
 
    This work has benefited from the regular discussions on the GREEN
    Design Meetings.  The authors wish to thank the WG chairs, Rob Wilton
@@ -1992,9 +2003,9 @@ Table of Contents
    and Amanda Baber for their helpful comments and reviews of this
    document.
 
-11.  References
+12.  References
 
-11.1.  Normative References
+12.1.  Normative References
 
    [I-D.ietf-green-terminology]
               Chen, G., Boucadair, M., Wu, Q., Contreras, L. M., and M.
@@ -2071,7 +2082,7 @@ Table of Contents
               DOI 10.17487/RFC9911, December 2025,
               <https://www.rfc-editor.org/rfc/rfc9911>.
 
-11.2.  Informative References
+12.2.  Informative References
 
    [I-D.ietf-green-framework]
               Claise, B., Contreras, L. M., Lindblad, J., Palmero, M.
@@ -2097,6 +2108,14 @@ Table of Contents
               <https://datatracker.ietf.org/doc/html/draft-ietf-netconf-
               notif-envelope-07>.
 
+   [I-D.ietf-netconf-udp-notif]
+              Feng, A. H., Francois, P., Zhou, T., Graf, T., and P.
+              Lucente, "UDP-based Transport for Configured
+              Subscriptions", Work in Progress, Internet-Draft, draft-
+              ietf-netconf-udp-notif-27, 17 November 2026,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-netconf-
+              udp-notif-27>.
+
    [RFC7460]  Chandramouli, M., Claise, B., Schoening, B., Quittek, J.,
               and T. Dietz, "Monitoring and Control MIB for Power and
               Energy", RFC 7460, DOI 10.17487/RFC7460, March 2015,
@@ -2106,6 +2125,11 @@ Table of Contents
               Managed Objects for Battery Monitoring", RFC 7577,
               DOI 10.17487/RFC7577, July 2015,
               <https://www.rfc-editor.org/rfc/rfc7577>.
+
+   [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
+              Code: The Implementation Status Section", BCP 205,
+              RFC 7942, DOI 10.17487/RFC7942, July 2016,
+              <https://www.rfc-editor.org/rfc/rfc7942>.
 
    [RFC7951]  Lhotka, L., "JSON Encoding of Data Modeled with YANG",
               RFC 7951, DOI 10.17487/RFC7951, August 2016,
@@ -2301,8 +2325,15 @@ B.3.  Changes from 05 to 06
       leaf.
 
    *  Energy counters: yang:counter64 instead of uint64, and a
-      discontinuity-time leaf, mapped from eoEnergyDiscontinuityTime of
-      RFC 7460.
+      discontinuity-time leaf, which the device SHOULD report, mapped
+      from eoEnergyDiscontinuityTime of RFC 7460 and shown in
+      Appendix A.
+
+   *  Operational Considerations: counter wrap and reset, and how a
+      reset is located with the YANG-Push observation timestamp when
+      discontinuity-time is not reported.
+
+   *  Added the Implementation Status section.
 
 Authors' Addresses
 
