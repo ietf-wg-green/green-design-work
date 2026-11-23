@@ -668,6 +668,16 @@ accuracy tells them how precisely they can monitor its actual
 performance.
 
 
+# Implementation Status {#implementation-status}
+
+Note to the RFC Editor: please remove this section and the reference
+to {{?RFC7942}} before publication.
+
+Arrcus implemented the Power-related YANG leaves of
+draft-ietf-green-power-and-energy-yang-05 in its ArcOS software,
+exported with YANG-Push over UDP-based Transport for Configured
+Subscriptions {{?I-D.ietf-netconf-udp-notif}}.
+
 # Security Considerations
 
 This section is modeled after the template described in Section 3.7.1
@@ -1049,5 +1059,9 @@ publication.
   the hardware component; the device SHOULD also report the 'uuid'
   leaf.
 - Energy counters: yang:counter64 instead of uint64, and a
-  discontinuity-time leaf, mapped from eoEnergyDiscontinuityTime of
-  RFC 7460.
+  discontinuity-time leaf, which the device SHOULD report, mapped from
+  eoEnergyDiscontinuityTime of RFC 7460 and shown in Appendix A.
+- Operational Considerations: counter wrap and reset, and how a reset
+  is located with the YANG-Push observation timestamp when
+  discontinuity-time is not reported.
+- Added the Implementation Status section.
